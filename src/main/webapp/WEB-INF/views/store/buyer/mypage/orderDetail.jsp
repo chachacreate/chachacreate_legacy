@@ -9,6 +9,7 @@
 <body>
 	<%@include file="/common/header.jsp" %>
 	<%@include file="/common/main_nav.jsp" %>
+	<jsp:include page="/common/main_mypage_sidenav.jsp" />
 <div class="order-detail-page">
   <div class="order-detail-layout">
     <!-- 주문 상세 내용 -->

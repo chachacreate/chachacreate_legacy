@@ -17,7 +17,7 @@
 </script>
 <!-- ✅ Include Header & Nav -->
 <jsp:include page="/common/header.jsp" />
-<jsp:include page="/common/main_nav.jsp" />
+<jsp:include page="/common/storeMain_nav.jsp" />
 
 <div class="cart-page" data-cpath="${cpath}">
   <div class="cart-layout">
