@@ -1,7 +1,9 @@
 package com.chacha.create.controller.controller.mainhome.main;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,12 @@ public class HomeMainController {
     public String showAllproductsPage() {
 		return "main/mainAllProducts";
     }
+    
+	// 상세페이지
+	@GetMapping("/productdetail/{productId}")
+	public String showProductdetail() {
+		return "store/productDetail";
+	}
     
     
     @GetMapping("/question")
