@@ -32,8 +32,11 @@
 
     <!-- 오른쪽: 정보 -->
     <div class="product-details">
+    <div class="store-title-row">
       <div class="store-name" id="storeName">
       	<a id="storeNameLink" href="#">&nbsp;</a></div>
+      	<button class="report-btn" id="reportBtn" type="button">신고</button>
+      	</div>
       <div class="product-title-row">
         <div class="product-title" id="productTitle">&nbsp;</div>
         <button class="like-button">❤️</button>
@@ -91,6 +94,19 @@
 
   
 </div>
+
+	<!-- 신고 모달창 -->
+	<div id="reportModal" class="modal-overlay" style="display: none;">
+	  <div class="modal-content">
+	    <h3>판매자 신고하기</h3>
+	    <input type="text" id="reportTitle" placeholder="신고 제목을 입력하세요" class="report-input" />
+	    <textarea id="reportText" placeholder="신고 사유를 입력하세요" class="report-textarea"></textarea>
+	    <div class="modal-buttons">
+	      <button id="submitReport">신고하기</button>
+	      <button id="cancelReport">취소</button>
+	    </div>
+	  </div>
+	</div>
 
   <script src="${cpath}/resources/js/store/productDetail.js"></script>
   <script src="${cpath}/resources/js/store/productDetailReview.js"></script>

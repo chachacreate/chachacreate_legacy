@@ -95,7 +95,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE store_id = #{storeId}
 	</update>
 
-	<select id="selectForSellerIdByStoreId" parameterType="int">
+	<select id="selectForSellerIdByStoreId" resultType="int" parameterType="int">
 	SELECT seller_id FROM store
 	WHERE store_id = #{storeId}
 	</select>
