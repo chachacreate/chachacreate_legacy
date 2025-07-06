@@ -24,7 +24,7 @@
     </li>
     <li>
       <a href="${cpath}/main/mypage/message"
-         class="${fn:contains(uri, '/mypage/favorite') ? 'active' : ''}">
+         class="${fn:contains(uri, '/mypage/message') ? 'active' : ''}">
          문의 메시지</a>
     </li>
     <li>

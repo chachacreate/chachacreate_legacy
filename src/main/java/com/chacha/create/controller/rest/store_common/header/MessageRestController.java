@@ -65,12 +65,13 @@ public class MessageRestController {
 
 	@PostMapping("/makeChatting")
 	public ResponseEntity<ApiResponse<Integer>> makeChatting(@PathVariable String storeUrl,
-			@RequestBody MessageDTO messageDTO, HttpSession session) {
+			HttpSession session) {
 
 		MemberEntity member = getSessionMember(session);
-
-		int result = MAIN_PAGE.equals(storeUrl) ? messageService.makeChattingInMyPage(messageDTO)
-				: messageService.makeChattingInStore(member, storeUrl);
+		int result = 0;
+		 if(!MAIN_PAGE.equals(storeUrl)) {
+			 result = messageService.makeChattingInStore(member, storeUrl);
+		 }
 
 		if (result > 0) {
 			return ResponseEntity.status(ResponseCode.CREATED.getStatus())

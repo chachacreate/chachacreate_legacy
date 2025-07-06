@@ -26,7 +26,7 @@
 	      	<a href="${cpath}/main/mypage/message" class="header-btn">메시지</a>
 	      </c:if>
 	      <c:if test="${not empty storeUrl}">
-	      	<a href="${cpath}/${storeUrl}/mypage/message" class="header-btn">메시지</a>
+	      	<a href="${cpath}/main/mypage/message?storeUrl=${storeUrl}" class="header-btn">${storeName}에 메시지 보내기</a>
 	      </c:if>
 	      <a href="${cpath}/auth/logout" class="header-btn" onclick="alert('로그아웃');">로그아웃</a>
 	    </div>

@@ -73,7 +73,26 @@ $(document).ready(function() {
 	        $(".chat-input button").click();  // 전송 버튼 클릭 이벤트 실행
 	    }
 	});
-
+	let storeUrl = '';
+	storeUrl = '${storeUrl}'; 
+	if(storeUrl != ''){
+		 $.ajax({
+			 url: '${cpath}/api/${storeUrl}/message/makeChatting',
+			 method: 'POST',
+			 success: function(response){
+				 if (response?.status === 201) {
+					 location.href = location.origin + location.pathname;
+				 }else {
+	                alert("채팅방을 생성하지 못했습니다.");
+	                location.href = location.origin + location.pathname;
+	            }
+			 },
+			 error: function() {
+	            alert("서버 오류 발생");
+	        }
+		 });
+	}
+	
 //-------------------채팅방 목록 불러오기----------------------------------
     $.ajax({
         url: '${cpath}/api/main/message/chatrooms',

@@ -1,13 +1,9 @@
 package com.chacha.create.service.store_common.header;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.chacha.create.common.dto.chat.ChatRoomInfoDTO;
 import com.chacha.create.common.dto.chat.ChatroomWithMessagesDTO;
@@ -49,18 +45,13 @@ public class MessageService {
 
 	    // 3. 없으면 새로 생성
 	    Integer storeId = storeMapper.selectByStoreUrl(url).getStoreId();
+	    log.info("스토어 id 확인: {}", storeId);
 	    messageDTO.setStoreId(storeId);
 
 	    int inserted = messageMapper.insertChatroom(messageDTO);
 	    log.info("채팅방 생성 완료, inserted={}", inserted);
 
-	    // 4. 생성 후 다시 조회
-	    MessageDTO createdChatroom = messageMapper.selectForGetChatRoomIdByStoreURl(messageDTO);
-	    if (createdChatroom == null) {
-	        throw new IllegalStateException("채팅방 생성 실패: storeUrl=" + url + ", memberId=" + memberEntity.getMemberId());
-	    }
-
-	    return createdChatroom.getChatroomId();
+	    return inserted;
 	}
 	
 	@Transactional(rollbackFor = Exception.class)

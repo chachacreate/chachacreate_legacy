@@ -96,7 +96,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insertChatting" parameterType="messageDTO">
 		INSERT INTO chatting (chatting_id, chatroom_id, chatting_text,
 		chatting_date, member_check)
-		VALUES (seq_chatroom_id.NEXTVAL, #{chatroomId}, #{chattingText}, sysdate, #{memberCheck})
+		VALUES (seq_chatting_id.NEXTVAL, #{chatroomId}, #{chattingText}, sysdate, #{memberCheck})
 	</insert>
 	
 </mapper>
