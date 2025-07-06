@@ -52,8 +52,6 @@
       <%@ include file="/common/store_seller_sidenav.jsp" %>
 
   <div class="main-area">
-    <div class="content-wrapper">
-
       <main class="content">
         <div class="content-inner">
           <div class="member-box">

@@ -351,7 +351,7 @@ public class SellerMainController {
 	@GetMapping("/message")
 	public String showChatPage(@PathVariable String storeUrl, Model model) {
 		setStoreNavInfo(storeUrl, model);
-		return "store/chat";
+		return "store/seller/chat";
 	}
 	
 	// 스토어 관리 --- 추가 필요
@@ -382,6 +382,7 @@ public class SellerMainController {
 	                             @RequestParam("password") String password,
 	                             HttpSession session,
 	                             Model model) {
+		setStoreNavInfo(storeUrl, model);
 	    MemberEntity loginMember = (MemberEntity) session.getAttribute("loginMember");
 
 	    // 로그인된 사용자와 입력 정보 비교
@@ -396,7 +397,6 @@ public class SellerMainController {
 
 	        if (!validatedMember.equals(loginMember)) {
 	            model.addAttribute("errorMessage", "비밀번호가 일치하지 않습니다.");
-	            model.addAttribute("storeUrl", storeUrl);
 	            return "store/seller/storeClose";
 	        }
 
@@ -408,13 +408,11 @@ public class SellerMainController {
 	        }
 	    } catch (LoginFailException e) {
 	        model.addAttribute("errorMessage", "비밀번호가 일치하지 않습니다.");
-	        model.addAttribute("storeUrl", storeUrl);
 	        return "store/seller/storeClose";
 	    } catch (IllegalStateException e) {
 	        model.addAttribute("errorMessage", e.getMessage());
 	    }
 
-	    model.addAttribute("storeUrl", storeUrl);
 	    return "store/seller/storeClose";
 	}
 	

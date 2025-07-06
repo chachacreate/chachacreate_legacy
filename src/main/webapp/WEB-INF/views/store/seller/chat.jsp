@@ -14,8 +14,6 @@
 <div class="wrapper">
   <div class="main-area">
     <div class="content-wrapper">
-      
-<<<<<<< Updated upstream:src/main/webapp/WEB-INF/views/store/chat.jsp
       <!-- 사이드바 -->
       <%@ include file="/common/store_seller_sidenav.jsp" %>
 

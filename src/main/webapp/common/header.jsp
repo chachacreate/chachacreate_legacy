@@ -22,7 +22,12 @@
     <c:if test="${not empty sessionScope.loginMember}">
 	    <div class="header-content" id="header-user">
 	      <span class="welcome-text"><span id="member-name">${sessionScope.loginMember.memberName}</span>님 반갑습니다!</span>
-	      <a href="${cpath}/main/mypage/message" class="header-btn">메시지</a>
+	      <c:if test="${empty storeUrl}">
+	      	<a href="${cpath}/main/mypage/message" class="header-btn">메시지</a>
+	      </c:if>
+	      <c:if test="${not empty storeUrl}">
+	      	<a href="${cpath}/${storeUrl}/mypage/message" class="header-btn">메시지</a>
+	      </c:if>
 	      <a href="${cpath}/auth/logout" class="header-btn" onclick="alert('로그아웃');">로그아웃</a>
 	    </div>
     </c:if>
