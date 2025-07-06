@@ -19,7 +19,7 @@ public class MainMyPageController {
     
     @GetMapping("/cart")
     public String showCartPage() {
-		return "main/mypage/mainMyPageCart";
+		return "store/buyer/mypage/cart";
     }
     
     @GetMapping("/orders")
