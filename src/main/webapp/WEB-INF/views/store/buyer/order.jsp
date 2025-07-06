@@ -1,12 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
   <title>주문/결제</title>
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/store/buyer/order.css" />
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main/mypage/mainorder.css" />
   <script type="text/javascript"	src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 </head>
 <body>
@@ -14,6 +13,8 @@
 <%@include file="/common/main_nav.jsp" %>
   <div class="order-page">
     <div class="order-layout">
+      <%@ include file="/common/main_mypage_sidenav.jsp" %>
+    
 
       <!-- 좌측: 배송지 + 주문상품 -->
       <section class="order-left">
@@ -69,16 +70,8 @@
       <!-- 우측: 결제 요약 -->
       <aside class="order-summary">
         <div class="summary-title">결제 예상 금액</div>
-        <div class="summary-list">
-          <!-- 상품 금액 -->
-			<div class="summary-item">
-			  <span>상품 금액</span><span id="productTotal">0 원</span>
-			</div>
+        <div id="summaryProductList" class="summary-list">
 			
-			<!-- 배송비 -->
-			<div class="summary-item">
-			  <span>배송비</span><span id="deliveryFee">0 원</span>
-			</div>
         </div>
 			<!-- 총 결제 금액 -->
 			<div class="summary-total">
@@ -180,81 +173,89 @@
             }
         }).open();
     }
-/*     totalPrice = 0;
+    totalPrice = 0;
     finalTotal = 0;
     productName = "";
     productCount = 1;
-    let products = []; */
-    newAddr = false; 
+    let products = [];
+    newAddr = false;
     
     //--------------------------상품 등록--------------------------
+    $(document).ready(function () {
 
-  const cpath = "${pageContext.request.contextPath}";
+        $.ajax({
+          url: '${cpath}/api/main/mypage/cart',
+          type: 'GET',
+          contentType: 'application/json',
+          success: function (response) {
+        	  if (response?.status === 200) {
+              products = response.data;
+              const $container = $('#productContainer');
+              const $summaryList = $('#summaryProductList');
 
-  let products = [];
-  let totalPrice = 0;
-  let finalTotal = 0;
-  let productName = "";
-  let storeName = "";
-  let productCount = 0;
-  
+              products.forEach(item => {
+            	if(productName===""){
+            		productName = item.productName;
+            	}else{
+            		productCount+=1;
+            	}
+                const productHtml = `
+                  <div class="product-item">
+                    <div class="product-box">
+                      <img class="product-image" src="${cpath}/resources/productImages/\${item.pimgUrl}" alt="상품 이미지" />
+                      <div class="product-info">
+                        <div class="store-name">\${item.productName}</div>
+                        <div class="product-name">
+                          <strong>${item.productName}</strong>
+                        </div>
+                        <div class="product-desc">\${item.productDetail || ''}</div>
+                        <div class="quantity">수량: \${item.productCnt}개</div>
+                      </div>
+                      <div class="price-quantity-wrapper">
+                        <div class="price">\${item.price.toLocaleString()} 원</div>
+                      </div>
+                    </div>
+                  </div>
+                `;
+                $container.append(productHtml);
+                
+                //-----------결제 요약 상품 추가------
+                const itemTotal = item.price * item.productCnt;
+                totalPrice += itemTotal;
+                const summaryHtml = `
+                    <div class="summary-item">
+                        <span>\${item.productName} × \${item.productCnt}</span>
+                        <span>\${itemTotal.toLocaleString()} 원</span>
+                    </div>
+                `;
+                $summaryList.append(summaryHtml);
 
-  $(document).ready(function () {
-	  const itemsJson = sessionStorage.getItem("orderItems");
-
-	  if (!itemsJson) {
-	    alert("주문할 상품이 없습니다.");
-	    location.href = cpath + "/main/mypage/cart";
-	    return;
-	  }
-
-	  products = JSON.parse(itemsJson);
-	  console.log("parsed products:", products);
-
-	  const $container = $('#productContainer');
-
-	  products.forEach((item, index) => {
-	    const itemTotal = item.price * item.productCnt;
-	    totalPrice += itemTotal;
-
-	    if (productName === "") {
-	      productName = item.productName;
-	    } else {
-	      productCount++;
-	    }
-
-	    const productHtml =
-	      '<div class="product-item">' +
-	        '<div class="product-box">' +
-	          '<img class="product-image" src="' + item.pimgUrl + '" alt="상품 이미지" />' +
-	          '<div class="product-info">' +
-	            '<div class="store-name">' + item.storeName + '</div>' +
-	            '<div class="product-name"><strong>' + item.productName + '</strong></div>' +
-	            '<div class="quantity">수량: ' + item.productCnt + '개</div>' +
-	          '</div>' +
-	          '<div class="price-quantity-wrapper">' +
-	            '<div class="price">' + itemTotal.toLocaleString() + ' 원</div>' +
-	          '</div>' +
-	        '</div>' +
-	      '</div>';
-	    $container.append(productHtml);
-	  });
-
-	  if (productCount > 0) {
-	    productName += " 외 " + productCount + "개의 상품";
-	  }
-
-	  const deliveryFee = 0;
-	  finalTotal = totalPrice + deliveryFee;
-
-	  $('#productTotal').text(`\${totalPrice.toLocaleString()} 원`);
-	  $('#deliveryFee').text(`\${deliveryFee.toLocaleString()} 원`);
-	  $('#finalTotal').text(`\${finalTotal.toLocaleString()} 원`);
-
-	  console.log("배송비:", deliveryFee, "총 합계:", finalTotal);
-	});
-
-
+              });
+              const summaryHtml = `
+      			<!-- 배송비 -->
+      			<div class="summary-item">
+      			  <span>배송비</span><span id="deliveryFee">0 원</span>
+      			</div>
+      			`;
+      			$summaryList.append(summaryHtml);
+              // 배송비 설정 (기본값 2500원, 조건에 따라 바꿀 수 있음)
+              const deliveryFee = 0;
+              finalTotal = totalPrice + deliveryFee;
+	  			if (productCount > 0) {
+				    productName += " 외 " + productCount + "개의 상품";
+				  }
+              // DOM에 반영
+              $('#productTotal').text(`\${totalPrice.toLocaleString()} 원`);
+              $('#finalTotal').text(`\${finalTotal.toLocaleString()} 원`);
+            } else {
+              console.error("상품 조회 실패:", response.message);
+            }
+          },
+          error: function () {
+            console.error("상품 목록 불러오기 실패");
+          }
+        });
+      });
     
     //---------결제 api------------
     var IMP = window.IMP;
@@ -352,7 +353,6 @@
     		}
     		alert(msg);
     	});
-    	sessionStorage.removeItem("orderItems");
     });
 </script>
   
