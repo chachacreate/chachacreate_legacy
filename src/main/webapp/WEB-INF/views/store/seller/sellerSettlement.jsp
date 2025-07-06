@@ -5,7 +5,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>개인 판매 정산 관리</title>
+  <title>판매자 페이지 정산 관리</title>
   <%@ include file="/common/header.jsp" %>
   <link rel="stylesheet" href="${cpath}/resources/css/main/personal/personalSettlement.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -13,7 +13,11 @@
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 </head>
 <body>
+<%-- <%@ include file="/common/store_seller_sidenav.jsp" %> --%>
   <div class="swiper-container-wrapper">
+  
+  <%-- ✅ 사이드바 인클루드 --%>
+   <jsp:include page="/common/store_seller_sidenav.jsp" />
     <div class="swiper mySwiper">
       <div class="swiper-wrapper">
 

@@ -2,6 +2,7 @@ package com.chacha.create.controller.websocket;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.server.ServerHttpRequest;
@@ -37,23 +38,44 @@ public class HttpHandshakeInterceptor implements HandshakeInterceptor {
      * @return              핸드셰이크 진행 여부 (true 반환 시 계속 진행)
      * @throws Exception    예외 발생 시
      */
-    @Override
-    public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,
-                                   Map<String, Object> attributes) throws Exception {
-        if (request instanceof ServletServerHttpRequest) {
-            ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
-            HttpSession session = servletRequest.getServletRequest().getSession();
+	 @Override
+	    public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response,
+	                                   WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
 
-            if (session != null) {
-                MemberEntity loginMember = (MemberEntity) session.getAttribute("loginMember");
-                if (loginMember != null) {
-                	log.info("WebSocket에 접속한 로그인한 member 정보 : " + loginMember.toString());
-                    attributes.put("loginMember", loginMember);
-                }
-            }
-        }
-        return true;
-    }
+	        if (request instanceof ServletServerHttpRequest) {
+	            HttpServletRequest servletRequest = ((ServletServerHttpRequest) request).getServletRequest();
+	            HttpSession session = servletRequest.getSession(false); // 기존 세션만 반환
+
+	            if (session != null) {
+	                log.info("세션 ID: {}", session.getId());
+
+	                MemberEntity loginMember = (MemberEntity) session.getAttribute("loginMember");
+	                if (loginMember != null) {
+	                    log.info("WebSocket에 접속한 로그인한 member 정보: {}", loginMember);
+	                    attributes.put("loginMember", loginMember);
+	                } else {
+	                    log.warn("WebSocket 요청 시 loginMember 세션 속성이 null입니다.");
+	                }
+
+	                // chatroomId 파라미터 추출
+	                String chatroomIdStr = servletRequest.getParameter("chatroomId");
+	                if (chatroomIdStr != null) {
+	                    try {
+	                        Integer chatroomId = Integer.parseInt(chatroomIdStr);
+	                        attributes.put("chatroomId", chatroomId);
+	                        log.info("WebSocket 요청 파라미터에서 추출한 chatroomId: {}", chatroomId);
+	                    } catch (NumberFormatException e) {
+	                        log.warn("잘못된 chatroomId 형식: {}", chatroomIdStr);
+	                    }
+	                }
+
+	            } else {
+	                log.warn("WebSocket 요청 시 HttpSession이 존재하지 않습니다.");
+	            }
+	        }
+
+	        return true;
+	    }
 
     /**
      * WebSocket 핸드셰이크 후 호출되는 메서드입니다.

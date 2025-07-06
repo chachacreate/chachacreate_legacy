@@ -5,6 +5,8 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * WebSocket 서버 설정 클래스입니다.
  * WebSocket 핸들러 및 인터셉터를 등록하고, 지정된 URL 경로로의 WebSocket 연결을 설정합니다.
@@ -16,6 +18,7 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
  * 
  * @author
  */
+@Slf4j
 @Configuration
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {
@@ -49,7 +52,8 @@ public class WebSocketConfig implements WebSocketConfigurer {
      */
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(chatHandler, "/chatserver")
+    	log.info("chatserver 생성");
+        registry.addHandler(chatHandler, "/chat/chatserver")
                 .setAllowedOrigins("*")
                 .addInterceptors(handshakeInterceptor);
     }

@@ -75,8 +75,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="selectByStoreInfo" resultMap="storeResultMap" parameterType="string">
 		SELECT store_name, store_detail, logo_img
-		FROM store
+		FROM store 
 		WHERE store.store_Url = #{storeUrl}
+	</select>
+	
+	<select id="selectForThisStoreInfo" resultType="storeInfoDTO" parameterType="string">
+		SELECT s.store_name, s.logo_img, sel.member_id
+		FROM store s
+		join seller sel on s.seller_id = sel.seller_id
+		WHERE s.store_url = #{storeUrl}
 	</select>
 	
 	<update id="updateStoreInfo" parameterType="storeEntity">
@@ -92,5 +99,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	SELECT seller_id FROM store
 	WHERE store_id = #{storeId}
 	</select>
+	
+	<update id="updatePersonalCheck" parameterType="int">
+	  UPDATE seller
+	  SET personal_check = 1
+	  WHERE seller_id = #{sellerId}
+	</update>
 
 </mapper>

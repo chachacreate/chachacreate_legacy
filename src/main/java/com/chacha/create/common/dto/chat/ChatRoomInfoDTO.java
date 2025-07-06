@@ -13,6 +13,7 @@ public class ChatRoomInfoDTO {
 	private Integer chatroomId;
 	private String storeName;
 	private Integer memberId;
+	private String memberName;
 	private String chattingText;
 	private String storeUrl;
 }

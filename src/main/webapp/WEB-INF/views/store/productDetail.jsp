@@ -54,7 +54,7 @@
       </div>
       <div class="action-buttons">
         <button class="cart-button" type="button" >장바구니 담기</button>
-      <button class="buy-button" type="button" onclick="location.href='${cpath}/{storeUrl}/order'">결제하기</button>
+      <button class="buy-button" type="button" onclick="location.href='${cpath}/${storeUrl}/order'">결제하기</button>
       </div>
     </div>
   </div>

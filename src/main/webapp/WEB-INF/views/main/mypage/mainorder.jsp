@@ -70,16 +70,8 @@
       <!-- 우측: 결제 요약 -->
       <aside class="order-summary">
         <div class="summary-title">결제 예상 금액</div>
-        <div class="summary-list">
-          <!-- 상품 금액 -->
-			<div class="summary-item">
-			  <span>상품 금액</span><span id="productTotal">0 원</span>
-			</div>
+        <div id="summaryProductList" class="summary-list">
 			
-			<!-- 배송비 -->
-			<div class="summary-item">
-			  <span>배송비</span><span id="deliveryFee">0 원</span>
-			</div>
         </div>
 			<!-- 총 결제 금액 -->
 			<div class="summary-total">
@@ -199,7 +191,7 @@
         	  if (response?.status === 200) {
               products = response.data;
               const $container = $('#productContainer');
-              
+              const $summaryList = $('#summaryProductList');
 
               products.forEach(item => {
             	if(productName===""){
@@ -207,11 +199,10 @@
             	}else{
             		productCount+=1;
             	}
-            	totalPrice += item.price * item.productCnt;
                 const productHtml = `
                   <div class="product-item">
                     <div class="product-box">
-                      <img class="product-image" src="${cpath}/resources/images/\${item.pimgUrl}" alt="상품 이미지" />
+                      <img class="product-image" src="${cpath}/resources/productImages/\${item.pimgUrl}" alt="상품 이미지" />
                       <div class="product-info">
                         <div class="store-name">\${item.productName}</div>
                         <div class="product-name">
@@ -228,14 +219,34 @@
                 `;
                 $container.append(productHtml);
                 
-             // 배송비 설정 (기본값 2500원, 조건에 따라 바꿀 수 있음)
-                const deliveryFee = 0;
-                finalTotal = totalPrice + deliveryFee;
-                // DOM에 반영
-                $('#productTotal').text(`\${totalPrice.toLocaleString()} 원`);
-                $('#finalTotal').text(`\${finalTotal.toLocaleString()} 원`);
+                //-----------결제 요약 상품 추가------
+                const itemTotal = item.price * item.productCnt;
+                totalPrice += itemTotal;
+                const summaryHtml = `
+                    <div class="summary-item">
+                        <span>\${item.productName} × \${item.productCnt}</span>
+                        <span>\${itemTotal.toLocaleString()} 원</span>
+                    </div>
+                `;
+                $summaryList.append(summaryHtml);
 
               });
+              const summaryHtml = `
+      			<!-- 배송비 -->
+      			<div class="summary-item">
+      			  <span>배송비</span><span id="deliveryFee">0 원</span>
+      			</div>
+      			`;
+      			$summaryList.append(summaryHtml);
+              // 배송비 설정 (기본값 2500원, 조건에 따라 바꿀 수 있음)
+              const deliveryFee = 0;
+              finalTotal = totalPrice + deliveryFee;
+	  			if (productCount > 0) {
+				    productName += " 외 " + productCount + "개의 상품";
+				  }
+              // DOM에 반영
+              $('#productTotal').text(`\${totalPrice.toLocaleString()} 원`);
+              $('#finalTotal').text(`\${finalTotal.toLocaleString()} 원`);
             } else {
               console.error("상품 조회 실패:", response.message);
             }

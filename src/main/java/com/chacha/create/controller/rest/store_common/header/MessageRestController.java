@@ -24,6 +24,9 @@ import com.chacha.create.common.enums.error.ResponseCode;
 import com.chacha.create.common.exception.SessionExpiredException;
 import com.chacha.create.service.store_common.header.MessageService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping("/api/{storeUrl}/message")
 public class MessageRestController {
@@ -47,20 +50,28 @@ public class MessageRestController {
 	}
 
 	@GetMapping("/chatrooms")
-    public ResponseEntity<ApiResponse<List<ChatRoomInfoDTO>>> getChatroomList(HttpSession session) {
+    public ResponseEntity<ApiResponse<List<ChatRoomInfoDTO>>> getChatroomList(HttpSession session, @PathVariable String storeUrl) {
         MemberEntity member = getSessionMember(session);
-        List<ChatRoomInfoDTO> chatrooms = messageService.getMemberAllChatroom(member);
+        List<ChatRoomInfoDTO> chatrooms = null;
+        if(storeUrl.equals("main")) {
+        	log.info("main에서 접속");
+        	chatrooms = messageService.getMemberAllChatroom(member);
+        }else {
+        	log.info(storeUrl + "에서 접속");
+        	chatrooms = messageService.getMemberStoreAllChatroom(member, storeUrl);
+        }
         return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, chatrooms));
     }
 
 	@PostMapping("/makeChatting")
 	public ResponseEntity<ApiResponse<Integer>> makeChatting(@PathVariable String storeUrl,
-			@RequestBody MessageDTO messageDTO, HttpSession session) {
+			HttpSession session) {
 
 		MemberEntity member = getSessionMember(session);
-
-		int result = MAIN_PAGE.equals(storeUrl) ? messageService.makeChattingInMyPage(messageDTO)
-				: messageService.makeChattingInStore(member, storeUrl);
+		int result = 0;
+		 if(!MAIN_PAGE.equals(storeUrl)) {
+			 result = messageService.makeChattingInStore(member, storeUrl);
+		 }
 
 		if (result > 0) {
 			return ResponseEntity.status(ResponseCode.CREATED.getStatus())

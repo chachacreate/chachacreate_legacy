@@ -1,23 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/common/header.jsp" %>
-<%@ include file="/common/main_nav.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>채팅방</title>
+  <title>판매자페이지 채팅방</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/store/seller/authmain.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/store/chat.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
-  
 </head>
 <body>
 <div class="wrapper">
-
   <div class="main-area">
     <div class="content-wrapper">
-      
-     <%@ include file="/common/main_mypage_sidenav.jsp" %>
+      <!-- 사이드바 -->
+      <%@ include file="/common/store_seller_sidenav.jsp" %>
 
       <!-- 메인 콘텐츠 (chat.jsp 내용) -->
       <main class="content">
@@ -73,29 +71,10 @@ $(document).ready(function() {
 	        $(".chat-input button").click();  // 전송 버튼 클릭 이벤트 실행
 	    }
 	});
-	let storeUrl = '';
-	storeUrl = '${storeUrl}'; 
-	if(storeUrl != ''){
-		 $.ajax({
-			 url: '${cpath}/api/${storeUrl}/message/makeChatting',
-			 method: 'POST',
-			 success: function(response){
-				 if (response?.status === 201) {
-					 location.href = location.origin + location.pathname;
-				 }else {
-	                alert("채팅방을 생성하지 못했습니다.");
-	                location.href = location.origin + location.pathname;
-	            }
-			 },
-			 error: function() {
-	            alert("서버 오류 발생");
-	        }
-		 });
-	}
-	
+
 //-------------------채팅방 목록 불러오기----------------------------------
     $.ajax({
-        url: '${cpath}/api/main/message/chatrooms',
+        url: '${cpath}/api/${storeUrl}/message/chatrooms',
         method: 'GET',
         success: function(response) {
             if (response.status === 200) {
@@ -106,8 +85,8 @@ $(document).ready(function() {
                 chatrooms.forEach(room => {
                     const itemHtml = `
                         <li class="chat-room-item" data-room-id="\${room.chatroomId}" data-store-url="\${room.storeUrl}">
-                            <div class="chat-room-name">\${room.storeName}</div>
-                            <div class="chat-room-preview" data-room-id="\${room.chatroomId}">\${room.chattingText? room.chattingText:'채팅이 없습니다.'}</div>
+                            <div class="chat-room-name">\${room.memberName}</div>
+                            <div class="chat-room-preview" data-room-id="\${room.chatroomId}">\${room.chattingText}</div>
                         </li>
                     `;
                     $list.append(itemHtml);
@@ -147,9 +126,9 @@ $(document).ready(function() {
         console.log('${sessionScope.loginMember}');
         currentRoomId = $(this).data('room-id');
         
-        // ✅ 여기에 storeName 설정
-        const storeName = $(this).find('.chat-room-name').text();
-        $(".chat-header h3").text(storeName);
+        // ✅ 여기에 memberName 설정
+        const memberName = $(this).find('.chat-room-name').text();
+        $(".chat-header h3").text(memberName);
 
         // 기존 연결 닫기
         if (socket) {
@@ -167,10 +146,9 @@ $(document).ready(function() {
         socket.onmessage = function(event) {
             const msg = JSON.parse(event.data);
             console.log(msg);
-            if(msg.chattingText!=null){
             const formattedDate = formatDate(msg.chattingDate);
             let messageHtml = ``;
-            if(parseInt(msg.memberCheck) === 0){
+            if(parseInt(msg.memberCheck) === 1){
 	            messageHtml = `
 	                <div class="message received">
 	                    <p class="message-text">\${msg.chattingText}</p>
@@ -187,7 +165,6 @@ $(document).ready(function() {
             }
             const $chatMessages = $(".chat-messages");
             $chatMessages.append(messageHtml);
-        }
             $chatMessages.scrollTop($chatMessages[0].scrollHeight);  // 자동 스크롤
             updateChatRoomPreview(currentRoomId.toString(), msg.chattingText); // preview 업데이트
         };
@@ -212,7 +189,7 @@ $(document).ready(function() {
         const sendData = {
             chatroomId: currentRoomId,
             chattingText: message,
-            memberCheck: 1
+            memberCheck: 0
         };
         $(".chat-input input").val('');
         const $chatMessages = $(".chat-messages");

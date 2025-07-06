@@ -236,119 +236,8 @@
 
 
 <script>
-pimgUrl1 = null, pimgUrl2 = null, pimgUrl3 = null;
-pimgUrl4 = null, pimgUrl5 = null, pimgUrl6 = null;
-$(document).ready(function () {
-    // 상품 데이터를 받아오는 AJAX 요청
-    $.ajax({
-        url: '${cpath}/api/main/sell/products', // 요청 URL
-        type: 'GET', // GET 방식으로 요청
-        dataType: 'json', // JSON 응답 처리
-        success: function (response) {
-            if (response.status === 200) {
-                const products = response.data;
-                
-                // 상품이 2개 이상 있을 경우 슬라이드 1과 2에 데이터 채우기
-                if (products.length >= 1) {
-                    // 첫 번째 슬라이드 (슬라이드 1) 상품 데이터 채우기
-                    $('#productId').val(products[0].productId);
-                    $('#productName').val(products[0].productName);
-                    $('#productDetail').val(products[0].productDetail);
-                    $('#price').val(products[0].price);
-                    $('#stock').val(products[0].stock);
-                    $('#typeCategory option').each(function () {
-                    	  if ($(this).text().trim() === products[0].typeCategoryId) {
-                    	    $(this).prop('selected', true);
-                    	  }
-                    	});
-                    $('#uCategory option').each(function () {
-                  	  if ($(this).text().trim() === products[0].uCategoryId) {
-                  	    $(this).prop('selected', true);
-                  	  }
-                  	});
-                  	$('#dCategory option').each(function () {
-                        if ($(this).text().trim() === products[0].dcategoryId) {
-                          $(this).prop('selected', true);
-                        }
-                      });
-                  	if (products[0].pimgUrl1){
-                    	pimgUrl1 = `\${products[0].pimgUrl1}`;
-                    	$('#upload-placeholder1').html(`<img src="${cpath}/resources/productImages/\${products[0].pimgUrl1}">`);
-                  	}
-                  	if (products[0].pimgUrl2){
-                    	pimgUrl2 = `\${products[0].pimgUrl2}`;
-                    	$('#upload-placeholder2').html(`<img src="${cpath}/resources/productImages/\${products[0].pimgUrl2}">`);
-                  	}
-                    if (products[0].pimgUrl3){
-                    	pimgUrl3 = `\${products[0].pimgUrl3}`;
-                    	$('#upload-placeholder3').html(`<img src="${cpath}/resources/productImages/\${products[0].pimgUrl3}">`);
-                    }
-                 	// 첫 번째 슬라이드 input/textarea 비활성화
-                    $('#productName, #productDetail, #price, #stock, #typeCategory, #uCategory, #dCategory').prop('disabled', true);
-                 	// 이미지 업로드 비활성화
-                    $('#fileInput1, #fileInput2, #fileInput3').prop('disabled', true);
-                    // 상품 등록 버튼 비활성화
-                    $('#submit-btn').prop('disabled', true);
-                    // 첫 번째 슬라이드 수정/삭제 버튼 활성화
-                    $('#edit-btn').prop('disabled', false);
-                    $('#delete-btn').prop('disabled', false);
-                }
 
-                if (products.length >= 2) {
-                    // 두 번째 슬라이드 (슬라이드 2) 상품 데이터 채우기
-                    $('#productId2').val(products[1].productId);
-                    $('#productName2').val(products[1].productName);
-                    $('#productDetail2').val(products[1].productDetail);
-                    $('#price2').val(products[1].price);
-                    $('#stock2').val(products[1].stock);
-                    $('#typeCategory2 option').each(function () {
-                  	  if ($(this).text().trim() === products[1].typeCategoryId) {
-                  	    $(this).prop('selected', true);
-                  	  }
-                  	});
-                  $('#uCategory2 option').each(function () {
-                	  if ($(this).text().trim() === products[1].uCategoryId) {
-                	    $(this).prop('selected', true);
-                	  }
-                	});
-                	$('#dCategory2 option').each(function () {
-                      if ($(this).text().trim() === products[1].dcategoryId) {
-                        $(this).prop('selected', true);
-                      }
-                    });
-                  	if (products[1].pimgUrl1){
-                    	pimgUrl4 = `\${products[1].pimgUrl1}`;
-                    	$('#upload-placeholder4').html(`<img src="${cpath}/resources/productImages/\${products[1].pimgUrl1}">`);
-                  	}
-                  	if (products[1].pimgUrl2){
-                    	pimgUrl5 = `\${products[1].pimgUrl2}`;
-                    	$('#upload-placeholder5').html(`<img src="${cpath}/resources/productImages/\${products[1].pimgUrl2}">`);
-                  	}
-                    if (products[1].pimgUrl3){
-                   		pimgUrl6 = `\${products[1].pimgUrl3}`;
-                   		$('#upload-placeholder6').html(`<img src="${cpath}/resources/productImages/\${products[1].pimgUrl3}">`);
-                    }
-                 	// 두 번째 슬라이드 input/textarea 비활성화
-                    $('#productName2, #productDetail2, #price2, #stock2, #typeCategory2, #uCategory2, #dCategory2').prop('disabled', true);
-                 	// 이미지 업로드 비활성화
-                 	$('#fileInput4, #fileInput5, #fileInput6').prop('disabled', true);
-                 	// 상품 등록 버튼 비활성화
-                    $('#submit-btn2').prop('disabled', true);
-                    // 두 번째 슬라이드 수정/삭제 버튼 활성화
-                    $('#edit-btn2').prop('disabled', false);
-                    $('#delete-btn2').prop('disabled', false);
-                }
-
-            }
-        },
-        error: function (error) {
-            console.error("상품 정보를 불러오는 데 실패했습니다.", error);
-        }
-    });
-});
-
-
-// --------------Swiper 슬라이더 초기화/ 작동중
+// --------------Swiper 슬라이더 초기화/ 작동중--------------------------
 const swiper = new Swiper('.mySwiper', {
   slidesPerView: 1,
   spaceBetween: 30,
@@ -357,17 +246,6 @@ const swiper = new Swiper('.mySwiper', {
     nextEl: '.swiper-button-next',
     prevEl: '.swiper-button-prev',
   },
-});
-
-// -------------판매상품 후 수정,삭제 버튼 활성화
-
-$('#submit-btn').click(function () {
-	  // 기존 상품 등록 로직 끝나고 성공 시:
-	  $('.swiper-slide').eq(0).find('.edit-btn, .delete-btn').prop('disabled', false);
-	});
-
-$('#submit-btn1').click(function () {
-  $('.swiper-slide').eq(1).find('.edit-btn, .delete-btn').prop('disabled', false);
 });
 
 //----------------카테고리----------------------
@@ -412,7 +290,7 @@ $(function() {
     const $dCategory = $('#dCategory');
 
     $dCategory.empty();
-    $dCategory.append('<option value="">-- 선택 --</option>');
+    $dCategory.append('<option value="">소분류 선택</option>');
 
     if (selected && dCategoryOptions[selected]) {
       $.each(dCategoryOptions[selected], function(_, option) {
@@ -426,7 +304,7 @@ $(function() {
 	    const $dCategory = $('#dCategory2');
 
 	    $dCategory.empty();
-	    $dCategory.append('<option value="">-- 선택 --</option>');
+	    $dCategory.append('<option value="">소분류 선택</option>');
 
 	    if (selected && dCategoryOptions[selected]) {
 	      $.each(dCategoryOptions[selected], function(_, option) {
@@ -450,6 +328,124 @@ $(function() {
     $('#category-box2').append(`<span class="category-item">카테고리2</span>`);
   });
 
+});
+
+//----------------------------기존 상품 데이터 가져오기------------------------------
+pimgUrl1 = null, pimgUrl2 = null, pimgUrl3 = null;
+pimgUrl4 = null, pimgUrl5 = null, pimgUrl6 = null;
+$(document).ready(function () {
+    // 상품 데이터를 받아오는 AJAX 요청
+    $.ajax({
+        url: '${cpath}/api/main/sell/products', // 요청 URL
+        type: 'GET', // GET 방식으로 요청
+        dataType: 'json', // JSON 응답 처리
+        success: function (response) {
+            if (response.status === 200) {
+                const products = response.data;
+                console.log(products);
+                // 상품이 2개 이상 있을 경우 슬라이드 1과 2에 데이터 채우기
+                if (products.length >= 1) {
+                    // 첫 번째 슬라이드 (슬라이드 1) 상품 데이터 채우기
+                    $('#productId').val(products[0].productId);
+                    $('#productName').val(products[0].productName);
+                    $('#productDetail').val(products[0].productDetail);
+                    $('#price').val(products[0].price);
+                    $('#stock').val(products[0].stock);
+                    $('#typeCategory option').each(function () {
+                    	  if ($(this).text().trim() === products[0].typeCategoryId) {
+                    	    $(this).prop('selected', true);
+                    	  }
+                    	});
+                    $('#uCategory option').each(function () {
+                  	  if ($(this).text().trim() === products[0].ucategoryId) {
+                  	    $(this).prop('selected', true);
+                  	  }
+                  	});
+                    $('#uCategory').trigger('change'); //change 트리거
+                  	setTimeout(function () {
+                      	$('#dCategory option').each(function () {
+                            if ($(this).val() === products[0].dcategoryId) {
+                              $(this).prop('selected', true);
+                            }
+                          });
+                  	}, 100); // 약간의 딜레이 필요 (select options가 완전히 갱신된 후)
+                  	if (products[0].pimgUrl1){
+                    	pimgUrl1 = `\${products[0].pimgUrl1}`;
+                    	$('#upload-placeholder1').html(`<img src="${cpath}/resources/productImages/\${products[0].pimgUrl1}">`);
+                  	}
+                  	if (products[0].pimgUrl2){
+                    	pimgUrl2 = `\${products[0].pimgUrl2}`;
+                    	$('#upload-placeholder2').html(`<img src="${cpath}/resources/productImages/\${products[0].pimgUrl2}">`);
+                  	}
+                    if (products[0].pimgUrl3){
+                    	pimgUrl3 = `\${products[0].pimgUrl3}`;
+                    	$('#upload-placeholder3').html(`<img src="${cpath}/resources/productImages/\${products[0].pimgUrl3}">`);
+                    }
+                 	// 첫 번째 슬라이드 input/textarea 비활성화
+                    $('#productName, #productDetail, #price, #stock, #typeCategory, #uCategory, #dCategory').prop('disabled', true);
+                 	// 이미지 업로드 비활성화
+                    $('#fileInput1, #fileInput2, #fileInput3').prop('disabled', true);
+                    // 상품 등록 버튼 비활성화
+                    $('#submit-btn').prop('disabled', true);
+                    // 첫 번째 슬라이드 수정/삭제 버튼 활성화
+                    $('#edit-btn').prop('disabled', false);
+                    $('#delete-btn').prop('disabled', false);
+                }
+
+                if (products.length >= 2) {
+                    // 두 번째 슬라이드 (슬라이드 2) 상품 데이터 채우기
+                    $('#productId2').val(products[1].productId);
+                    $('#productName2').val(products[1].productName);
+                    $('#productDetail2').val(products[1].productDetail);
+                    $('#price2').val(products[1].price);
+                    $('#stock2').val(products[1].stock);
+                    $('#typeCategory2 option').each(function () {
+                  	  if ($(this).text().trim() === products[1].typeCategoryId) {
+                  	    $(this).prop('selected', true);
+                  	  }
+                  	});
+                  $('#uCategory2 option').each(function () {
+                	  if ($(this).text().trim() === products[1].ucategoryId) {
+                	    $(this).prop('selected', true);
+                	  }
+                	});
+                  $('#uCategory2').trigger('change'); // change 트리거
+                	setTimeout(function () {
+                    	$('#dCategory2 option').each(function () {
+                          if ($(this).val() === products[1].dcategoryId) {
+                            $(this).prop('selected', true);
+                          }
+                        });
+                	}, 100); // 약간의 딜레이 필요 (select options가 완전히 갱신된 후)
+                  	if (products[1].pimgUrl1){
+                    	pimgUrl4 = `\${products[1].pimgUrl1}`;
+                    	$('#upload-placeholder4').html(`<img src="${cpath}/resources/productImages/\${products[1].pimgUrl1}">`);
+                  	}
+                  	if (products[1].pimgUrl2){
+                    	pimgUrl5 = `\${products[1].pimgUrl2}`;
+                    	$('#upload-placeholder5').html(`<img src="${cpath}/resources/productImages/\${products[1].pimgUrl2}">`);
+                  	}
+                    if (products[1].pimgUrl3){
+                   		pimgUrl6 = `\${products[1].pimgUrl3}`;
+                   		$('#upload-placeholder6').html(`<img src="${cpath}/resources/productImages/\${products[1].pimgUrl3}">`);
+                    }
+                 	// 두 번째 슬라이드 input/textarea 비활성화
+                    $('#productName2, #productDetail2, #price2, #stock2, #typeCategory2, #uCategory2, #dCategory2').prop('disabled', true);
+                 	// 이미지 업로드 비활성화
+                 	$('#fileInput4, #fileInput5, #fileInput6').prop('disabled', true);
+                 	// 상품 등록 버튼 비활성화
+                    $('#submit-btn2').prop('disabled', true);
+                    // 두 번째 슬라이드 수정/삭제 버튼 활성화
+                    $('#edit-btn2').prop('disabled', false);
+                    $('#delete-btn2').prop('disabled', false);
+                }
+
+            }
+        },
+        error: function (error) {
+            console.error("상품 정보를 불러오는 데 실패했습니다.", error);
+        }
+    });
 });
 
 //-----------------파일 이름 저장 및 미리보기--------------------
@@ -556,6 +552,7 @@ $('#submit-btn').click(function () {
     success: function (response) {
       if (response.status === 201) {
         alert('상품 등록이 완료되었습니다.');
+        $('.swiper-slide').eq(0).find('.edit-btn, .delete-btn').prop('disabled', false);
       } else {
         alert('상품 등록 실패');
       }
@@ -745,6 +742,7 @@ $('#submit-btn2').click(function () {
 	    success: function (response) {
 	      if (response.status === 201) {
 	        alert('상품 등록이 완료되었습니다.');
+	        $('.swiper-slide').eq(1).find('.edit-btn, .delete-btn').prop('disabled', false);
 	      } else {
 	        alert('상품 등록 실패');
 	      }

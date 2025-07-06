@@ -1,13 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<c:set var="cpath" value="${pageContext.servletContext.contextPath}" />
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
   <title>주문/발송관리</title>
+  <%@ include file="/common/header.jsp" %>
   <link rel="stylesheet" type="text/css" href="${cpath}/resources/css/admin/authMain.css">
   <link rel="stylesheet" type="text/css" href="${cpath}/resources/css/store/seller/sellerOrderManage.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -49,39 +48,10 @@
 </script>
 </head>
 <body>
-<div class="wrapper">
-  <header>
-    <div class="header-inner">
-      <div class="login-bar">
-        <span>관리자님 반갑습니다.</span>
-        <button class="logout-btn">로그아웃</button>
-      </div>
-    </div>
-  </header>
+    <div class="content-wrapper">
+      <%@ include file="/common/store_seller_sidenav.jsp" %>
 
   <div class="main-area">
-    <div class="content-wrapper">
-      <nav class="sidebar">
-        <ul>
-          <li class="has-submenu">
-            <a href="javascript:void(0);">판매자 정산 관리 ▼</a>
-            <ul class="submenu">
-              <li><a href="#">스토어 정산 관리</a></li>
-              <li><a href="#">개인 판매자 정산 관리</a></li>
-            </ul>
-          </li>
-          <li class="has-submenu">
-            <a href="javascript:void(0);">건의/신고 관리 ▼</a>
-            <ul class="submenu">
-              <li><a href="#">건의사항</a></li>
-              <li><a href="#">신고</a></li>
-            </ul>
-          </li>
-          <li><a href="#">스토어 관리</a></li>
-          <li><a href="#">회원 관리</a></li>
-        </ul>
-      </nav>
-
       <main class="content">
         <div class="content-inner">
           <div class="member-box">
@@ -169,8 +139,6 @@
       </main>
     </div>
   </div>
-
-  <footer>&copy; 2025 뜨락상회</footer>
 </div>
 
 <script>

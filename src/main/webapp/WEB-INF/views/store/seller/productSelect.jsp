@@ -16,37 +16,11 @@
 </script>
 </head>
 <body>
-<div class="wrapper">
-  <header>
-    <div class="header-inner">
-      <div class="login-bar">
-        <span>수제대추고님 반갑습니다.</span>
-        <button class="logout-btn">로그아웃</button>
-      </div>
-    </div>
-  </header>
+<div class="content-wrapper">
+   <%@ include file="/common/store_seller_sidenav.jsp" %>
 
   <div class="main-area">
     <div class="content-wrapper">
-      <nav class="sidebar">
-		  <div class="profile-section" onclick="#" role="button" tabindex="0" aria-label="스토어관리 페이지로 이동">
-		    <img src="#" class="profile-img" />
-		    <div class="store-name">수제대추고</div>
-		  </div>
-		  <ul class="menu-list">
-		    <li><a href="#"><span class="menu-text">상품등록</span><span class="arrow">></span></a></li>
-		    <li><a href="#"><span class="menu-text">판매상품관리</span><span class="arrow">></span></a></li>
-		    <li><a href="#"><span class="menu-text">주문/발송확인(취소/환불)</span><span class="arrow">></span></a></li>
-		    <li><a href="#"><span class="menu-text">환불관리</span><span class="arrow">></span></a></li>
-		    <li><a href="#"><span class="menu-text">정산관리</span><span class="arrow">></span></a></li>
-		    <li><a href="#"><span class="menu-text">문의메시지</span><span class="arrow">></span></a></li>
-		    <li><a href="#"><span class="menu-text">리뷰관리</span><span class="arrow">></span></a></li>
-		    <li><a href="#"><span class="menu-text">스토어관리</span><span class="arrow">></span></a></li>
-		  </ul>
-		  <div class="sidebar-footer">
-		    <button class="btn-go-buyer" onclick="#">구매자페이지 이동</button>
-		  </div>
-		</nav>
 
       <main class="content">
         <div class="content-inner">
@@ -101,10 +75,14 @@
 		    </div>
 		  </div>
       </main>
+          <!-- 푸터 -->
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <p>© 2025 뜨락상회. All rights reserved.</p>
+      </div>
+    </footer>
     </div>
   </div>
-
-  <footer>&copy; 2025 뜨락상회</footer>
 </div>
 
 </body>

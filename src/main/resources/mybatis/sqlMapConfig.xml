@@ -64,6 +64,8 @@
        
        <typeAlias type="com.chacha.create.common.dto.order.OrderSumDTO" alias="orderSumDTO" />
        <typeAlias type="com.chacha.create.common.dto.order.OrderDTO" alias="orderDTO" />
+
+       <typeAlias type="com.chacha.create.common.dto.store.StoreInfoDTO" alias="storeInfoDTO" />
    </typeAliases>
    
    <!-- Enum과 DB 매핑 -->

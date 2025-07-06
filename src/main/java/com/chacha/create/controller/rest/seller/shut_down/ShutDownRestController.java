@@ -45,12 +45,12 @@ public class ShutDownRestController {
                 if (result > 0) {
                     return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, result));
                 } else {
-                    // 실패 시엔 409 Conflict 등 적절한 상태코드로 응답하는게 좋아요
+                    // �떎�뙣 �떆�뿏 409 Conflict �벑 �쟻�젅�븳 �긽�깭肄붾뱶濡� �쓳�떟�븯�뒗寃� 醫뗭븘�슂
                     return ResponseEntity.status(ResponseCode.CONFLICT.getStatus())
                             .body(new ApiResponse<>(ResponseCode.CONFLICT, 0));
                 }
             } catch (IllegalStateException e) {
-                log.error("상점 종료 중 오류 발생", e);
+                log.error("�긽�젏 醫낅즺 以� �삤瑜� 諛쒖깮", e);
                 return ResponseEntity.status(ResponseCode.INTERNAL_SERVER_ERROR.getStatus())
                         .body(new ApiResponse<>(ResponseCode.INTERNAL_SERVER_ERROR, 0));
             }

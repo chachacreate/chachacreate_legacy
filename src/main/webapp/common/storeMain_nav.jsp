@@ -15,22 +15,29 @@
 		<div class="logo-wrapper">
 			<div class="logo">
 				<!-- ✅ 로고 클릭 시 메인으로 이동 -->
-				<a href="${cpath}/${storeUrl}" id="logoArear"> <!-- 동적으로 스토어 로고 삽입 -->
+				<a href="${cpath}/${storeUrl}" id="logoArear">
+				<!-- 동적으로 스토어 로고 삽입 -->
+				<img src="${cpath}/resources/productImages/${logoImg}" alt="스토어 로고" style="height: 80px"/>
 				</a>
 			</div>
 			<div id="nameArear">
-				<!-- 동적으로 스토어명 삽입 -->
+			<!-- 동적으로 스토어 이름 삽입 -->
+				${storeName}
 			</div>
 		</div>
 		<div class="menu">
 			<a href="${cpath}/${storeUrl}/products" class="nav-item">전체상품</a> 
 			<a href="${cpath}/${storeUrl}/info" class="nav-item">스토어 정보</a> 
-			<a href="#" class="nav-item">클래스</a> 
+			<a href="#" class="nav-item" onclick="alert('준비중입니다!')">클래스</a> 
 			<a href="${cpath}/${storeUrl}/mypage" class="nav-item">마이페이지</a> 
 			<a href="${cpath}/main/mypage/cart" class="nav-item">장바구니</a>
 			<a href="${cpath}/${storeUrl}/notices"
 				class="nav-item ${fn:contains(uri, '/main/notice') ? 'active' : ''}">
-				공지/소식 </a> <a href="${cpath}/main" class="nav-item">메인 홈 가기</a> 
+				공지/소식 </a>
+			<c:if test="${loginMember.memberId == storeOwnerId}">
+				<a href="${cpath}/${storeUrl}/seller/main" class="nav-item">스토어 관리자 가기</a>
+			</c:if>
+			<a href="${cpath}/main" class="nav-item">메인 홈 가기</a> 
 		</div>
 	</div>
 </nav>

@@ -34,35 +34,9 @@
      data-store-url="${storeUrl}">
 </div>
 <div class="wrapper">
-  <header>
-    <div class="header-inner">
-      <div class="login-bar">
-        <span>수제대추고님 반갑습니다.</span>
-        <button class="logout-btn">로그아웃</button>
-      </div>
-    </div>
-  </header>
   <div class="main-area">
     <div class="content-wrapper">
-      <nav class="sidebar">
-        <div class="profile-section" role="button" tabindex="0" aria-label="스토어관리 페이지로 이동" onclick="#">
-          <img src="#" alt="프로필 이미지" class="profile-img" />
-          <div class="store-name">수제대추고</div>
-        </div>
-        <ul class="menu-list">
-          <li><a href="${cpath}/store1/seller/productinsert"><span class="menu-text">상품등록</span><span class="arrow">></span></a></li>
-          <li><a href="${cpath}/store1/seller/products"><span class="menu-text">판매상품관리</span><span class="arrow">></span></a></li>
-          <li><a href="#"><span class="menu-text">주문/발송확인(취소/환불)</span><span class="arrow">></span></a></li>
-          <li><a href="${cpath}/store1/seller/management/settlement"><span class="menu-text">정산관리</span><span class="arrow">></span></a></li>
-          <li><a href="${cpath}/store1/seller/chat"><span class="menu-text">문의메시지</span><span class="arrow">></span></a></li>
-          <li><a href="${cpath}/store1/seller/reviews"><span class="menu-text">리뷰관리</span><span class="arrow">></span></a></li>
-          <li><a href="${cpath}/store1/seller/management/notices"><span class="menu-text">공지사항목록</span><span class="arrow">></span></a></li>
-          <li><a href="#"><span class="menu-text">스토어관리</span><span class="arrow">></span></a></li>
-        </ul>
-        <div class="sidebar-footer">
-          <button class="btn-go-buyer" onclick="location.href='${cpath}/store1/mypage'">구매자페이지 이동</button>
-        </div>
-      </nav>
+      <%@ include file="/common/store_seller_sidenav.jsp" %>
 
       <main class="content">
         <div class="content-inner">

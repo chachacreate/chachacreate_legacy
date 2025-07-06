@@ -23,7 +23,7 @@
 			<div class="content-wrapper">
 			
 			<%-- ✅ 사이드바 인클루드 --%>
-    				<jsp:include page="/common/store_seller_sidenav.jsp" />
+    		<jsp:include page="/common/store_seller_sidenav.jsp" />
     				
 				<main class="content">
 					<div class="content-inner">

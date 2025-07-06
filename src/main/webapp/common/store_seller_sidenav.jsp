@@ -1,4 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions"%>
+
+<c:set var="cpath" value="${pageContext.servletContext.contextPath}" />
+<c:set var="uri" value="${pageContext.request.requestURI}" />
 <style>
 /* 사이드바 전체 */
 .sidebar {
@@ -117,8 +122,14 @@
 
 <div class="sidebar">
   <div class="profile-section">
-    <div class="profile-img"></div>
-    <div class="store-name">스토어명</div>
+    <div class="profile-img">
+    	<!-- 동적으로 스토어 로고 삽입 -->
+		<img src="${cpath}/resources/productImages/${logoImg}" alt="스토어 로고" style="height: 80px"/>
+	</div>
+    <div class="store-name">
+		<!-- 동적으로 스토어 이름 삽입 -->
+		${storeName}
+    </div>
   </div>
 
   <ul class="menu-list">
@@ -129,9 +140,9 @@
         <span class="arrow">▼</span>
       </a>
       <ul class="submenu">
-        <li><a href="${cpath}/${storeUrl}/seller/product/regist">상품 등록</a></li>
-        <li><a href="${cpath}/${storeUrl}/seller/product/list">판매 상품 관리</a></li>
-        <li><a href="${cpath}/${storeUrl}/seller/product/list">리뷰 관리</a></li>
+        <li><a href="${cpath}/${storeUrl}/seller/productinsert">상품 등록</a></li>
+        <li><a href="${cpath}/${storeUrl}/seller/products">판매 상품 관리</a></li>
+        <li><a href="${cpath}/${storeUrl}/seller/reviews">리뷰 관리</a></li>
       </ul>
     </li>
 
@@ -142,9 +153,9 @@
         <span class="arrow">▼</span>
       </a>
       <ul class="submenu">
-        <li><a href="${cpath}/${storeUrl}/seller/orders">주문/발송 확인</a></li>
-        <li><a href="${cpath}/${storeUrl}/seller/refunds">환불 관리</a></li>
-        <li><a href="${cpath}/${storeUrl}/seller/refunds">정산 관리</a></li>
+        <li><a href="${cpath}/${storeUrl}/seller/management/order">주문/발송 확인</a></li>
+        <li><a href="${cpath}/${storeUrl}/seller/management/order?status=REFUND">환불 관리</a></li>
+        <li><a href="${cpath}/${storeUrl}/seller/management/settlement">정산 관리</a></li>
       </ul>
     </li>
 
@@ -155,15 +166,15 @@
         <span class="arrow">▼</span>
       </a>
       <ul class="submenu">
-        <li><a href="${cpath}/${storeUrl}/seller/management/settlement">문의 메시지</a></li>
-        <li><a href="${cpath}/${storeUrl}/seller/reviews">스토어 관리</a></li>
+        <li><a href="${cpath}/${storeUrl}/seller/message">문의 메시지</a></li>
+        <li><a href="${cpath}/${storeUrl}/seller/management/seller">스토어 관리</a></li>
       </ul>
     </li>
 
   </ul>
 
   <div class="sidebar-footer">
-    <button class="btn-go-buyer" onclick="location.href='${cpath}/main'">구매자 페이지로</button>
+    <button class="btn-go-buyer" onclick="location.href='${cpath}/${storeUrl}'">구매자 페이지로</button>
   </div>
 </div>
 

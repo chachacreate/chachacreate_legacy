@@ -36,6 +36,7 @@
     </li>
     <li>
       <a href="${basePath}/message"
+
          class="${fn:contains(uri, '/mypage/message') ? 'active' : ''}">
          문의 메시지</a>
     </li>

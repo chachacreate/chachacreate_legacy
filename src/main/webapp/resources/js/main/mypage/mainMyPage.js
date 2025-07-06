@@ -8,6 +8,9 @@ $(function () {
     passwordMatch: false,
     addressValid: false
   };
+  
+  let originalMemberData = null;  // 회원 기본정보 저장용
+  let originalAddrData = null;    // 주소 정보 저장용
 
   // 1. 회원 정보(+기본 배송지) 불러오기
   $.ajax({
@@ -17,6 +20,8 @@ $(function () {
     success: function (res) {
       if (res.status === 200) {
         const member = res.data;
+        
+        originalMemberData = member;
 
         $('.name').val(member.memberName);
         $('.phone').val(member.memberPhone);
@@ -33,6 +38,8 @@ $(function () {
           success: function (addrRes) {
             if (addrRes.status === 200 && addrRes.data) {
               const addr = addrRes.data;
+              originalAddrData = addr;
+              
               $('.post-num').val(addr.postNum);
               $('.address').val(addr.addressRoad + (addr.addressExtra ? ' ' + addr.addressExtra : ''));
               $('.address-detail').val(addr.addressDetail);
@@ -195,6 +202,27 @@ $(function () {
       }
     });
 
+  });
+  
+    $('.cancel-btn').on('click', function () {
+    if (originalMemberData) {
+      $('.name').val(originalMemberData.memberName);
+      $('.phone').val(originalMemberData.memberPhone);
+      $('.email').val(originalMemberData.memberEmail);
+
+      $('.password').val('');
+      $('.password-ok').val('');
+      checkObj.passwordValid = false;
+      checkObj.passwordMatch = false;
+    }
+    if (originalAddrData) {
+      $('.post-num').val(originalAddrData.postNum);
+      $('.address').val(originalAddrData.addressRoad + (originalAddrData.addressExtra ? ' ' + originalAddrData.addressExtra : ''));
+      $('.address-detail').val(originalAddrData.addressDetail);
+      $('.address-road').val(originalAddrData.addressRoad);
+      $('.address-extra').val(originalAddrData.addressExtra);
+      checkObj.addressValid = true;
+    }
   });
 
 });

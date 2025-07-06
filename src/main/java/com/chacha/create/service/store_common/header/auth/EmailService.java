@@ -67,14 +67,14 @@ public class EmailService {
             MimeMessage mail = mailSender.createMimeMessage();
             
             // 제목
-            String subject = "[또락상회]"+title+" 인증코드";
+            String subject = "[뜨락상회]"+title+" 인증코드";
             
             // 문자 인코딩
             String charset = "UTF-8";
             
             // 메일 내용
             String mailContent 
-                = "<p>또락상회 "+title+" 인증코드입니다.</p>"
+                = "<p>뜨락상회 "+title+" 인증코드입니다.</p>"
                 + "<h3 style='color:blue'>" + authKey + "</h3>";
             
             

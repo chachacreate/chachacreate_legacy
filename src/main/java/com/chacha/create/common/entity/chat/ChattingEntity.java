@@ -49,4 +49,9 @@ public class ChattingEntity {
      * 메시지가 전송된 날짜 (시간 정보가 필요한 경우 {@code java.sql.Timestamp}를 사용 권장)
      */
     private Date chattingDate;
+    
+    /**
+     * 채팅을 스토어에서 보냈는지 member가 보냈는지 확인, member가 보냈으면 1, store가 보냈으면 0
+     */
+    private Integer memberCheck;
 }
