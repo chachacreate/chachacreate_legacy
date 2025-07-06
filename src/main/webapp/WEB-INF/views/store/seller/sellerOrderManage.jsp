@@ -1,12 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ include file="/common/header.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
   <title>주문/발송관리</title>
+  <%@ include file="/common/header.jsp" %>
   <link rel="stylesheet" type="text/css" href="${cpath}/resources/css/admin/authMain.css">
   <link rel="stylesheet" type="text/css" href="${cpath}/resources/css/store/seller/sellerOrderManage.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -48,10 +48,10 @@
 </script>
 </head>
 <body>
-  <div class="main-area">
-      <%@ include file="/common/store_seller_sidenav.jsp" %>
     <div class="content-wrapper">
+      <%@ include file="/common/store_seller_sidenav.jsp" %>
 
+  <div class="main-area">
       <main class="content">
         <div class="content-inner">
           <div class="member-box">
@@ -137,14 +137,9 @@
           </div>
         </div>
       </main>
-      <!-- 푸터 -->
-    <footer class="site-footer">
-      <div class="footer-inner">
-        <p>© 2025 뜨락상회. All rights reserved.</p>
-      </div>
-    </footer>
     </div>
   </div>
+</div>
 
 <script>
 $(document).ready(function () {
