@@ -107,7 +107,7 @@ $(document).ready(function() {
                     const itemHtml = `
                         <li class="chat-room-item" data-room-id="\${room.chatroomId}" data-store-url="\${room.storeUrl}">
                             <div class="chat-room-name">\${room.storeName}</div>
-                            <div class="chat-room-preview" data-room-id="\${room.chatroomId}">\${room.chattingText}</div>
+                            <div class="chat-room-preview" data-room-id="\${room.chatroomId}">\${room.chattingText? room.chattingText:'채팅이 없습니다.'}</div>
                         </li>
                     `;
                     $list.append(itemHtml);
@@ -167,6 +167,7 @@ $(document).ready(function() {
         socket.onmessage = function(event) {
             const msg = JSON.parse(event.data);
             console.log(msg);
+            if(msg.chattingText!=null){
             const formattedDate = formatDate(msg.chattingDate);
             let messageHtml = ``;
             if(parseInt(msg.memberCheck) === 0){
@@ -186,6 +187,7 @@ $(document).ready(function() {
             }
             const $chatMessages = $(".chat-messages");
             $chatMessages.append(messageHtml);
+        }
             $chatMessages.scrollTop($chatMessages[0].scrollHeight);  // 자동 스크롤
             updateChatRoomPreview(currentRoomId.toString(), msg.chattingText); // preview 업데이트
         };
