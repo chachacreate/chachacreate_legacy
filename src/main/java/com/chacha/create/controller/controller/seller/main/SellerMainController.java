@@ -41,6 +41,7 @@ import com.chacha.create.common.dto.product.ProductUpdateDTO;
 import com.chacha.create.common.dto.product.ProductWithImagesDTO;
 
 import com.chacha.create.common.dto.product.ProductlistDTO;
+import com.chacha.create.common.dto.product.ReviewManagementDTO;
 import com.chacha.create.common.dto.store.StoreInfoDTO;
 import com.chacha.create.common.entity.member.MemberEntity;
 import com.chacha.create.common.entity.order.OrderInfoEntity;
@@ -53,6 +54,7 @@ import com.chacha.create.common.enums.error.ResponseCode;
 import com.chacha.create.common.enums.order.OrderStatusEnum;
 import com.chacha.create.common.exception.InvalidRequestException;
 import com.chacha.create.common.exception.LoginFailException;
+import com.chacha.create.service.buyer.detail.ReviewService;
 import com.chacha.create.service.buyer.storeinfo.StoreInfoService;
 import com.chacha.create.service.seller.main.SellerMainService;
 import com.chacha.create.service.seller.order.OrderManagementService;
@@ -81,9 +83,11 @@ public class SellerMainController {
 	
 	private final StoreInfoService storeinfo;
 	
-	final LoginService loginService;
+	private final LoginService loginService;
 	
-	final ShutDownService shutdownService;
+	private final ShutDownService shutdownService;
+	
+	private final ReviewService reviewService;
 	
 	public void setStoreNavInfo(String storeUrl, Model model) {
 		StoreInfoDTO storeInfo = storeinfo.selectForThisStoreInfo(storeUrl);
@@ -334,8 +338,13 @@ public class SellerMainController {
 	// 판매 리뷰 관리
 	@GetMapping("/reviews")
 	public String showReviewPage(@PathVariable String storeUrl, Model model) {
-		setStoreNavInfo(storeUrl, model);
-		return "store/seller/sellerReview";
+	    setStoreNavInfo(storeUrl, model);
+
+	    List<ReviewManagementDTO> reviewList = reviewService.selectAllMyReview(storeUrl);
+
+	    model.addAttribute("reviewList", reviewList);
+
+	    return "store/seller/sellerReview";
 	}
 	
 	// 문의 메시지

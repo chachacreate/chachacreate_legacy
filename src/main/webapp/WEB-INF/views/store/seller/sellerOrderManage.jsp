@@ -1,7 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ include file="/common/header.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -49,9 +48,6 @@
 </script>
 </head>
 <body>
-<div class="wrapper">
-<<<<<<< Updated upstream
-  <div class="main-area">
     <div class="content-wrapper">
       <%@ include file="/common/store_seller_sidenav.jsp" %>
 
@@ -145,8 +141,6 @@
       </main>
     </div>
   </div>
-
-  <footer>&copy; 2025 뜨락상회</footer>
 </div>
 
 <script>
