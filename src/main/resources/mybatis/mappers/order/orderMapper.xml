@@ -344,6 +344,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    p.product_id,
 		    p.product_name,
 		    p.product_detail,
+		    s.store_url,
 		    s.store_name,
 		    img.p_img_url,
 		    od.order_cnt,
