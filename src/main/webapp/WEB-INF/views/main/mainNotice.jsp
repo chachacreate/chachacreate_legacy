@@ -56,71 +56,121 @@
 </footer>
 
 <script>
-  const noticeData = {
-    page_1: [
-      {no: 1, title: "공지 제목 1", content: "1번 공지의 내용입니다."},
-      {no: 2, title: "공지 제목 2", content: "2번 공지의 내용입니다."},
-      {no: 3, title: "공지 제목 3", content: "3번 공지의 내용입니다."},
-      {no: 4, title: "공지 제목 4", content: "4번 공지의 내용입니다."},
-      {no: 5, title: "공지 제목 5", content: "5번 공지의 내용입니다."},
-      {no: 6, title: "공지 제목 6", content: "6번 공지의 내용입니다."},
-      {no: 7, title: "공지 제목 7", content: "7번 공지의 내용입니다."},
-      {no: 8, title: "공지 제목 8", content: "8번 공지의 내용입니다."},
-      {no: 9, title: "공지 제목 9", content: "9번 공지의 내용입니다."},
-      {no: 10, title: "공지 제목 10", content: "10번 공지의 내용입니다."}
-    ],
-    page_2: [
-      {no: 11, title: "공지 제목 11", content: "11번 공지의 내용입니다."},
-      {no: 12, title: "공지 제목 12", content: "12번 공지의 내용입니다."}
-    ]
-  };
+  const pageSize = 5;
+  let allData = [];
 
-  function renderTable(page = "page_1") {
+  function renderTable(pageIndex = 1, item) {
+    const start = (pageIndex - 1) * pageSize;
+    const end = start + pageSize;
+    const pageData = allData.slice(start, end);
+
     const tbody = $("#notice-body");
     tbody.empty();
-    noticeData[page].forEach(item => {
+
+    pageData.forEach(item => {
       tbody.append(`
         <tr class="accordion">
-          <td>${item.no}</td>
-          <td class="question">${item.title}</td>
+          <td>\${item.questionId}</td>
+          <td class="question">\${item.questionTitle}</td>
         </tr>
         <tr class="answer-row">
-          <td colspan="2" class="answer">${item.content}</td>
+          <td colspan="2" class="answer">\${item.questionText}</td>
         </tr>
       `);
     });
 
     $(".answer-row").hide();
-    $(".accordion").click(function () {
+    $(".accordion").off("click").on("click", function () {
       $(this).next(".answer-row").slideToggle();
     });
   }
 
-  function renderPagination(total = 2) {
+  function renderPagination() {
+    const totalPage = Math.ceil(allData.length / pageSize);
     const pg = $("#pagination");
     pg.empty();
-    for (let i = 1; i <= total; i++) {
-      pg.append(`<a data-page="page_${i}" class="${i == 1 ? 'active' : ''}">${i}</a>`);
-    }
-    $(".pagination a").click(function () {
+
+    for (let i = 1; i <= totalPage; i++) {
+   	  pg.append('<a data-page="' + i + '" class="' + (i === 1 ? 'active' : '') + '">' + i + '</a>');
+   	}
+
+    $(".pagination a").off("click").on("click", function () {
       $(".pagination a").removeClass("active");
       $(this).addClass("active");
-      renderTable($(this).data("page"));
+      const pageIndex = parseInt($(this).data("page"));
+      renderTable(pageIndex);
     });
   }
 
   $(function () {
-    renderTable();
-    renderPagination();
-    $("#write-btn").click(() => $("#write-form").slideToggle());
-    $("#submit-post").click(() => {
-      alert("작성 완료 (Ajax 연동 필요)");
-      $("#new-title").val('');
-      $("#new-content").val('');
-      $("#write-form").slideUp();
+    // 공지사항 데이터 요청
+    $.ajax({
+      url: "${cpath}/api/main/question",
+      method: "GET",
+      contentType: 'application/json',
+      success: function (res) {
+        if (res.status === 200 && res.data) {
+          allData = res.data;
+          renderTable(item = allData);
+          renderPagination();
+          renderTable(1);
+        } else {
+          alert("데이터를 불러오지 못했습니다.");
+        }
+      },
+      error: function () {
+        alert("서버 요청 실패");
+      }
     });
+
+    // 글쓰기 폼 toggle
+    $("#write-btn").click(() => $("#write-form").slideToggle());
+
+    // 작성 버튼 클릭 시 처리
+    $("#submit-post").click(() => {
+		if(${loginMember == null}){
+			alert("로그인이 필요합니다!");
+			return;
+		}
+		 const title = $("#new-title").val().trim();
+		 const content = $("#new-content").val().trim();
+		
+		 if (title === "") {
+		   alert("제목을 입력해주세요");
+		   $("#new-title").focus();
+		   return;
+		 }
+		
+		 if (content === "") {
+		   alert("내용을 입력해주세요");
+		   $("#new-content").focus();
+		   return;
+		 }
+	
+	   	  $.ajax({
+	   	    url: "${cpath}/api/main/question",
+	   	    method: "POST",
+	   	    contentType: 'application/json',
+	   	    data: JSON.stringify({
+	   	      questionTitle: title,
+	   	      questionText: content
+	   	    }),
+	   	    success: function (res) {
+	   	      if (res.status === 201 && res.data) {
+	   	        alert("작성 완료");
+	   	        location.reload(); // 또는 새로 렌더링
+	   	      } else {
+	   	        alert("데이터 등록 실패");
+	   	      }
+	   	    },
+	   	    error: function (xhr) {
+	   	      alert("서버 요청 실패: " + xhr.responseText);
+	   	    }
+	   	  });
   });
+});
 </script>
+
 
 </body>
 </html>
