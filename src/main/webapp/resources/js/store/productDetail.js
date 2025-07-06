@@ -33,9 +33,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const storeLink = document.getElementById("storeNameLink");
       if (storeLink) {
-        storeLink.href = `${cpath}/store/info`;
+        storeLink.href = `${cpath}/{storeUrl}/info`;
         storeLink.textContent = product.storeName;
-      }
+        }
 
       // 가격 및 수량 관련 로직
       const priceElement = document.getElementById("productPrice");
@@ -131,6 +131,62 @@ document.addEventListener("DOMContentLoaded", function () {
 		    }
 		  });
 		});
+		
+		// 판매자 신고 모달
+		$('#reportBtn').on('click', function () {
+		if (!window.loggedInMemberId || window.loggedInMemberId === 'null') {
+		    alert('로그인이 필요합니다.');
+		    location.href = `${cpath}/auth/login`;
+		    return;
+		  }
+		  $('#reportModal').fadeIn();
+		});
+		
+		$('#cancelReport').on('click', function () {
+		  $('#reportModal').fadeOut();
+		  $('#reportTitle').val('');
+		  $('#reportText').val('');
+		});
+		
+		$('#submitReport').on('click', function () {
+		  const title = $('#reportTitle').val().trim();
+		  const reason = $('#reportText').val().trim();
+		  const storeId = product.storeId;
+		
+		  if (!title || !reason) {
+		    alert('신고 제목과 사유를 모두 입력하세요.');
+		    return;
+		  }
+		
+		  const reportData = {
+		    storeId: storeId,
+		    reportTitle: title,
+		    reportText: reason
+		  };
+		
+		  $.ajax({
+		    url: `${cpath}/api/${storeUrl}/reportinsert`,
+		    method: 'POST',
+		    contentType: 'application/json',
+		    data: JSON.stringify(reportData),
+		    success: function (res) {
+		      if (res.status === 201) {
+		        alert('신고가 접수되었습니다.');
+		        $('#reportModal').fadeOut();
+		        $('#reportTitle').val('');
+		        $('#reportText').val('');
+		      } else {
+		        alert('신고 실패: ' + res.message);
+		      }
+		    },
+		    error: function (xhr) {
+		      alert('신고 처리 중 오류 발생');
+		      console.error(xhr);
+		    }
+		  });
+		});
+
+		
 
     },
     error: function (xhr, status, error) {
