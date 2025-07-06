@@ -310,6 +310,7 @@
     			      };
 
     			      const detailList = [];
+    			      const cartIdList = [];
 
     			      // 상품 정보는 이전에 불러온 products 배열을 활용
     			      products.forEach(item => {
@@ -319,6 +320,7 @@
     			          orderCnt: item.productCnt,
     			          orderPrice: item.price * item.productCnt
     			        });
+    			        cartIdList.push(item.cartId);
     			      });
 					if($('#checkAddrVal').val() === 1){
 					    	newAddr = true;	
@@ -339,6 +341,15 @@
    			        	if (response?.status === 201) {
    			        	const orderid = parseInt(response.data);
     			          alert("주문이 완료되었습니다. 주문번호 : " + orderid);
+    			          
+    			          // 결제하면 장바구니 삭제되게 아직 테스트 X
+    			          const deleteCartItems = cartIdList.map(cartId =>
+                          $.ajax({
+                              url: `${cpath}/api/main/mypage/cart/delete/\${cartId}`,
+                              method: "DELETE"
+	                          })
+	                      );
+    			          
     			          location.href = `${pageContext.request.contextPath}/main/order/complete/\${orderid}`; // 성공 페이지로 이동
    			        	}
     			        },
