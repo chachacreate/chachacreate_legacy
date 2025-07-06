@@ -298,7 +298,8 @@ select {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 6px;
-  resize: vertical;
+  resize: none;
+  box-sizing: border-box;
 }
 
 .char-count {
