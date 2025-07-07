@@ -133,7 +133,7 @@ function renderTopStore(store){
 			      <a href="${cpath}/${store.storeUrl}" class="side-banner-btn">바로가기</a>
 			    </div>
 			    <div class="image-area">
-			      <img src="${cpath}/resources/images/${store.logoImg}"
+			      <img src="${cpath}/resources/productImages/${store.logoImg}"
 			      style="height: 120px;"
 			       alt="${store.storeName}">
 			    </div>	

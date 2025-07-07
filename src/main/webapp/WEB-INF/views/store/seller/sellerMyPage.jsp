@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
   <meta charset="UTF-8">
   <title>뜨락상회 판매자 메인페이지</title>
   <%@ include file="/common/header.jsp"%>
@@ -124,7 +125,9 @@
     </div>
     <div class="right-padding"></div> <!-- 240px -->
   </div>
+
 </body>
+
 <script>
   $(document).ready(function() {
     const storeUrl = '${storeUrl}';

@@ -269,6 +269,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    SELECT 
 	        p.product_name, 
 	        p.price, 
+	        p.product_id,
 	        ca.type_category_name, 
 	        dc.d_category_name, 
 	        uc.u_category_name, 
