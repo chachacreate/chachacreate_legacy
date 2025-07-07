@@ -406,8 +406,8 @@ h2 {
   align-items: flex-end;
   justify-content: flex-start;
   flex-shrink: 0;
-  width: 721px;
-  height: 399px;
+  width: 100%;     /* ✅ 721px → 100% */
+  height: auto;    /* ✅ 고정 높이 제거 */
   position: relative;
   overflow: hidden;
 }
@@ -515,10 +515,10 @@ h2 {
 
 .store-info-wrapper {
   display: flex;
-  gap: 120px;
+  flex-direction: column; /* ✅ 세로 방향으로 변경 */
+  gap: 40px;
   max-width: 1000px;
   margin: 0 auto;
-  justify-content: space-between;
 }
 
 .section-title-wrapper {
