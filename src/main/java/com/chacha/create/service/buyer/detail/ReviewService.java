@@ -57,6 +57,11 @@ public class ReviewService {
     public List<ReviewEntity> selectByProductId(int productId, Integer memberId) {
         return reviewMapper.selectByProductId(productId, memberId);
     }
+    
+    // 판매자가 리뷰 신고를 할 때 리뷰 작성자 멤버 ID 조회
+    public int selectForMemberIdByReviewId(int reviewId) {
+    	return reviewMapper.selectForMemberIdByReviewId(reviewId);
+    }
 
     // 리뷰 등록
     @Transactional(rollbackFor = Exception.class)

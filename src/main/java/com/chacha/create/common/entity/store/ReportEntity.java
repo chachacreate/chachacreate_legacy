@@ -50,4 +50,7 @@ public class ReportEntity {
     
     /** 신고대상(판매자) ID 검증용*/
     private Integer storeId;
+    
+    /** 신고당하는 대상 구분용 **/
+    private Integer memberCheck;
 }

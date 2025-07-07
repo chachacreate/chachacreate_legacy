@@ -11,6 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="reportDate" column="report_date" />
 		<result property="reportTitle" column="report_title" />
 		<result property="reportText" column="report_text" />
+		<result property="memberChk" column="member_check" />
 	</resultMap>
 
 	<select id="selectAll" resultMap="reportResultMap">
@@ -34,9 +35,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<insert id="insert" parameterType="reportEntity">
 		INSERT INTO report (report_id, member_id, seller_id, report_date,
-		report_title, report_text)
+		report_title, report_text, member_check)
 		VALUES (seq_report_id.NEXTVAL, #{memberId}, #{sellerId}, #{reportDate},
-		#{reportTitle}, #{reportText})
+		#{reportTitle}, #{reportText}, #{memberCheck})
 	</insert>
 
 	<update id="update" parameterType="reportEntity">

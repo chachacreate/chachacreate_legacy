@@ -74,4 +74,7 @@ public interface ReviewMapper {
     List<Map<String, Object>> selectByStoreUrl(String storeUrl);
     
     List<ReviewManagementDTO> selectAllmyReview(@Param("storeUrl") String storeUrl);
+    
+    // 신고를 위해 리뷰 작성자 조회
+    int selectForMemberIdByReviewId(int reviewId);
 }
