@@ -59,14 +59,14 @@
       <!-- 회원가입 입력 폼 -->
 			<div class="register-wrapper">
 				<h2 class="title">회원님의 정보를 입력해주세요</h2>
-				<p class="subtitle">소셜정보로 원클릭 가입하기</p>
+<%-- 				<p class="subtitle">소셜정보로 원클릭 가입하기</p>
 
 				<div class="social-login">
 					<img src="${cpath}/resources/images/naver.png" alt="네이버"
 						class="social-icon" /> <img
 						src="${cpath}/resources/images/kakao.png" alt="카카오"
 						class="social-icon" />
-				</div>
+				</div> --%>
 
 				<form id="joinForm">
 					<div class="form-group">
@@ -164,6 +164,29 @@
 	      "memberRegi": false
 	    , "authKey" : false
 	}
+	
+	//----------------카카오 이메일이 있다면 카카오 이메일로 가입되게 변경-----------------------
+	  $(document).ready(function() {
+		    // JSP EL을 이용해 sessionScope.kakaoemail 값을 JS 변수에 할당
+		    var kakaoEmail = "${sessionScope.kakaoemail}";
+
+		    if (kakaoEmail) {
+		      // checkObj가 있으면 true로 설정 (checkObj가 전역객체라고 가정)
+		      if (typeof checkObj === "object") {
+		        checkObj.memberEmail = true;
+		        checkObj.authKey = true;
+		      }
+
+		      // memberEmail input에 값 넣고 읽기전용 처리
+		      $("#memberEmail").val(kakaoEmail).prop("readonly", true).css("background-color", "#eee");
+
+		      // 버튼과 입력창 비활성화
+		      $("#sendAuthKeyBtn").prop("disabled", true);
+		      $("#authKey").prop("disabled", true).css("background-color", "#eee");
+		      $("#checkAuthKeyBtn").prop("disabled", true);
+		    }
+	});
+	
 	//----------------------------구매자 판매자 버튼 토글-----------------
 	
 	const buttons = document.querySelectorAll('.type-button');

@@ -60,7 +60,10 @@
        <typeAlias type="com.chacha.create.common.dto.product.ReviewDTO" alias="reviewDTO" />
        
        <typeAlias type="com.chacha.create.common.dto.manager.ManagerAdjustmentDTO" alias="managerAdjustmentDTO" />
+       
        <typeAlias type="com.chacha.create.common.dto.member.SellerInfoDTO" alias="sellerInfoDTO" />
+       
+       <typeAlias type="com.chacha.create.common.dto.login.KakaoTokenResponseDTO" alias="kakaoTokenResponseDTO" />
        
        <typeAlias type="com.chacha.create.common.dto.order.OrderSumDTO" alias="orderSumDTO" />
        <typeAlias type="com.chacha.create.common.dto.order.OrderDTO" alias="orderDTO" />
