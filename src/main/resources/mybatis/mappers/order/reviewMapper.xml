@@ -155,5 +155,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	        AND S.STORE_URL = #{storeUrl}
 	    ORDER BY R.REVIEW_DATE DESC
 	</select>
+	
+	<select id="selectForMemberIdByReviewId" resultType="int">
+		SELECT oi.member_id
+		FROM review r
+		JOIN order_detail od ON r.order_detail_id = od.order_detail_id
+		JOIN order_info oi ON od.order_id = oi.order_id
+		WHERE r.review_id = #{reviewId}
+	</select>
 
 </mapper>

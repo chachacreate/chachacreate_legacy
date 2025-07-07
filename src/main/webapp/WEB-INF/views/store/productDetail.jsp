@@ -102,9 +102,9 @@
 </div>
 
 	<!-- 신고 모달창 -->
-	<div id="reportModal" class="modal-overlay" style="display: none;">
+	<div id="reportModal" class="modal-overlay" style="display:none;">
 	  <div class="modal-content">
-	    <h3>판매자 신고하기</h3>
+	    <h3 id="reportModalTitle">판매자 신고하기</h3>
 	    <input type="text" id="reportTitle" placeholder="신고 제목을 입력하세요" class="report-input" />
 	    <textarea id="reportText" placeholder="신고 사유를 입력하세요" class="report-textarea"></textarea>
 	    <div class="modal-buttons">
@@ -113,6 +113,20 @@
 	    </div>
 	  </div>
 	</div>
+	
+	<!-- 리뷰 신고 모달창 -->
+	<div id="reportModal2" class="modal-overlay" style="display:none;">
+	  <div class="modal-content">
+	    <h3 id="reportModalTitle2">리뷰 신고하기</h3>
+	    <input type="text" id="reportTitle2" placeholder="신고 제목을 입력하세요" class="report-input" />
+	    <textarea id="reportText2" placeholder="신고 사유를 입력하세요" class="report-textarea"></textarea>
+	    <div class="modal-buttons">
+	      <button id="submitReport2">신고하기</button>
+	      <button id="cancelReport2">취소</button>
+	    </div>
+	  </div>
+	</div>
+
 
   <script src="${cpath}/resources/js/store/productDetail.js"></script>
   <script src="${cpath}/resources/js/store/productDetailReview.js"></script>

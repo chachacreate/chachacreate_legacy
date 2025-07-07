@@ -1,10 +1,11 @@
+window.product = null;
+
 document.addEventListener("DOMContentLoaded", function () {
   const pathSegments = window.location.pathname.split("/");
   const storeUrl = pathSegments[2];
   const productId = pathSegments[4];
   const cpath = document.body.getAttribute("data-cpath") || "";
   const apiUrl = `${cpath}/api/${storeUrl}/productdetail/${productId}`;
-  
   
   // 나의 상품이면 수정 버튼 보이게
 	$.ajax({
@@ -46,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
     dataType: "json",
     success: function (res) {
       const detail = res.data;
-      const product = detail.productDetail;
+      product = detail.productDetail;
 
       // 기본 정보 세팅
       document.getElementById("productName").textContent = product.productName;
@@ -190,62 +191,61 @@ document.addEventListener("DOMContentLoaded", function () {
 		
 		
 		
-		// 판매자 신고 모달
-		$('#reportBtn').on('click', function () {
-		if (!window.loggedInMemberId || window.loggedInMemberId === 'null') {
-		    alert('로그인이 필요합니다.');
-		    location.href = `${cpath}/auth/login`;
-		    return;
-		  }
-		  $('#reportModal').fadeIn();
-		});
-		
-		$('#cancelReport').on('click', function () {
-		  $('#reportModal').fadeOut();
-		  $('#reportTitle').val('');
-		  $('#reportText').val('');
-		});
-		
-		$('#submitReport').on('click', function () {
-		  const title = $('#reportTitle').val().trim();
-		  const reason = $('#reportText').val().trim();
-		  const storeId = product.storeId;
-		
-		  if (!title || !reason) {
-		    alert('신고 제목과 사유를 모두 입력하세요.');
-		    return;
-		  }
-		
-		  const reportData = {
-		    storeId: storeId,
-		    reportTitle: title,
-		    reportText: reason
-		  };
-		
-		  $.ajax({
-		    url: `${cpath}/api/${storeUrl}/reportinsert`,
-		    method: 'POST',
-		    contentType: 'application/json',
-		    data: JSON.stringify(reportData),
-		    success: function (res) {
-		      if (res.status === 201) {
-		        alert('신고가 접수되었습니다.');
-		        $('#reportModal').fadeOut();
-		        $('#reportTitle').val('');
-		        $('#reportText').val('');
-		      } else {
-		        alert('신고 실패: ' + res.message);
-		      }
-		    },
-		    error: function (xhr) {
-		      alert('신고 처리 중 오류 발생');
-		      console.error(xhr);
-		    }
-		  });
-		});
+ 	  // 판매자 신고 모달
+      $('#reportBtn').off('click').on('click', function () {
+        if (!window.loggedInMemberId || window.loggedInMemberId === 'null') {
+          alert('로그인이 필요합니다.');
+          location.href = `${cpath}/auth/login`;
+          return;
+        }
+        $('#reportModal').fadeIn();
+      });
 
-		
+      $('#cancelReport').on('click', function () {
+        $('#reportModal').fadeOut();
+        $('#reportTitle').val('');
+        $('#reportText').val('');
+      });
 
+      $('#submitReport').on('click', function () {
+        const title = $('#reportTitle').val().trim();
+        const reason = $('#reportText').val().trim();
+        const memberCheck = 0;
+        const storeId = product.storeId;
+
+        if (!title || !reason) {
+          alert('신고 제목과 사유를 모두 입력하세요.');
+          return;
+        }
+
+        const reportData = {
+          storeId: storeId,
+          reportTitle: title,
+          reportText: reason,
+          memberCheck: memberCheck
+        };
+
+        $.ajax({
+          url: `${cpath}/api/${storeUrl}/reportinsert`,
+          method: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify(reportData),
+          success: function (res) {
+            if (res.status === 201) {
+              alert('신고가 접수되었습니다.');
+              $('#reportModal').fadeOut();
+              $('#reportTitle').val('');
+              $('#reportText').val('');
+            } else {
+              alert('신고 실패: ' + res.message);
+            }
+          },
+          error: function (xhr) {
+            alert('신고 처리 중 오류 발생');
+            console.error(xhr);
+          }
+        });
+      });
     },
     error: function (xhr, status, error) {
       console.error("상품 정보 로딩 실패:", error);
