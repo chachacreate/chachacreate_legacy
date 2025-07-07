@@ -22,7 +22,21 @@ public class SettlementManagementService {
 		return manageMapper.sellerSettlementManagement(storeUrl);
 	}
 	
-	public List<Map<String, Object>> sellerDaySellManagement(String storeUrl){
-		return manageMapper.sellerDaySellManagement(storeUrl);
+	public Map<String, List<Map<String, Object>>>  sellerDaySellManagement(String storeUrl){
+		
+		List<Map<String, Object>> result = manageMapper.sellerDaySellManagement(storeUrl);
+        Map<String, List<Map<String, Object>>> grouped = new java.util.LinkedHashMap<>();
+
+        for (Map<String, Object> row : result) {
+            String productName = (String) row.get("PRODUCT_NAME");
+            if (!grouped.containsKey(productName)) {
+                grouped.put(productName, new java.util.ArrayList<>());
+            }
+            Map<String, Object> daily = new java.util.HashMap<>();
+            daily.put("SALEDATE", row.get("SALEDATE"));
+            daily.put("DAILYTOTAL", row.get("DAILYTOTAL"));
+            grouped.get(productName).add(daily);
+        }
+        return grouped;
 	}
 }

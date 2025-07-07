@@ -26,9 +26,10 @@ public class SettlementManagementRestController {
 	private SettlementManagementService ssmService;
 
 	@GetMapping(value = "/management/settlement", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ApiResponse<Map<String, List<?>>>> sellerSettlementManagement(@PathVariable String storeUrl) {
-		Map<String, List<?>> result = Map.of("settlementByDayList", ssmService.sellerDaySellManagement(storeUrl),
-				"settlementList", ssmService.sellerSettlementManagement(storeUrl));
+	public ResponseEntity<ApiResponse<Map<String, Object>>> sellerSettlementManagement(@PathVariable String storeUrl) {
+		Map<String, Object> result = new java.util.LinkedHashMap<>();
+	    result.put("settlementByDayList", ssmService.sellerDaySellManagement(storeUrl));
+	    result.put("settlementList", ssmService.sellerSettlementManagement(storeUrl));
 		return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, "정산 관리 데이터 조회 성공", result));
 	}
 }
