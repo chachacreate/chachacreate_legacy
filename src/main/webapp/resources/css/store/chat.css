@@ -21,20 +21,7 @@
   font-family: 'Arial', sans-serif;
 }
 
-/* 왼쪽 사이드바 */
-.chat-sidebar {
-  width: 250px;
-  background-color: var(--color-button-light);
-  padding: 20px;
-  border-radius: 16px;
-  display: flex;
-  flex-direction: column;
-}
 
-.chat-sidebar h2 {
-  margin: 0 0 12px;
-  font-size: 20px;
-}
 
 /* 검색창 */
 .chat-search {
@@ -193,14 +180,6 @@
 }
 
 
-
-
-
-
-
-
-
-
 /* 헤더 및 사이드바, 푸터 영역 */
 
 .member-box {
@@ -257,44 +236,7 @@ body {
 .wrapper {
     width: 100%;
 }
-/* 헤더 */
-header {
-    width: 100%;
-    height: 50px; /* :흰색_확인_표시: 헤더 높이 조정 */
-    background-color: #676F58;
-    color: white;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-    z-index: 100;
-}
-.header-inner {
-    max-width: 1440px;
-    margin: 0 auto;
-    height: 100%;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 0 20px;
-}
-.login-bar {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    font-size: 16px;
-}
-.logout-btn {
-    background: #FFFFFF;
-    border: none;
-    color: #676F58;
-    padding: 5px 15px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: all 0.2s;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-}
-.logout-btn:hover {
-    background-color: #EEEEEE;
-}
+
 /* 본문 전체 영역 */
 .main-area {
     display: flex;
@@ -308,96 +250,8 @@ header {
     display: flex;
     padding: 0 20px;
 }
-/* 사이드바 */
-.sidebar {
-    width: 240px;
-    height: calc(100vh - 90px); /* header 50 + footer 40 */
-    background-color: #CFD3C4;
-    display: flex;
-    flex-direction: column;
-    padding: 20px 20px 20px 20px; /* 위/오른쪽/아래/왼쪽 모두 20px padding */
-    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-    flex-shrink: 0;
-    border-radius: 8px 0 0 8px;
-    overflow: hidden; /* 스크롤 제거 */
-    box-sizing: border-box;
-}
-.profile-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* 가운데 정렬 추가 */
-    margin-bottom: 20px;
-}
-/* 프로필 사진은 글씨 없이 단순 원형 div */
-.profile-img {
-    width: 133px;
-    height: 133px;
-    border-radius: 50%;
-    background-color: #556B49; /* 연한 녹색 계열 배경 */
-    border: 3px solid white;   /* 테두리 흰색 */
-    margin: 0 auto;
-}
-.store-name {
-    margin-top: 8px;
-    font-family: "PretendardGov-Bold", sans-serif;
-    font-size: 24px;
-    font-weight: 700;
-    color: #333; /* 원래 텍스트 색상 */
-    text-align: center;
-}
-.menu-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.menu-list li {
-  margin: 0;
-}
-.menu-list a {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 16px;
-  text-decoration: none;
-  border-radius: 8px;
-  color: #333;
-  font-size: 15px;
-  font-weight: 500;
-  background-color: transparent;
-  box-shadow: none;
-  transition: background-color 0.2s ease;
-}
-.menu-text {
-  margin-left: 4px;
-  flex-grow: 1;
-  text-align: left;
-}
-.menu-list a:hover {
-  background-color: #E4E9DB;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-}
-.submenu {
-    display: none;
-    background-color: #C4C8B8;
-}
-.submenu li a {
-    height: 45px;
-    padding-left: 40px;
-    font-weight: 600;
-    font-size: 14px;
-}
-.arrow {
-  font-size: 16px;
-  color: #777;
-  margin-left: auto;
-}
-.sidebar-footer {
-    margin-top: 100px;
-    text-align: center;
-}
+
+
 .btn-go-buyer {
     background-color: #676F58;
     border: none;

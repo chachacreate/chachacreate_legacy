@@ -19,19 +19,26 @@
 <body>
   <div class="wrapper">
 
-    <!-- ✅ Include Header & Nav -->
+    <!-- ✅ 공통 헤더 -->
     <jsp:include page="/common/header.jsp" />
-    <jsp:include page="/common/main_nav.jsp" />
 
-    <!-- 메인 콘텐츠 영역 -->
+    <!-- ✅ storeUrl 기반 동적 네비게이션 -->
+    <c:choose>
+      <c:when test="${storeUrl eq 'main'}">
+        <jsp:include page="/common/main_nav.jsp" />
+      </c:when>
+      <c:otherwise>
+        <jsp:include page="/common/storeMain_nav.jsp" />
+      </c:otherwise>
+    </c:choose>
+
+    <!-- ✅ 메인 콘텐츠 -->
     <main class="main-area">
 
-      <!-- 왼쪽 사이드바 -->
+      <!-- ✅ 왼쪽 사이드바 -->
+      <jsp:include page="/common/main_mypage_sidenav.jsp" />
 
-     <jsp:include page="/common/main_mypage_sidenav.jsp" />
-	<%-- <jsp:include page="/common/mypage_sidenav.jsp" /> --%>
-
-      <!-- 오른쪽 콘텐츠 영역 -->
+      <!-- ✅ 오른쪽 콘텐츠 영역 -->
       <section class="page-content">
         <h2>내 정보 수정</h2>
 
@@ -167,14 +174,13 @@
             <div class="form-actions" id="sellerFormActions" style="display:none;">
               <button type="submit" class="save-btn" id="saveAllBtn">저장</button>
               <button type="button" class="cancel-btn cancel-payment">취소</button>
-              
             </div>
           </form>
         </div>
       </section>
     </main>
 
-    <!-- 푸터 -->
+    <!-- ✅ 푸터 -->
     <footer class="site-footer">
       <div class="footer-inner">
         <p>© 2025 뜨락상회. All rights reserved.</p>

@@ -7,7 +7,7 @@
   <meta charset="UTF-8">
   <title>주문/발송관리</title>
   <%@ include file="/common/header.jsp" %>
-  <link rel="stylesheet" type="text/css" href="${cpath}/resources/css/admin/authMain.css">
+<%--   <link rel="stylesheet" type="text/css" href="${cpath}/resources/css/admin/authMain.css"> --%>
   <link rel="stylesheet" type="text/css" href="${cpath}/resources/css/store/seller/sellerOrderManage.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -48,10 +48,16 @@
 </script>
 </head>
 <body>
-    <div class="content-wrapper">
-      <%@ include file="/common/store_seller_sidenav.jsp" %>
+  <div class="content-wrapper">
+    
+    <!-- ✅ 왼쪽 여백 -->
+    <div class="spacer" style="width: 240px;"></div>
 
-  <div class="main-area">
+    <!-- ✅ 사이드바 include -->
+    <%@ include file="/common/store_seller_sidenav.jsp" %>
+
+    <!-- ✅ 메인 콘텐츠 영역 -->
+    <div class="main-area">
       <main class="content">
         <div class="content-inner">
           <div class="member-box">
@@ -59,25 +65,20 @@
               <h2>주문/발송관리</h2>
               <div class="search-box">
                 <label>
-				  <input type="radio" name="status" value="전체"
-				         ${empty selectedStatus ? 'checked' : ''}> 전체
-				</label>
-				<label>
-				  <input type="radio" name="status" value="CONFIRM"
-				         ${selectedStatus == 'CONFIRM' ? 'checked' : ''}> 발송전
-				</label>
-				<label>
-				  <input type="radio" name="status" value="REFUND"
-				         ${selectedStatus == 'REFUND' ? 'checked' : ''}> 환불요청
-				</label>
-				<label>
-				  <input type="radio" name="status" value="REFUND_OK"
-				         ${selectedStatus == 'REFUND_OK' ? 'checked' : ''}> 환불완료
-				</label>
-				<label>
-				  <input type="radio" name="status" value="ORDER_OK"
-				         ${selectedStatus == 'ORDER_OK' ? 'checked' : ''}> 주문완료
-				</label>
+                  <input type="radio" name="status" value="전체" ${empty selectedStatus ? 'checked' : ''}> 전체
+                </label>
+                <label>
+                  <input type="radio" name="status" value="CONFIRM" ${selectedStatus == 'CONFIRM' ? 'checked' : ''}> 발송전
+                </label>
+                <label>
+                  <input type="radio" name="status" value="REFUND" ${selectedStatus == 'REFUND' ? 'checked' : ''}> 환불요청
+                </label>
+                <label>
+                  <input type="radio" name="status" value="REFUND_OK" ${selectedStatus == 'REFUND_OK' ? 'checked' : ''}> 환불완료
+                </label>
+                <label>
+                  <input type="radio" name="status" value="ORDER_OK" ${selectedStatus == 'ORDER_OK' ? 'checked' : ''}> 주문완료
+                </label>
               </div>
             </div>
 
@@ -97,49 +98,52 @@
                 </thead>
                 <tbody>
                   <c:forEach var="item" items="${orderList}" varStatus="vs">
-					  <tr class="${vs.index >= 10 ? 'extra-row' : ''}" style="${vs.index >= 10 ? 'display:none;' : ''}" data-status="${item.orderStatus}">
-					    <td class="status-label ${item.orderStatusLabel}" 
-						    data-order-id="${item.orderId}"
-						    style="${item.orderStatusLabel == '환불요청' ? 'cursor:pointer;' : ''}">
-						  ${item.orderStatusLabel}
-						</td>
-					    <td>${item.orderId}</td>
-					    <td>${item.orderName}</td>
-					    <td class="ellipsis">
-					      <c:choose>
-					        <c:when test="${fn:length(item.addressFull) > 25}">
-					          ${fn:substring(item.addressFull, 0, 25)}...
-					          <button class="address-toggle-btn" data-index="${vs.index}">▼</button>
-					        </c:when>
-					        <c:otherwise>
-					          ${item.addressFull}
-					        </c:otherwise>
-					      </c:choose>
-					    </td>
-					    <td><fmt:formatDate value="${item.orderDate}" pattern="yyyy-MM-dd" /></td>
-					    <td>${item.productName}</td>
-					    <td>${item.orderCnt}</td>
-					    <td><fmt:formatNumber value="${item.orderPrice}" type="number" />원</td>
-					  </tr>
-					  <tr class="detail-row address-detail-${vs.index}" style="display:none;">
-					    <td colspan="8" class="detail-content">
-					      <strong>전체 배송지:</strong> ${item.addressFull}<br>
-					      <strong>상품 상세:</strong> ${item.productName} - 수량 ${item.orderCnt}개, 가격 <fmt:formatNumber value="${item.orderPrice}" type="number" />원
-					    </td>
-					  </tr>
-					</c:forEach>
-				</tbody>
+                    <tr class="${vs.index >= 10 ? 'extra-row' : ''}" style="${vs.index >= 10 ? 'display:none;' : ''}" data-status="${item.orderStatus}">
+                      <td class="status-label ${item.orderStatusLabel}" 
+                          data-order-id="${item.orderId}" 
+                          style="${item.orderStatusLabel == '환불요청' ? 'cursor:pointer;' : ''}">
+                        ${item.orderStatusLabel}
+                      </td>
+                      <td>${item.orderId}</td>
+                      <td>${item.orderName}</td>
+                      <td class="ellipsis">
+                        <c:choose>
+                          <c:when test="${fn:length(item.addressFull) > 25}">
+                            ${fn:substring(item.addressFull, 0, 25)}...
+                            <button class="address-toggle-btn" data-index="${vs.index}">▼</button>
+                          </c:when>
+                          <c:otherwise>
+                            ${item.addressFull}
+                          </c:otherwise>
+                        </c:choose>
+                      </td>
+                      <td><fmt:formatDate value="${item.orderDate}" pattern="yyyy-MM-dd" /></td>
+                      <td>${item.productName}</td>
+                      <td>${item.orderCnt}</td>
+                      <td><fmt:formatNumber value="${item.orderPrice}" type="number" />원</td>
+                    </tr>
+                    <tr class="detail-row address-detail-${vs.index}" style="display:none;">
+                      <td colspan="8" class="detail-content">
+                        <strong>전체 배송지:</strong> ${item.addressFull}<br>
+                        <strong>상품 상세:</strong> ${item.productName} - 수량 ${item.orderCnt}개, 가격 
+                        <fmt:formatNumber value="${item.orderPrice}" type="number" />원
+                      </td>
+                    </tr>
+                  </c:forEach>
+                </tbody>
               </table>
             </div>
+
             <div class="more-button-box">
               <button id="showMoreBtn">▼ 전체 보기</button>
             </div>
+
           </div>
         </div>
       </main>
     </div>
   </div>
-</div>
+
 
 <script>
 $(document).ready(function () {
