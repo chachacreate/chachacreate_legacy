@@ -22,28 +22,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<!-- &lt; : <와 같음 -->
-	<select id="storeAdjustment"
-		resultType="managerAdjustmentDTO">
+	<select id="storeAdjustment" resultType="managerAdjustmentDTO">
 		SELECT
-		st.store_name AS storeName,
+		st.store_name AS
+		storeName,
 		m.member_name AS sellerName,
 		s.account AS accountNumber,
 		s.account_bank AS accountBank,
 		m.member_name AS accountHolder,
 		SUM(od.order_cnt * od.order_price) AS adjustmentAmount,
-		'정산 예정' AS adjustmentStatus,
-		TO_CHAR(ADD_MONTHS(TRUNC(oi.order_date, 'MM'), 1), 'YYYY-MM-DD') AS adjustmentDate
+		'정산 예정' AS
+		adjustmentStatus,
+		TO_CHAR(ADD_MONTHS(TRUNC(oi.order_date, 'MM'), 1),
+		'YYYY-MM-DD') AS adjustmentDate
 		FROM order_info oi
-		JOIN order_detail od ON oi.order_id = od.order_id
-		JOIN product p ON od.product_id = p.product_id
+		JOIN order_detail od
+		ON oi.order_id = od.order_id
+		JOIN product p ON od.product_id =
+		p.product_id
 		JOIN store st ON p.store_id = st.store_id
-		JOIN seller s ON st.seller_id = s.seller_id
+		JOIN seller s ON
+		st.seller_id = s.seller_id
 		JOIN member m ON s.member_id = m.member_id
 		WHERE s.personal_check = 0 AND oi.order_date >= TRUNC(SYSDATE, 'MM')
 		AND oi.order_date &lt; ADD_MONTHS(TRUNC(SYSDATE, 'MM'), 1)
-		GROUP BY st.store_name, m.member_name, s.account, s.account_bank,
-         TO_CHAR(ADD_MONTHS(TRUNC(oi.order_date, 'MM'), 1), 'YYYY-MM-DD')
-		ORDER BY adjustmentAmount DESC
+		GROUP BY
+		st.store_name, m.member_name, s.account, s.account_bank,
+		TO_CHAR(ADD_MONTHS(TRUNC(oi.order_date, 'MM'), 1), 'YYYY-MM-DD')
+		ORDER
+		BY adjustmentAmount DESC
 	</select>
 
 	<select id="sellerAdjustment" resultType="managerAdjustmentDTO">
@@ -87,64 +94,65 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="sellManagement" parameterType="int" resultType="map">
 		SELECT
 		m.member_name AS sellerName,
-		s.account AS
-		accountNumber,
+		s.account AS accountNumber,
 		s.account_bank AS bankName,
 		m.member_name AS accountHolder,
-		SUM(od.order_cnt *
-		od.order_price) AS totalSales,
+		p.product_name, TO_CHAR(p.product_detail) AS productDetail,
+		SUM(od.order_cnt * p.price) AS totalSales,
 		SUM(CASE
 		WHEN
-		d.delivery_check =
-		1 THEN od.order_cnt * od.order_price
-		ELSE 0
-		END) AS
+		d.delivery_check = 2 THEN od.order_cnt * p.price
+		ELSE 0 END) AS
 		deliveredSales,
 		TO_CHAR(ADD_MONTHS(TRUNC(SYSDATE, 'MM'), 1),
-		'YYYY-MM-DD')
-		AS adjustmentDate,
+		'YYYY-MM-DD') AS adjustmentDate,
 		'정산 예정' AS adjustmentStatus
+		FROM order_info oi
+		JOIN order_detail od ON
+		oi.order_id = od.order_id
+		JOIN product p ON od.product_id =
+		p.product_id
+		JOIN store st ON p.store_id = st.store_id
+		JOIN seller s ON
+		st.seller_id = s.seller_id
+		JOIN member m ON s.member_id = m.member_id
+		LEFT JOIN delivery d ON oi.order_id = d.order_id
+		WHERE s.personal_check
+		= 1
+		AND oi.order_date >= TRUNC(SYSDATE, 'MM')
+		AND oi.order_date &lt;
+		ADD_MONTHS(TRUNC(SYSDATE, 'MM'), 1)
+		AND member_id = #{memberId}
+		GROUP BY
+		m.member_name, s.account,
+		s.account_bank, p.product_name, TO_CHAR(p.product_detail)
+		ORDER BY
+		totalSales DESC
+	</select>
+
+
+	<select id="daySellManagementByProduct" parameterType="int"
+		resultType="map">
+		SELECT
+		TO_CHAR(oi.order_date, 'YYYY-MM-DD') AS saleDate,
+		SUM(od.order_cnt * p.price) AS dailyTotal, p.product_name
 		FROM
 		order_info oi
-		JOIN
-		order_detail od ON oi.order_id = od.order_id
+		JOIN order_detail od ON oi.order_id = od.order_id
 		JOIN
 		product p ON
 		od.product_id = p.product_id
 		JOIN store st ON p.store_id =
 		st.store_id
 		JOIN seller s ON st.seller_id = s.seller_id
-		JOIN member m ON
-		s.member_id = m.member_id
-		LEFT JOIN delivery d ON oi.order_id =
-		d.order_id
-		WHERE s.personal_check = 0
-		AND oi.order_date >=
-		TRUNC(SYSDATE, 'MM')
-		AND oi.order_date &lt; ADD_MONTHS(TRUNC(SYSDATE,
-		'MM'), 1) AND member_id = #{memberId}
-		GROUP BY
-		m.member_name, s.account,
-		s.account_bank
-		ORDER BY totalSales DESC
-	</select>
-
-	<select id="daySellManagement" parameterType="int"
-		resultType="map">
-		SELECT
-		TO_CHAR(oi.order_date, 'YYYY-MM-DD') AS saleDate,
-		SUM(od.order_cnt * od.order_price) AS dailyTotal
-		FROM order_info oi
-		JOIN order_detail od ON oi.order_id = od.order_id
-		JOIN product p ON
-		od.product_id = p.product_id
-		JOIN store st ON p.store_id = st.store_id
-		JOIN seller s ON st.seller_id = s.seller_id
-		WHERE s.personal_check = 0
+		WHERE
+		s.personal_check = 1
 		AND oi.order_date >= TRUNC(SYSDATE) - 7
-		AND s.member_id = #{memberId}
+		AND
+		s.member_id = #{memberId}
 		GROUP BY
-		TO_CHAR(oi.order_date, 'YYYY-MM-DD')
+		TO_CHAR(oi.order_date, 'YYYY-MM-DD'),
+		p.product_name
 		ORDER BY saleDate
 	</select>
 
@@ -152,34 +160,40 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		resultType="map">
 		SELECT
 		TO_CHAR(oi.order_date, 'YYYY-MM-DD') AS saleDate,
-		SUM(od.order_cnt * od.order_price) AS dailyTotal
-		FROM order_info oi
+		SUM(od.order_cnt * p.price) AS dailyTotal, p.product_name
+		FROM
+		order_info oi
 		JOIN order_detail od ON oi.order_id = od.order_id
-		JOIN product p ON
-		od.product_id = p.product_id
-		JOIN store st ON p.store_id = st.store_id
+		JOIN
+		product p ON od.product_id = p.product_id
+		JOIN store st ON p.store_id =
+		st.store_id
 		JOIN seller s ON st.seller_id = s.seller_id
-		AND oi.order_date >=
-		TRUNC(SYSDATE) - 7
+		WHERE
+		oi.order_date >= TRUNC(SYSDATE) - 7
 		AND st.store_url = #{storeUrl}
 		GROUP BY
-		TO_CHAR(oi.order_date, 'YYYY-MM-DD')
-		ORDER BY saleDate
+		TO_CHAR(oi.order_date, 'YYYY-MM-DD'), p.product_name
+		ORDER BY
+		saleDate
 	</select>
 
 	<select id="sellerSettlementManagement" parameterType="string"
 		resultType="map">
-		SELECT m.member_name AS sellerName,
+		SELECT
+		p.product_id,
+		p.product_name,
+		SUM(od.order_cnt * p.price) AS totalSales,
+		SUM(CASE
+		WHEN d.delivery_check = 2 THEN od.order_cnt * p.price
+		ELSE 0
+		END) AS deliveredSales,
+		TO_CHAR(ADD_MONTHS(TRUNC(SYSDATE, 'MM'), 1), 'YYYY-MM-DD') AS adjustmentDate,
+		'정산 예정' AS adjustmentStatus,
+		m.member_name AS sellerName,
 		s.account AS accountNumber,
 		s.account_bank AS bankName,
-		m.member_name AS accountHolder,
-		SUM(od.order_cnt * od.order_price) AS totalSales,
-		SUM(CASE
-				WHEN d.delivery_check = 1 THEN od.order_cnt * od.order_price
-				ELSE 0
-			END) AS deliveredSales,
-		TO_CHAR(ADD_MONTHS(TRUNC(SYSDATE, 'MM'), 1), 'YYYY-MM-DD') AS adjustmentDate,
-		'정산 예정' AS adjustmentStatus
+		m.member_name AS accountHolder
 		FROM order_info oi
 		JOIN order_detail od ON oi.order_id = od.order_id
 		JOIN product p ON od.product_id = p.product_id
@@ -188,9 +202,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		JOIN member m ON s.member_id = m.member_id
 		LEFT JOIN delivery d ON oi.order_id = d.order_id
 		WHERE oi.order_date >= TRUNC(SYSDATE, 'MM')
-		AND oi.order_date &lt; ADD_MONTHS(TRUNC(SYSDATE, 'MM'), 1) AND 
-		st.store_url = #{storeUrl}
-		GROUP BY m.member_name, s.account, s.account_bank
+		AND oi.order_date &lt; ADD_MONTHS(TRUNC(SYSDATE, 'MM'), 1)
+		AND st.store_url = #{storeUrl}
+		GROUP BY
+		p.product_id,
+		p.product_name,
+		m.member_name,
+		s.account,
+		s.account_bank
 		ORDER BY totalSales DESC
 	</select>
 

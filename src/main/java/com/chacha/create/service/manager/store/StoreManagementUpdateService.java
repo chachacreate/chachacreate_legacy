@@ -22,7 +22,6 @@ public class StoreManagementUpdateService {
 	
 	private StoreMapper storeMapper;
     private SellerMapper sellerMapper;
-    private MemberMapper memberMapper;
 	
     @Transactional(rollbackFor = Exception.class)
 	public int sellerInfoUpdate(MemberEntity loginMember, String storeUrl, StoreManagerUpdateDTO smuDTO) {
@@ -31,7 +30,7 @@ public class StoreManagementUpdateService {
 		StoreEntity storeEntity = StoreEntity.builder()
 				.storeId(userStore.getStoreId())
 				.logoImg(smuDTO.getLogoImg())
-				.storeName(smuDTO.getStoreName())
+				.storeName(userStore.getStoreName())
 				.storeDetail(smuDTO.getStoreDetail())
 				.build();
 		
@@ -42,19 +41,11 @@ public class StoreManagementUpdateService {
 				.profileInfo(smuDTO.getProfileInfo())
 				.build();
 		
-		MemberEntity memberEntity = MemberEntity.builder()
-				.memberId(loginMember.getMemberId())
-				.memberPwd(smuDTO.getMemberPwd())
-				.memberPhone(smuDTO.getMemberPhone())
-				.build();
-		
-		log.info("최종값store : {}", memberEntity);
-		log.info("최종값seller : {}", storeEntity);
-		log.info("최종값member : {}", sellerEntity);
+		log.info("최종값store : {}", storeEntity);
+		log.info("최종값seller : {}", sellerEntity);
 		
 		result += storeMapper.updateStoreInfo(storeEntity);
 		result += sellerMapper.updateSellerInfo(sellerEntity);
-		result += memberMapper.updateMemberInfo(memberEntity);
 		
 		return result;
 	}

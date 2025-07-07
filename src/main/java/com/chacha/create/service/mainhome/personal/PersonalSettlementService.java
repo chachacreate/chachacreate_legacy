@@ -17,22 +17,33 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class PersonalSettlementService {
 
-	private final ManageMapper manageMapper;
-	
-	public List<Map<String, Object>> sellManagement(MemberEntity loginMember) {
-    	if(loginMember == null) {
-    		throw new NeedLoginException("로그인이 필요합니다.");
-    	}
-		List<Map<String, Object>> result =  manageMapper.sellManagement(loginMember.getMemberId());
-		return result;
-	}
-	
-	public List<Map<String, Object>> daySellManagement(MemberEntity loginMember) {
-    	if(loginMember == null) {
-    		throw new NeedLoginException("로그인이 필요합니다.");
-    	}
+    private final ManageMapper manageMapper;
 
-		List<Map<String, Object>> result =  manageMapper.daySellManagement(loginMember.getMemberId());
-		return result;
-	}
+    public List<Map<String, Object>> sellManagement(MemberEntity loginMember) {
+        if(loginMember == null) {
+            throw new NeedLoginException("로그인이 필요합니다.");
+        }
+        return manageMapper.sellManagement(loginMember.getMemberId());
+    }
+
+    public Map<String, List<Map<String, Object>>> daySellManagementByProduct(MemberEntity loginMember) {
+        if (loginMember == null) {
+            throw new NeedLoginException("로그인이 필요합니다.");
+        }
+
+        List<Map<String, Object>> result = manageMapper.daySellManagementByProduct(loginMember.getMemberId());
+        Map<String, List<Map<String, Object>>> grouped = new java.util.LinkedHashMap<>();
+
+        for (Map<String, Object> row : result) {
+            String productName = (String) row.get("PRODUCT_NAME");
+            if (!grouped.containsKey(productName)) {
+                grouped.put(productName, new java.util.ArrayList<>());
+            }
+            Map<String, Object> daily = new java.util.HashMap<>();
+            daily.put("SALEDATE", row.get("SALEDATE"));
+            daily.put("DAILYTOTAL", row.get("DAILYTOTAL"));
+            grouped.get(productName).add(daily);
+        }
+        return grouped;
+    }
 }

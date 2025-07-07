@@ -28,18 +28,20 @@ public class PersonalSettlementRestController {
     private PersonalSettlementService personalSettlementService;
 
     @GetMapping("/management")
-    public ResponseEntity<ApiResponse<Map<String, List<?>>>> getSellManagement(HttpSession session) {
+    public ResponseEntity<ApiResponse<Map<String, Object>>> getSellManagement(HttpSession session) {
         MemberEntity member = (MemberEntity) session.getAttribute("loginMember");
-        
+
         log.info("판매 정산 조회 요청 - member: {}", member);
-        
-        Map<String, List<?>> result = new HashMap<>();
+
+        Map<String, Object> result = new HashMap<>();
+        // 정산 리스트
         List<Map<String, Object>> sellmanageList = personalSettlementService.sellManagement(member);
-        List<Map<String, Object>> daySellmanagelist = personalSettlementService.daySellManagement(member);
-        
+        // 상품별 일별 매출(그래프용)
+        Map<String, List<Map<String, Object>>> daySellmanagelistByProduct = personalSettlementService.daySellManagementByProduct(member);
+
         result.put("sellmanageList", sellmanageList);
-        result.put("daySellmanagelist", daySellmanagelist);
-        
+        result.put("daySellmanagelistByProduct", daySellmanagelistByProduct);
+
         return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, result));
     }
 }

@@ -6,6 +6,7 @@
   <meta charset="UTF-8">
   <title>상품 상세 페이지</title>
   <%@ include file="/common/header.jsp" %>
+  
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link rel="stylesheet" href="${cpath}/resources/css/store/productDetail.css">
 </head>
@@ -13,7 +14,7 @@
 <script>
   window.loggedInMemberId = ${loginMember != null ? loginMember.memberId : 'null'};
 </script>
-
+<jsp:include page="/common/storeMain_nav.jsp" />
 <div class="div">
 
   <!-- 상품 상세 섹션 -->
@@ -32,11 +33,16 @@
 
     <!-- 오른쪽: 정보 -->
     <div class="product-details">
+    <div class="first-row">
     <div class="store-title-row">
       <div class="store-name" id="storeName">
       	<a id="storeNameLink" href="#">&nbsp;</a></div>
       	<button class="report-btn" id="reportBtn" type="button">신고</button>
       	</div>
+	  <div class="edit-button-row">
+	    <button class="edit-button" id="editProductBtn" type="button" style="display:none">수정</button>
+	  </div>
+	  </div>
       <div class="product-title-row">
         <div class="product-title" id="productName">&nbsp;</div>
         <button class="like-button">❤️</button>

@@ -18,7 +18,7 @@ public interface ManageMapper {
     
     List<Map<String, Object>> sellManagement(int member_id);
 
-    List<Map<String, Object>> daySellManagement(int member_id);
+    List<Map<String, Object>> daySellManagementByProduct(int member_id);
     
     List<Map<String, Object>> sellerDaySellManagement(String storeUrl);
     

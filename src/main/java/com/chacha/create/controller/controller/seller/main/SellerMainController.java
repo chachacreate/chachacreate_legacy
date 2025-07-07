@@ -90,8 +90,7 @@ public class SellerMainController {
 	private final ShutDownService shutdownService;
 	
 	private final ReviewService reviewService;
-	
-	private final StoreInfoManagementService storeInfoService;
+
 	
 	public void setStoreNavInfo(String storeUrl, Model model) {
 		StoreInfoDTO storeInfo = storeinfo.selectForThisStoreInfo(storeUrl);
@@ -362,22 +361,6 @@ public class SellerMainController {
 	@GetMapping("/management/seller")
 	public String storeManagement(@PathVariable String storeUrl, Model model) {
 	    setStoreNavInfo(storeUrl, model);
-	    
-	    StoreInfoManagementDTO storeInfo = storeInfoService.getStoreInfo(storeUrl);
-	    System.out.println(storeInfo);
-	    model.addAttribute("storeInfo", storeInfo);
-
-	    return "store/seller/sellerInfo";
-	}
-	
-	// 스토어 정보 조회
-	@GetMapping("/management/sellerupdate")
-	public String storeManagementupdate(@PathVariable String storeUrl, Model model) {
-	    setStoreNavInfo(storeUrl, model);
-	    
-	    StoreInfoManagementDTO storeInfo = storeInfoService.getStoreInfo(storeUrl);
-	    System.out.println(storeInfo);
-	    model.addAttribute("storeInfo", storeInfo);
 
 	    return "store/seller/sellerInfoUpdate";
 	}
