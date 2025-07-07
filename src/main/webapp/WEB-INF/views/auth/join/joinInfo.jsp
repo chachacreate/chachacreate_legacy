@@ -142,7 +142,7 @@
 					</div>
 
 					<div class="form-buttons">
-						<button type="reset" class="cancel">취소</button>
+						<button type="button" class="cancel" onclick="location.href='${cpath}/auth/login'">취소</button>
 						<button type="submit" class="submit">다음</button>
 					</div>
 				</form>
