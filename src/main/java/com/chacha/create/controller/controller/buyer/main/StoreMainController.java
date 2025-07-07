@@ -3,6 +3,8 @@ package com.chacha.create.controller.controller.buyer.main;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,7 +43,9 @@ public class StoreMainController {
 	
 	// 스토어 구매자 메인페이지
 	@GetMapping
-	public String ShowstoreMain(@PathVariable String storeUrl, Model model) {
+	public String ShowstoreMain(@PathVariable String storeUrl, Model model, HttpSession session) {
+		session.removeAttribute("kakaoemail");
+		session.removeAttribute("naverInfo");
 		if(!storeService.existsByStoreUrl(storeUrl)) {
 			return "redirect:/main";
 		}

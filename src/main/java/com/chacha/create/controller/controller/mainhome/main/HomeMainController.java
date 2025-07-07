@@ -24,7 +24,8 @@ public class HomeMainController {
     // 메인 홈 페이지
     @GetMapping
     public String showMainHome(HttpSession session) {
-    	session.removeAttribute("kakaoemail");
+		session.removeAttribute("kakaoemail");
+		session.removeAttribute("naverInfo");
         return "main/main"; 
     }
     

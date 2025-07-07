@@ -160,6 +160,11 @@
     if (kakaoEmail) {
       alert(kakaoEmail + "으로 가입된 정보가 없습니다. 회원가입 페이지로 이동합니다.");
     }
+ 	// naverEmail 확인 및 알림
+    var naverEmail = "${sessionScope.naverInfo.email}";
+    if (naverEmail) {
+      alert(naverEmail + "으로 가입된 정보가 없습니다. 회원가입 페이지로 이동합니다.");
+    }
 
     // 전체 동의 체크 시 하위 항목 모두 체크/해제
     $("#agreeAll").on("change", function () {
