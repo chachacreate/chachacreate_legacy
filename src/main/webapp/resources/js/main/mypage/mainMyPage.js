@@ -12,7 +12,7 @@ $(function () {
   let originalMemberData = null;  // 회원 기본정보 저장용
   let originalAddrData = null;    // 주소 정보 저장용
 
-  // 1. 회원 정보(+기본 배송지) 불러오기
+  // 회원 정보(+기본 배송지) 불러오기
   $.ajax({
     url: `${cpath}/api/${storeUrl}/mypage`,
     type: "GET",
@@ -61,7 +61,7 @@ $(function () {
     }
   });
 
-  // 2. 주소 검색 API (Daum 우편번호)
+  // 주소 검색 API (Daum 우편번호)
   $('.search-btn').click(function () {
     new daum.Postcode({
       oncomplete: function (data) {
@@ -124,85 +124,93 @@ $(function () {
     const pwd = $('.password').val();
     checkObj.passwordMatch = (pwd === pwdConfirm && pwd.length > 0);
   });
+	
+	// 내 정보 수정 저장 버튼 클릭 시
+	$('.info-form').on('submit', function (e) {
+	  e.preventDefault();
+	
+	  const pwd = $('.password').val().trim();
+	  const pwdConfirm = $('.password-ok').val().trim();
+	
+	  const isPasswordChanged = !!pwd; // 비밀번호 입력 여부
+	  const isAddressChanged = (
+	    originalAddrData == null || // 기존 데이터 없음
+	    $('.post-num').val() !== originalAddrData.postNum ||
+	    $('.address-road').val() !== originalAddrData.addressRoad ||
+	    $('.address-detail').val() !== originalAddrData.addressDetail ||
+	    $('.address-extra').val() !== originalAddrData.addressExtra
+	  );
+	
+	  // 비밀번호 수정이 있는 경우만 처리
+	  if (isPasswordChanged) {
+	    if (!checkObj.passwordValid) {
+	      alert("비밀번호는 8자 이상이며 영문, 숫자, 특수문자를 포함해야 합니다.");
+	      $('.password').focus();
+	      return;
+	    }
+	    if (!checkObj.passwordMatch) {
+	      alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+	      $('.password-ok').focus();
+	      return;
+	    }
+	
+	    const memberPwd = { memberPwd: pwd };
+	
+	    $.ajax({
+	      url: `${cpath}/api/${storeUrl}/mypage/update/password`,
+	      type: "POST",
+	      contentType: "application/json; charset=UTF-8",
+	      data: JSON.stringify(memberPwd),
+	      success: function (res) {
+	        if (res.status === 200) {
+	          alert("비밀번호가 성공적으로 수정되었습니다.");
+	          $('.password').val('');
+	          $('.password-ok').val('');
+	          checkObj.passwordValid = false;
+	          checkObj.passwordMatch = false;
+	        } else {
+	          alert("비밀번호 수정 실패: " + res.message);
+	        }
+	      },
+	      error: function (xhr) {
+	        alert("비밀번호 수정 중 오류가 발생했습니다: " + xhr.responseText);
+	      }
+	    });
+	  }
+	
+	  // 주소 수정이 있는 경우만 처리
+	  if (isAddressChanged) {
+	    if (!$('.post-num').val() || !$('.address-road').val()) {
+	      alert("우편번호와 주소를 모두 입력해주세요.");
+	      return;
+	    }
+	
+	    const addrData = {
+	      postNum: $('.post-num').val(),
+	      addressRoad: $('.address-road').val(),
+	      addressDetail: $('.address-detail').val(),
+	      addressExtra: $('.address-extra').val()
+	    };
+	
+	    $.ajax({
+	      url: `${cpath}/api/${storeUrl}/mypage/order/addr/update`,
+	      type: "POST",
+	      contentType: "application/json; charset=UTF-8",
+	      data: JSON.stringify(addrData),
+	      success: function (res) {
+	        if (res.status === 200) {
+	          alert("주소가 성공적으로 수정되었습니다.");
+	        } else {
+	          alert("주소 수정 실패: " + res.message);
+	        }
+	      },
+	      error: function (xhr) {
+	        alert("주소 수정 중 오류가 발생했습니다: " + xhr.responseText);
+	      }
+	    });
+	  }
+	});
 
-  $('.info-form').on('submit', function (e) {
-    e.preventDefault();
-
-    const pwd = $('.password').val().trim();
-    const pwdConfirm = $('.password-ok').val().trim();
-
-    // 비밀번호 수정이 있을 경우 검증
-    if (pwd || pwdConfirm) {
-      if (!checkObj.passwordValid) {
-        alert("비밀번호는 8자 이상이며 영문, 숫자, 특수문자를 포함해야 합니다.");
-        $('.password').focus();
-        return;
-      }
-      if (!checkObj.passwordMatch) {
-        alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-        $('.password-ok').focus();
-        return;
-      }
-    }
-
-    // 비밀번호 수정
-    if (pwd) {
-      const memberPwd = { memberPwd: pwd };
-
-      $.ajax({
-        url: `${cpath}/api/${storeUrl}/mypage/update/password`,
-        type: "POST",
-        contentType: "application/json; charset=UTF-8",
-        data: JSON.stringify(memberPwd),
-        success: function (res) {
-          if (res.status === 200) {
-            alert("비밀번호가 성공적으로 수정되었습니다.");
-            $('.password').val('');
-            $('.password-ok').val('');
-            checkObj.passwordValid = false;
-            checkObj.passwordMatch = false;
-          } else {
-            alert("비밀번호 수정 실패: " + res.message);
-          }
-        },
-        error: function (xhr) {
-          alert("비밀번호 수정 중 오류가 발생했습니다: " + xhr.responseText);
-        }
-      });
-    }
-
-    // 주소 수정 유효성 검사
-    if (!$('.post-num').val() || !$('.address-road').val()) {
-      alert("우편번호와 주소를 모두 입력해주세요.");
-      return;
-    }
-
-    // 주소 수정
-    const addrData = {
-      postNum: $('.post-num').val(),
-      addressRoad: $('.address-road').val(),
-      addressDetail: $('.address-detail').val(),
-      addressExtra: $('.address-extra').val()
-    };
-
-    $.ajax({
-      url: `${cpath}/api/${storeUrl}/mypage/order/addr/update`,
-      type: "POST",
-      contentType: "application/json; charset=UTF-8",
-      data: JSON.stringify(addrData),
-      success: function (res) {
-        if (res.status === 200) {
-          alert("주소가 성공적으로 수정되었습니다.");
-        } else {
-          alert("주소 수정 실패: " + res.message);
-        }
-      },
-      error: function (xhr) {
-        alert("주소 수정 중 오류가 발생했습니다: " + xhr.responseText);
-      }
-    });
-
-  });
   
     $('.cancel-btn').on('click', function () {
     if (originalMemberData) {
