@@ -26,6 +26,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="lastModifiedDate" column="last_modified_date" />
 		<result property="saleCnt" column="sale_cnt" />
 		<result property="viewCnt" column="view_cnt" />
+		<result property="logoImg" column="logo_img" />
+		<result property="storeDetail" column="store_name" />
+		<result property="storeName" column="store_detail" />
 		
 		<!-- 조인 필드 -->
 		<result property="typeCategoryName" column="type_category_name"/>
@@ -178,7 +181,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 스토어ID로 해당 스토어의 대표상품 조회 -->
 	<select id="selectForStoreMainProduct" resultMap="homeProductResultMap">
 		<![CDATA[
-			SELECT p.*, ca.type_category_name, dc.d_category_name, uc.u_category_name, img.p_img_url
+			SELECT p.*, ca.type_category_name, dc.d_category_name, uc.u_category_name, img.p_img_url, st.logo_img, st.store_name, st.store_detail
 			FROM product p
 			JOIN (
 			    SELECT product_id
@@ -193,6 +196,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			LEFT JOIN type_category ca ON p.type_category_id = ca.type_category_id
 			LEFT JOIN d_category dc ON p.d_category_id = dc.d_category_id
 			LEFT JOIN u_category uc ON dc.u_category_id = uc.u_category_id
+			LEFT JOIN store st ON p.store_id = st.store_id
 			LEFT JOIN (
 			    SELECT product_id, p_img_url
 			    FROM (

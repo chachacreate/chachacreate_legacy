@@ -29,6 +29,9 @@ public class HomeProductDTO {
     private Integer viewCnt;
     private Date lastModifiedDate;
     private Integer flagshipCheck;
+    private String logoImg;
+    private String storeName;
+    private String storeDetail;
     
     // 메인홈 메인페이지에서 사용할 필드 추가
     @JsonUnwrapped
