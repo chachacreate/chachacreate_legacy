@@ -11,8 +11,8 @@ let currentPage = 1;
 // 공지사항 버튼 클릭 시 실행
 // ================================
 $(document).on("click", "#notice", function () {
-  cpath = document.getElementById("cpath")?.value || "";
-  storeUrl = document.getElementById("storeUrl")?.value || "";
+  cpath = document.getElementById("cpath").value || "";
+  storeUrl = document.getElementById("storeUrl").value || "";
   if (!cpath || !storeUrl) return;
 
   $(".suggestion-box").empty();
