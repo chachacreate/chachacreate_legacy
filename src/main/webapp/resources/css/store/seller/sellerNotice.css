@@ -1,11 +1,16 @@
 @charset "UTF-8";
-/* 공지사항 컨테이너 */
+
+/* ===============================
+    공지사항 컨테이너
+================================== */
 .notice-container {
-  padding: 60px 240px 20px 240px;
+  padding: 60px 240px 100px 240px; /* 하단 여백 확보 */
   background: white;
 }
 
-/* 검색창 */
+/* ===============================
+    검색창
+================================== */
 .search-box {
   margin-bottom: 30px;
   display: flex;
@@ -29,7 +34,9 @@
   cursor: pointer;
 }
 
-/* 작성 버튼 + 폼 */
+/* ===============================
+    작성 버튼 및 폼
+================================== */
 .write-area {
   margin-bottom: 30px;
 }
@@ -51,32 +58,59 @@
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
+  background-color: #fefefe;
+  overflow: hidden;
 }
 
-#write-form input,
+/* 제목/내용 입력창 */
+#write-form input[type="text"],
 #write-form textarea {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  font-size: 14px;
+  padding: 12px;
+  margin-bottom: 12px;
+  font-size: 16px;
   border-radius: 4px;
   border: 1px solid #ccc;
+  resize: vertical;
 }
 
-#write-form button {
-  background: #676f58;
+/* 중요공지 체크박스 라벨 정렬 */
+.check-label {
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.notice_checkbox {
+  width: 20px;
+  height: 20px;
+  accent-color: #556b2f;
+  cursor: pointer;
+}
+
+/* 공지사항 등록 버튼 우측 정렬 */
+#submit-post {
+  display: block;
+  margin-left: auto;
+  background-color: #556b2f;
   color: white;
   border: none;
-  padding: 10px 20px;
-  cursor: pointer;
+  padding: 10px 24px;
+  font-size: 14px;
   border-radius: 4px;
+  cursor: pointer;
 }
 
-/* 테이블 기본 */
+/* ===============================
+    테이블 스타일
+================================== */
 .notice-table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 40px;
+  margin: 60px 0 40px;
 }
 
 .notice-table th,
@@ -86,7 +120,6 @@
   text-align: left;
 }
 
-/* 공지 제목 행 */
 .notice-header {
   background-color: #fffef4;
   cursor: pointer;
@@ -99,7 +132,6 @@
 
 .notice-header td {
   padding: 12px 16px;
-  border-bottom: 1px solid #eee;
   font-size: 15px;
 }
 
@@ -115,49 +147,56 @@
   color: #333;
 }
 
-/* 수정/삭제 버튼 영역 */
+/* ===============================
+    수정/삭제 버튼 정렬
+================================== */
+.notice-title {
+  font-size: 16px;
+  font-weight: 500;
+  display: inline-block;
+}
+
 .notice-actions {
+  float: right;
   display: flex;
-  gap: 8px;
-  margin-top: 4px;
+  gap: 6px;
 }
 
 .notice-actions button {
-  padding: 4px 10px;
-  font-size: 13px;
   background-color: #ddd;
   border: none;
+  padding: 6px 12px;
   border-radius: 4px;
+  font-size: 13px;
   cursor: pointer;
 }
 
 .notice-actions button:hover {
-  background-color: #bbb;
+  background-color: #ccc;
 }
 
-/* 수정 폼 */
+/* ===============================
+    수정 폼 스타일
+================================== */
 .edit-notice-form {
+  width: 100%;
   padding: 16px;
   border: 1px solid #ccc;
   background-color: #fafafa;
   border-radius: 8px;
+  box-sizing: border-box;
 }
 
 .edit-notice-form input,
 .edit-notice-form textarea {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  font-size: 14px;
+  padding: 12px;
+  margin-bottom: 12px;
+  font-size: 16px;
   border-radius: 4px;
   border: 1px solid #ccc;
-}
-
-.edit-notice-form .check-label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
+  resize: vertical;
+  box-sizing: border-box;
 }
 
 .edit-notice-form button {
@@ -179,12 +218,15 @@
   opacity: 0.9;
 }
 
-/* 페이지네이션 */
+/* ===============================
+    페이지네이션
+================================== */
 .pagination {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 8px;
+  margin-top: 40px;
   padding-bottom: 16px;
 }
 
@@ -203,13 +245,40 @@
   color: white;
 }
 
+/* 수정 폼 안에서 체크박스 정렬 */
+.edit-check-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 12px;
+  gap: 10px;
+}
+
+.edit-check-wrapper .check-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+}
+
+.edit-check-wrapper .check-label-text {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.edit-check-wrapper .notice_checkbox {
+  width: 18px;
+  height: 18px;
+  accent-color: #556b2f;
+  cursor: pointer;
+}
 
 
-
-
-/* 푸터 스타일 */
+/* ===============================
+    푸터 스타일
+================================== */
 footer {
- margin-top: 0;
+  margin-top: 0;
   background: #2d4739;
   color: white;
   text-align: center;
