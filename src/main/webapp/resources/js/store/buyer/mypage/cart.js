@@ -97,7 +97,7 @@ $(function () {
         <div class="item-details">
           <div class="store-name">${storeName}</div>
           <div class="product-name">${item.productName}</div>
-          <div class="product-description">${item.productDetail}</div>
+          <div class="product-detail">${item.productDetail}</div>
           <div class="product-price">${item.price.toLocaleString()}원</div>
           <div class="quantity-controls">
             <button class="quantity-btn minus">-</button>
@@ -263,9 +263,7 @@ $(function () {
     const storeUrl = $item.data('store-url') || 'main';
     window.location.href = `${cpath}/${storeUrl}`;
   });
-
-
-
+  
 // 장바구니에서 선택된 상품 정보를 세션에 저장하여 order로 보내기
 $(document).on("click", ".checkout-btn", function () {
   const $checkedItems = $(".item-checkbox:checked");
@@ -284,8 +282,9 @@ $(document).on("click", ".checkout-btn", function () {
       cartId: $item.data("cart-id"),
       productId: $item.data("product-id"),
       productName: $item.find(".product-name").text(),
+      prdouctDetail: $item.find(".product-detail").text(),
       storeName: $item.find(".store-name").text(),
-      productCnt: parseInt($item.find(".quantity").text(), 10),
+      productCnt: parseInt($item.find(".quantity").text().replace(/[^0-9]/g, ''), 10),
       price: parseInt($item.find(".product-price").text().replace(/[^0-9]/g, ''), 10),
       pimgUrl: $item.find(".item-image").attr("src")
     });
@@ -293,8 +292,6 @@ $(document).on("click", ".checkout-btn", function () {
 
   // sessionStorage에 저장
   sessionStorage.setItem("orderItems", JSON.stringify(items));
-  console.log("items:", items);
-
   window.location.href = `${cpath}/main/order`;
 });
 

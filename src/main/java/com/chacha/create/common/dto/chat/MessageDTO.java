@@ -1,5 +1,8 @@
 package com.chacha.create.common.dto.chat;
 
+
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,4 +18,6 @@ public class MessageDTO {
 	private Integer memberId;
 	private String chattingText;
 	private String storeUrl;
+    private Date chattingDate;
+    private Integer memberCheck;
 }

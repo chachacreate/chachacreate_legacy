@@ -21,7 +21,7 @@
       <a href="${cpath}/main/products" class="nav-item">전체상품</a>
       <a href="${cpath}/main/store/stores" class="nav-item">스토어</a>
       <a href="${cpath}/main/question" class="nav-item ${fn:contains(uri, '/main/notice') ? 'active' : ''}">
-	   공지/소식
+	   건의사항
 	</a>
       <a href="${cpath}/main/sell/sellguide" class="nav-item">개인판매</a>
       <a href="#" class="nav-item" onclick="alert('준비중입니다!')">클래스</a>

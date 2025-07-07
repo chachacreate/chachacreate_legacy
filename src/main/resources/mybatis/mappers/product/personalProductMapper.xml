@@ -53,12 +53,38 @@
 	
 	<!-- 이미지 update -->
 	<update id="updateMainProductImage" parameterType="map">
-	  UPDATE p_img
-	  SET p_img_url = #{url}
-	  WHERE product_id = #{productId}
-	    AND p_img_seq = #{seq}
-	    AND p_img_enum = 'THUMBNAIL'
+	   MERGE INTO p_img p
+		  USING (
+		    SELECT 
+		      #{productId} AS product_id,
+		      #{seq} AS p_img_seq,
+		      #{url} AS p_img_url
+		    FROM dual
+		  ) src
+		  ON (
+		    p.product_id = src.product_id
+		    AND p.p_img_seq = src.p_img_seq
+		    AND p.p_img_enum = 'THUMBNAIL'
+		  )
+		  WHEN MATCHED THEN
+		    UPDATE SET p.p_img_url = src.p_img_url
+		  WHEN NOT MATCHED THEN
+		    INSERT (
+		      p_img_id,
+		      product_id,
+		      p_img_seq,
+		      p_img_enum,
+		      p_img_url
+		    )
+		    VALUES (
+		      seq_p_img_id.NEXTVAL,
+		      src.product_id,
+		      src.p_img_seq,
+		      'THUMBNAIL',
+		      src.p_img_url
+		    )
 	</update>
+
 	
 	<select id="selectForSellerAndStoreByMemberId" resultType="map" parameterType="int">
 	    SELECT

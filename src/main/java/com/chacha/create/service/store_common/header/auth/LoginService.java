@@ -15,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 public class LoginService {
 
 	private final MemberMapper memberMapper;
-	
 	public MemberEntity login(String memberEmail, String memberPwd) {
 	    MemberEntity memberEntity = memberMapper.selectByMemberEmail(memberEmail);
 
@@ -28,6 +27,11 @@ public class LoginService {
 
 	    log.info("로그인 성공");
 	    return memberEntity;
+	}
+	
+	public MemberEntity socialLogin(String memberEmail) {
+		MemberEntity memberEntity = memberMapper.selectByMemberEmail(memberEmail);
+		return memberEntity;
 	}
 
 	

@@ -184,7 +184,7 @@
     	
     	// > 버튼 누르면 주문 상세로
     	$('.section-more').on('click', function() {
-    	    window.location.href = `${pageContext.request.contextPath}/${storeUrl}/mypage/orderdetail/\${orderId}`;
+    	    window.location.href = `${pageContext.request.contextPath}/main/mypage/orderdetail/\${orderId}`;
     	  });
 
       $.ajax({

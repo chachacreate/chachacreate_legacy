@@ -4,6 +4,10 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+  min-height: 100vh; /* 뷰포트 높이만큼 확보 */
+  display: flex;
+  flex-direction: column;
 }
 
 .wrapper {
@@ -19,6 +23,7 @@ main {
 .notice-container {
   padding: 60px 240px 20px 240px;
   background: white;
+   flex: 1; /* ✅ 남은 공간을 채움 */
 }
 
 .search-box {

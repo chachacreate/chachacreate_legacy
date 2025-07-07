@@ -45,11 +45,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<update id="update" parameterType="addrEntity">
 		UPDATE addr
-		SET member_id = #{memberId}, post_num = #{postNum}, address_road =
-		#{addressRoad},
-		address_detail = #{addressDetail}, address_extra = #{addressExtra}, address_check =
-		#{addressCheck}
-		WHERE address_id = #{addressId}
+		SET   post_num = #{postNum},
+				address_road = #{addressRoad},
+				address_detail = #{addressDetail},
+				address_extra = #{addressExtra}
+		WHERE member_id = #{memberId} AND address_check = 1
 	</update>
 
 	<delete id="delete" parameterType="int">

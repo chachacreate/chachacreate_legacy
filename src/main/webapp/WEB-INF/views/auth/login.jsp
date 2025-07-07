@@ -16,7 +16,9 @@
 <div class="login-page">
     <div class="login-container">
         <form id="login-form">
-            <img class="logo_frame" src="${cpath}/resources/images/logo/logo_green.png" alt="Logo"/>
+            <a href="${cpath}/main">
+			  <img class="logo_frame" src="${cpath}/resources/images/logo/logo_green.png" alt="Logo"/>
+			</a>
             <div class="form-wrapper">
                 <div class="form-inner">
                     <div class="input-group">
@@ -39,8 +41,8 @@
                     </div>
                     <div class="login-button-group">
                     <button type="submit" class="component_login">
-                        <div class="login-text">로그인</div>
-                    </button>
+					  로그인
+					</button>
                         <div class="login-bottom-links">
                             <div class="link-text">비밀번호를 잊으셨나요?</div>
                             <a href="${cpath}/auth/join/agree" class="link-text">회원가입</a>
@@ -55,12 +57,12 @@
             </div>
 
             <div class="social-login">
-                <a href="#" class="naver-btn">
+                <a href="${naverLogin}" class="naver-btn">
                     <img src="${cpath}/resources/images/login/naver_icon.png" alt="네이버" style="width:24px; height:24px; margin-right:10px;">
                     네이버 로그인
                 </a>
 
-                <a href="#" class="kakao-btn">
+                <a href="${kakaoLogin}" class="kakao-btn">
                     <img src="${cpath}/resources/images/login/kakao_icon.png" alt="카카오" style="width:24px; height:24px; margin-right:10px;">
                     카카오 로그인
                 </a>

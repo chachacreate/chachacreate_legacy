@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.chacha.create.common.dto.member.SellerInfoDTO;
+import com.chacha.create.common.dto.store.StoreInfoDTO;
 import com.chacha.create.common.entity.store.StoreEntity;
 import com.chacha.create.common.mapper.manage.ManageMapper;
 import com.chacha.create.common.mapper.member.SellerMapper;
@@ -33,6 +34,11 @@ public class StoreInfoService {
 	
 	public List<SellerInfoDTO> selectBySellerInfo(String storeUrl){
 		List<SellerInfoDTO> result = manageMapper.selectBySellerInfo(storeUrl);
+		return result;
+	}
+
+	public StoreInfoDTO selectForThisStoreInfo(String storeUrl) {
+		StoreInfoDTO result =  storeMapper.selectForThisStoreInfo(storeUrl);
 		return result;
 	}
 	

@@ -7,14 +7,25 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>장바구니</title>
+  <title>주문 내역</title>
   <link rel="stylesheet" href="${cpath}/resources/css/main/mypage/mainMyPageOrderList.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>window.cpath = '${cpath}';</script>
+  <script src="${cpath}/resources/js/main/mypage/mainMyPageOrderList.js"></script>
 </head>
 <body>
   <div class="wrapper">
      <!-- ✅ Include Header & Nav -->
 <jsp:include page="/common/header.jsp" />
-<jsp:include page="/common/main_nav.jsp" />
+ <!-- ✅ storeUrl 기반 동적 네비게이션 -->
+    <c:choose>
+      <c:when test="${empty storeUrl}">
+        <jsp:include page="/common/main_nav.jsp" />
+      </c:when>
+      <c:otherwise>
+        <jsp:include page="/common/storeMain_nav.jsp" />
+      </c:otherwise>
+    </c:choose>
 
     <!-- 메인 콘텐츠 영역 -->
     <main class="main-area">
@@ -36,14 +47,6 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>2025-06-12</td>
-        <td><img src="resources/images/pumpkin.jpg" alt="호박 수세미" class="order-img"></td>
-        <td>호박 수세미</td>
-        <td>2</td>
-        <td>4,000</td>
-        <td><button class="btn-detail" onclick="location.href='orderDetail.jsp'">주문상세</button></td>
-      </tr>
       <!-- 반복 가능 -->
     </tbody>
   </table>
@@ -62,22 +65,6 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>2025-06-12</td>
-        <td><img src="resources/images/pumpkin.jpg" alt="호박 수세미" class="order-img"></td>
-        <td>호박 수세미</td>
-        <td>2</td>
-        <td>4,000</td>
-        <td>배송중</td>
-      </tr>
-      <tr>
-        <td>2025-06-12</td>
-        <td><img src="resources/images/pumpkin.jpg" alt="호박 수세미" class="order-img"></td>
-        <td>호박 수세미</td>
-        <td>2</td>
-        <td>4,000</td>
-        <td>배송완료</td>
-      </tr>
     </tbody>
   </table>
 </section>
@@ -93,10 +80,5 @@
     </footer>
 
   </div>
-
-  <!-- 스크립트 -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  
-  
 </body>
 </html>

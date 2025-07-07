@@ -1,12 +1,11 @@
 package com.chacha.create.controller.controller.mainhome.mypage;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,7 +19,7 @@ public class MainMyPageController {
     
     @GetMapping("/cart")
     public String showCartPage() {
-		return "main/mypage/mainMyPageCart";
+		return "store/buyer/mypage/cart";
     }
     
     @GetMapping("/orders")
@@ -37,6 +36,12 @@ public class MainMyPageController {
     @GetMapping("/favorite")
     public String showFavoritePage() {
 		return "";
+    }
+    
+    @GetMapping("/message")
+    public String showMessagePage(@RequestParam(required = false) String storeUrl, Model model) {
+    	model.addAttribute("storeUrl", storeUrl);
+    	return "main/mypage/chat";
     }
     
     @GetMapping("/myreview")

@@ -26,16 +26,18 @@ document.addEventListener("DOMContentLoaded", function () {
       const product = detail.productDetail;
 
       // 기본 정보 세팅
-      document.getElementById("productTitle").textContent = product.productName;
+      document.getElementById("productName").textContent = product.productName;
       document.getElementById("productTypeCategory").textContent = product.typeCategoryName;
       document.getElementById("productUCategory").textContent = product.ucategoryName;
       document.getElementById("productDCategory").textContent = product.dcategoryName;
 
       const storeLink = document.getElementById("storeNameLink");
       if (storeLink) {
-        storeLink.href = `${cpath}/store/info`;
-        storeLink.textContent = product.storeName;
-      }
+        storeLink.textContent = product.storeName || "뜨락상회";
+        if(storeLink.textContent === "뜨락상회") {
+        		storeLink.href = `${cpath}/main/products`;
+        	} else storeLink.href = `${cpath}/${storeUrl}/info`;
+        }
 
       // 가격 및 수량 관련 로직
       const priceElement = document.getElementById("productPrice");
@@ -131,6 +133,95 @@ document.addEventListener("DOMContentLoaded", function () {
 		    }
 		  });
 		});
+		
+		// 선택된 상품을 session에 저장해 order로 보내기
+		$(document).on("click", ".buy-button", function () {
+		  const productId = product.productId;
+		  const productName = $("#productName").text().trim();
+		  const storeName = $("#storeName").text().trim();
+		  const quantity = parseInt($(".quantity-display").text(), 10);
+		  const price = parseInt($("#productPrice").text().replace(/[^0-9]/g, ""), 10);
+		  const pimgUrl = $(".main-image img").attr("src");
+		
+		  if (!productId || quantity <= 0) {
+		    alert("상품 정보가 유효하지 않습니다.");
+		    return;
+		  }
+		
+		  const item = {
+		    productId,
+		    productName,
+		    storeName,
+		    productCnt: quantity,
+		    price,
+		    pimgUrl
+		  };
+		
+		  // sessionStorage에 저장
+		  sessionStorage.setItem("orderItems", JSON.stringify([item]));
+		
+		  // 결제 페이지로 이동
+		  window.location.href = `${cpath}/${storeUrl}/order`;
+		});
+
+		
+		
+		
+		// 판매자 신고 모달
+		$('#reportBtn').on('click', function () {
+		if (!window.loggedInMemberId || window.loggedInMemberId === 'null') {
+		    alert('로그인이 필요합니다.');
+		    location.href = `${cpath}/auth/login`;
+		    return;
+		  }
+		  $('#reportModal').fadeIn();
+		});
+		
+		$('#cancelReport').on('click', function () {
+		  $('#reportModal').fadeOut();
+		  $('#reportTitle').val('');
+		  $('#reportText').val('');
+		});
+		
+		$('#submitReport').on('click', function () {
+		  const title = $('#reportTitle').val().trim();
+		  const reason = $('#reportText').val().trim();
+		  const storeId = product.storeId;
+		
+		  if (!title || !reason) {
+		    alert('신고 제목과 사유를 모두 입력하세요.');
+		    return;
+		  }
+		
+		  const reportData = {
+		    storeId: storeId,
+		    reportTitle: title,
+		    reportText: reason
+		  };
+		
+		  $.ajax({
+		    url: `${cpath}/api/${storeUrl}/reportinsert`,
+		    method: 'POST',
+		    contentType: 'application/json',
+		    data: JSON.stringify(reportData),
+		    success: function (res) {
+		      if (res.status === 201) {
+		        alert('신고가 접수되었습니다.');
+		        $('#reportModal').fadeOut();
+		        $('#reportTitle').val('');
+		        $('#reportText').val('');
+		      } else {
+		        alert('신고 실패: ' + res.message);
+		      }
+		    },
+		    error: function (xhr) {
+		      alert('신고 처리 중 오류 발생');
+		      console.error(xhr);
+		    }
+		  });
+		});
+
+		
 
     },
     error: function (xhr, status, error) {

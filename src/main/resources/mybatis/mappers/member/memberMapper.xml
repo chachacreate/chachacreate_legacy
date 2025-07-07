@@ -51,6 +51,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		JOIN_DATE = #{joinDate}
 		WHERE MEMBER_ID = #{memberId}
 	</update>
+	
+	<update id="updatePwd" parameterType="memberEntity">
+		UPDATE member
+		SET member_pwd = #{memberPwd}
+		WHERE member_id = #{memberId}
+	</update>
 
 	<delete id="delete" parameterType="int">
 		DELETE FROM MEMBER WHERE

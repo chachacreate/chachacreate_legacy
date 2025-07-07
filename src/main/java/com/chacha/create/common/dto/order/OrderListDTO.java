@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 public class OrderListDTO {
 	
 	// store
+	private String storeUrl;
 	private String storeName;
 	
 	

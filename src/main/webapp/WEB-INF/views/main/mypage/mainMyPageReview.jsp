@@ -8,15 +8,26 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>장바구니</title>
+  <title>나의 리뷰</title>
+  <script>const cpath = '${cpath}';</script>
   <link rel="stylesheet" href="${cpath}/resources/css/main/mypage/mainMyPageReview.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="${cpath}/resources/js/main/mypage/mainMyPageReview.js"></script>
 </head>
 <body>
   <div class="wrapper">
 
     <!-- ✅ Include Header & Nav -->
 <jsp:include page="/common/header.jsp" />
-<jsp:include page="/common/main_nav.jsp" />
+ <!-- ✅ storeUrl 기반 동적 네비게이션 -->
+    <c:choose>
+      <c:when test="${empty storeUrl}">
+        <jsp:include page="/common/main_nav.jsp" />
+      </c:when>
+      <c:otherwise>
+        <jsp:include page="/common/storeMain_nav.jsp" />
+      </c:otherwise>
+    </c:choose>
 
     <!-- 메인 콘텐츠 영역 -->
     <main class="main-area">
@@ -38,22 +49,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td><img src="${cpath}/resources/images/sample1.jpg" class="product-img" /></td>
-          <td>상품명1</td>
-          <td>
-		  <div class="review-wrapper">
-		    <span class="review-text">
-		      리뷰 전체 내용이 여기 표시됩니다. 페이커 역시 합쳐진 팀에 잔류했다. 201dndkdkdkkdkdkdkdkdkkdkxpmtmxdydhdhdhdhdhdhdhhddhdlsajdfkjslakdfjkasljfklasjdkfjsdklfjsakljdfklasjdfklsajdkfjdaskldjfklsdjfklsajdklfjdkljfklj
-		    </span>
-		    <button class="toggle-btn">더보기</button>
-		  </div>
-		</td>
-          <td>2025-06-18</td>
-          <td>4.5</td>
-          <td>2</td>
-        </tr>
-        <!-- 추가 row -->
+		<!-- JS로 동적 추가 -->
       </tbody>
     </table>
   </section>
@@ -65,29 +61,7 @@
         <p>© 2025 뜨락상회. All rights reserved.</p>
       </div>
     </footer>
-
   </div>
-
-  <!-- 스크립트 -->
-
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-$(function () {
-  $('.toggle-btn').on('click', function () {
-    const $btn = $(this);
-    const $text = $btn.siblings('.review-text');
-
-    $text.toggleClass('expanded');
-
-    if ($text.hasClass('expanded')) {
-      $btn.text('접기');
-    } else {
-      $btn.text('더보기');
-    }
-  });
-});
-</script>
-  
   
 </body>
 </html>

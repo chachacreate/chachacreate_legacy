@@ -30,6 +30,7 @@
         <!-- 🔹 Slide 1 -->
         <div class="swiper-slide">
           <main class="settlement-container">
+              <!-- 상품정보, 정산정보 등은 그대로 유지 -->
             <section class="product-info">
               <h3>상품 정보</h3>
               <div class="product-detail">

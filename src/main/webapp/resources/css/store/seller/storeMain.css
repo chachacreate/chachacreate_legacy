@@ -161,8 +161,9 @@ main.container-store {
 
 .product-image-box {
   position: relative;
-  height: 240px;
+  height: 200px; /* 적당히 고정된 높이 */
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .product-image-box img {

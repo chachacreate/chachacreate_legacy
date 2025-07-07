@@ -38,7 +38,6 @@ form {
   align-items: center;
   justify-content: center;
   width: 1200px;
-  height: 100vh;
   margin: 0 auto;
   position: relative;
 }
@@ -81,7 +80,8 @@ form {
 }
 
 .input-box::selection {
-  background: transparent;
+  background: #d4e6c2; /* 원하는 색상으로 바꾸세요 */
+  color: #000000;      /* 선택된 텍스트 색상도 지정 가능 */
 }
 
 .input-box:focus {
@@ -212,10 +212,16 @@ form {
   border: none;
   background-color: #2a3e34;
   border-radius: 5px;
-  padding: 10px 10px 0px 10px;
   width: 440px;
   height: 56px;
   cursor: pointer;
+
+  color: white;               
+  font-weight: bold;         
+  display: flex;              
+  align-items: center;       
+  justify-content: center;    
+  font-size: 16px;        
 }
 
 a {

@@ -34,10 +34,10 @@ import java.util.Map;
 @AllArgsConstructor
 public enum OrderStatusEnum {
 
-    ORDER_OK("ORDER_OK", "주문 완료"),
-    CONFIRM("CONFIRM", "구매 확정"),
-    REFUND("REFUND", "환불 요청"),
-    REFUND_OK("REFUND_OK", "환불 완료");
+    ORDER_OK("ORDER_OK", "주문완료"),
+    CONFIRM("CONFIRM", "발송전"),
+    REFUND("REFUND", "환불요청"),
+    REFUND_OK("REFUND_OK", "환불완료");
 
     private final String code;   // DB에 저장하는 값
     @JsonValue

@@ -4,7 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>뜨락상회 관리자 페이지 - 신고 관리</title>
+
+<title>뜨락상회 판매자 신고 목록 페이지</title>
+
 <%@ include file="/common/header.jsp" %>
 <link rel="stylesheet" type="text/css" href="${cpath}/resources/css/admin/authMain.css">
 <link rel="stylesheet" type="text/css" href="${cpath}/resources/css/admin/declarationManage.css">
@@ -18,29 +20,9 @@
   <input type="hidden" id="storeUrl" value="${storeUrl}">
   
 <div class="wrapper">
-
 <div class="main-area">
 	<div class="content-wrapper">
-    <nav class="sidebar">
-        <ul>
-            <li class="has-submenu">
-                <a href="javascript:void(0);">판매자 정산 관리 ▼</a>
-                <ul class="submenu">
-                    <li><a href="#">스토어 정산 관리</a></li>
-                    <li><a href="#">개인 판매자 정산 관리</a></li>
-                </ul>
-            </li>
-            <li class="has-submenu">
-                <a href="javascript:void(0);">공지/신고 관리 ▼</a>
-                <ul class="submenu">
-                    <li><a id="notice">공지사항</a></li>
-                    <li><a href="#">신고</a></li>
-                </ul>
-            </li>
-            <li><a href="#">스토어 관리</a></li>
-            <li><a href="#">회원 관리</a></li>
-        </ul>
-    </nav>
+    <%@ include file="/common/store_seller_sidenav.jsp" %>
     <main class="content">
         <div class="content-inner">
             <div class="suggestion-box">

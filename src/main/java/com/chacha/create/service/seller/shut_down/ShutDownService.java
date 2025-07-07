@@ -28,26 +28,31 @@ public class ShutDownService {
 	public int shutdown(String storeUrl) {
 		StoreEntity thisStore = storeMapper.selectByStoreUrl(storeUrl);
 		StoreEntity storeEntity = StoreEntity.builder()
-		.storeId(thisStore.getStoreId())
-		.sellerId(thisStore.getSellerId())
-		.logoImg(null)
-		.storeName(null)
-		.storeDetail(null)
-		.storeUrl(null)
-		.saleCnt(null)
-		.viewCnt(null)
-		.build();
-		
-		List<OrderStatusEnum> orderStatuses = orderMapper.selectForOrderStatusOnly(storeUrl);
-		
-	    boolean hasOrderOk = orderStatuses.stream()
-	            .anyMatch(status -> status == OrderStatusEnum.ORDER_OK);
+			.storeId(thisStore.getStoreId())
+			.sellerId(thisStore.getSellerId())
+			.logoImg(null)
+			.storeName(null)
+			.storeDetail(null)
+			.storeUrl(null)
+			.saleCnt(null)
+			.viewCnt(null)
+			.build();
 
-        if (hasOrderOk) {
-            throw new IllegalStateException("모든 주문이 처리 완료가 되지않아 폐점할 수 없습니다.");
-        }
-		
-		return storeMapper.update(storeEntity);
+		List<OrderStatusEnum> orderStatuses = orderMapper.selectForOrderStatusOnly(storeUrl);
+
+		boolean hasOrderOk = orderStatuses.stream()
+			.anyMatch(status -> status == OrderStatusEnum.ORDER_OK);
+
+		if (hasOrderOk) {
+			throw new IllegalStateException("모든 주문이 처리 완료가 되지않아 폐점할 수 없습니다.");
+		}
+
+		// Store 비우기
+		int updateCount = storeMapper.update(storeEntity);
+
+		// Seller 테이블의 personal_check = 1 설정
+		storeMapper.updatePersonalCheck(thisStore.getSellerId());
+
+		return updateCount;
 	}
-	
 }

@@ -51,7 +51,9 @@ public interface MemberMapper {
      * @return 수정 성공 시 영향 받은 행 수
      */
     int update(MemberEntity member);
-
+    
+    // 비밀번호만 변경
+    int updatePwd(MemberEntity member);
     /**
      * 회원 ID로 회원 정보를 삭제합니다.
      * 

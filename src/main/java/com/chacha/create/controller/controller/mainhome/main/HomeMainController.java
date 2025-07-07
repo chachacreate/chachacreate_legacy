@@ -1,7 +1,11 @@
 package com.chacha.create.controller.controller.mainhome.main;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +23,9 @@ public class HomeMainController {
 	
     // 메인 홈 페이지
     @GetMapping
-    public String showMainHome() {
+    public String showMainHome(HttpSession session) {
+		session.removeAttribute("kakaoemail");
+		session.removeAttribute("naverInfo");
         return "main/main"; 
     }
     
@@ -28,6 +34,12 @@ public class HomeMainController {
     public String showAllproductsPage() {
 		return "main/mainAllProducts";
     }
+    
+	// 상세페이지
+	@GetMapping("/productdetail/{productId}")
+	public String showProductdetail() {
+		return "store/productDetail";
+	}
     
     
     @GetMapping("/question")
@@ -43,7 +55,13 @@ public class HomeMainController {
     
     @GetMapping("/order")
     public String showOrderPage() {
-    	return "main/mypage/mainorder";
+    	return "store/buyer/order";
     }
+    
+	// 결제 완료페이지
+	@GetMapping("/order/complete/{orderId}")
+	public String ShowOrderComplete() {
+		return "store/buyer/orderComplete";
+	}
  
 }

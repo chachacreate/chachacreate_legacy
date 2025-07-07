@@ -1,40 +1,49 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <c:set var="cpath" value="${pageContext.servletContext.contextPath}" />
 <c:set var="uri" value="${pageContext.request.requestURI}" />
 
+<%-- ✅ basePath를 storeUrl 기반으로 설정 --%>
+<c:choose>
+  <c:when test="${not empty storeUrl}">
+    <c:set var="basePath" value="${cpath}/${storeUrl}/mypage" />
+  </c:when>
+  <c:otherwise>
+    <c:set var="basePath" value="${cpath}/main/mypage" />
+  </c:otherwise>
+</c:choose>
+
 <aside class="sidebar">
   <ul>
     <li>
-      <a href="${cpath}/main/mypage"
-         class="${fn:contains(uri, '/main/mypage') and not fn:contains(uri, '/main/mypage/') ? 'active' : ''}">
-         마이정보수정</a>
-    </li>
-    <li>
-      <a href="${cpath}/main/mypage/cart"
-         class="${fn:contains(uri, '/mypage/cart') ? 'active' : ''}">
-         장바구니</a>
-    </li>
-    <li>
-      <a href="${cpath}/main/mypage/orders"
-         class="${fn:contains(uri, '/mypage/orders') ? 'active' : ''}">
-         주문내역</a>
-    </li>
-    <li>
-      <a href="${cpath}/main/mypage/favorite"
-         class="${fn:contains(uri, '/mypage/favorite') ? 'active' : ''}">
-         관심사 선택</a>
-    </li>
-    <li>
-      <a href="${cpath}/main/mypage/myreview"
-         class="${fn:contains(uri, '/mypage/myreview') ? 'active' : ''}">
-         작성 리뷰 확인</a>
-    </li>
+  <a href="${basePath}"
+     class="${uri == basePath ? 'active' : ''}">
+     마이정보수정</a>
+</li>
+<li>
+  <a href="${basePath}/cart"
+     class="${fn:contains(uri, '/mypage/cart') ? 'active' : ''}">
+     장바구니</a>
+</li>
+<li>
+  <a href="${basePath}/orders"
+     class="${fn:contains(uri, '/mypage/orders') ? 'active' : ''}">
+     주문내역</a>
+</li>
+<li>
+  <a href="${basePath}/message"
+     class="${fn:contains(uri, '/mypage/message') ? 'active' : ''}">
+     문의 메시지</a>
+</li>
+<li>
+  <a href="${basePath}/myreview"
+     class="${fn:contains(uri, '/mypage/myreview') ? 'active' : ''}">
+     작성 리뷰 확인</a>
+</li>
   </ul>
 </aside>
-
 
 <style>
 .sidebar {
@@ -79,3 +88,4 @@
 }
 
 </style>
+

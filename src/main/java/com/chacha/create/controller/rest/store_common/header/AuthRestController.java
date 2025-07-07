@@ -2,7 +2,6 @@ package com.chacha.create.controller.rest.store_common.header;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,18 +18,17 @@ import com.chacha.create.common.enums.error.ResponseCode;
 import com.chacha.create.service.store_common.header.auth.LoginService;
 import com.chacha.create.service.store_common.header.auth.RegisterService;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Slf4j
 @RequestMapping("/api/auth")
+@RequiredArgsConstructor
 public class AuthRestController {
 
-    @Autowired
-    private LoginService loginService;
-
-    @Autowired
-    private RegisterService registerService;
+    private final LoginService loginService;
+    private final RegisterService registerService;
 
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<MemberEntity>> login(HttpSession session, @RequestBody MemberEntity member) {

@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -55,6 +57,30 @@ public class MyOrderRestController {
 		}
 		return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, null));
 	}
+	
+	// 회원 정보에서 배송지 수정(기본 배송지)
+	@PostMapping("/order/addr/update")
+	public ResponseEntity<ApiResponse<String>> updateDefaultAddr(
+	        @RequestBody AddrEntity newAddr, HttpSession session) {
+
+	    MemberEntity member = (MemberEntity) session.getAttribute("loginMember");
+	    if (member == null) {
+	        return ResponseEntity.status(ResponseCode.UNAUTHORIZED.getStatus())
+	                             .body(new ApiResponse<>(ResponseCode.UNAUTHORIZED, null));
+	    }
+
+	    newAddr.setMemberId(member.getMemberId()); 
+
+	    int result = myOrderService.updateBaseAddr(newAddr);
+	    log.info("updateBaseAddr 결과: {}", result);
+	    if (result > 0) {
+	        return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, "배송지 수정 완료"));
+	    } else {
+	        return ResponseEntity.status(ResponseCode.BAD_REQUEST.getStatus())
+	                             .body(new ApiResponse<>(ResponseCode.BAD_REQUEST, "배송지 수정 실패"));
+	    }
+	}
+
 
     // 주문 상세 조회
     @GetMapping("/orderdetail/{orderId}")

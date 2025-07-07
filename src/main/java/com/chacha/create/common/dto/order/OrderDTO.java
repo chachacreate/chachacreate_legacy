@@ -43,4 +43,7 @@ public class OrderDTO {
     private Integer cardId;
     private String cardNum;
     private String cardCompany;
+    
+    private String orderStatusLabel; // "발송전" 등 상태 표시용
+    private String addressFull;      // 전체 주소 조합용
 }

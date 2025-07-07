@@ -25,28 +25,35 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class PersonalProductService {
 
-    private final PersonalProductMapper mainProductMapper;
+    private final PersonalProductMapper personalProductMapper;
     private final TypeCategoryMapper typeCategoryMapper;
     private final DCategoryMapper dCategoryMapper;
 
     @Transactional(rollbackFor = Exception.class)
     public int insertOrUpdateProductImages(PersonalProductDTO dto, boolean isInsert) {
-    	List<String> images = new ArrayList<>();
-    	if(dto.getPimgUrl1() != null) images.add(dto.getPimgUrl1());
-    	if(dto.getPimgUrl2() != null) images.add(dto.getPimgUrl2());
-    	if(dto.getPimgUrl3() != null) images.add(dto.getPimgUrl3());
-        int result = 0;
-
-        for (int i = 0; i < images.size(); i++) {
-            String url = images.get(i);
-            if (url != null && !url.isEmpty()) {
-                if (isInsert) {
-                    result += mainProductMapper.insertMainProductImage(dto.getProductId(), i + 1, url);
-                } else {
-                    result += mainProductMapper.updateMainProductImage(dto.getProductId(), i + 1, url);
-                }
-            }
-        }
+    	int result = 0;
+    	if(dto.getPimgUrl1() != null) {
+            if (isInsert) {
+                result += personalProductMapper.insertMainProductImage(dto.getProductId(), 1, dto.getPimgUrl1());
+            } else {
+                result += personalProductMapper.updateMainProductImage(dto.getProductId(), 1, dto.getPimgUrl1());
+            }	
+    	}
+    	if(dto.getPimgUrl2() != null) {
+            if (isInsert) {
+                result += personalProductMapper.insertMainProductImage(dto.getProductId(), 2, dto.getPimgUrl2());
+            } else {
+                result += personalProductMapper.updateMainProductImage(dto.getProductId(), 2, dto.getPimgUrl2());
+            }	
+    	}
+    	if(dto.getPimgUrl3() != null) {
+            if (isInsert) {
+                result += personalProductMapper.insertMainProductImage(dto.getProductId(), 3, dto.getPimgUrl3());
+            } else {
+                result += personalProductMapper.updateMainProductImage(dto.getProductId(), 3, dto.getPimgUrl3());
+            }	
+    	}
+    	
         return result;
     }
     
@@ -55,14 +62,14 @@ public class PersonalProductService {
     	if(member == null) {
     		throw new NeedLoginException("로그인이 필요합니다.");
     	}
-    	log.info(mainProductMapper.selectForSellerAndStoreByMemberId(member.getMemberId()).toString());
-        Map<String, Object> idMap = mainProductMapper.selectForSellerAndStoreByMemberId(member.getMemberId());
+    	log.info(personalProductMapper.selectForSellerAndStoreByMemberId(member.getMemberId()).toString());
+        Map<String, Object> idMap = personalProductMapper.selectForSellerAndStoreByMemberId(member.getMemberId());
         dto.setSellerId(((BigDecimal)idMap.get("SELLER_ID")).intValue());
         dto.setStoreId(((BigDecimal)idMap.get("STORE_ID")).intValue());
         
         log.info(dto.toString());
         
-        int result1 = mainProductMapper.insertMainProduct(dto);
+        int result1 = personalProductMapper.insertMainProduct(dto);
         result1 += insertOrUpdateProductImages(dto, true);
 
         return (result1 > 1) ? 1 : 0;
@@ -72,10 +79,10 @@ public class PersonalProductService {
     	if(member == null) {
     		throw new NeedLoginException("로그인이 필요합니다.");
     	}
-    	log.info(mainProductMapper.selectForSellerAndStoreByMemberId(member.getMemberId()).toString());
-        Map<String, Object> idMap = mainProductMapper.selectForSellerAndStoreByMemberId(member.getMemberId());
+    	log.info(personalProductMapper.selectForSellerAndStoreByMemberId(member.getMemberId()).toString());
+        Map<String, Object> idMap = personalProductMapper.selectForSellerAndStoreByMemberId(member.getMemberId());
 
-        return mainProductMapper.selectProductsByStoreId(((BigDecimal)idMap.get("STORE_ID")).intValue());
+        return personalProductMapper.selectProductsByStoreId(((BigDecimal)idMap.get("STORE_ID")).intValue());
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -83,23 +90,15 @@ public class PersonalProductService {
     	if(member == null) {
     		throw new NeedLoginException("로그인이 필요합니다.");
     	}
-    	log.info(mainProductMapper.selectForSellerAndStoreByMemberId(member.getMemberId()).toString());
-        Map<String, Object> idMap = mainProductMapper.selectForSellerAndStoreByMemberId(member.getMemberId());
+    	log.info(personalProductMapper.selectForSellerAndStoreByMemberId(member.getMemberId()).toString());
+        Map<String, Object> idMap = personalProductMapper.selectForSellerAndStoreByMemberId(member.getMemberId());
         dto.setSellerId(((BigDecimal)idMap.get("SELLER_ID")).intValue());
         dto.setStoreId(((BigDecimal)idMap.get("STORE_ID")).intValue());
 
         log.info("상품 수정 요청 - productId: {}, sellerId: {}, storeId: {}", 
             dto.getProductId(), idMap.get("sellerId"), idMap.get("storeId"));
 
-        int belongs = mainProductMapper.checkProductBelongsToSellerStore(
-            dto.getProductId(), ((BigDecimal)idMap.get("SELLER_ID")).intValue(), ((BigDecimal)idMap.get("STORE_ID")).intValue());
-
-        if (belongs == 0) {
-            log.warn("상품이 sellerId/storeId에 속하지 않음. 권한 없음.");
-            return -2;
-        }
-
-        int result1 = mainProductMapper.updateMainProduct(dto);
+        int result1 = personalProductMapper.updateMainProduct(dto);
         int result2 = insertOrUpdateProductImages(dto, false);
 
         if (result1 > 0 || result2 > 0) {
@@ -114,17 +113,17 @@ public class PersonalProductService {
     	if(member == null) {
     		throw new NeedLoginException("로그인이 필요합니다.");
     	}
-        Map<String, Object> idMap = mainProductMapper.selectForSellerAndStoreByMemberId(member.getMemberId());
+        Map<String, Object> idMap = personalProductMapper.selectForSellerAndStoreByMemberId(member.getMemberId());
         int sellerId = ((BigDecimal)idMap.get("SELLER_ID")).intValue();
         int storeId = ((BigDecimal)idMap.get("STORE_ID")).intValue();
         
-        int belongs = mainProductMapper.checkProductBelongsToSellerStore(productId, sellerId, storeId);
+        int belongs = personalProductMapper.checkProductBelongsToSellerStore(productId, sellerId, storeId);
         if (belongs == 0) {
             log.warn("상품이 sellerId/storeId에 속하지 않음. 삭제 권한 없음.");
             return -2;
         }
 
-        int result = mainProductMapper.deleteMainProductById(productId);
+        int result = personalProductMapper.deleteMainProductById(productId);
         if (result > 0) {
             log.info("상품 ID {} 삭제 성공", productId);
             return 1;

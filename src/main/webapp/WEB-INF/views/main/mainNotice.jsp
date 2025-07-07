@@ -27,8 +27,6 @@
       <input type="text" id="notice-search-input" placeholder="조회할 제목을 입력하세요">
       <button class="search-btn">검색</button>
     </div>
-
-
     <table class="notice-table">
       <thead>
         <tr><th>No.</th><th>제목</th><th>등록날짜</th></tr>

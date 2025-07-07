@@ -28,6 +28,7 @@ public class QuestionService {
 	@Transactional(rollbackFor = Exception.class)
 	public int insertQuestion(MemberEntity memberEntity, QuestionEntity questionEntity) {
 		questionEntity.setMemberId(memberEntity.getMemberId());
+		log.info(questionEntity.toString());
 		return questionMapper.insert(questionEntity);
 	}
 	

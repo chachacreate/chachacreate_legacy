@@ -21,17 +21,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		review_id = #{reviewId}
 	</select>
 	
-	<select id="selectByMemberId" resultMap="reviewResultMap">
+	<select id="selectByMemberId" resultType="com.chacha.create.common.dto.product.ReviewDTO">
 		SELECT
 			r.review_id,
-			r.order_detail_id,
 			r.review_date,
-			r.review_text
-		FROM
-			review r
+			r.review_text,
+			p.product_name,
+			p.product_id,
+			pi.p_img_url,
+			s.store_url
+		FROM review r
 		JOIN order_detail od ON r.order_detail_id = od.order_detail_id
-		JOIN order_info o ON od.order_id = o.order_id
-		WHERE o.member_id = #{memberId}
+		JOIN order_info oi ON od.order_id = oi.order_id
+		JOIN product p ON od.product_id = p.product_id
+		JOIN store s ON p.store_id = s.store_id
+		LEFT JOIN p_img pi ON p.product_id = pi.product_id
+				AND pi.p_img_enum = 'THUMBNAIL'
+				AND pi.p_img_seq = 1
+		WHERE oi.member_id = #{memberId}
 		ORDER BY r.review_date DESC
 	</select>
 	
@@ -126,26 +133,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="selectAllmyReview"
-		resultType="com.chacha.create.common.dto.product.ReviewManagementDTO">
-		SELECT 
-		    R.REVIEW_DATE,
-		    PIMG.p_img_url,
-		    P.PRODUCT_NAME,
-		    O.MEMBER_ID,
-		    R.REVIEW_TEXT
-		FROM REVIEW R
-		JOIN ORDER_DETAIL OD ON R.ORDER_DETAIL_ID = OD.ORDER_DETAIL_ID
-		JOIN ORDER_INFO O ON OD.ORDER_ID = O.ORDER_ID
-		JOIN PRODUCT P ON OD.PRODUCT_ID = P.PRODUCT_ID
-		JOIN STORE S ON P.STORE_ID = S.STORE_ID
-		LEFT JOIN P_IMG PIMG 
-		    ON P.PRODUCT_ID = PIMG.PRODUCT_ID 
-		WHERE 
-		    PIMG.P_IMG_ENUM = 'THUMBNAIL'
-		    AND PIMG.P_IMG_SEQ = 1
-		    AND P.DELETE_CHECK = 0
-		    AND S.STORE_URL = #{storeUrl}
-		ORDER BY R.REVIEW_DATE DESC
+        resultType="com.chacha.create.common.dto.product.ReviewManagementDTO">
+	    SELECT 
+	        R.REVIEW_DATE,
+	        PIMG.p_img_url AS pimgUrl,
+	        P.PRODUCT_NAME,
+	        M.MEMBER_NAME,
+	        R.REVIEW_TEXT,
+	        P.PRODUCT_DATE
+	    FROM REVIEW R
+	    JOIN ORDER_DETAIL OD ON R.ORDER_DETAIL_ID = OD.ORDER_DETAIL_ID
+	    JOIN ORDER_INFO OI ON OD.ORDER_ID = OI.ORDER_ID
+	    JOIN MEMBER M ON OI.MEMBER_ID = M.MEMBER_ID
+	    JOIN PRODUCT P ON OD.PRODUCT_ID = P.PRODUCT_ID
+	    JOIN STORE S ON P.STORE_ID = S.STORE_ID
+	    LEFT JOIN P_IMG PIMG ON P.PRODUCT_ID = PIMG.PRODUCT_ID 
+	        AND PIMG.P_IMG_ENUM = 'THUMBNAIL' 
+	        AND PIMG.P_IMG_SEQ = 1
+	    WHERE 
+	        P.DELETE_CHECK = 0
+	        AND S.STORE_URL = #{storeUrl}
+	    ORDER BY R.REVIEW_DATE DESC
 	</select>
 
 </mapper>

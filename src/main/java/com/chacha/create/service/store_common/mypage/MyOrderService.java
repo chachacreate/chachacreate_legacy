@@ -91,6 +91,10 @@ public class MyOrderService {
     	return addrMapper.selectForBaseAddr(member.getMemberId());
     }
     
+    public int updateBaseAddr(AddrEntity newAddr) {
+    	return addrMapper.update(newAddr);
+    }
+    
     @Transactional(rollbackFor = Exception.class)
     public OrderDetailDTO selectByOrderId(int orderId, MemberEntity member) {
     	if(member == null) {

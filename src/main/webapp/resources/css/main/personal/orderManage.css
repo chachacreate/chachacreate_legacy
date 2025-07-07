@@ -144,9 +144,29 @@ body {
 /* 주문 내역 + 주문자 정보 나란히 배치 */
 .order-bottom-wrapper {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column; /* ✅ 세로 방향으로 배치 */
   gap: 40px;
-  flex-wrap: wrap;
+}
+
+/* 필터 바, 버튼 */
+.order-filter-bar {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.order-filter-btn {
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.order-filter-btn.active {
+  background-color: #2a3e34;
+  color: white;
+  border-color: #2a3e34;
 }
 
 /* 주문 내역 */

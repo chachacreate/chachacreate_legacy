@@ -57,9 +57,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<update id="updateForOrderStatus" parameterType="orderInfoEntity">
-		UPDATE order_info
-		order_status = #{orderStatus}
-		WHERE order_id = #{orderId}
+	  UPDATE order_info
+	  SET order_status = #{orderStatus}
+	  WHERE order_id = #{orderId}
 	</update>
 
 	<delete id="delete" parameterType="int">

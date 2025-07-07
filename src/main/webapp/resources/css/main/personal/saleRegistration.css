@@ -89,6 +89,9 @@ body {
   overflow: hidden;
   cursor: pointer;
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+  display:flex;
+  justify-content: center;
+  align-items:center;'
 }
 
 /* ✅ 상품 정보 */

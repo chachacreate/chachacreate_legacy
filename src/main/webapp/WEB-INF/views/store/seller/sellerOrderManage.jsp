@@ -1,62 +1,84 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<c:set var="cpath" value="${pageContext.servletContext.contextPath}" />
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
   <title>주문/발송관리</title>
-  <link rel="stylesheet" type="text/css" href="${cpath}/resources/css/admin/authMain.css">
+  <%@ include file="/common/header.jsp" %>
+<%--   <link rel="stylesheet" type="text/css" href="${cpath}/resources/css/admin/authMain.css"> --%>
   <link rel="stylesheet" type="text/css" href="${cpath}/resources/css/store/seller/sellerOrderManage.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+	$(function () {
+	  $('input[name="status"]').change(function () {
+	    const selected = $(this).val();
+	    const storeUrl = '${storeUrl}';
+	    
+	    const redirectUrl = selected === '전체' || selected === '' 
+	      ? `${cpath}/\${storeUrl}/seller/management/order` 
+	      : `${cpath}/\${storeUrl}/seller/management/order?status=\${selected}`;
+	      
+	    window.location.href = redirectUrl;
+	  });
+	  
+	// 환불요청 상태인 셀만 클릭 이벤트 부여
+	  $('td.status-label.환불요청').click(function () {
+	    const orderId = $(this).data('order-id');
+	    if (!orderId) return;
+
+	    if (confirm("해당 주문의 환불을 처리하시겠습니까?")) {
+	      $.ajax({
+	        url: `${cpath}/${storeUrl}/seller/management/order`,
+	        method: 'PUT',
+	        contentType: 'application/json',
+	        data: JSON.stringify({ orderId: orderId }),
+	        success: function () {
+	          alert("환불 처리가 완료되었습니다.");
+	          location.reload();
+	        },
+	        error: function (xhr) {
+	          alert("환불 처리 중 오류가 발생했습니다: " + (xhr.responseJSON?.message || xhr.statusText));
+	        }
+	      });
+	    }
+	  });
+});
+</script>
 </head>
 <body>
-<div class="wrapper">
-  <header>
-    <div class="header-inner">
-      <div class="login-bar">
-        <span>관리자님 반갑습니다.</span>
-        <button class="logout-btn">로그아웃</button>
-      </div>
-    </div>
-  </header>
+  <div class="content-wrapper">
+    
+    <!-- ✅ 왼쪽 여백 -->
+    <div class="spacer" style="width: 240px;"></div>
 
-  <div class="main-area">
-    <div class="content-wrapper">
-      <nav class="sidebar">
-        <ul>
-          <li class="has-submenu">
-            <a href="javascript:void(0);">판매자 정산 관리 ▼</a>
-            <ul class="submenu">
-              <li><a href="#">스토어 정산 관리</a></li>
-              <li><a href="#">개인 판매자 정산 관리</a></li>
-            </ul>
-          </li>
-          <li class="has-submenu">
-            <a href="javascript:void(0);">건의/신고 관리 ▼</a>
-            <ul class="submenu">
-              <li><a href="#">건의사항</a></li>
-              <li><a href="#">신고</a></li>
-            </ul>
-          </li>
-          <li><a href="#">스토어 관리</a></li>
-          <li><a href="#">회원 관리</a></li>
-        </ul>
-      </nav>
+    <!-- ✅ 사이드바 include -->
+    <%@ include file="/common/store_seller_sidenav.jsp" %>
 
+    <!-- ✅ 메인 콘텐츠 영역 -->
+    <div class="main-area">
       <main class="content">
         <div class="content-inner">
           <div class="member-box">
             <div class="member-header">
               <h2>주문/발송관리</h2>
               <div class="search-box">
-                <label><input type="radio" name="status" value="전체" checked> 전체</label>
-                <label><input type="radio" name="status" value="신규"> 신규</label>
-                <label><input type="radio" name="status" value="발송전"> 발송전</label>
-                <label><input type="radio" name="status" value="환불"> 환불</label>
-                <label><input type="radio" name="status" value="취소"> 취소</label>
-                <label><input type="radio" name="status" value="완료"> 완료</label>
+                <label>
+                  <input type="radio" name="status" value="전체" ${empty selectedStatus ? 'checked' : ''}> 전체
+                </label>
+                <label>
+                  <input type="radio" name="status" value="CONFIRM" ${selectedStatus == 'CONFIRM' ? 'checked' : ''}> 발송전
+                </label>
+                <label>
+                  <input type="radio" name="status" value="REFUND" ${selectedStatus == 'REFUND' ? 'checked' : ''}> 환불요청
+                </label>
+                <label>
+                  <input type="radio" name="status" value="REFUND_OK" ${selectedStatus == 'REFUND_OK' ? 'checked' : ''}> 환불완료
+                </label>
+                <label>
+                  <input type="radio" name="status" value="ORDER_OK" ${selectedStatus == 'ORDER_OK' ? 'checked' : ''}> 주문완료
+                </label>
               </div>
             </div>
 
@@ -75,65 +97,53 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <% for (int i = 0; i < 20; i++) {
-                       String[] status = {"신규","발송전","신규","환불","환불","신규","취소","취소","신규","완료","완료","신규","-","-","-","-","-","-","-","-"};
-                       String[] orderer = {"김지민","김지민","이재희","안세현","안세현","차민건","차민건","최용정","최용정","천희찬","천희찬","천희찬","-","-","-","-","-","-","-","-"};
-                       String[] address = {
-                         "서울시 송파구 올림픽로 99 잠실엘스 아파트 128동",
-                         "서울시 송파구 올림픽로 99 잠실엘스 아파트 128동",
-                         "경기도 고양시 덕양구 행신동 258",
-                         "서울특별시 서대문구",
-                         "서울특별시 서대문구",
-                         "서울특별시 중구 금호4가동 8",
-                         "서울특별시 중구 금호4가동 8",
-                         "경기도 청석시 동원탑빌",
-                         "경기도 청석시 동원탑빌",
-                         "서울특별시 노원구 동일로245길 162",
-                         "서울특별시 노원구 동일로245길 162",
-                         "서울특별시 노원구 동일로245길 162",
-                         "-","-","-","-","-","-","-","-"
-                       };
-                       String[] product = {
-                         "딜감귤","수제김","차선털브러쉬","최첨단칫","재혁수취락","세현떡케익","온로드자키","지민카블럭지","평가주먹간","에어작케이스","나인틴오목보드게임","맞춤개방","-","-","-","-","-","-","-","-"
-                       };
-                       int[] quantity = {5,1,1,3,1,2,5,1,1,1,6,1,0,0,0,0,0,0,0,0};
-                       int[] price = {50000,30000,20000,5000000,99999999,50000,99999999,99999999,30000,10000,30000,2000000,0,0,0,0,0,0,0,0};
-                  %>
-                  <tr class="<%= i >= 10 ? "extra-row" : "" %>" <%= i >= 10 ? "style='display:none;'" : "" %> data-status="<%=status[i] %>">
-                    <td class="status-label <%= status[i].equals("-") ? "대시" : status[i] %>"><%= status[i] %></td>
-                    <td><%= String.format("%08d", i) %></td>
-                    <td><%= orderer[i] %></td>
-                   <td class="ellipsis">
-					  <%= address[i].length() > 25 ? address[i].substring(0, 25) + "..." : address[i] %>
-					  <% if(address[i].length() > 25) { %>
-					    <button class="address-toggle-btn" data-index="<%= i %>">▼</button>
-					  <% } %></td>
-                    <td><%= "2025-06-" + String.format("%02d", 5 + i) %></td>
-                    <td><%= product[i] %></td>
-                    <td><%= quantity[i] %></td>
-                    <td><%= String.format("%,d", price[i]) %></td>
-                  </tr>
-                  <tr class="detail-row address-detail-<%= i %>" style="display:none;">
-					  <td colspan="8" class="detail-content">
-					    <strong>전체 배송지:</strong> <%= address[i] %><br>
-					    <strong>상품 상세:</strong> <%= product[i] %> - 수량 <%= quantity[i] %>개, 가격 <%= String.format("%,d", price[i]) %>원
-					  </td>
-					</tr>
-                  <% } %>
+                  <c:forEach var="item" items="${orderList}" varStatus="vs">
+                    <tr class="${vs.index >= 10 ? 'extra-row' : ''}" style="${vs.index >= 10 ? 'display:none;' : ''}" data-status="${item.orderStatus}">
+                      <td class="status-label ${item.orderStatusLabel}" 
+                          data-order-id="${item.orderId}" 
+                          style="${item.orderStatusLabel == '환불요청' ? 'cursor:pointer;' : ''}">
+                        ${item.orderStatusLabel}
+                      </td>
+                      <td>${item.orderId}</td>
+                      <td>${item.orderName}</td>
+                      <td class="ellipsis">
+                        <c:choose>
+                          <c:when test="${fn:length(item.addressFull) > 25}">
+                            ${fn:substring(item.addressFull, 0, 25)}...
+                            <button class="address-toggle-btn" data-index="${vs.index}">▼</button>
+                          </c:when>
+                          <c:otherwise>
+                            ${item.addressFull}
+                          </c:otherwise>
+                        </c:choose>
+                      </td>
+                      <td><fmt:formatDate value="${item.orderDate}" pattern="yyyy-MM-dd" /></td>
+                      <td>${item.productName}</td>
+                      <td>${item.orderCnt}</td>
+                      <td><fmt:formatNumber value="${item.orderPrice}" type="number" />원</td>
+                    </tr>
+                    <tr class="detail-row address-detail-${vs.index}" style="display:none;">
+                      <td colspan="8" class="detail-content">
+                        <strong>전체 배송지:</strong> ${item.addressFull}<br>
+                        <strong>상품 상세:</strong> ${item.productName} - 수량 ${item.orderCnt}개, 가격 
+                        <fmt:formatNumber value="${item.orderPrice}" type="number" />원
+                      </td>
+                    </tr>
+                  </c:forEach>
                 </tbody>
               </table>
             </div>
+
             <div class="more-button-box">
               <button id="showMoreBtn">▼ 전체 보기</button>
             </div>
+
           </div>
         </div>
       </main>
     </div>
   </div>
 
-  <footer>&copy; 2025 뜨락상회</footer>
-</div>
 
 <script>
 $(document).ready(function () {

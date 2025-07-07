@@ -249,4 +249,8 @@ header {
   max-height: none;
 }
 
-
+.product-name,
+.product-img,
+.review-text {
+	cursor: pointer;
+}

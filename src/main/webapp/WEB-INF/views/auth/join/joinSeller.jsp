@@ -179,7 +179,7 @@
 			  // 이미지 파일일 때 처리 (기존 미리보기 등)
 			  const reader = new FileReader();
 			  reader.onload = function (event) {
-			    $('.upload-placeholder').html(`<img src="${cpath}/resources/productImages/\${file.name}" style="width: 100%; height: 100%; object-fit: cover;">`);
+			    $('.upload-placeholder').html(`<img src="${cpath}/resources/productImages/\${file.name}" style="max-width: 100%; max-height: 100%; object-fit: contain;">`);
 			  };
 			  reader.readAsDataURL(file);
 			});

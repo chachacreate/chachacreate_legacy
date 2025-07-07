@@ -14,15 +14,26 @@ import lombok.Data;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReviewDTO {
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     
 	// ReviewEntity
 	private Integer reviewId;
     private Integer orderDetailId;
+    
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date reviewDate;
     private String reviewText;
     
     // MemberEntity
     private Integer memberId;
     private String memberName;
+    
+    // ProductEntity
+    private Integer productId;
+    private String productName;
+    
+    // PImgEntity
+    private String pImgUrl;
+    
+    // StoreEntity
+    private String storeUrl;
 }
