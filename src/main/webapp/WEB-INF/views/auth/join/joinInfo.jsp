@@ -59,14 +59,6 @@
       <!-- 회원가입 입력 폼 -->
 			<div class="register-wrapper">
 				<h2 class="title">회원님의 정보를 입력해주세요</h2>
-<%-- 				<p class="subtitle">소셜정보로 원클릭 가입하기</p>
-
-				<div class="social-login">
-					<img src="${cpath}/resources/images/naver.png" alt="네이버"
-						class="social-icon" /> <img
-						src="${cpath}/resources/images/kakao.png" alt="카카오"
-						class="social-icon" />
-				</div> --%>
 
 				<form id="joinForm">
 					<div class="form-group">
@@ -316,7 +308,11 @@
 	    clearInterval(authTimer); // 기존 타이머 제거
 	    checkObj.authKey = false;
 	    const email = $("#memberEmail").val();
-
+		if (checkObj.memberEmail == false){
+	        alert("이메일 형식이 올바르지 않습니다.");
+	        $("#memberEmail").focus();
+	        return;
+		}
 	    $.ajax({
 	        url: contextPath + "/sendEmail/signUp",
 	        type: "GET",
