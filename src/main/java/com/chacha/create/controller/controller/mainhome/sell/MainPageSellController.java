@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.chacha.create.common.entity.member.MemberEntity;
+import com.chacha.create.service.mainhome.personal.PersonalInfoService;
 import com.chacha.create.service.mainhome.personal.PersonalSettlementService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -24,10 +25,18 @@ public class MainPageSellController {
 	@Autowired
     private PersonalSettlementService personalSettlementService;
 
+	@Autowired
+	private PersonalInfoService personalInfoService;
     
 	// 개인 판매 홈 ( /main/sell )
     @GetMapping("/sellguide")
-    public String personalSellHome() {
+    public String personalSellHome(HttpSession session, Model model) {
+    	try {
+	    	MemberEntity loginMember = (MemberEntity) session.getAttribute("loginMember");
+	    	model.addAttribute("sellerCheck",personalInfoService.selectForSellerByMemberId(loginMember));
+    	}catch(Exception e){
+    		model.addAttribute("sellerCheck",false);
+    	}
         return "main/personal/personalSellInfo";
     }
 

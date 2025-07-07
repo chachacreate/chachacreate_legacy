@@ -1,4 +1,4 @@
-package com.chacha.create.controller.controller.seller.main;
+package com.chacha.create.controller.controller.seller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;

@@ -1,4 +1,4 @@
-package com.chacha.create.controller.controller.buyer.main;
+package com.chacha.create.controller.controller.buyer;
 
 
 import java.util.List;

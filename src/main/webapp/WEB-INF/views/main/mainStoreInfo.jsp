@@ -34,7 +34,7 @@
         </ul>
         
          <!-- ✅ 추가 버튼 -->
-	    <c:if test="${not empty sessionScope.loginMember}">
+	    <c:if test="${personalCheck}">
 		  <div class="start-button-wrapper">
 		    <a href="${cpath}/main/store/openform" class="start-sell-btn">스토어 런칭하기</a>
 		  </div>
