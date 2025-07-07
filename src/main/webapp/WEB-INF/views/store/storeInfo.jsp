@@ -124,9 +124,9 @@
       const storeUrl = location.pathname.split('/')[2]; // /{storeUrl}/info 에서 storeUrl 추출
 
       $.ajax({
-        url: `/${storeUrl}/info`,
+        url: '${cpath}/${storeUrl}/info',
         method: 'GET',
-        dataType: 'json',
+        contentType: 'application/json',
         success: function (data) {
           $('#logoImg').attr('src', data.logoImg || '/resources/images/logo.png');
           $('#memberName').text(data.memberName || '정보 없음');
