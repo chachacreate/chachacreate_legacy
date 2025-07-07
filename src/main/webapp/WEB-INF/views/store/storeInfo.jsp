@@ -1,7 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="cpath" value="${pageContext.servletContext.contextPath}" />
-<c:set var="storeUrl" value="${param.storeUrl}" />
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -86,7 +85,7 @@
 
     <!-- 스토어 로고 출력 -->
 	<div class="store-logo">
-	  <img src="${cpath}/resources/productImages/${storeInfo.logoImg}" alt="스토어 로고" style="height: 80px;" />
+	  <img id="logoImg" src="${cpath}/resources/productImages/${logoImg}" alt="스토어 로고" style="height: 80px;" />
 	</div>
 
     <!-- ✅ 판매자 정보 -->
@@ -116,31 +115,27 @@
     </div>
 
   </div>
-
-  <!-- ✅ AJAX Script -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
-    $(function () {
-      const storeUrl = location.pathname.split('/')[2]; // /{storeUrl}/info 에서 storeUrl 추출
+  $(function () {
+	  $.ajax({
+	    url: "${cpath}/api/${storeUrl}/info",
+	    method: 'GET',
+	    contentType: 'application/json',
+	    success: function (data) {
+	      const storeInfo = data.data.storeInfoList[0];
+	      const sellerInfo = data.data.sellerInfoList[0];
 
-      $.ajax({
-        url: '${cpath}/${storeUrl}/info',
-        method: 'GET',
-        contentType: 'application/json',
-        success: function (data) {
-          $('#logoImg').attr('src', data.logoImg || '/resources/images/logo.png');
-          $('#memberName').text(data.memberName || '정보 없음');
-          $('#memberPhone').text(data.memberPhone || '-');
-          $('#memberEmail').text(data.memberEmail || '-');
-          $('#storeDetail').text(data.storeDetail || '-');
-          $('#history').text(data.history || '-');
-        },
-        error: function () {
-          alert("스토어 정보를 불러오는 데 실패했습니다.");
-        }
-      });
-    });
-    
+	      $('#memberName').text(sellerInfo.sellerName || '정보 없음');
+	      $('#memberPhone').text(sellerInfo.sellerPhone || '-');
+	      $('#memberEmail').text(sellerInfo.sellerEmail || '-');
+	      $('#storeDetail').text(storeInfo.storeDetail || '-');
+	      $('#history').text(sellerInfo.sellerProfile || '-');
+	    },
+	    error: function () {
+	      alert("스토어 정보를 불러오는 데 실패했습니다.");
+	    }
+	  });
+	});
     
   </script>
 
