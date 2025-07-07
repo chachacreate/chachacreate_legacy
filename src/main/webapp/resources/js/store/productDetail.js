@@ -26,15 +26,17 @@ document.addEventListener("DOMContentLoaded", function () {
       const product = detail.productDetail;
 
       // 기본 정보 세팅
-      document.getElementById("productTitle").textContent = product.productName;
+      document.getElementById("productName").textContent = product.productName;
       document.getElementById("productTypeCategory").textContent = product.typeCategoryName;
       document.getElementById("productUCategory").textContent = product.ucategoryName;
       document.getElementById("productDCategory").textContent = product.dcategoryName;
 
       const storeLink = document.getElementById("storeNameLink");
       if (storeLink) {
-        storeLink.href = `${cpath}/{storeUrl}/info`;
-        storeLink.textContent = product.storeName;
+        storeLink.textContent = product.storeName || "뜨락상회";
+        if(storeLink.textContent === "뜨락상회") {
+        		storeLink.href = `${cpath}/main/products`;
+        	} else storeLink.href = `${cpath}/${storeUrl}/info`;
         }
 
       // 가격 및 수량 관련 로직
@@ -131,6 +133,39 @@ document.addEventListener("DOMContentLoaded", function () {
 		    }
 		  });
 		});
+		
+		// 선택된 상품을 session에 저장해 order로 보내기
+		$(document).on("click", ".buy-button", function () {
+		  const productId = product.productId;
+		  const productName = $("#productName").text().trim();
+		  const storeName = $("#storeName").text().trim();
+		  const quantity = parseInt($(".quantity-display").text(), 10);
+		  const price = parseInt($("#productPrice").text().replace(/[^0-9]/g, ""), 10);
+		  const pimgUrl = $(".main-image img").attr("src");
+		
+		  if (!productId || quantity <= 0) {
+		    alert("상품 정보가 유효하지 않습니다.");
+		    return;
+		  }
+		
+		  const item = {
+		    productId,
+		    productName,
+		    storeName,
+		    productCnt: quantity,
+		    price,
+		    pimgUrl
+		  };
+		
+		  // sessionStorage에 저장
+		  sessionStorage.setItem("orderItems", JSON.stringify([item]));
+		
+		  // 결제 페이지로 이동
+		  window.location.href = `${cpath}/${storeUrl}/order`;
+		});
+
+		
+		
 		
 		// 판매자 신고 모달
 		$('#reportBtn').on('click', function () {

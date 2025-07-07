@@ -56,5 +56,11 @@ public class HomeMainController {
     public String showOrderPage() {
     	return "store/buyer/order";
     }
+    
+	// 결제 완료페이지
+	@GetMapping("/order/complete/{orderId}")
+	public String ShowOrderComplete() {
+		return "store/buyer/orderComplete";
+	}
  
 }

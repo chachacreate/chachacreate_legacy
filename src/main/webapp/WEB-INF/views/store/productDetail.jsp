@@ -38,7 +38,7 @@
       	<button class="report-btn" id="reportBtn" type="button">신고</button>
       	</div>
       <div class="product-title-row">
-        <div class="product-title" id="productTitle">&nbsp;</div>
+        <div class="product-title" id="productName">&nbsp;</div>
         <button class="like-button">❤️</button>
       </div>
       <div class="product-category">
@@ -57,7 +57,7 @@
       </div>
       <div class="action-buttons">
         <button class="cart-button" type="button" >장바구니 담기</button>
-      <button class="buy-button" type="button" onclick="location.href='${cpath}/${storeUrl}/order'">결제하기</button>
+      <button class="buy-button" type="button" >결제하기</button>
       </div>
     </div>
   </div>

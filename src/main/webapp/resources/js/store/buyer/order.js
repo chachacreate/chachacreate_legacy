@@ -55,6 +55,8 @@ $(document).ready(function () {
     console.error("JSON 파싱 오류", e);
     return;
   }
+  
+  const isFromCart = products.some(p => p.cartId !== undefined && p.cartId !== null);
 
   const $container = $('#productContainer');
   const $summaryList = $('#summaryProductList');
@@ -174,8 +176,33 @@ $(document).ready(function () {
           success: function (response) {
             if (response.status === 201) {
               const orderid = parseInt(response.data);
-              alert("주문이 완료되었습니다. 주문번호 : " + orderid);
-              location.href = `${pageContext.request.contextPath}/main/order/complete/${orderid}`;
+
+              // 장바구니 상품일 경우에만 삭제 실행
+              if (isFromCart) {
+                const cartIds = products.map(p => p.cartId).filter(id => id);
+                const deletePromises = cartIds.map(cartId =>
+                  $.ajax({
+                    url: `${cpath}/api/main/mypage/cart/delete/${cartId}`,
+                    type: 'DELETE'
+                  })
+                );
+
+                Promise.all(deletePromises)
+                  .then(() => {
+                    alert("주문이 완료되었습니다. 주문번호 : " + orderid);
+                    sessionStorage.removeItem("orderItems");
+                    location.href = `${cpath}/main/order/complete/${orderid}`;
+                  })
+                  .catch(() => {
+                    alert("장바구니 일부 삭제 실패. 주문은 완료됨.");
+                    location.href = `${cpath}/main/order/complete/${orderid}`;
+                  });
+              } else {
+                // 단일상품 주문일 경우
+                alert("주문이 완료되었습니다. 주문번호 : " + orderid);
+                sessionStorage.removeItem("orderItems");
+                location.href = `${cpath}/main/order/complete/${orderid}`;
+              }
             }
           },
           error: function (xhr) {

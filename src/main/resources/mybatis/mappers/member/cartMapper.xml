@@ -76,7 +76,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="updateForProductCnt" parameterType="cartEntity">
 		UPDATE cart
 		SET product_cnt = #{productCnt}
-		WHERE member_id = #{memberId} AND product_id = #{productId}
+		WHERE cart_id = #{cartId}
 	</update>
 	
 	<!-- 단건 삭제 -->
