@@ -51,7 +51,7 @@ public class HomeMainController {
     
     @GetMapping("/order")
     public String showOrderPage() {
-    	return "main/mypage/mainorder";
+    	return "store/buyer/order";
     }
  
 }

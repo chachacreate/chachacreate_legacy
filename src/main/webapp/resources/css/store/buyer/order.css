@@ -15,7 +15,7 @@ body {
 
 .order-layout {
   display: flex;
-  width: 1200px;
+  width: 1440px;
   gap: 40px;
 }
 
@@ -137,7 +137,7 @@ body {
   margin-bottom: 6px;
 }
 
-.product-desc {
+.product-detail {
   font-size: 13px;
   color: #666;
 }
