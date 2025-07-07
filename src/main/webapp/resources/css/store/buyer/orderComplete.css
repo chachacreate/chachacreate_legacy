@@ -1,5 +1,6 @@
 @charset "UTF-8";
 
+/* 전체 기본 */
 body {
   margin: 0;
   padding: 0;
@@ -9,6 +10,7 @@ body {
   justify-content: center;
 }
 
+/* 메인 컨테이너 */
 .order-complete-container {
   width: 100%;
   max-width: 1200px;
@@ -19,6 +21,7 @@ body {
   gap: 40px;
 }
 
+/* 완료 메시지 */
 .complete-icon {
   width: 100px;
   height: 100px;
@@ -36,9 +39,7 @@ body {
   padding-bottom: 20px;
 }
 
-
-
-
+/* 주문 상품 섹션 */
 .order-section {
   width: 100%;
   max-width: 1120px;
@@ -57,6 +58,12 @@ body {
   border-bottom: 2px solid #000;
 }
 
+.section-header h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+}
+
 .section-more {
   background: none;
   border: none;
@@ -64,7 +71,7 @@ body {
   cursor: pointer;
 }
 
-/* 공통 그리드 구조: 이미지 + 3열 */
+/* 공통 그리드 구조: 이미지 + 상품명 + 수량 + 가격 */
 .order-grid {
   display: grid;
   grid-template-columns: 150px 1fr 100px 150px;
@@ -89,7 +96,7 @@ body {
   justify-self: center;
 }
 
-
+/* 배송지/결제정보 */
 .horizontal-sections {
   display: flex;
   max-width: 1200px;
@@ -126,4 +133,28 @@ body {
 
 .info-value {
   color: #000;
+}
+
+/* 하단 버튼 가로 정렬용 컨테이너 */
+.button-group {
+  display: flex;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+/* 홈/주문내역 돌아가기 버튼만 적용 */
+.button-group button {
+  background-color: #2a3e34;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button-group button:hover {
+  background-color: #222;
 }
