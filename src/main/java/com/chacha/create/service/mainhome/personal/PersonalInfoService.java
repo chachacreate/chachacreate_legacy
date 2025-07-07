@@ -3,6 +3,7 @@ package com.chacha.create.service.mainhome.personal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.chacha.create.common.entity.member.MemberEntity;
 import com.chacha.create.common.entity.member.SellerEntity;
 import com.chacha.create.common.mapper.member.SellerMapper;
 
@@ -37,6 +38,14 @@ public class PersonalInfoService {
 	    }
 	    
 		return sellerMapper.updateSellerInfo(seller);
+	}
+
+	public boolean selectForSellerByMemberId(MemberEntity loginMember) {
+		return sellerMapper.selectByMemberId(loginMember.getMemberId())==null?true:false;
+	}
+	
+	public boolean selectForPersonalcheckByMemberId(MemberEntity loginMember) {
+		return sellerMapper.selectByMemberId(loginMember.getMemberId()).getPersonalCheck()==1?true:false;
 	}
 	
 }

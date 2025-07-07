@@ -59,14 +59,6 @@
       <!-- 회원가입 입력 폼 -->
 			<div class="register-wrapper">
 				<h2 class="title">회원님의 정보를 입력해주세요</h2>
-<%-- 				<p class="subtitle">소셜정보로 원클릭 가입하기</p>
-
-				<div class="social-login">
-					<img src="${cpath}/resources/images/naver.png" alt="네이버"
-						class="social-icon" /> <img
-						src="${cpath}/resources/images/kakao.png" alt="카카오"
-						class="social-icon" />
-				</div> --%>
 
 				<form id="joinForm">
 					<div class="form-group">
@@ -92,12 +84,12 @@
 
 
 					<div class="form-group">
-						<label>* 비밀번호(영문/숫자/특수문자 포함 8자 이상)</label> <input type="password"
+						<label>* 비밀번호(영문/숫자/특수문자 포함 8자 이상)</label> <input type="password" id="passwordInput"
 							placeholder="내용을 입력하세요" required>
 					</div>
 
 					<div class="form-group">
-						<label>* 비밀번호 확인</label> <input type="password"
+						<label>* 비밀번호 확인</label> <input type="password" id="passwordInputChk"
 							placeholder="내용을 입력하세요" required>
 					</div>
 
@@ -159,6 +151,7 @@
 	const checkObj = {
 		"memberEmail": false,
 	      "memberPwd": false,
+	      "memberPwdCheck": false,
 	      "memberName": false,
 	      "memberPhone": false,
 	      "memberRegi": false,
@@ -316,7 +309,11 @@
 	    clearInterval(authTimer); // 기존 타이머 제거
 	    checkObj.authKey = false;
 	    const email = $("#memberEmail").val();
-
+		if (checkObj.memberEmail == false){
+	        alert("이메일 형식이 올바르지 않습니다.");
+	        $("#memberEmail").focus();
+	        return;
+		}
 	    $.ajax({
 	        url: contextPath + "/sendEmail/signUp",
 	        type: "GET",
@@ -427,6 +424,10 @@
 	    const pwd = $(this).val();
 	    checkObj.memberPwd = validatePassword(pwd);
 	  });
+	  $('input[type=password]').eq(1).on('input', function() {
+		$('input[type=password]').eq(0).val == $(this).val();
+	    checkObj.memberPwdCheck = $('input[type=password]').eq(0).val == $(this).val();
+	  });
 
 	  // 사용자 이름 검사 (공백 제외 1자 이상)
 	  $('input[placeholder="내용을 입력하세요"]').eq(2).on('input', function() {
@@ -475,28 +476,34 @@
 	    }
 	    if (!checkObj.memberPwd) {
 	      alert("🔑 비밀번호는 8자 이상, 영문/숫자/특수문자를 모두 포함해야 합니다.");
-	      $passwordInput.focus();
+	      $('#passwordInput').focus();
+	      e.preventDefault();
+	      return;
+	    }
+	    if (!checkObj.memberPwdCheck) {
+	      alert("🔑 비밀번호와 비밀번호 확인이 다릅니다.");
+	      $('#passwordInputChk').focus();
 	      e.preventDefault();
 	      return;
 	    }
 	    if (!checkObj.memberName) {
 	      alert("👤 이름을 입력해주세요.");
-	      $nameInput.focus();
+	      $('#memberName').focus();
 	      e.preventDefault();
 	      return;
 	    }
 	    if (!checkObj.memberPhone) {
 	      alert("📱 휴대폰 번호를 정확히 입력해주세요. 예: 010-1234-5678");
-	      $phoneInput.focus();
+	      $('#memberPhone').focus();
 	      e.preventDefault();
 	      return;
 	    }
 	    if (!checkObj.memberRegi) {
 	      alert("🆔 주민등록번호 앞 6자리와 뒤 7자리를 올바르게 입력해주세요.");
 	      if (!/^\d{6}$/.test($rrnFront.val())) {
-	        $rrnFront.focus();
+	    	 $('#jumin-prefix').focus();
 	      } else {
-	        $rrnBack.focus();
+	    	 $('#jumin-suffix').focus();
 	      }
 	      e.preventDefault();
 	      return;

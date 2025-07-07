@@ -1,14 +1,14 @@
-@charset "EUC-KR";
+@charset "UTF-8";
 
-/* 기본 설정 */
+/* 湲곕낯 �ㅼ�� */
 * {
   box-sizing: border-box;
 }
 body {
-  margin: 0 auto;
-  font-family: 'Pretendard', sans-serif;
-  background-color: #fff;
-  color: #1e2124;
+  font-family: 'Noto Sans KR', sans-serif;
+  background-color: #ffffff;
+  margin: 0;
+  padding: 0;
 }
 
 .container {
@@ -19,19 +19,19 @@ body {
   box-sizing: border-box;
 }
 
-/* 상단 헤더 */
+/* ���� �ㅻ�� */
 .header-banner {
   background: #ebfee1;
   padding: 32px 40px;
   display: flex;
   justify-content: center;
-  flex-shrink: 0; /* 헤더 높이 고정 */
+  flex-shrink: 0; /* �ㅻ�� ���� 怨��� */
 }
 
-/* 수정된 seller-container */
+/* ������ seller-container */
 .seller-container {
   flex: 1;
-  overflow-y: auto;       /* ✅ 스크롤 생성 */
+  overflow-y: auto;       /* �� �ㅽ�щ· ���� */
   padding: 24px 240px 40px;
   display: flex;
   flex-direction: column;
@@ -42,7 +42,7 @@ body {
 
 .header-content {
   display: flex;
-  justify-content: space-between; /* 왼쪽과 오른쪽 요소를 끝으로 분리 */
+  justify-content: space-between; /* �쇱そ怨� �ㅻⅨ履� ����瑜� ���쇰� 遺�由� */
   width: 100%;
   max-width: 1200px;
   padding: 0 20px;
@@ -76,7 +76,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 600px;  /* input 너비와 동일 */
+  width: 600px;  /* input ��鍮��� ���� */
 }
 
 .field-label-wrapper {
@@ -95,9 +95,9 @@ body {
 }
 
 .frame-817-btn {
-  all: unset; /* 기본 버튼 스타일 제거 */
-  width: 100%;      /* 부모 가로 100% */
-  height: 350px;    /* 기존 frame-817 높이 유지 */
+  all: unset; /* 湲곕낯 踰��� �ㅽ���� ��嫄� */
+  width: 100%;      /* 遺�紐� 媛�濡� 100% */
+  height: 350px;    /* 湲곗〈 frame-817 ���� ��吏� */
   border-radius: 3px;
   background: #e6e8ea;
   display: flex;
@@ -108,7 +108,7 @@ body {
   transition: background-color 0.3s, box-shadow 0.3s;
 }
 
-/* hover 효과 (frame-8152-btn과 동일) */
+/* hover �④낵 (frame-8152-btn怨� ����) */
 .frame-817-btn:hover {
   background-color: #cbd1d7;
   box-shadow: 0 0 6px rgba(0,0,0,0.15);
@@ -118,7 +118,7 @@ body {
 .required-mark {
   color: red;
   font-size: 18px;
-  margin-left: 8px; /* 원하는 간격 */
+  margin-left: 8px; /* ������ 媛�寃� */
   font-weight: bold;
 }
 
@@ -153,7 +153,7 @@ body {
   color: #1e2124;
   height: 400px;
   resize: none;
-  width: 100%;       /* ← input과 너비 맞춤 */
+  width: 100%;       /* �� input怨� ��鍮� 留�異� */
   box-sizing: border-box;
 }
 
@@ -229,7 +229,7 @@ body {
   background-color: #1f2c26;
 }
 
-/* 동의 문구 영역 */
+/* ���� 臾멸뎄 ���� */
 .consent-section {
   width: 600px;
   display: flex;

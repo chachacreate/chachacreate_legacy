@@ -1,4 +1,4 @@
-package com.chacha.create.controller.controller.buyer.main;
+package com.chacha.create.controller.controller.buyer;
 
 
 import java.util.List;
@@ -130,17 +130,21 @@ public class StoreMainController {
 	    return "main/mypage/mainMyPageReview";
 	}
 
+	//메시지 확인
+    @GetMapping("/mypage/message")
+    public String showMessagePage(@PathVariable String storeUrl, Model model) {
+		setStoreNavInfo(storeUrl, model);
+		model.addAttribute("clickMypage", "마이페이지 클릭");
+    	return "main/mypage/chat";
+    }
 	
 	// 스토어 소개/판매자 정보
 	//{storeUrl}/info
 	@GetMapping("/info")
 	public String ShowSeller_info(@PathVariable("storeUrl") String storeUrl, Model model) {
-		
-		setStoreNavInfo(storeUrl, model);
-		
+
 		List<StoreEntity> storeInfoList = storeinfo.selectByStoreInfo(storeUrl);
         List<SellerInfoDTO> sellerInfoList = storeinfo.selectBySellerInfo(storeUrl);
-        
         if (storeInfoList != null && !storeInfoList.isEmpty()) {
             model.addAttribute("storeInfoList", storeInfoList.get(0));
         }
@@ -149,14 +153,15 @@ public class StoreMainController {
             model.addAttribute("sellerInfoList", sellerInfoList.get(0));
         }
         
-		return "store/sellerInfo";
+        setStoreNavInfo(storeUrl, model);
+		return "store/storeInfo";
 	}
 	
 	// 공지사항
 	@GetMapping("/notices")
 	public String ShowNotices(@PathVariable String storeUrl, Model model) {
 		setStoreNavInfo(storeUrl, model);
-		return "main/mainNotice";
+		return "store/storeNotice";
 	}
 	
 	// 공지사항 상세

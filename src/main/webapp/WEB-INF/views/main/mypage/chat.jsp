@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="/common/header.jsp" %>
-<%@ include file="/common/main_nav.jsp" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,6 +11,16 @@
   
 </head>
 <body>
+<%@ include file="/common/header.jsp" %>
+ <!-- ✅ storeUrl 기반 동적 네비게이션 -->
+    <c:choose>
+      <c:when test="${empty storeUrl}">
+        <jsp:include page="/common/main_nav.jsp" />
+      </c:when>
+      <c:otherwise>
+        <jsp:include page="/common/storeMain_nav.jsp" />
+      </c:otherwise>
+    </c:choose>
 <div class="wrapper">
 
   <div class="main-area">
@@ -74,8 +83,9 @@ $(document).ready(function() {
 	    }
 	});
 	let storeUrl = '';
-	storeUrl = '${storeUrl}'; 
-	if(storeUrl != ''){
+	storeUrl = '${storeUrl}';
+	const isClickMypageEmpty = ${empty clickMypage ? 'true' : 'false'};
+	if(storeUrl != '' && isClickMypageEmpty){
 		 $.ajax({
 			 url: '${cpath}/api/${storeUrl}/message/makeChatting',
 			 method: 'POST',

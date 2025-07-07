@@ -33,14 +33,8 @@ public class MainMyPageController {
     	return "store/buyer/mypage/orderDetail";
     }
     
-    @GetMapping("/favorite")
-    public String showFavoritePage() {
-		return "";
-    }
-    
     @GetMapping("/message")
-    public String showMessagePage(@RequestParam(required = false) String storeUrl, Model model) {
-    	model.addAttribute("storeUrl", storeUrl);
+    public String showMessagePage() {
     	return "main/mypage/chat";
     }
     

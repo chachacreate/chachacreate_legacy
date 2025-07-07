@@ -198,7 +198,7 @@
 
 			<h3 class="section-title">상세페이지 만들기</h3>
 			<div class="detail-form">
-			  <textarea id="productDetail" placeholder="판매 물품에 대한 상세 설명을 입력하세요."></textarea>
+			  <textarea id="productDetail2" placeholder="판매 물품에 대한 상세 설명을 입력하세요."></textarea>
 			</div>
             <div class="submit-section">
               <button id="submit-btn2" class="submit-btn">판매 페이지에 상품 등록</button>
@@ -315,10 +315,6 @@ $(function() {
 });
 
 $(function() {
-  // ✅ 기타 jQuery 이벤트들
-/*   $('.detail-toggle').click(function () {
-    $(this).next('.detail-form').slideToggle();
-  }); */
 
   $('#add-category').click(function () {
     $('#category-box').append(`<span class="category-item">카테고리1</span>`);
@@ -371,15 +367,15 @@ $(document).ready(function () {
                   	}, 100); // 약간의 딜레이 필요 (select options가 완전히 갱신된 후)
                   	if (products[0].pimgUrl1){
                     	pimgUrl1 = `\${products[0].pimgUrl1}`;
-                    	$('#upload-placeholder1').html(`<img src="${cpath}/resources/productImages/\${products[0].pimgUrl1}">`);
+                    	$('#upload-placeholder1').html(`<img src="${cpath}/resources/productImages/\${products[0].pimgUrl1}" style="max-width: 100%; max-height: 100%; object-fit: contain; display: block;">`);
                   	}
                   	if (products[0].pimgUrl2){
                     	pimgUrl2 = `\${products[0].pimgUrl2}`;
-                    	$('#upload-placeholder2').html(`<img src="${cpath}/resources/productImages/\${products[0].pimgUrl2}">`);
+                    	$('#upload-placeholder2').html(`<img src="${cpath}/resources/productImages/\${products[0].pimgUrl2}" style="max-width: 100%; max-height: 100%; object-fit: contain; display: block;">`);
                   	}
                     if (products[0].pimgUrl3){
                     	pimgUrl3 = `\${products[0].pimgUrl3}`;
-                    	$('#upload-placeholder3').html(`<img src="${cpath}/resources/productImages/\${products[0].pimgUrl3}">`);
+                    	$('#upload-placeholder3').html(`<img src="${cpath}/resources/productImages/\${products[0].pimgUrl3}" style="max-width: 100%; max-height: 100%; object-fit: contain; display: block;">`);
                     }
                  	// 첫 번째 슬라이드 input/textarea 비활성화
                     $('#productName, #productDetail, #price, #stock, #typeCategory, #uCategory, #dCategory').prop('disabled', true);
@@ -419,15 +415,15 @@ $(document).ready(function () {
                 	}, 100); // 약간의 딜레이 필요 (select options가 완전히 갱신된 후)
                   	if (products[1].pimgUrl1){
                     	pimgUrl4 = `\${products[1].pimgUrl1}`;
-                    	$('#upload-placeholder4').html(`<img src="${cpath}/resources/productImages/\${products[1].pimgUrl1}">`);
+                    	$('#upload-placeholder4').html(`<img src="${cpath}/resources/productImages/\${products[1].pimgUrl1}" style="max-width: 100%; max-height: 100%; object-fit: contain; display: block;">`);
                   	}
                   	if (products[1].pimgUrl2){
                     	pimgUrl5 = `\${products[1].pimgUrl2}`;
-                    	$('#upload-placeholder5').html(`<img src="${cpath}/resources/productImages/\${products[1].pimgUrl2}">`);
+                    	$('#upload-placeholder5').html(`<img src="${cpath}/resources/productImages/\${products[1].pimgUrl2}" style="max-width: 100%; max-height: 100%; object-fit: contain; display: block;">`);
                   	}
                     if (products[1].pimgUrl3){
                    		pimgUrl6 = `\${products[1].pimgUrl3}`;
-                   		$('#upload-placeholder6').html(`<img src="${cpath}/resources/productImages/\${products[1].pimgUrl3}">`);
+                   		$('#upload-placeholder6').html(`<img src="${cpath}/resources/productImages/\${products[1].pimgUrl3}" style="max-width: 100%; max-height: 100%; object-fit: contain; display: block;">`);
                     }
                  	// 두 번째 슬라이드 input/textarea 비활성화
                     $('#productName2, #productDetail2, #price2, #stock2, #typeCategory2, #uCategory2, #dCategory2').prop('disabled', true);
