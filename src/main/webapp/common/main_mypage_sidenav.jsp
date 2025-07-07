@@ -2,22 +2,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<%-- ✅ contextPath, URI 설정 --%>
 <c:set var="cpath" value="${pageContext.servletContext.contextPath}" />
 <c:set var="uri" value="${pageContext.request.requestURI}" />
 
-<%-- ✅ JSP 내부에서 안전하게 storeUrl 추출 --%>
-<%
-    String storeUrl = "main"; // 기본값
-    String[] uriParts = request.getRequestURI().split("/");
-    if (uriParts.length >= 3 && !"WEB-INF".equals(uriParts[2])) {
-        storeUrl = uriParts[2];
-    }
-    pageContext.setAttribute("storeUrl", storeUrl);
-%>
-
-<%-- ✅ basePath 구성 --%>
-<c:set var="basePath" value="${cpath}/${storeUrl}/mypage" />
+<%-- ✅ basePath를 storeUrl 기반으로 설정 --%>
+<c:choose>
+  <c:when test="${not empty storeUrl}">
+    <c:set var="basePath" value="${cpath}/${storeUrl}/mypage" />
+  </c:when>
+  <c:otherwise>
+    <c:set var="basePath" value="${cpath}/main/mypage" />
+  </c:otherwise>
+</c:choose>
 
 <aside class="sidebar">
   <ul>
@@ -48,3 +44,48 @@
     </li>
   </ul>
 </aside>
+
+<style>
+.sidebar {
+  width: 240px;
+  background-color: #E6F1E5;
+  padding-top: 20px;
+  border-radius: 12px;
+  box-shadow: 2px 2px 8px rgba(0, 64, 0, 0.05);
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar ul li a {
+  display: block;
+  padding: 15px 20px;
+  text-decoration: none;
+  color: #2D4739;
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 4px;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.sidebar ul li a:hover {
+  background-color: #cde4d2;
+  color: #1b2e23;
+}
+
+.sidebar ul li a.active {
+  background-color: #B0CBB0;
+  color: #fff;
+}
+
+.sidebar ul li a.active::after {
+  content: '\25B6'; /* ▶ */
+  float: right;
+  margin-left: 10px;
+}
+
+</style>
+

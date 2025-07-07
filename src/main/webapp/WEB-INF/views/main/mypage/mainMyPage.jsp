@@ -24,7 +24,7 @@
 
     <!-- ✅ storeUrl 기반 동적 네비게이션 -->
     <c:choose>
-      <c:when test="${storeUrl eq 'main'}">
+      <c:when test="${empty storeUrl}">
         <jsp:include page="/common/main_nav.jsp" />
       </c:when>
       <c:otherwise>

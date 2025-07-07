@@ -91,7 +91,7 @@ public class StoreMainController {
 	@GetMapping("/mypage/orders")
 	public String ShowMyOrders(@PathVariable String storeUrl, Model model) {
 		setStoreNavInfo(storeUrl, model);
-		return "store/buyer/mypage/orderList";
+		return "main/mypage/mainMyPageOrderList";
 	}
 	
 	
@@ -118,10 +118,14 @@ public class StoreMainController {
 	
 	// 작성한 리뷰 확인
 	@GetMapping("/mypage/myreview")
-	public String ShowMyReview(@PathVariable String storeUrl, @RequestParam int productId, Model model) {
-		setStoreNavInfo(storeUrl, model);
-		return "store/productDetail";
+	public String ShowMyReview(@PathVariable String storeUrl,
+	                           @RequestParam(required = false) Integer productId,
+	                           Model model) {
+	    setStoreNavInfo(storeUrl, model);
+	    model.addAttribute("productId", productId); // 필요 시만 사용
+	    return "main/mypage/mainMyPageReview";
 	}
+
 	
 	// 스토어 소개/판매자 정보
 	//{storeUrl}/info
