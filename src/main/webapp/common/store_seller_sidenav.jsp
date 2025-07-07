@@ -32,6 +32,13 @@
   border: 3px solid white;
 }
 
+.profile-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
 .store-name {
   margin-top: 8px;
   font-size: 20px;
@@ -70,6 +77,7 @@
   margin-left: 4px;
   flex-grow: 1;
   text-align: left;
+  font-weight: 700; 
 }
 
 .menu-list a:hover {
@@ -124,7 +132,7 @@
   <div class="profile-section">
     <div class="profile-img">
     	<!-- 동적으로 스토어 로고 삽입 -->
-		<img src="${cpath}/resources/productImages/${logoImg}" alt="스토어 로고" style="height: 80px"/>
+		<img src="${cpath}/resources/productImages/${logoImg}" alt="스토어 로고"/>
 	</div>
     <div class="store-name">
 		<!-- 동적으로 스토어 이름 삽입 -->

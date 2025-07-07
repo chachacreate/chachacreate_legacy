@@ -52,9 +52,12 @@ public class StoreMainController {
 	// 구매자 마이페이지(구매자)
 	@GetMapping("/mypage")
 	public String ShowMypage(@PathVariable String storeUrl, Model model) {
-		setStoreNavInfo(storeUrl, model);
-		return "store/buyer/mypage/storeMypage";
-	}
+		   if (!"main".equals(storeUrl)) {
+		        setStoreNavInfo(storeUrl, model);
+		    }
+		    model.addAttribute("storeUrl", storeUrl); // 항상 추가!
+		    return "main/mypage/mainMyPage";
+		}
 	
 	// 상세페이지
 	@GetMapping("/productdetail/{productId}")

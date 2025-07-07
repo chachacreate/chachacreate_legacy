@@ -2,20 +2,22 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
+<%-- ✅ contextPath, URI 설정 --%>
 <c:set var="cpath" value="${pageContext.servletContext.contextPath}" />
 <c:set var="uri" value="${pageContext.request.requestURI}" />
 
-<%-- ✅ basePath 동적 설정 --%>
-<c:set var="storeUrl" value="${fn:split(pageContext.request.requestURI, '/')[2]}" />
+<%-- ✅ JSP 내부에서 안전하게 storeUrl 추출 --%>
+<%
+    String storeUrl = "main"; // 기본값
+    String[] uriParts = request.getRequestURI().split("/");
+    if (uriParts.length >= 3 && !"WEB-INF".equals(uriParts[2])) {
+        storeUrl = uriParts[2];
+    }
+    pageContext.setAttribute("storeUrl", storeUrl);
+%>
 
-<c:choose>
-  <c:when test="${storeUrl ne 'main'}">
-    <c:set var="basePath" value='${cpath}/${storeUrl}/mypage' />
-  </c:when>
-  <c:otherwise>
-    <c:set var="basePath" value='${cpath}/main/mypage' />
-  </c:otherwise>
-</c:choose>
+<%-- ✅ basePath 구성 --%>
+<c:set var="basePath" value="${cpath}/${storeUrl}/mypage" />
 
 <aside class="sidebar">
   <ul>
@@ -36,7 +38,6 @@
     </li>
     <li>
       <a href="${basePath}/message"
-
          class="${fn:contains(uri, '/mypage/message') ? 'active' : ''}">
          문의 메시지</a>
     </li>
