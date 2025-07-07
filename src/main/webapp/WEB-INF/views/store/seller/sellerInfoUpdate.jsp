@@ -10,14 +10,14 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<link rel="stylesheet" type="text/css" href="${cpath}/resources/css/auth/join/joinSeller.css">
 </head>
 <body>
 <div class="content-wrapper">
+ <div class="side-padding"></div>
    <%@ include file="/common/store_seller_sidenav.jsp" %>
 
   <div class="main-area">
-    <div class="content-wrapper">
+
 
       <main class="content">
         <div class="content-inner">
@@ -138,7 +138,7 @@
     <input type="text" id="accountname" class="info-input" readonly />
   </div>
 
-  <button type="button" class="account-button" id="accountSubmit">계좌 등록하기</button>
+  <button type="button" class="account-button" id="accountSubmit">계좌 수정하기</button>
 </div>
 
 <!-- ✅ 나의 이력 등록 -->
@@ -172,8 +172,9 @@
 		  </div>
 		</div>
       </main>
-    </div>
+
   </div>
+  <div class="side-padding"></div>
 </div>
 
 <script>
