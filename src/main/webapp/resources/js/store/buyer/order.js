@@ -174,8 +174,27 @@ $(document).ready(function () {
           success: function (response) {
             if (response.status === 201) {
               const orderid = parseInt(response.data);
-              alert("주문이 완료되었습니다. 주문번호 : " + orderid);
-              location.href = `${pageContext.request.contextPath}/main/order/complete/${orderid}`;
+
+              // 장바구니 삭제
+              const cartIds = products.map(p => p.cartId).filter(id => id);
+              const deletePromises = cartIds.map(cartId =>
+                $.ajax({
+                  url: `${cpath}/api/main/mypage/cart/delete/${cartId}`,
+                  type: 'DELETE'
+                })
+              );
+
+              Promise.all(deletePromises)
+                .then(() => {
+                  alert("주문이 완료되었습니다. 주문번호 : " + orderid);
+                  sessionStorage.removeItem("orderItems");
+                  location.href = `${cpath}/main/order/complete/${orderid}`;
+                })
+                .catch(() => {
+                  alert("장바구니 일부 삭제 실패. 주문은 완료됨.");
+                  location.href = `${cpath}/main/order/complete/${orderid}`;
+                });
+              
             }
           },
           error: function (xhr) {
