@@ -6,6 +6,7 @@
   <meta charset="UTF-8">
   <title>상품 상세 페이지</title>
   <%@ include file="/common/header.jsp" %>
+  
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link rel="stylesheet" href="${cpath}/resources/css/store/productDetail.css">
 </head>
@@ -13,7 +14,7 @@
 <script>
   window.loggedInMemberId = ${loginMember != null ? loginMember.memberId : 'null'};
 </script>
-
+<jsp:include page="/common/storeMain_nav.jsp" />
 <div class="div">
 
   <!-- 상품 상세 섹션 -->
