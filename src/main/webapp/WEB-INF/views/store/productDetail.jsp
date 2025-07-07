@@ -32,11 +32,16 @@
 
     <!-- 오른쪽: 정보 -->
     <div class="product-details">
+    <div class="first-row">
     <div class="store-title-row">
       <div class="store-name" id="storeName">
       	<a id="storeNameLink" href="#">&nbsp;</a></div>
       	<button class="report-btn" id="reportBtn" type="button">신고</button>
       	</div>
+	  <div class="edit-button-row">
+	    <button class="edit-button" id="editProductBtn" type="button" style="display:none">수정</button>
+	  </div>
+	  </div>
       <div class="product-title-row">
         <div class="product-title" id="productName">&nbsp;</div>
         <button class="like-button">❤️</button>

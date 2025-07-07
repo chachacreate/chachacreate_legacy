@@ -76,5 +76,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		profile_info = #{profileInfo}
 		WHERE seller_id = #{sellerId}
 	</update>
+	
+	<select id="selectMemberIdForSellerId" resultType="int">
+		SELECT member_id FROM seller WHERE seller_id = #{sellerId}
+	</select>
 
 </mapper>
