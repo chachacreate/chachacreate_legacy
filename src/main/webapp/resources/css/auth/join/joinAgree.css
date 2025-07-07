@@ -271,6 +271,7 @@ body {
   align-items: center;
   justify-content: center;
   font-size: 17px;
+   text-decoration: none; /* ✅ 밑줄 제거 */
 }
 .btn.cancel {
   border: 1px solid #58616a;

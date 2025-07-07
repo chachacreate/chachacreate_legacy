@@ -14,7 +14,15 @@
 <script>
   window.loggedInMemberId = ${loginMember != null ? loginMember.memberId : 'null'};
 </script>
-<jsp:include page="/common/storeMain_nav.jsp" />
+<!-- ✅ storeUrl 기반 동적 네비게이션 -->
+    <c:choose>
+      <c:when test="${empty storeUrl}">
+        <jsp:include page="/common/main_nav.jsp" />
+      </c:when>
+      <c:otherwise>
+        <jsp:include page="/common/storeMain_nav.jsp" />
+      </c:otherwise>
+    </c:choose>
 <div class="div">
 
   <!-- 상품 상세 섹션 -->
