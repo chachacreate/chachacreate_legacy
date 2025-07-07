@@ -1,5 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="/common/header.jsp"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt"  uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions"%> 
+<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="cpath" value="${pageContext.servletContext.contextPath}" />
+<c:set var="uri" value="${pageContext.request.requestURI}" />
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -7,9 +12,10 @@
   <title>공지 / 소식</title>
   <link rel="stylesheet" href="${cpath}/resources/css/main/mainNotice.css" />
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+  
+	<%@ include file="/common/header.jsp"%>
   <!-- ✅ 네비게이션 -->
-  <jsp:include page="/common/main_nav.jsp" />
+  <jsp:include page="/common/storeMain_nav.jsp" />
 
   <!-- ✅ 공지사항 JS (외부에서 로딩) -->
   <script src="${cpath}/resources/js/store/storeNotice.js"></script>
