@@ -17,7 +17,15 @@
   <div class="wrapper">
      <!-- ✅ Include Header & Nav -->
 <jsp:include page="/common/header.jsp" />
-<jsp:include page="/common/main_nav.jsp" />
+ <!-- ✅ storeUrl 기반 동적 네비게이션 -->
+    <c:choose>
+      <c:when test="${empty storeUrl}">
+        <jsp:include page="/common/main_nav.jsp" />
+      </c:when>
+      <c:otherwise>
+        <jsp:include page="/common/storeMain_nav.jsp" />
+      </c:otherwise>
+    </c:choose>
 
     <!-- 메인 콘텐츠 영역 -->
     <main class="main-area">
