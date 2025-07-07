@@ -33,8 +33,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const storeLink = document.getElementById("storeNameLink");
       if (storeLink) {
-        storeLink.href = `${cpath}/{storeUrl}/info`;
-        storeLink.textContent = product.storeName;
+        storeLink.textContent = product.storeName || "뜨락상회";
+        if(storeLink.textContent === "뜨락상회") {
+        		storeLink.href = `${cpath}/main/products`;
+        	} else storeLink.href = `${cpath}/${storeUrl}/info`;
         }
 
       // 가격 및 수량 관련 로직
