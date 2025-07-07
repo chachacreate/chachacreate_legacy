@@ -53,27 +53,27 @@
       <div class="step">
         <h3>STEP 1</h3>
         <p>회원가입 및 로그인 후, 개인 판매 메뉴에서 스토어 개설을 클릭하세요.</p>
-        <img src="resources/images/step1.jpg" alt="step1">
+       <!--  <img src="resources/images/step1.jpg" alt="step1"> -->
       </div>
       <div class="step">
         <h3>STEP 2</h3>
         <p>스토어 이름과 설명을 입력하여 등록하세요.</p>
-        <img src="resources/images/step2.jpg" alt="step2">
+       <!--  <img src="resources/images/step2.jpg" alt="step2"> -->
       </div>
       <div class="step">
         <h3>STEP 3</h3>
         <p>상품을 등록하고 상세 정보를 기입합니다.</p>
-        <img src="resources/images/step3.jpg" alt="step3">
+       <!--  <img src="resources/images/step3.jpg" alt="step3"> -->
       </div>
       <div class="step">
         <h3>STEP 4</h3>
         <p>결제 수단을 설정하고 판매를 시작하세요.</p>
-        <img src="resources/images/step4.jpg" alt="step4">
+   <!--      <img src="resources/images/step4.jpg" alt="step4"> -->
       </div>
       <div class="step">
         <h3>STEP 5</h3>
         <p>상품이 판매되면 정산 및 배송 처리는 자동으로 관리됩니다.</p>
-        <img src="resources/images/step5.jpg" alt="step5">
+  <!--       <img src="resources/images/step5.jpg" alt="step5"> -->
       </div>
      
     </section>

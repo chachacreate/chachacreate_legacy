@@ -52,27 +52,27 @@
     <div class="step">
       <div class="step-header">STEP 1</div>
       <p>회원가입 및 로그인 후, 개인 판매 메뉴에서 개인판매 시작하기를 클릭하세요.</p>
-      <img src="resources/images/step1.jpg" alt="step1">
+      <!-- <img src="resources/images/step1.jpg" alt="step1"> -->
     </div>
     <div class="step">
       <div class="step-header">STEP 2</div>
       <p>판매 물품명과 물품 사진을 등록하세요.</p>
-      <img src="resources/images/step2.jpg" alt="step2">
+     <!--  <img src="resources/images/step2.jpg" alt="step2"> -->
     </div>
     <div class="step">
       <div class="step-header">STEP 3</div>
       <p>가격과 재고를 설정하고 상세 정보를 기입합니다.</p>
-      <img src="resources/images/step3.jpg" alt="step3">
+     <!--  <img src="resources/images/step3.jpg" alt="step3"> -->
     </div>
     <div class="step">
       <div class="step-header">STEP 4</div>
       <p>결제 수단을 설정하고 판매를 시작하세요.</p>
-      <img src="resources/images/step4.jpg" alt="step4">
+    <!--   <img src="resources/images/step4.jpg" alt="step4"> -->
     </div>
     <div class="step">
       <div class="step-header">STEP 5</div>
       <p>상품이 판매되면 정산 및 배송 처리는 자동으로 관리됩니다.</p>
-      <img src="resources/images/step5.jpg" alt="step5">
+     <!--  <img src="resources/images/step5.jpg" alt="step5"> -->
     </div>
   </div>
 </section>
