@@ -1,23 +1,17 @@
 @charset "UTF-8";
 
 html, body {
-  height: 100%;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  min-height: 100vh; /* 뷰포트 높이만큼 확보 */
-  display: flex;
-  flex-direction: column;
+  background-color: #f8f8f8;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
 .wrapper {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; 
-}
-
-main {
-  flex: 1; 
+  min-height: 100vh;
 }
 
 .notice-container {
@@ -42,7 +36,7 @@ main {
 
 .search-box .search-btn {
   padding: 12px 20px;
-  background-color: #676f58;
+  background-color: #2D4739;
   color: white;
   border: none;
   border-radius: 8px;

@@ -154,7 +154,7 @@ public class StoreMainController {
 	@GetMapping("/notices")
 	public String ShowNotices(@PathVariable String storeUrl, Model model) {
 		setStoreNavInfo(storeUrl, model);
-		return "main/mainNotice";
+		return "store/storeNotice";
 	}
 	
 	// 공지사항 상세

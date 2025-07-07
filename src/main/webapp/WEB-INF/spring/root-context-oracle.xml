@@ -7,7 +7,9 @@
       class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
       <property name="locations">
          <list>
+
             <value>classpath:properties/oracleDB.properties</value> <!-- 본인 PC로 연결하고싶으면 oracleDB-localhost.properties로 변경하여 사용 -->
+
          	<value>classpath:properties/email.properties</value>
          	<value>classpath:properties/kakao.properties</value>
          	<value>classpath:properties/naver.properties</value>
