@@ -106,8 +106,8 @@
               
             </div>
 
-			<button class="detail-toggle">상세페이지 만들기</button>
-            <div class="detail-form" style="display:none;"> <!-- 여기에 display:none 추가 -->
+			<h3 class="section-title">상세페이지 만들기</h3>
+			<div class="detail-form">
 			  <textarea id="productDetail" placeholder="판매 물품에 대한 상세 설명을 입력하세요."></textarea>
 			</div>
             <div class="submit-section">
@@ -196,9 +196,9 @@
               
             </div>
 
-			<button class="detail-toggle">상세페이지 만들기</button>
-            <div class="detail-form" style="display:none;"> <!-- 여기에 display:none 추가 -->
-			  <textarea id="productDetail2" placeholder="판매 물품에 대한 상세 설명을 입력하세요."></textarea>
+			<h3 class="section-title">상세페이지 만들기</h3>
+			<div class="detail-form">
+			  <textarea id="productDetail" placeholder="판매 물품에 대한 상세 설명을 입력하세요."></textarea>
 			</div>
             <div class="submit-section">
               <button id="submit-btn2" class="submit-btn">판매 페이지에 상품 등록</button>
@@ -316,9 +316,9 @@ $(function() {
 
 $(function() {
   // ✅ 기타 jQuery 이벤트들
-  $('.detail-toggle').click(function () {
+/*   $('.detail-toggle').click(function () {
     $(this).next('.detail-form').slideToggle();
-  });
+  }); */
 
   $('#add-category').click(function () {
     $('#category-box').append(`<span class="category-item">카테고리1</span>`);
