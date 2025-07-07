@@ -164,7 +164,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		  const productName = $("#productName").text().trim();
 		  const storeName = $("#storeName").text().trim();
 		  const quantity = parseInt($(".quantity-display").text(), 10);
-		  const price = parseInt($("#productPrice").text().replace(/[^0-9]/g, ""), 10);
+		  const price = product.price;
 		  const pimgUrl = $(".main-image img").attr("src");
 		
 		  if (!productId || quantity <= 0) {
