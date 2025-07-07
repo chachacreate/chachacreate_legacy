@@ -17,10 +17,11 @@ function mainHomeInfo(){
 			bestStore = result.data.bestStore.filter(store => store.storeName !== null);
 			bestProduct = result.data.bestProduct;
 			newProduct = result.data.newProduct;
-			console.error("전체상품 조회 :", result);
+			topRankStore = result.data.bestStore[0];
 			renderBestStore(bestStore);
 			renderBestProduct(bestProduct);
 			renderNewProduct(newProduct);
+			renderTopStore(topRankStore);
 		},
 		error: function (xhr, status, error) {
 	      console.error("전체 조회 실패:", error);
@@ -121,7 +122,24 @@ function renderNewProduct(newProduct) {
 }
 
 
-
+// 금주의 인기 스토어 1위
+function renderTopStore(store){
+	topStoreArea = document.getElementById("topStore");
+	
+	let html =`
+				<div class="text-area" >
+				<h4>${store.categoryName} '${store.storeName}'</h4>
+			      <p class="discount">${store.storeDetail}</p>
+			      <a href="${cpath}/${store.storeUrl}" class="side-banner-btn">바로가기</a>
+			    </div>
+			    <div class="image-area">
+			      <img src="${cpath}/resources/images/${store.logoImg}"
+			      style="height: 120px;"
+			       alt="${store.storeName}">
+			    </div>	
+	`;
+	topStoreArea.innerHTML = html;
+};
 
 
 
