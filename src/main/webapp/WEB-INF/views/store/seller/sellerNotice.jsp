@@ -1,21 +1,28 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="/common/header.jsp" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>뜨락상회 판매자 공지사항 목록 페이지</title>
+
+<title>뜨락상회 판매자 신고 목록 페이지</title>
+
 <%@ include file="/common/header.jsp" %>
 <link rel="stylesheet" type="text/css" href="${cpath}/resources/css/admin/authMain.css">
 <link rel="stylesheet" type="text/css" href="${cpath}/resources/css/admin/declarationManage.css">
+<jsp:include page="/common/storeMain_nav.jsp" />
+<link rel="stylesheet" href="${cpath}/resources/css/store/seller/sellerNotice.css" />
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="${cpath}/resources/js/store/store_seller_Notice.js"></script>
 </head>
 <body>
+  <input type="hidden" id="cpath" value="${cpath}">
+  <input type="hidden" id="storeUrl" value="${storeUrl}">
+  
 <div class="wrapper">
 <div class="main-area">
 	<div class="content-wrapper">
     <%@ include file="/common/store_seller_sidenav.jsp" %>
-
     <main class="content">
         <div class="content-inner">
             <div class="suggestion-box">

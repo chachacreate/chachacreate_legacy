@@ -1,31 +1,11 @@
 @charset "UTF-8";
-
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  min-height: 100vh; /* 뷰포트 높이만큼 확보 */
-  display: flex;
-  flex-direction: column;
-}
-
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh; 
-}
-
-main {
-  flex: 1; 
-}
-
+/* 공지사항 컨테이너 */
 .notice-container {
   padding: 60px 240px 20px 240px;
   background: white;
-   flex: 1; /* ✅ 남은 공간을 채움 */
 }
 
+/* 검색창 */
 .search-box {
   margin-bottom: 30px;
   display: flex;
@@ -49,6 +29,7 @@ main {
   cursor: pointer;
 }
 
+/* 작성 버튼 + 폼 */
 .write-area {
   margin-bottom: 30px;
 }
@@ -77,6 +58,9 @@ main {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
 }
 
 #write-form button {
@@ -88,6 +72,7 @@ main {
   border-radius: 4px;
 }
 
+/* 테이블 기본 */
 .notice-table {
   width: 100%;
   border-collapse: collapse;
@@ -101,48 +86,7 @@ main {
   text-align: left;
 }
 
-.accordion {
-  cursor: pointer;
-  background-color: #fff;
-}
-
-.accordion:hover {
-  background-color: #f1f1f1;
-}
-
-.answer-row {
-  background-color: #fafafa;
-}
-
-.answer {
-  padding: 20px;
-  color: #555;
-  line-height: 1.5;
-}
-
-.pagination {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
-  padding-bottom: 16px;
-}
-
-.pagination a {
-  padding: 8px 14px;
-  background: #eee;
-  border-radius: 6px;
-  text-decoration: none;
-  color: #555;
-  cursor: pointer;
-}
-
-.pagination a.active {
-  background-color: #676f58;
-  color: white;
-}
-
-/* 공지사항 목록 테이블 스타일 */
+/* 공지 제목 행 */
 .notice-header {
   background-color: #fffef4;
   cursor: pointer;
@@ -159,7 +103,7 @@ main {
   font-size: 15px;
 }
 
-/* 클릭시 열리는 공지 상세 내용 */
+/* 상세 내용 열리는 행 */
 .notice-content {
   background-color: #fff;
   font-size: 14px;
@@ -171,6 +115,97 @@ main {
   color: #333;
 }
 
+/* 수정/삭제 버튼 영역 */
+.notice-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.notice-actions button {
+  padding: 4px 10px;
+  font-size: 13px;
+  background-color: #ddd;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.notice-actions button:hover {
+  background-color: #bbb;
+}
+
+/* 수정 폼 */
+.edit-notice-form {
+  padding: 16px;
+  border: 1px solid #ccc;
+  background-color: #fafafa;
+  border-radius: 8px;
+}
+
+.edit-notice-form input,
+.edit-notice-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.edit-notice-form .check-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.edit-notice-form button {
+  background-color: #676f58;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  margin-right: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.edit-notice-form button.cancel-edit-btn {
+  background-color: #999;
+}
+
+.edit-notice-form button:hover {
+  opacity: 0.9;
+}
+
+/* 페이지네이션 */
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding-bottom: 16px;
+}
+
+.page-btn {
+  padding: 8px 14px;
+  background: #eee;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #555;
+  border: none;
+  cursor: pointer;
+}
+
+.page-btn.active {
+  background-color: #676f58;
+  color: white;
+}
+
+
+
+
 
 /* 푸터 스타일 */
 footer {
@@ -181,5 +216,3 @@ footer {
   padding: 20px 0;
   font-size: 14px;
 }
-
-

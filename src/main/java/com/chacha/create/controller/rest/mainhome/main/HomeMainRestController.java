@@ -41,7 +41,6 @@ public class HomeMainRestController {
             @RequestParam(required = false) List<String> u,
             @RequestParam(value = "keyword", required = false) String keyword,
             @RequestParam(required = false, defaultValue = "latest") String sort) {
-
         List<HomeProductDTO> result = mainService.getFilteredProductListWithParams(
                 null, type, d, u, keyword, sort);
 

@@ -15,11 +15,11 @@
 
   <!-- Custom CSS -->
   <link rel="stylesheet" type="text/css" href="${cpath}/resources/css/main/main.css">
-  
+  <script src="${cpath}/resources/js/main/mainHome.js"></script>  
 
 </head>
 <body>
-
+  <input type="hidden" id="cpath" value="${cpath}">
   <jsp:include page="/common/main_nav.jsp" />
   
   <!-- MAIN CONTENT -->
@@ -142,20 +142,7 @@
 </div>
   <div class="swiper store-swiper">
     <div class="swiper-wrapper" id="store-swiper-wrapper">
-      <% for(int i = 0; i < 10; i++) { %>
-      <div class="swiper-slide">
-        <div class="card">
-          <img src="<%= request.getContextPath() %>/resources/images/logo/stores/<%= storeImages[i] %>" alt="<%= storeNames[i] %>">
-          <h3><%= storeNames[i] %></h3>
-          <div class="category-list">
-            <% for(int j = 0; j < 3; j++) { %>
-              <span class="category-tag"><%= storeCategories[i][j] %></span>
-            <% } %>
-          </div>
-          <p class="store-desc"><%= storeDescriptions[i] %></p>
-        </div>
-      </div>
-      <% } %>
+    		<!-- 동적으로 인기 스토어 정보가 들어갈 공간 -->
     </div>
     <div class="swiper-pagination store-pagination"></div>
     <div class="swiper-button-prev store-prev"></div>
@@ -171,28 +158,8 @@
   <h2>인기 상품</h2>
 </div>
   <div class="swiper product-swiper">
-    <div class="swiper-wrapper">
-      <% for (int i = 1; i <= 10; i++) { %>
-        <div class="swiper-slide">
-          <div class="product-card">   
-            <div class="product-image-box">
-              <img src="<%= request.getContextPath() %>/resources/images/main/products/product<%=i%>.png" alt="인기상품<%=i%>">
-              <div class="product-icon">
-                <a href="#"><span class="material-symbols-outlined">arrow_outward</span></a>
-              </div>
-            </div>
-            <div class="product-content">
-              <h3>상품명 <%=i%></h3>
-              <div class="category-badges">
-                <span class="badge">천연</span>
-                <span class="badge">핸드메이드</span>
-              </div>
-              <p>10,000원</p>
-              
-            </div>
-          </div>
-        </div>
-      <% } %>
+    <div class="swiper-wrapper" id="swiper-wrapper">
+    		<!-- 인기 상품 정보가 들어갈 공간 -->
     </div>
 
     <div class="swiper-pagination product-pagination"></div>
@@ -208,14 +175,8 @@
     <h2>금주 신상품</h2>
     <a href="${cpath}/main/products" class="view-all">전체보기</a>
   </div>
-  <div class="preview-grid">
-    <% for(int i=1; i<=8; i++) { %>
-    <div class="preview-card">
-      <img src="<%= request.getContextPath() %>/resources/productImages/newproduct<%=i%>.jpg" alt="신상품<%=i%>">
-      <p class="product-name">신상품 <%=i%></p>
-      <p class="product-price"><fmt:formatNumber value="<%= i * 5000 %>" type="currency" currencySymbol="₩" /></p>
-    </div>
-    <% } %>
+  <div class="preview-grid" id="preview-grid">
+		<!-- 신상품 정보가 들어갈 공간 -->
   </div>
 </section>
     

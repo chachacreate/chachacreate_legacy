@@ -48,4 +48,9 @@ public class NoticeService {
 		return noticeMapper.delete(noticeId);
 	}
 	
+	@Transactional(rollbackFor = Exception.class)
+	public List<NoticeEntity> selectByStoreId(int storeId) {
+		return noticeMapper.selectByStoreId(storeId);
+	}
+	
 }

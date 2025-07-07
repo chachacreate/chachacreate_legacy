@@ -1,150 +1,168 @@
-  let swiper = null;
+let bestSwiper = null;
+let mainSwiper = null;
+let cpath = "";
+let storeUrl = "";
 
 $(() => {
-	  bestProduct();
-	  mainProduct();
-	});
-	
-	function mainProduct(){
-	var cpath = document.getElementById("cpath").value;
-	var storeUrl = document.getElementById("storeUrl").value;
-	
-	// 이미지 테스트
-	/*function getImageUrl(imgPath) {
-    if (!imgPath) return "";
-    if (imgPath.startsWith("http://") || imgPath.startsWith("https://")) {
-      return imgPath;
+  cpath = document.getElementById("cpath").value;
+  storeUrl = document.getElementById("storeUrl").value;
+
+  bestProduct();
+  mainProduct();
+  storeNotices();
+});
+
+//스토어 소개 렌더링
+function renderStoreInfo(store) {
+  const storeInfoArea = document.getElementById("store-banner");
+  const storeInfo = store[0]; // 대표 스토어 하나만
+
+  const html = `
+    <img src="${cpath}/resources/productImages/${storeInfo.logoImg}" alt="${storeInfo.storeName}">
+    <div class="store-intro">
+      <h1 class="store-name">${storeInfo.storeName}</h1>
+      <p class="store-desc">${storeInfo.storeDetail}</p>
+    </div>
+  `;
+  storeInfoArea.innerHTML = html;
+}
+
+//대표 상품 조회 및 Swiper 초기화
+function mainProduct() {
+  $.ajax({
+    url: `${cpath}/api/${storeUrl}`,
+    dataType: "json",
+    success: function (result) {
+      const mainProducts = result.data.mainProduct;
+      renderStoreInfo(mainProducts);
+
+      const wrapper = document.getElementById("main-product-swiper-wrapper");
+      wrapper.innerHTML = "";
+
+      mainProducts.forEach(bs => {
+        const html = `
+          <div class="swiper-slide" onclick="location.href='${cpath}/${bs.storeUrl}'">
+            <div class="card">
+              <img class="store-img" src="${cpath}/resources/productImages/${bs.logoImg}" alt="${bs.storeName}">
+              <h3>${bs.storeName}</h3>
+              <div class="category-list">
+                <span class="category-tag">${bs.categoryName}</span>
+              </div>
+              <p class="store-desc">${bs.storeDetail}</p>
+            </div>
+          </div>
+        `;
+        wrapper.insertAdjacentHTML("beforeend", html);
+      });
+
+      // Swiper 초기화
+      if (mainSwiper) mainSwiper.destroy(true, true);
+      mainSwiper = new Swiper(".main-product-swiper", {
+        slidesPerView: 3,
+        spaceBetween: 30,
+        loop: false,
+        navigation: {
+          nextEl: ".store-next",
+          prevEl: ".store-prev"
+        },
+        pagination: {
+          el: ".store-pagination",
+          clickable: true
+        },
+        allowTouchMove: false
+      });
+    },
+    error: function (err) {
+      console.error("대표상품 AJAX 에러:", err);
     }
-    return `${cpath}/resources/productImages/${imgPath}`;
-  }*/
-	
-		$.ajax({
-			url: cpath + "/api/"+storeUrl,
-			dataType: "json",
-	    		success: function (result) {
-	    			var mainProducts = result.data.mainProduct;
-				var wrapper = document.getElementById("main-product-wrapper");
-				console.log("mainProducts" ,mainProducts);
-				wrapper.innerHTML = "";
-				
-				 mainProducts.forEach(product => {
-				  var priceText = product.price ? Number(product.price).toLocaleString() + "원" : "가격 정보 없음";
-			    	  var id = product.productId;  
-			    	  var link = storeUrl+"/productdetail/"+id;
-			    	  
-			    	  // 테스트
-			    	  //var imageUrl = getImageUrl(product.pimgUrl);
-			    	  
-				 console.log(product);
-			    	  var html = 
-	    		  '<div class="swiper-slide">' +
-	    		    '<div class="product-card" onclick="location.href=\'' + storeUrl + '/productdetail/' + id + '\'">' +
-	    		      '<div class="product-image-box">' +
-	    		        '<img src="' + cpath + product.pimgUrl + '" alt="' + product.productName + '">' +
-	    		        //테스트 '<img src="' + imageUrl + '" alt="' + product.productName + '">' +
-	    		      '</div>' +
-	    		      '<div class="product-content">' +
-	    		        '<h3>' + product.productName + '</h3>' +
-	    		        '<p>' + priceText + '</p>' +
-	    		        '<div class="category-badges">' +
-	    		          '<span class="badge">' + (product.typeCategoryName || '') + '</span>' +
-	    		          '<span class="badge">' + (product.dcategoryName || '') + '</span>' +
-	    		          '<span class="badge">' + (product.ucategoryName || '') + '</span>' +
-	    		        '</div>' +
-	    		      '</div>' +
-	    		    '</div>' +
-	    		  '</div>';
+  });
+}
 
+//인기 상품 조회 및 Swiper 초기화
+function bestProduct() {
+  $.ajax({
+    url: `${cpath}/api/${storeUrl}`,
+    dataType: "json",
+    success: function (result) {
+      const bestProducts = result.data.bestProduct;
+      renderBestProduct(bestProducts);
+    },
+    error: function (err) {
+      console.error("인기상품 AJAX 에러:", err);
+    }
+  });
+}
 
-	    	  wrapper.insertAdjacentHTML("beforeend", html);
-	    	});
+function renderBestProduct(bestProduct) {
+  const bestProductArea = document.getElementById("best-product-swiper-wrapper");
+  bestProductArea.innerHTML = "";
 
+  let html = "";
+  bestProduct.forEach(bf => {
+    const priceText = bf.price ? Number(bf.price).toLocaleString() + "원" : "가격 정보 없음";
+    html += `
+      <div class="swiper-slide" onclick="location.href='${cpath}/main/productdetail/${bf.productId}'">
+        <div class="product-card">
+          <div class="product-image-box">
+            <img class="product-img" src="${cpath}/resources/productImages/${bf.pimgUrl}" alt="${bf.productName}">
+            <div class="product-icon">
+              <a href="${cpath}/main/productdetail/${bf.productId}">
+                <span class="material-symbols-outlined">arrow_outward</span>
+              </a>
+            </div>
+          </div>
+          <div class="product-content">
+            <h3>${bf.productName}</h3>
+            <div class="category-badges">
+              <span class="badge">${bf.typeCategoryName}</span>
+              <span class="badge">${bf.ucategoryName}</span>
+              <span class="badge">${bf.dcategoryName}</span>
+            </div>
+            <p class="product-price">${priceText}</p>
+          </div>
+        </div>
+      </div>
+    `;
+  });
 
-	   // Swiper 다시 초기화
-	      if (swiper) swiper.destroy(true, true);
+  bestProductArea.innerHTML = html;
 
-	      swiper = new Swiper(".product-swiper", {
-	        slidesPerView: 3,
-	        spaceBetween: 30,
-	        loop: false,
-	        navigation: {
-	          nextEl: ".product-next",
-	          prevEl: ".product-prev",
-	        },
-	        pagination: {
-	          el: ".product-pagination",
-	          clickable: true,
-	        },
-	        allowTouchMove: false, // 터치/드래그 비활성화
-	      });
-	    },
-	    error: function (err) {
-	      console.log("AJAX 에러:", err);
-	    }
-	  });
-	};
+  // Swiper 초기화
+  if (bestSwiper) bestSwiper.destroy(true, true);
+  bestSwiper = new Swiper(".best-product-swiper", {
+    slidesPerView: 3,
+    spaceBetween: 30,
+    loop: false,
+    navigation: {
+      nextEl: ".product-next",
+      prevEl: ".product-prev"
+    },
+    pagination: {
+      el: ".product-pagination",
+      clickable: true
+    },
+    allowTouchMove: false
+  });
+}
 
-	function bestProduct() {
-	let cpath = document.getElementById("cpath").value;
-	let storeUrl = document.getElementById("storeUrl").value;
-	  $.ajax({
-	    url: cpath + "/api/" + storeUrl,
-	    dataType: "json",
-	    success: function (result) {
-	    	
-	      var bestProducts = result.data.bestProduct;
-	      var wrapper = document.getElementById("best-product-wrapper");
-	      
-	      wrapper.innerHTML = ""; // 초기화
+//공지사항 조회
+function storeNotices() {
+  $.ajax({
+    url: `${cpath}/api/${storeUrl}/seller/management/noticeselect`,
+    dataType: "json",
+    success: result => {
+      if (!result || !Array.isArray(result.data)) return;
 
-	      bestProducts.forEach(product => {
-	    	  var priceText = product.price ? Number(product.price).toLocaleString() + "원" : "가격 정보 없음";
-	    	  var id = product.productId;  
-	    	  var link = storeUrl+"/productdetail/"+id;
-		 console.log(product);
-	    	  var html = 
-	    		  '<div class="swiper-slide">' +
-	    		    '<div class="product-card" onclick="location.href=\'' + storeUrl + '/productdetail/' + id + '\'">' +
-	    		      '<div class="product-image-box">' +
-	    		        '<img src="' + cpath + product.pimgUrl + '" alt="' + product.productName + '">' +
-	    		      '</div>' +
-	    		      '<div class="product-content">' +
-	    		        '<h3>' + product.productName + '</h3>' +
-	    		        '<p>' + priceText + '</p>' +
-	    		        '<div class="category-badges">' +
-	    		          '<span class="badge">' + (product.typeCategoryName || '') + '</span>' +
-	    		          '<span class="badge">' + (product.dcategoryName || '') + '</span>' +
-	    		          '<span class="badge">' + (product.ucategoryName || '') + '</span>' +
-	    		        '</div>' +
-	    		      '</div>' +
-	    		    '</div>' +
-	    		  '</div>';
-
-
-	    	  wrapper.insertAdjacentHTML("beforeend", html);
-	    	});
-
-
-	   // Swiper 다시 초기화
-	      if (swiper) swiper.destroy(true, true);
-
-	      swiper = new Swiper(".product-swiper", {
-	        slidesPerView: 3,
-	        spaceBetween: 30,
-	        loop: false,
-	        navigation: {
-	          nextEl: ".product-next",
-	          prevEl: ".product-prev",
-	        },
-	        pagination: {
-	          el: ".product-pagination",
-	          clickable: true,
-	        },
-	        allowTouchMove: false, // 터치/드래그 비활성화
-	      });
-	    },
-	    error: function (err) {
-	      console.log("AJAX 에러:", err);
-	    }
-	  });
-	};
+      const pinned = result.data.filter(n => n.noticeCheck == 1);
+      if (pinned.length > 0) {
+        const notice = pinned[0];
+        $("#important-notice").html(`<tr><td>🎉 ${notice.noticeTitle} : ${notice.noticeText}</td></tr>`);
+      } else {
+        $("#important-notice").html(`<tr><td colspan="3">중요 공지가 없습니다.</td></tr>`);
+      }
+    },
+    error: () => {
+      console.error("공지사항 조회 실패");
+    }
+  });
+}

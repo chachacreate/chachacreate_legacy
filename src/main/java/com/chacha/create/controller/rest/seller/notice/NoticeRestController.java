@@ -21,6 +21,7 @@ import com.chacha.create.common.entity.member.MemberEntity;
 import com.chacha.create.common.entity.store.NoticeEntity;
 import com.chacha.create.common.enums.error.ResponseCode;
 import com.chacha.create.service.seller.notice.NoticeService;
+import com.chacha.create.service.store_common.MainService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,6 +32,9 @@ public class NoticeRestController {
 
     @Autowired
     private NoticeService noticeService;
+    
+    @Autowired
+    private MainService mainService;
 
     private MemberEntity getLoginMember(HttpSession session) {
         return (MemberEntity) session.getAttribute("loginMember");
@@ -112,5 +116,13 @@ public class NoticeRestController {
             return ResponseEntity.status(ResponseCode.NOT_FOUND.getStatus())
                     .body(new ApiResponse<>(ResponseCode.NOT_FOUND, "공지사항 삭제 실패 또는 존재하지 않음"));
         }
+    }
+    
+    // 특정 스토의 공지사항 조회 
+    @GetMapping("/noticeselect")
+    public ResponseEntity<ApiResponse<List<NoticeEntity>>> selectByStoreId(@PathVariable String storeUrl){
+    			int storeId = mainService.storeIdCheck(storeUrl);
+    			List<NoticeEntity> result = noticeService.selectByStoreId(storeId);
+    		return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, result));
     }
 }
