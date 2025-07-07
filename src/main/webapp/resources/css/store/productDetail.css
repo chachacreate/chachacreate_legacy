@@ -451,12 +451,15 @@ body {
   cursor: pointer;
 }
 
-#submitReport {
+#submitReport,
+#submitReport2 {
   background-color: #e74c3c;
   color: #fff;
 }
 
-#cancelReport {
+#cancelReport,
+#cancelReport2 {
   background-color: #bdc3c7;
   color: #333;
 }
+

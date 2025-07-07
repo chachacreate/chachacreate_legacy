@@ -29,8 +29,12 @@ public class ReportModalService {
     	if(loginMember == null) {
     		throw new NeedLoginException("로그인이 필요합니다.");
     	}
-		// 로그인된 사용자 정보 등록
-	    reportEntity.setMemberId(loginMember.getMemberId());
+    	
+		// 판매자를 신고할 경우 로그인된 사용자 정보 등록
+    	// 리뷰를 신고할 경우에는 memberId가 할당되어 오므로 X
+    	if (reportEntity.getMemberId() == null) {
+    	    reportEntity.setMemberId(loginMember.getMemberId());
+    	}
 
 	    // 스토어 ID로 판매자 ID 조회
 	    Integer storeId = reportEntity.getStoreId();
