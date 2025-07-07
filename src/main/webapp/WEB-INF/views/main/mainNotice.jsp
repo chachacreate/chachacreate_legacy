@@ -14,7 +14,7 @@
 <jsp:include page="/common/main_nav.jsp" />
 
 <main class="notice-container">
-  <h2>공지사항</h2>
+  <h2>건의사항</h2>
 
   <div class="search-box">
     <input type="text" placeholder="검색어를 입력하세요">
@@ -26,7 +26,7 @@
     <div id="write-form" style="display: none;">
       <input type="text" id="new-title" placeholder="제목 입력">
       <textarea id="new-content" placeholder="내용 입력"></textarea>
-      <button id="submit-post">공지 등록</button>
+      <button id="submit-post">건의사항 등록</button>
     </div>
   </div>
 
