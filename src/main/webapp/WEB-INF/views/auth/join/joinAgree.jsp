@@ -8,6 +8,8 @@
   <title>회원가입_약관동의</title>
   <link rel="stylesheet" type="text/css" href="${cpath}/resources/css/auth/join/joinAgree.css">
   <%-- <link rel="stylesheet" type="text/css" href="${cpath}/resources/css/agree_vars.css"> --%>
+   <script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
   <div class="container">
@@ -151,34 +153,36 @@
     </div>
   </div>
 
-  <!-- 스크립트: 모두 동의 시 각 항목 자동 체크 -->
-  <script>
-  // agreeAll 체크 시 각 항목 자동 체크
-  document.getElementById("agreeAll").addEventListener("change", function () {
-    const checked = this.checked;
-    const termsRadios = [
-      document.querySelector('input[name="terms1"][value="yes"]'),
-      document.querySelector('input[name="terms2"][value="yes"]'),
-      document.querySelector('input[name="terms3"][value="yes"]')
-    ];
-    termsRadios.forEach(radio => {
-      if (checked) radio.checked = true;
-      else radio.checked = false; // 모두 체크 해제도 추가 권장
+ <script>
+  $(document).ready(function () {
+    // kakaoEmail 확인 및 알림
+    var kakaoEmail = "${sessionScope.kakaoemail}";
+    if (kakaoEmail) {
+      alert(kakaoEmail + "으로 가입된 정보가 없습니다. 회원가입 페이지로 이동합니다.");
+    }
+
+    // 전체 동의 체크 시 하위 항목 모두 체크/해제
+    $("#agreeAll").on("change", function () {
+      const checked = $(this).is(":checked");
+      $('input[name="terms1"][value="yes"]').prop("checked", checked);
+      $('input[name="terms2"][value="yes"]').prop("checked", checked);
+      $('input[name="terms3"][value="yes"]').prop("checked", checked);
+    });
+
+    // 다음 버튼 클릭 시 필수 약관 동의 확인
+    $("#nextBtn").on("click", function (event) {
+      const terms1 = $('input[name="terms1"][value="yes"]').is(":checked");
+      const terms2 = $('input[name="terms2"][value="yes"]').is(":checked");
+      const terms3 = $('input[name="terms3"][value="yes"]').is(":checked");
+
+      if (!(terms1 && terms2 && terms3)) {
+        event.preventDefault();
+        alert("모든 약관에 동의하셔야 다음 단계로 진행할 수 있습니다.");
+      }
     });
   });
-
-  // 다음 버튼 클릭 시 필수 약관 동의 확인
-  document.getElementById("nextBtn").addEventListener("click", function(event) {
-    const terms1 = document.querySelector('input[name="terms1"][value="yes"]').checked;
-    const terms2 = document.querySelector('input[name="terms2"][value="yes"]').checked;
-    const terms3 = document.querySelector('input[name="terms3"][value="yes"]').checked;
-
-    if (!(terms1 && terms2 && terms3)) {
-      event.preventDefault(); // 링크 이동 막기
-      alert("모든 약관에 동의하셔야 다음 단계로 진행할 수 있습니다.");
-    }
-  });
 </script>
+
 
 </body>
 </html>

@@ -60,7 +60,7 @@
                     네이버 로그인
                 </a>
 
-                <a href="#" class="kakao-btn">
+                <a href="${kakaoLogin}" class="kakao-btn">
                     <img src="${cpath}/resources/images/login/kakao_icon.png" alt="카카오" style="width:24px; height:24px; margin-right:10px;">
                     카카오 로그인
                 </a>
