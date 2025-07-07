@@ -8,8 +8,6 @@
 <title>뜨락상회 판매자 메인페이지</title>
 <%@ include file="/common/header.jsp"%>
 <link rel="stylesheet"
-	href="${cpath}/resources/css/store/seller/authmain.css">
-<link rel="stylesheet"
 	href="${cpath}/resources/css/store/seller/sellerMyPage.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -18,36 +16,28 @@
 </head>
 <body>
 	<div class="wrapper">
-
 		<div class="main-area">
 			<div class="content-wrapper">
-			
-			<%-- ✅ 사이드바 인클루드 --%>
-    		<jsp:include page="/common/store_seller_sidenav.jsp" />
-    				
+				<%-- ✅ 사이드바 인클루드 --%>
+				<jsp:include page="/common/store_seller_sidenav.jsp" />
+				
 				<main class="content">
 					<div class="content-inner">
+					
 						<!-- 주문/배송 -->
 						<div class="member-box fixed-box">
 							<div class="member-header">
 								<div class="title-with-info">
 									<h2>주문 · 배송</h2>
-									<!-- <iconify-icon icon="mdi:information-outline"
-											style="font-size: 18px; margin-left: 8px;">
-										</iconify-icon> -->
 									<div class="_1">최근 1주일 기준</div>
 								</div>
 							</div>
 							<div class="member-body">
-
-
 								<div class="frame-1034">
-									<!-- 이 클래스에 flex 속성이 적용돼 있어야 합니다 -->
 									<c:forEach items="${statusList}" var="statusMap">
 										<a href="#" class="frame-1035 link-box">
 											<div class="ellipse-1">
-												<iconify-icon icon="mdi:file-document-outline"
-													class="icon-inner"></iconify-icon>
+												<iconify-icon icon="mdi:file-document-outline" class="icon-inner"/>
 											</div>
 											<div class="frame-1039">
 												<div class="div11">
@@ -65,14 +55,12 @@
 						</div>
 
 						<!-- 정산관리 -->
-						<a href="${cpath}/${storeUrl}/seller/management/settlement"
-							style="text-decoration: none; color: inherit;">
+						<a href="${cpath}/${storeUrl}/seller/management/settlement" style="text-decoration: none; color: inherit;">
 							<div class="member-box scroll-box">
 								<div class="member-header">
 									<div class="title-with-info">
 										<h2>정산관리</h2>
-										<iconify-icon icon="mdi:information-outline"
-											style="font-size: 18px; margin-left: 8px;"></iconify-icon>
+										<iconify-icon icon="mdi:information-outline" style="font-size: 18px; margin-left: 8px;" />
 										<div class="_1">금월 일별 매출그래프</div>
 									</div>
 								</div>
@@ -85,74 +73,62 @@
 								</div>
 							</div>
 						</a>
+
 						<!-- 신규 리뷰관리 -->
-						<a href="#" style="text-decoration: none; color: inherit;">
-							<div class="member-box scroll-box">
-								<div class="member-header">
-									<div class="title-with-info">
-										<h2>신규 리뷰관리</h2>
-									</div>
+						<div class="member-box scroll-box">
+							<div class="member-header">
+								<div class="title-with-info">
+									<h2>신규 리뷰관리</h2>
 								</div>
-								<div class="member-body">
-									<div class="review-content-row">
-										<a href="${cpath}/${storeUrl}/seller/reviews"
-											class="frame-1035 link-box fixed-width">
-											<div class="ellipse-1">
-												<iconify-icon icon="mdi:pencil-box-outline"
-													class="icon-inner"></iconify-icon>
-											</div>
-											<div class="frame-1039">
-												<div class="div11">신규리뷰</div>
-												<div class="_1000">${reviewCount}건</div>
-											</div>
-										</a>
-										<div class="reviewgraph-placeholder right-side">
-											<table style="width: 80%; border-collapse: collapse;">
-												<thead>
-													<tr
-														style="background-color: #6c734d; color: white; text-align: center;">
-														<th>리뷰 작성일</th>
-														<th>작성자</th>
-														<th>상품명</th>														
-														<th>리뷰 내용</th>
-														<th>상품 등록일</th>
-													</tr>
-												</thead>
-												<tbody>
-													<c:forEach var="review" items="${reviewList}">
-														<tr
-															style="text-align: center; border-bottom: 1px solid #ccc;">
-															<td><fmt:formatDate value="${review.REVIEW_DATE}"
-																	pattern="yyyy-MM-dd" /></td>
-																	
-															<!-- 작성자 -->
-															<td>${review.MEMBER_NAME}</td>
-															
-															<!-- 상품명 -->
-															<td>${review.PRODUCT_NAME}</td>
-
-															<!-- 리뷰 내용 -->
-															<td style="white-space: pre-line;">${review.REVIEW_TEXT}</td>
-
-															<!-- 상품등록일 -->
-															<td><fmt:formatDate value="${review.PRODUCT_DATE}"
-																	pattern="yyyy-MM-dd" /></td>
-
-														</tr>
-													</c:forEach>
-												</tbody>
-											</table>
-
+							</div>
+							<div class="member-body">
+								<div class="review-content-row">
+									<a href="${cpath}/${storeUrl}/seller/reviews" class="frame-1035 link-box fixed-width">
+										<div class="ellipse-1">
+											<iconify-icon icon="mdi:pencil-box-outline" class="icon-inner" />
 										</div>
+										<div class="frame-1039">
+											<div class="div11">신규리뷰</div>
+											<div class="_1000">${reviewCount}건</div>
+										</div>
+									</a>
+
+									<div class="reviewgraph-placeholder right-side">
+										<table style="width: 80%; border-collapse: collapse;">
+											<thead>
+												<tr style="background-color: #6c734d; color: white; text-align: center;">
+													<th>리뷰 작성일</th>
+													<th>작성자</th>
+													<th>상품명</th>
+													<th>리뷰 내용</th>
+													<th>상품 등록일</th>
+												</tr>
+											</thead>
+											<tbody>
+												<c:forEach var="review" items="${reviewList}">
+													<tr style="text-align: center; border-bottom: 1px solid #ccc;">
+														<td><fmt:formatDate value="${review.REVIEW_DATE}" pattern="yyyy-MM-dd" /></td>
+														<td>${review.MEMBER_NAME}</td>
+														<td>${review.PRODUCT_NAME}</td>
+														<td style="white-space: pre-line;">${review.REVIEW_TEXT}</td>
+														<td><fmt:formatDate value="${review.PRODUCT_DATE}" pattern="yyyy-MM-dd" /></td>
+													</tr>
+												</c:forEach>
+											</tbody>
+										</table>
 									</div>
-								</div>
-						</a>
-					</div>
+
+								</div> <!-- review-content-row -->
+							</div> <!-- member-body -->
+						</div> <!-- member-box -->
+					
+					</div> <!-- content-inner -->
 				</main>
-			</div>
-		</div>
-	</div>
+			</div> <!-- content-wrapper -->
+		</div> <!-- main-area -->
+	</div> <!-- wrapper -->
 </body>
+
 <script>
   $(document).ready(function() {
     // storeUrl은 서버에서 model로 전달되거나 hidden input으로 주입받을 수 있음
