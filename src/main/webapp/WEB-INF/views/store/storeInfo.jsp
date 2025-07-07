@@ -1,12 +1,148 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="cpath" value="${pageContext.servletContext.contextPath}" />
+<c:set var="storeUrl" value="${param.storeUrl}" />
+
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+  <meta charset="UTF-8">
+  <title>스토어 소개</title>
+  <style>
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      margin: 0;
+      background-color: #f7f6f2;
+      color: #333;
+    }
+
+    .content-wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 60px 24px;
+    }
+
+    .store-logo {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .store-logo img {
+      width: 180px;
+      height: 180px;
+      border-radius: 16px;
+      object-fit: cover;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .info-section {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 32px 24px;
+      margin-bottom: 40px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #2a3e34;
+      margin-bottom: 24px;
+      border-left: 5px solid #8aad8a;
+      padding-left: 12px;
+    }
+
+    .info-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .info-table td {
+      padding: 14px 10px;
+      vertical-align: top;
+    }
+
+    .info-label {
+      font-weight: 600;
+      color: #555;
+      width: 140px;
+      white-space: nowrap;
+    }
+
+    .info-content {
+      font-weight: 400;
+      color: #222;
+      line-height: 1.6;
+    }
+  </style>
 </head>
 <body>
+
+  <%-- ✅ 공통 헤더 및 네비게이션 --%>
+  <jsp:include page="/common/header.jsp" />
+  <jsp:include page="/common/storeMain_nav.jsp" />
+
+  <div class="content-wrapper">
+
+    <!-- 스토어 로고 출력 -->
+	<div class="store-logo">
+	  <img src="${cpath}/resources/productImages/${storeInfo.logoImg}" alt="스토어 로고" style="height: 80px;" />
+	</div>
+
+    <!-- ✅ 판매자 정보 -->
+    <div class="info-section">
+      <div class="section-title">판매자 정보</div>
+      <table class="info-table">
+        <tr><td class="info-label">판매자</td><td class="info-content" id="memberName"></td></tr>
+        <tr><td class="info-label">연락처</td><td class="info-content" id="memberPhone"></td></tr>
+        <tr><td class="info-label">이메일</td><td class="info-content" id="memberEmail"></td></tr>
+      </table>
+    </div>
+
+    <!-- ✅ 스토어 소개 -->
+    <div class="info-section">
+      <div class="section-title">스토어 소개</div>
+      <table class="info-table">
+        <tr><td class="info-label">스토어 소개</td><td class="info-content" id="storeDetail"></td></tr>
+      </table>
+    </div>
+
+    <!-- ✅ 이력 -->
+    <div class="info-section">
+      <div class="section-title">이력</div>
+      <table class="info-table">
+        <tr><td class="info-label">이력</td><td class="info-content" id="history"></td></tr>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- ✅ AJAX Script -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(function () {
+      const storeUrl = location.pathname.split('/')[2]; // /{storeUrl}/info 에서 storeUrl 추출
+
+      $.ajax({
+        url: `/${storeUrl}/info`,
+        method: 'GET',
+        dataType: 'json',
+        success: function (data) {
+          $('#logoImg').attr('src', data.logoImg || '/resources/images/logo.png');
+          $('#memberName').text(data.memberName || '정보 없음');
+          $('#memberPhone').text(data.memberPhone || '-');
+          $('#memberEmail').text(data.memberEmail || '-');
+          $('#storeDetail').text(data.storeDetail || '-');
+          $('#history').text(data.history || '-');
+        },
+        error: function () {
+          alert("스토어 정보를 불러오는 데 실패했습니다.");
+        }
+      });
+    });
+    
+    
+  </script>
 
 </body>
 </html>
