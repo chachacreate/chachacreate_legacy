@@ -84,23 +84,27 @@ $(document).ready(function() {
 	});
 	let storeUrl = '';
 	storeUrl = '${storeUrl}';
-	const isClickMypageEmpty = ${empty clickMypage ? 'true' : 'false'};
-	if(storeUrl != '' && isClickMypageEmpty){
+	if(storeUrl != ''){
+		const isAlreadyMade = sessionStorage.getItem('chatCreated');
+		if(!isAlreadyMade){
 		 $.ajax({
 			 url: '${cpath}/api/${storeUrl}/message/makeChatting',
 			 method: 'POST',
 			 success: function(response){
 				 if (response?.status === 201) {
 					 location.href = location.origin + location.pathname;
+					 sessionStorage.setItem('chatCreated', 'true');
 				 }else {
 	                alert("채팅방을 생성하지 못했습니다.");
 	                location.href = location.origin + location.pathname;
+	                sessionStorage.setItem('chatCreated', 'true');
 	            }
 			 },
 			 error: function() {
 	            alert("서버 오류 발생");
 	        }
 		 });
+		}
 	}
 	
 //-------------------채팅방 목록 불러오기----------------------------------
