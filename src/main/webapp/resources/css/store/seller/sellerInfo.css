@@ -1,0 +1,546 @@
+@charset "UTF-8";
+
+.member-box {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.member-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.sidebar ul li a {
+    display: flex;                  /* �� 媛�濡� ���� */
+    justify-content: space-between;/* �� ��履� ���� */
+    align-items: center;            /* �� ��吏� ���� */
+    padding: 10px;                  /* �� 醫��� ������ 10px */
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+    font-size: 15px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.sidebar .arrow {
+    font-size: 16px;
+    color: #555;
+}
+
+.content-inner {
+  max-width: none; /* 제한 없애기 */
+  width: 100%;
+  padding: 40px 80px;
+  background-color: #fff;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+h2 {
+  font-size: 24px;
+  color: #2e2e2e;
+  margin: 0;
+}
+
+.button-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* 怨듯�� 踰��� �ㅽ���� */
+.edit-button,
+.close-button {
+  width: 120px;
+  height: 48px;
+  padding: 0 16px;
+  font-size: 17px;
+  font-family: "PretendardGov-Regular", sans-serif;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s, box-shadow 0.2s;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+/* ���� 踰��� - ���� 諛곌꼍 + 珥�濡� ����由� */
+.edit-button {
+  background-color: #ffffff;
+  color: #2e7d32;
+  border: 2px solid #2e7d32;
+}
+
+.edit-button:hover {
+  background-color: #e8f5e9;
+  box-shadow: 0 0 5px rgba(46, 125, 50, 0.3);
+}
+
+.close-button {
+  background-color: #c0392b; /* 진한 빨강 */
+  color: #ffffff;
+  border: none;
+}
+
+.close-button:hover {
+  background-color: #922b21; /* 더 진한 빨강 */
+  box-shadow: 0 0 5px rgba(201, 57, 43, 0.5); /* 빨간색 계열 그림자 */
+}
+
+/* ��� �ㅽ�щ·�� ���� ������ */
+.table-frame {
+  max-height: 500px;  /* ������ ���� 議곗�� 媛��� */
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-top: 1px solid #ddd;
+  margin-top: 10px;
+}
+
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.product-table th,
+.product-table td {
+  padding: 12px 10px;
+  text-align: center;
+  font-size: 14px;
+  border-bottom: 1px solid #ddd;
+}
+
+.product-table img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.product-row {
+  cursor: pointer;
+}
+
+/* 왼쪽 프로필 영역 - 30% */
+.profile-section {
+  flex: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.profile-img {
+  width: 133px;
+  height: 133px;
+  border-radius: 50%;
+  background-color: #556b49;
+  border: 3px solid white;
+}
+
+.store-name {
+  margin-top: 8px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #333;
+}
+
+.div3 {
+  color: var(--color-naver-hover, #19ac00);
+  text-align: left;
+  font-family: var(
+    --heading-medium-font-family,
+    "PretendardGov-Bold",
+    sans-serif
+  );
+  font-size: var(--heading-medium-font-size, 16px);
+  line-height: var(--heading-medium-line-height, 150%);
+  font-weight: var(--heading-medium-font-weight, 700);
+  position: relative;
+}
+
+/* 오른쪽 정보 영역 - 70% */
+.frame-1156 {
+  flex: 6;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.frame-1079 {
+  padding: 45px 10px 45px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-end;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 721px;
+  height: 229px;
+  position: relative;
+  overflow: hidden;
+}
+
+.frame-1150 {
+  background: #ffffff;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 689px;
+  height: 120px;
+  position: relative;
+  overflow: hidden;
+}
+.frame-1153 {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.iconamoon-store-thin {
+  flex-shrink: 0;
+  width: 47px;
+  height: 47px;
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1;
+}
+
+.icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+}
+
+.group {
+  width: 75%;
+  height: 75%;
+  position: static;
+  right: 12.5%;
+  left: 12.5%;
+  bottom: 12.5%;
+  top: 12.5%;
+  overflow: visible;
+}
+.div4 {
+  color: var(--color-text-basic, #1e2124);
+  text-align: left;
+  font-family: var(
+    --heading-small-font-family,
+    "PretendardGov-Bold",
+    sans-serif
+  );
+  font-size: var(--heading-small-font-size, 19px);
+  line-height: var(--heading-small-line-height, 150%);
+  font-weight: var(--heading-small-font-weight, 700);
+  position: relative;
+}
+.div5 {
+  color: var(--color-text-basic, #1e2124);
+  text-align: right;
+  font-family: var(--heading-small-font-family, "PretendardGov-Bold", sans-serif);
+  font-size: var(--heading-small-font-size, 19px);
+  line-height: var(--heading-small-line-height, 150%);
+  font-weight: var(--heading-small-font-weight, 700);
+  position: relative;
+  width: 100%;            /* 부모 전체 너비 사용 */
+  max-width: 550px;       /* 최대 너비 지정 (원래 550px 유지) */
+  margin: 0;              /* 불필요한 여백 제거 */
+  padding-right: 0;       /* 오른쪽 여백 제거 */
+  box-sizing: border-box; /* padding 포함 너비 계산 */
+}
+.frame-1080 {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-end;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 721px;
+  height: 438px;
+  position: relative;
+  overflow: hidden;
+}
+.line-32 {
+  background: #63715f;
+  margin-top: -2px;
+  border-style: solid;
+  border-color: var(--button, #000000);
+  border-width: 2px 0 0 0;
+  flex-shrink: 0;
+  width: 532px;
+  height: 0px;
+  position: relative;
+  transform-origin: 0 0;
+  transform: rotate(180deg) scale(1, 1);
+}
+.frame-11502 {
+  background: #ffffff;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 672px;
+  height: 95px;
+  position: relative;
+  overflow: hidden;
+}
+.iconoir-user {
+  flex-shrink: 0;
+  width: 47px;
+  height: 47px;
+  position: relative;
+  overflow: visible;
+  aspect-ratio: 1;
+}
+.frame-1152 {
+  background: #ffffff;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 672px;
+  height: 95px;
+  position: relative;
+  overflow: hidden;
+}
+.fluent-call-28-regular {
+  flex-shrink: 0;
+  width: 47px;
+  height: 47px;
+  position: relative;
+  overflow: visible;
+  aspect-ratio: 1;
+}
+._010-3924-2137 {
+  color: var(--color-text-basic, #1e2124);
+  text-align: right;
+  font-family: var(
+    --heading-small-font-family,
+    "PretendardGov-Bold",
+    sans-serif
+  );
+  font-size: var(--heading-small-font-size, 19px);
+  line-height: var(--heading-small-line-height, 150%);
+  font-weight: var(--heading-small-font-weight, 700);
+  position: relative;
+  width: 550px;
+}
+.frame-11532 {
+  background: #ffffff;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 672px;
+  height: 95px;
+  position: relative;
+  overflow: hidden;
+}
+.iconamoon-email-thin {
+  flex-shrink: 0;
+  width: 47px;
+  height: 47px;
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1;
+}
+.group2 {
+  width: 79.17%;
+  height: 62.5%;
+  position: absolute;
+  right: 10.42%;
+  left: 10.42%;
+  bottom: 18.75%;
+  top: 18.75%;
+  overflow: visible;
+}
+.yoonjung-450-gmail-com {
+  color: var(--color-text-basic, #1e2124);
+  text-align: right;
+  font-family: var(
+    --heading-small-font-family,
+    "PretendardGov-Bold",
+    sans-serif
+  );
+  font-size: var(--heading-small-font-size, 19px);
+  line-height: var(--heading-small-line-height, 150%);
+  font-weight: var(--heading-small-font-weight, 700);
+  position: relative;
+  width: 550px;
+}
+.frame-1081 {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-end;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 721px;
+  height: 399px;
+  position: relative;
+  overflow: hidden;
+}
+.material-symbols-light-account-balance-wallet-outline {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  overflow: visible;
+  aspect-ratio: 1;
+}
+.line-33 {
+  background: #63715f;
+  margin-top: -2px;
+  border-style: solid;
+  border-color: var(--button, #000000);
+  border-width: 2px 0 0 0;
+  flex-shrink: 0;
+  width: 561px;
+  height: 0px;
+  position: relative;
+  transform-origin: 0 0;
+  transform: rotate(180deg) scale(1, 1);
+}
+.iconoir-user2 {
+  flex-shrink: 0;
+  width: 47px;
+  height: 47px;
+  position: relative;
+  overflow: visible;
+  aspect-ratio: 1;
+}
+.frame-11522 {
+  background: #ffffff;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 662px;
+  height: 95px;
+  position: relative;
+  overflow: hidden;
+}
+.mdi-light-bank {
+  flex-shrink: 0;
+  width: 47px;
+  height: 47px;
+  position: relative;
+  overflow: visible;
+  aspect-ratio: 1;
+}
+.div6 {
+  color: var(--color-text-basic, #1e2124);
+  text-align: right;
+  font-family: var(
+    --heading-small-font-family,
+    "PretendardGov-Bold",
+    sans-serif
+  );
+  font-size: var(--heading-small-font-size, 19px);
+  line-height: var(--heading-small-line-height, 150%);
+  font-weight: var(--heading-small-font-weight, 700);
+  position: relative;
+  width: 563px;
+}
+.frame-11533 {
+  background: #ffffff;
+  padding: 10px 0px 10px 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 672px;
+  height: 95px;
+  position: relative;
+  overflow: hidden;
+}
+.material-symbols-light-account-balance-wallet-outline-sharp {
+  flex-shrink: 0;
+  width: 47px;
+  height: 47px;
+  position: relative;
+  overflow: visible;
+  aspect-ratio: 1;
+}
+._1002-858-069-478 {
+  color: var(--color-text-basic, #1e2124);
+  text-align: right;
+  font-family: var(
+    --heading-small-font-family,
+    "PretendardGov-Bold",
+    sans-serif
+  );
+  font-size: var(--heading-small-font-size, 19px);
+  line-height: var(--heading-small-line-height, 150%);
+  font-weight: var(--heading-small-font-weight, 700);
+  position: relative;
+  width: 550px;
+}
+
+.store-info-wrapper {
+  display: flex;
+  gap: 120px;
+  max-width: 1000px;
+  margin: 0 auto;
+  justify-content: space-between;
+}
+
+.section-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 0 20px; /* 필요 시 조정 */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e2124;
+  white-space: nowrap;
+  font-family: "PretendardGov-Bold", sans-serif;
+}
+
+.section-line {
+  flex: 1;
+  height: 0;
+  border-top: 2px solid #000;
+  background-color: transparent;
+}

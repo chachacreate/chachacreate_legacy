@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper
+	namespace="com.chacha.create.common.mapper.store.StoreInfoMapper">
+	
+	<select id="selectStoreInfoByUrl" resultType="com.chacha.create.common.dto.store.StoreInfoManagementDTO">
+    SELECT
+      s.LOGO_IMG AS logoImg,
+      s.STORE_NAME AS storeName,
+      s.STORE_DETAIL AS storeDetail,
+      m.MEMBER_NAME AS memberName,
+      m.MEMBER_EMAIL AS memberEmail,
+      m.MEMBER_PHONE AS memberPhone,
+      se.ACCOUNT_BANK AS accountBank,
+      se.ACCOUNT AS account
+    FROM STORE s
+    JOIN SELLER se ON s.SELLER_ID = se.SELLER_ID
+    JOIN MEMBER m ON se.MEMBER_ID = m.MEMBER_ID
+    WHERE s.STORE_URL = #{storeUrl}
+  </select>
+</mapper>
