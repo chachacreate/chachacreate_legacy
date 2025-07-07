@@ -26,6 +26,7 @@ public class HomeMainController {
     public String showMainHome(HttpSession session) {
 		session.removeAttribute("kakaoemail");
 		session.removeAttribute("naverInfo");
+		session.removeAttribute("makeChat");
         return "main/main"; 
     }
     

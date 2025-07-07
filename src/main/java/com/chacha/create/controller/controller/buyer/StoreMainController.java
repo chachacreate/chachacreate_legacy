@@ -46,6 +46,7 @@ public class StoreMainController {
 	public String ShowstoreMain(@PathVariable String storeUrl, Model model, HttpSession session) {
 		session.removeAttribute("kakaoemail");
 		session.removeAttribute("naverInfo");
+		session.removeAttribute("makeChat");
 		if(!storeService.existsByStoreUrl(storeUrl)) {
 			return "redirect:/main";
 		}
@@ -134,7 +135,6 @@ public class StoreMainController {
     @GetMapping("/mypage/message")
     public String showMessagePage(@PathVariable String storeUrl, Model model) {
 		setStoreNavInfo(storeUrl, model);
-		model.addAttribute("clickMypage", "마이페이지 클릭");
     	return "main/mypage/chat";
     }
 	
