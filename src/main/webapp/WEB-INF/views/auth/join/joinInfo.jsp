@@ -106,14 +106,14 @@
 					</div>
 
 					<div class="form-group">
-						<label>휴대전화번호(01#-####-####)</label> <input type="text" placeholder="내용을 입력하세요">
+						<label>휴대전화번호(01#-####-####)</label> <input id="memberPhone" type="text" placeholder="내용을 입력하세요">
 					</div>
 
 					<div class="form-group">
 						<label>주민등록번호</label>
 						<div class="rrn-box">
-							<input type="text" maxlength="6" placeholder="앞 6자리"> <span>-</span>
-							<input type="password" maxlength="7" placeholder="뒤 7자리">
+							<input id="jumin-prefix" type="text" maxlength="6" placeholder="앞 6자리"> <span>-</span>
+							<input id="jumin-suffix" type="password" maxlength="7" placeholder="뒤 7자리">
 						</div>
 					</div>
 
@@ -161,14 +161,17 @@
 	      "memberPwd": false,
 	      "memberName": false,
 	      "memberPhone": false,
-	      "memberRegi": false
-	    , "authKey" : false
+	      "memberRegi": false,
+	      "addressAll" : false,
+	      "addressDetail" : false,
+	      "authKey" : false
 	}
 	
-	//----------------카카오 이메일이 있다면 카카오 이메일로 가입되게 변경-----------------------
+	//----------------소셜로그인 정보를 가지고와 가입되게 변경-----------------------
 	  $(document).ready(function() {
 		    // JSP EL을 이용해 sessionScope.kakaoemail 값을 JS 변수에 할당
 		    var kakaoEmail = "${sessionScope.kakaoemail}";
+		    var naverInfo = "${sessionScope.naverInfo}";
 
 		    if (kakaoEmail) {
 		      // checkObj가 있으면 true로 설정 (checkObj가 전역객체라고 가정)
@@ -178,8 +181,46 @@
 		      }
 
 		      // memberEmail input에 값 넣고 읽기전용 처리
-		      $("#memberEmail").val(kakaoEmail).prop("readonly", true).css("background-color", "#eee");
+    		  $("#memberEmail").val(kakaoEmail).prop("readonly", true).css("background-color", "#eee");
 
+		      // 버튼과 입력창 비활성화
+		      $("#sendAuthKeyBtn").prop("disabled", true);
+		      $("#authKey").prop("disabled", true).css("background-color", "#eee");
+		      $("#checkAuthKeyBtn").prop("disabled", true);
+		    }
+		    if(naverInfo){
+		    	naverInfo = JSON.parse(naverInfo.replace(/=/g, '":"').replace(/, /g, '", "').replace(/{/, '{"').replace(/}/, '"}'));
+		    	if(typeof checkObj == "object"){
+			        checkObj.memberEmail = true;
+			        checkObj.authKey = true;
+			        checkObj.memberName = true;
+			        checkObj.memberPhone = true;
+			        checkObj.memberRegi = true;
+		    	}
+		    	// 주민등록번호 만들기
+		    	const birthyear = naverInfo.birthyear;
+		        const birthday = naverInfo.birthday;
+		        const gender = naverInfo.gender;
+		        
+		        const yy = birthyear.substring(2);
+		        const mmdd = birthday.replace("-", "");
+		        const yymmdd = yy + mmdd;
+		        
+		        // 성별코드 결정
+		        let genderCode = "";
+		        const yearNum = parseInt(birthyear);
+		        if (yearNum >= 2000) {
+		            genderCode = (gender.toUpperCase() === "M") ? "3333333" : "4444444";
+		        } else {
+		            genderCode = (gender.toUpperCase() === "M") ? "1111111" : "2222222";
+		        }
+		      // 네이버에서 받아온 정보 input에 값 넣고 읽기전용 처리
+		      $("#memberEmail").val(naverInfo.email).prop("readonly", true).css("background-color", "#eee");
+		      $("#memberName").val(naverInfo.name).prop("readonly", true).css("background-color", "#eee");
+		      $("#memberPhone").val(naverInfo.mobile).prop("readonly", true).css("background-color", "#eee");
+		      $("#jumin-prefix").val(yymmdd).prop("readonly", true).css("background-color", "#eee");
+		      $("#jumin-suffix").val(genderCode).prop("readonly", true).css("background-color", "#eee");
+		      
 		      // 버튼과 입력창 비활성화
 		      $("#sendAuthKeyBtn").prop("disabled", true);
 		      $("#authKey").prop("disabled", true).css("background-color", "#eee");
@@ -244,6 +285,7 @@
 	                }
 		
 		                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+		                checkObj.addressAll = true;
 		                document.getElementById('sample6_postcode').value = data.zonecode;
 		                document.getElementById("sample6_address").value = addr;
 		                // 커서를 상세주소 필드로 이동한다.
@@ -407,8 +449,13 @@
 	    const backValid = /^\d$/.test(rrnBackFirst);
 	    checkObj.memberRegi = frontValid && backValid;
 	  });
+	  // 상세주소 입력 시 유효성 검사 (공백 제외 1자 이상 입력)
+	  $('#sample6_detailAddress').on('input', function () {
+	    const detailAddr = $(this).val().trim();
+	    checkObj.addressDetail = detailAddr.length > 0;
+	  });
 	});
-
+	
 
 	$('#joinForm').on('submit', function(e) {
 	    e.preventDefault(); // 폼 기본 제출 막기
@@ -453,6 +500,18 @@
 	      }
 	      e.preventDefault();
 	      return;
+	    }
+	    if(!checkObj.addressAll){
+	    	alert("주소를 선택해주세요");
+	    	$('#sample6_address').focus();
+		    e.preventDefault();
+		    return;
+	    }
+	    if(!checkObj.addressDetail){
+	    	alert("상세 주소를 작성해주세요");
+	    	$('#sample6_detailAddress').focus();
+		    e.preventDefault();
+		    return;
 	    }
 	
 	    // 각 input 값 가져오기
