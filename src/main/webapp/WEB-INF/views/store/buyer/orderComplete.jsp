@@ -5,117 +5,6 @@
   <meta charset="UTF-8">
   <title>결제 완료</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/store/buyer/orderComplete.css" />
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Poppins', sans-serif;
-      background: #fff;
-      display: flex;
-      justify-content: center;
-    }
-
-    .order-complete-container {
-      width: 100%;
-      max-width: 1200px;
-      padding: 60px 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 40px;
-    }
-
-    .complete-icon {
-      width: 100px;
-      height: 100px;
-    }
-
-    .complete-message {
-      font-size: 28px;
-      font-weight: 600;
-      color: #000;
-    }
-
-    .order-number {
-      font-size: 18px;
-      color: #3b82f6;
-    }
-
-    .section {
-      width: 100%;
-      background: #f9f9f9;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 30px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .section-title {
-      font-size: 22px;
-      font-weight: 600;
-      border-bottom: 2px solid #000;
-      padding-bottom: 10px;
-    }
-
-    .product-info {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .product-info img {
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-    }
-
-    .product-details {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .product-details span {
-      font-size: 16px;
-    }
-
-    .horizontal-sections {
-      display: flex;
-      gap: 20px;
-      width: 100%;
-    }
-
-    .info-box {
-      flex: 1;
-      background: #fff;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 20px;
-    }
-
-    .info-box-title {
-      font-size: 20px;
-      font-weight: 600;
-      margin-bottom: 16px;
-    }
-
-    .info-row {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-
-    .info-label {
-      font-weight: 500;
-      color: #333;
-    }
-
-    .info-value {
-      color: #000;
-    }
-  </style>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
@@ -172,9 +61,14 @@
         </div>
       </div>
     </div>
-        <button onclick="window.location='${pageContext.request.contextPath}/main'">홈으로 돌아가기</button>
-        <button onclick="window.location='${pageContext.request.contextPath}/main/mypage/orders'">주문내역으로 돌아가기</button>
-  </div>
+
+	<div class="button-group">
+	  <button onclick="window.location='${pageContext.request.contextPath}/main'">홈으로 돌아가기</button>
+	  <button onclick="window.location='${pageContext.request.contextPath}/main/mypage/orders'">주문내역으로 돌아가기</button>
+	</div>
+	
+
+ </div>
 
   <script>
     $(document).ready(function () {
@@ -194,7 +88,6 @@
         success: function (res) {
           if (res.status === 200) {
             const data = res.data;
-
             // 주문번호
             $('#orderId').text(data.orderId);
 
@@ -218,14 +111,22 @@
               const itemTotal = (item.orderPrice * item.orderCnt);
 
               const $item = $(`
-                <div class="order-grid order-item">
-                  <img src="${pageContext.request.contextPath}/resources/images/\${item.pimgUrl}" alt="상품 이미지" class="product-image" />
+                <div class="order-grid order-item" data-product-id="\${item.productId}" data-store-url="\${item.storeUrl}">
+                  <img src="${pageContext.request.contextPath}/resources/productImages/\${item.pimgUrl}" alt="상품 이미지" class="product-image" />
                   <div class="productName">\${item.productName}</div>
                   <div class="orderCnt">\${item.orderCnt}</div>
                   <div class="orderPrice">\${itemTotal} 원</div>
                 </div>
               `);
               $('.order-section').append($item);
+            });
+            
+            // 상품명, 이미지 클릭 시 해당 상품 상세 페이지 이동
+            $(document).on('click', '.productName, .product-image', function () {
+              const $item = $(this).closest('.order-item');
+              const productId = $item.data('product-id');
+              const storeUrl = $item.data('store-url') || 'main';
+              window.location.href = `${pageContext.request.contextPath}/\${storeUrl}/productdetail/\${productId}`;
             });
 
           } else {
