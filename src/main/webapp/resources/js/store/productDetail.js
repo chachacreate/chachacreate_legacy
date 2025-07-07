@@ -4,6 +4,29 @@ document.addEventListener("DOMContentLoaded", function () {
   const productId = pathSegments[4];
   const cpath = document.body.getAttribute("data-cpath") || "";
   const apiUrl = `${cpath}/api/${storeUrl}/productdetail/${productId}`;
+  
+  
+  // 나의 상품이면 수정 버튼 보이게
+	$.ajax({
+	  url: `${cpath}/api/auth/editable/${productId}`,
+	  method: "GET",
+	  dataType: "json",
+	  success: function(res) {
+	    if (res.data === true) {
+	      $('#editProductBtn').show().on('click', function () {
+	        if (storeUrl === 'main') {
+	          window.location.href = `${cpath}/main/sell/sellregister`;
+	        } else {
+	          window.location.href = `${cpath}/${storeUrl}/seller/productupdate/${productId}`;
+	        }
+	      });
+	    }
+	  },
+	  error: function(xhr, status, err) {
+	    console.warn("수정 권한 확인 실패", err);
+	  }
+	});
+
 
   // 이미지 경로를 절대 경로로 변환(추후 변경 필요할 수도)
   function getImageUrl(imgPath) {

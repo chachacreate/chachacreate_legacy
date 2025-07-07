@@ -64,5 +64,8 @@ public interface SellerMapper {
     int updateSellerInfo(SellerEntity seller);
     
     int updateBypersonalCheck(@Param("sellerId") int sellerId, @Param("personalCheck") int personalCheck);
+
+	// for 자신의 상품인지 검증
+    int selectMemberIdForSellerId(int sellerId);
     
 }

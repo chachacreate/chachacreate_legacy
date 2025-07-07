@@ -76,6 +76,11 @@ body {
   justify-content: center;
 }
 
+.first-row {
+	display: flex;
+	justify-content: space-between;
+}
+
 .store-name {
   font-size: 18px;
   color: #666;
@@ -97,6 +102,29 @@ body {
   color: black;
   text-decoration: none;
 }
+
+.edit-button-row {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.edit-button {
+  background-color: #2a3e34;
+  color: white;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  height: 30px;
+}
+
+.edit-button:hover {
+  background-color: #222;
+}
+
+
 
 .product-title-row {
   display: flex;

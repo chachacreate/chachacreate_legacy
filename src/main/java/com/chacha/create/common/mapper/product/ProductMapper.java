@@ -62,4 +62,7 @@ public interface ProductMapper {
     int delete(int productId);
 
 	int selectForStoreIdByStoreUrl(String storeUrl);
+	
+	// for 자신의 상품인지 검증
+	int selectForStoreIdByProductId(int productId);
 }
