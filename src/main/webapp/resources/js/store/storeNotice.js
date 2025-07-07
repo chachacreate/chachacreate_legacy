@@ -12,8 +12,8 @@ let currentPage = 1;              // 현재 페이지 번호
 // ================================
 $(document).ready(() => {
   // <input type="hidden">에서 경로 값 추출
-  cpath = document.getElementById("cpath")?.value || "";
-  storeUrl = document.getElementById("storeUrl")?.value || "";
+  cpath = document.getElementById("cpath").value || "";
+  storeUrl = document.getElementById("storeUrl").value || "";
 
   // 필수 값 유효성 검사
   if (!cpath || !storeUrl) return;

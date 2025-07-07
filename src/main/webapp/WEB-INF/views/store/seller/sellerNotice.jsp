@@ -24,85 +24,50 @@
 	<div class="content-wrapper">
     <%@ include file="/common/store_seller_sidenav.jsp" %>
     <main class="content">
-        <div class="content-inner">
-            <div class="suggestion-box">
-                <h2>신고 관리</h2>
-                <div class="suggestion-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>신고자명</th>
-                                <th>신고 당한 판매자/스토어</th>
-                                <th>신고 내용</th>
-                                <th>신고일</th>
-                                <th>처리상태</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-						<% for (int i = 1; i <= 30; i++) {
-						    String fullContent;
-						    String reportDate;
-						    if (i <= 10) {
-						        fullContent = "차자가 오기에 몰렸어요. 문제가 심각해요. 사람이 너무 몰려 위험했어요.";
-						        reportDate = "2025-06-24";
-						    } else {
-						        fullContent = "혼잡 발생 신고입니다. 개선 요청드립니다.";
-						        reportDate = "2025-06-23";
-						    }
-						%>
-						<tr <%= i > 10 ? "class='extra-row' style='display:none;'" : "" %>>
-						    <td>신고자<%= i %></td>
-						    <td>스토어<%= i %></td>
-						    <td>
-						        <div class="suggestion-content-box">
-						            <span class="preview-text"><%= fullContent.length() > 30 ? fullContent.substring(0, 30) + "..." : fullContent %></span>
-						            <button class="toggle-detail-btn">▼</button>
-						            <div class="full-text" style="display: none;"><%= fullContent %></div>
-						        </div>
-						    </td>
-						    <td><%= reportDate %></td>
-						    <td><button class="status-btn">완료</button></td>
-						</tr>
-						<% } %>
-						</tbody>
-                    </table>
-                </div>
-                <div class="more-button-box">
-                    <button id="showMoreBtn">▼ 전체 보기</button>
-                </div>
-            </div>
-        </div>
-    </main>
-</div>
-</div>
-<footer>
+					<div class="content-inner">
+						<div class="suggestion-box">
+							<div class="search-box">
+								<input type="text" id="notice-search-input"
+									placeholder="조회할 제목을 입력하세요" />
+								<button class="search-btn">검색</button>
+							</div>
+
+							<div class="write-area">
+								<button id="write-btn">+</button>
+								<div id="write-form" style="display: none;">
+									<input type="text" id="new-title" placeholder="제목 입력" />
+									<textarea id="new-content" placeholder="내용 입력"></textarea>
+									<label class="check-label"> <input type="checkbox"
+										class="notice_checkbox" /> 중요 공지사항 여부
+									</label>
+									<button id="submit-post">공지사항 등록</button>
+								</div>
+							</div>
+
+							<h2>공지 사항</h2>
+
+							<div class="suggestion-table">
+								<table>
+									<thead>
+										<tr>
+											<th>번호</th>
+											<th>제목</th>
+											<th>작성일</th>
+										</tr>
+									</thead>
+									<tbody id="notice-body">
+										<!-- JS가 동적으로 삽입 -->
+									</tbody>
+								</table>
+							</div>
+
+							<div id="pagination" class="pagination"></div>
+						</div>
+					</div>
+</main></div></div>
+					<footer>
     &copy; 2025 뜨락상회
 </footer>
 </div>
-<script>
-$(document).ready(function() {
-    $('.has-submenu > a').click(function() {
-        $(this).next('.submenu').slideToggle(200);
-    });
-    $('#showMoreBtn').click(function() {
-        $('.extra-row').slideDown(200);
-        $(this).hide();
-    });
-    $('.toggle-detail-btn').click(function() {
-        var box = $(this).closest('td');
-        var fullTextDiv = box.find('.full-text');
-        if (fullTextDiv.is(":visible")) {
-            fullTextDiv.slideUp(200);
-            $(this).text("▼");
-        } else {
-            fullTextDiv.slideDown(200);
-            $(this).text("▲");
-        }
-    });
-    $('.status-btn').click(function() {
-        $(this).toggleClass('completed');
-    });
-});
-</script>
 </body>
 </html>

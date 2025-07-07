@@ -12,4 +12,5 @@ public class StoreInfoManagementDTO {
     private String memberPhone;
     private String accountBank;
     private String account;
+    private String profileInfo;
 }

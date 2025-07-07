@@ -70,7 +70,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 	
 	<select id="selectForStoreIdByStoreUrl" resultType="int">
-    SELECT store_id FROM store WHERE store_url = #{storeUrl}
+    	SELECT store_id FROM store WHERE store_url = #{storeUrl}
+	</select>
+	
+	<select id="selectForStoreIdByProductId" resultType="int">
+		SELECT store_id FROM product WHERE product_id = #{productId}
 	</select>
 
 </mapper>

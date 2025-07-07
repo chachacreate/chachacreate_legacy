@@ -2,31 +2,40 @@ package com.chacha.create.controller.rest.seller.shut_down;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.chacha.create.common.dto.error.ApiResponse;
 import com.chacha.create.common.dto.manager.StoreManagerUpdateDTO;
+import com.chacha.create.common.dto.store.StoreInfoManagementDTO;
 import com.chacha.create.common.entity.member.MemberEntity;
 import com.chacha.create.common.enums.error.ResponseCode;
 import com.chacha.create.service.manager.store.StoreManagementUpdateService;
+import com.chacha.create.service.seller.information.StoreInfoManagementService;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
 @RequestMapping("/api/{storeUrl}/seller")
+@RequiredArgsConstructor
 public class StoreManagementUpdateRestController {
 
-    @Autowired
-    private StoreManagementUpdateService storeService;
-
-    @PostMapping("/management/sellerInfo")
+    private final StoreManagementUpdateService storeService;
+	private final StoreInfoManagementService storeInfoService;
+    
+	@GetMapping("/management/sellerInfo")
+	public ResponseEntity<ApiResponse<StoreInfoManagementDTO>> getmyInfo(@PathVariable String storeUrl){
+		return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, storeInfoService.getStoreInfo(storeUrl)));
+	}
+	
+    @PutMapping("/management/sellerInfo")
     public ResponseEntity<ApiResponse<Void>> updateStoreAndSeller(
             @PathVariable("storeUrl") String storeUrl,
             HttpSession session,
