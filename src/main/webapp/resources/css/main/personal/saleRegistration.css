@@ -196,22 +196,26 @@ select.category-select {
 }
 
 /* ✅ 상세 페이지 토글 버튼 */
-.detail-toggle {
-  background-color: #ccc;
-  padding: 10px 24px;
-  border: none;
-  border-radius: 12px;
-  display: block;
-  margin: 0 auto 20px;
-  font-size: 15px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.3s;
+.section-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #34432d; /* 진한 녹색 느낌 */
+  margin: 40px 0 20px;
+  position: relative;
+  padding-left: 16px;
 }
 
-.detail-toggle:hover {
-  background-color: #bcbcbc;
+.section-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 6px;
+  width: 6px;
+  height: 24px;
+  background-color: #8fc28a; /* 포인트 색상 */
+  border-radius: 3px;
 }
+
 /* ✅ 수정/삭제 버튼 영역 */
 .action-buttons {
   display: flex;
