@@ -43,6 +43,7 @@ import com.chacha.create.common.dto.product.ProductWithImagesDTO;
 import com.chacha.create.common.dto.product.ProductlistDTO;
 import com.chacha.create.common.dto.product.ReviewManagementDTO;
 import com.chacha.create.common.dto.store.StoreInfoDTO;
+import com.chacha.create.common.dto.store.StoreInfoManagementDTO;
 import com.chacha.create.common.entity.member.MemberEntity;
 import com.chacha.create.common.entity.order.OrderInfoEntity;
 import com.chacha.create.common.entity.product.ProductEntity;
@@ -56,6 +57,7 @@ import com.chacha.create.common.exception.InvalidRequestException;
 import com.chacha.create.common.exception.LoginFailException;
 import com.chacha.create.service.buyer.detail.ReviewService;
 import com.chacha.create.service.buyer.storeinfo.StoreInfoService;
+import com.chacha.create.service.seller.information.StoreInfoManagementService;
 import com.chacha.create.service.seller.main.SellerMainService;
 import com.chacha.create.service.seller.order.OrderManagementService;
 import com.chacha.create.service.seller.product.ProductService;
@@ -88,6 +90,8 @@ public class SellerMainController {
 	private final ShutDownService shutdownService;
 	
 	private final ReviewService reviewService;
+	
+	private final StoreInfoManagementService storeInfoService;
 	
 	public void setStoreNavInfo(String storeUrl, Model model) {
 		StoreInfoDTO storeInfo = storeinfo.selectForThisStoreInfo(storeUrl);
@@ -354,12 +358,29 @@ public class SellerMainController {
 		return "store/seller/chat";
 	}
 	
-	// 스토어 관리 --- 추가 필요
-//	@GetMapping("/management/seller")
-//	public String storeManagement(@PathVariable String storeUrl, Model model) {
-//		setStoreNavInfo(storeUrl, model);
-//		return "";
-//	}
+	// 스토어 정보 조회
+	@GetMapping("/management/seller")
+	public String storeManagement(@PathVariable String storeUrl, Model model) {
+	    setStoreNavInfo(storeUrl, model);
+	    
+	    StoreInfoManagementDTO storeInfo = storeInfoService.getStoreInfo(storeUrl);
+	    System.out.println(storeInfo);
+	    model.addAttribute("storeInfo", storeInfo);
+
+	    return "store/seller/sellerInfo";
+	}
+	
+	// 스토어 정보 조회
+	@GetMapping("/management/sellerupdate")
+	public String storeManagementupdate(@PathVariable String storeUrl, Model model) {
+	    setStoreNavInfo(storeUrl, model);
+	    
+	    StoreInfoManagementDTO storeInfo = storeInfoService.getStoreInfo(storeUrl);
+	    System.out.println(storeInfo);
+	    model.addAttribute("storeInfo", storeInfo);
+
+	    return "store/seller/sellerInfoUpdate";
+	}
 	
 	// 공지사항목록
 	@GetMapping("/management/notices")
