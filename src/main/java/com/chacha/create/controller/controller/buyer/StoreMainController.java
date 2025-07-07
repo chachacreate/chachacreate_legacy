@@ -130,6 +130,13 @@ public class StoreMainController {
 	    return "main/mypage/mainMyPageReview";
 	}
 
+	//메시지 확인
+    @GetMapping("/mypage/message")
+    public String showMessagePage(@PathVariable String storeUrl, Model model) {
+		setStoreNavInfo(storeUrl, model);
+		model.addAttribute("clickMypage", "마이페이지 클릭");
+    	return "main/mypage/chat";
+    }
 	
 	// 스토어 소개/판매자 정보
 	//{storeUrl}/info
