@@ -149,7 +149,7 @@ public class StoreMainController {
             model.addAttribute("sellerInfoList", sellerInfoList.get(0));
         }
         
-		return "store/sellerInfo";
+		return "store/storeInfo";
 	}
 	
 	// 공지사항
