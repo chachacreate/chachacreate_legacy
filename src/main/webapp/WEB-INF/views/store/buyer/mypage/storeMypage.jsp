@@ -21,7 +21,7 @@
     <!-- 메인 콘텐츠 영역 -->
     <main class="main-area" data-cpath="${cpath}">
       <!-- 왼쪽 사이드바 -->
-     <jsp:include page="/common/store_mypage_sidenav.jsp" />
+     <jsp:include page="/common/main_mypage_sidenav.jsp" />
 
       <!-- 오른쪽 콘텐츠 영역 -->
       <section class="page-content">
