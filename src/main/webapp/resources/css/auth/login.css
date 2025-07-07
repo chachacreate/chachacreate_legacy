@@ -80,7 +80,8 @@ form {
 }
 
 .input-box::selection {
-  background: transparent;
+  background: #d4e6c2; /* 원하는 색상으로 바꾸세요 */
+  color: #000000;      /* 선택된 텍스트 색상도 지정 가능 */
 }
 
 .input-box:focus {

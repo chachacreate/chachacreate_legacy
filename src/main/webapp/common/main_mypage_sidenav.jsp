@@ -18,30 +18,30 @@
 <aside class="sidebar">
   <ul>
     <li>
-      <a href="${basePath}"
-         class="${fn:contains(uri, '/mypage') and not fn:contains(uri, '/mypage/') ? 'active' : ''}">
-         마이정보수정</a>
-    </li>
-    <li>
-      <a href="${basePath}/cart"
-         class="${fn:contains(uri, '/mypage/cart') ? 'active' : ''}">
-         장바구니</a>
-    </li>
-    <li>
-      <a href="${basePath}/orders"
-         class="${fn:contains(uri, '/mypage/orders') ? 'active' : ''}">
-         주문내역</a>
-    </li>
-    <li>
-      <a href="${basePath}/message"
-         class="${fn:contains(uri, '/mypage/message') ? 'active' : ''}">
-         문의 메시지</a>
-    </li>
-    <li>
-      <a href="${basePath}/myreview"
-         class="${fn:contains(uri, '/mypage/myreview') ? 'active' : ''}">
-         작성 리뷰 확인</a>
-    </li>
+  <a href="${basePath}"
+     class="${uri == basePath ? 'active' : ''}">
+     마이정보수정</a>
+</li>
+<li>
+  <a href="${basePath}/cart"
+     class="${fn:contains(uri, '/mypage/cart') ? 'active' : ''}">
+     장바구니</a>
+</li>
+<li>
+  <a href="${basePath}/orders"
+     class="${fn:contains(uri, '/mypage/orders') ? 'active' : ''}">
+     주문내역</a>
+</li>
+<li>
+  <a href="${basePath}/message"
+     class="${fn:contains(uri, '/mypage/message') ? 'active' : ''}">
+     문의 메시지</a>
+</li>
+<li>
+  <a href="${basePath}/myreview"
+     class="${fn:contains(uri, '/mypage/myreview') ? 'active' : ''}">
+     작성 리뷰 확인</a>
+</li>
   </ul>
 </aside>
 

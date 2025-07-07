@@ -123,6 +123,7 @@ h2 {
   display: flex;
   justify-content: center;
   box-sizing: border-box;
+  align-items:stretch;
 }
 
 
@@ -156,14 +157,15 @@ h2 {
 
 .product-card {
   width: 100%;
-  max-width: 320px;
+  max-width: 100%;   /* swiper-slide와 충돌 방지 */
+  height: 100%;      /* swiper-slide 높이에 맞추도록 */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* 공간을 위에서부터 채움 */
   background: #fff;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -176,8 +178,9 @@ h2 {
 
 .product-image-box {
   position: relative;
-  height: 240px;
+  height: 200px; /* 적당히 고정된 높이 */
   overflow: hidden;
+  flex-shrink: 0;
 }
 .product-image-box img {
   width: 100%;

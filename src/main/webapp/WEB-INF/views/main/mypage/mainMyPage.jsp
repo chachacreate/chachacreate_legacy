@@ -18,7 +18,7 @@
 </head>
 <body>
   <div class="wrapper">
-
+	
     <!-- ✅ 공통 헤더 -->
     <jsp:include page="/common/header.jsp" />
 
@@ -188,5 +188,55 @@
     </footer>
 
   </div>
+  <script>
+  $(document).ready(function () {
+		
+		//-----------------텍스트 길이 체크--------------		
+		$('.career-text').on('input', function() {
+	        const maxLength = 150;
+	        const currentLength = $(this).val().length;
+	        const charCountText = currentLength + '/' + maxLength;
+	        
+	        // 같은 부모요소 내의 .char-count에 글자수 업데이트
+	        $(this).siblings('.char-count').text(charCountText);
+
+	        // 150자 초과시 자르기 (선택사항)
+	        if (currentLength > maxLength) {
+	            $(this).val($(this).val().substring(0, maxLength));
+	            $(this).siblings('.char-count').text(maxLength + '/' + maxLength);
+	        }
+	    });
+
+		//-----------------사진 파일 실시간 반영(파일명 기준)--------------		
+		
+		  $('.upload-placeholder').on('click', function () {
+		    $('#fileInput').click();
+		  });
+		  $('#fileInput').on('change', function (e) {
+			  const file = e.target.files[0];
+			  if (!file) return;
+
+			  // 허용할 확장자 배열
+			  const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+
+			  // 파일명에서 확장자 추출 (소문자 변환)
+			  const fileName = file.name.toLowerCase();
+			  const extension = fileName.split('.').pop();
+
+			  if (!allowedExtensions.includes(extension)) {
+			    alert('jpg, jpeg, png, gif 형식의 이미지 파일만 선택할 수 있습니다.');
+			    $(this).val('');  // 선택 초기화
+			    return;
+			  }
+
+			  // 이미지 파일일 때 처리 (기존 미리보기 등)
+			  const reader = new FileReader();
+			  reader.onload = function (event) {
+			    $('.upload-placeholder').html(`<img src="${cpath}/resources/productImages/\${file.name}" style="max-width: 100%; max-height: 100%; object-fit: contain;">`);
+			  };
+			  reader.readAsDataURL(file);
+			});
+	});
+  </script>
 </body>
 </html>

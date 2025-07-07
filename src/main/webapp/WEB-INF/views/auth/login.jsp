@@ -16,7 +16,9 @@
 <div class="login-page">
     <div class="login-container">
         <form id="login-form">
-            <img class="logo_frame" src="${cpath}/resources/images/logo/logo_green.png" alt="Logo"/>
+            <a href="${cpath}/main">
+			  <img class="logo_frame" src="${cpath}/resources/images/logo/logo_green.png" alt="Logo"/>
+			</a>
             <div class="form-wrapper">
                 <div class="form-inner">
                     <div class="input-group">
