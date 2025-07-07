@@ -13,11 +13,12 @@
 
 <div class="content-wrapper">
   <%-- ✅ 사이드 여백 포함한 사이드바 --%>
-  <div class="spacer" style="width:240px;"></div>
+  <div class="left-padding"></div>
+
   <%@ include file="/common/store_seller_sidenav.jsp" %>
 
   <div class="main-area">
-    <div class="content-area">
+    
       <main class="content">
         <div class="content-inner">
 
@@ -60,14 +61,9 @@
       </main>
 
       
-    </div>
-<!-- <!--     푸터 -->
-      <footer class="site-footer">
-        <div class="footer-inner">
-          <p>© 2025 뜨락상회. All rights reserved.</p>
-        </div>
-      </footer> -->
+  
   </div>
+  <div class="right-padding"></div>
 </div>
 
 <!-- 스크립트 -->

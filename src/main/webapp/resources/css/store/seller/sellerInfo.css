@@ -1,47 +1,46 @@
 @charset "UTF-8";
 
-.member-box {
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+/* 전체 레이아웃 */
+.content-wrapper {
+  display: flex;
+  margin: 0 auto;
+  background-color: #f4f4f4;
+  min-height: 100vh;
+  box-sizing: border-box;
 }
 
-.member-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+.side-padding {
+  width: 240px;
+  flex-shrink: 0;
 }
 
-.sidebar ul li a {
-    display: flex;                  /* �� 媛�濡� ���� */
-    justify-content: space-between;/* �� ��履� ���� */
-    align-items: center;            /* �� ��吏� ���� */
-    padding: 10px;                  /* �� 醫��� ������ 10px */
-    text-decoration: none;
-    color: #333;
-    font-weight: 600;
-    font-size: 15px;
-    border-radius: 4px;
-    transition: background-color 0.2s;
+.main-area {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
-.sidebar .arrow {
-    font-size: 16px;
-    color: #555;
+.content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
 }
 
 .content-inner {
-  max-width: none; /* 제한 없애기 */
+  flex-grow: 1;
   width: 100%;
-  padding: 40px 80px;
+  padding: 40px 40px;
   background-color: #fff;
   box-sizing: border-box;
-
   display: flex;
   flex-direction: column;
   gap: 32px;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 h2 {
@@ -50,90 +49,14 @@ h2 {
   margin: 0;
 }
 
-.button-wrapper {
+/* 스토어 정보 */
+.store-info-wrapper {
   display: flex;
-  justify-content: flex-end;
-  gap: 10px;
+  flex-direction: column;
+  gap: 40px;
 }
 
-/* 怨듯�� 踰��� �ㅽ���� */
-.edit-button,
-.close-button {
-  width: 120px;
-  height: 48px;
-  padding: 0 16px;
-  font-size: 17px;
-  font-family: "PretendardGov-Regular", sans-serif;
-  font-weight: 500;
-  border-radius: 6px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.2s, box-shadow 0.2s;
-  flex-shrink: 0;
-  box-sizing: border-box;
-}
-
-/* ���� 踰��� - ���� 諛곌꼍 + 珥�濡� ����由� */
-.edit-button {
-  background-color: #ffffff;
-  color: #2e7d32;
-  border: 2px solid #2e7d32;
-}
-
-.edit-button:hover {
-  background-color: #e8f5e9;
-  box-shadow: 0 0 5px rgba(46, 125, 50, 0.3);
-}
-
-.close-button {
-  background-color: #c0392b; /* 진한 빨강 */
-  color: #ffffff;
-  border: none;
-}
-
-.close-button:hover {
-  background-color: #922b21; /* 더 진한 빨강 */
-  box-shadow: 0 0 5px rgba(201, 57, 43, 0.5); /* 빨간색 계열 그림자 */
-}
-
-/* ��� �ㅽ�щ·�� ���� ������ */
-.table-frame {
-  max-height: 500px;  /* ������ ���� 議곗�� 媛��� */
-  overflow-y: auto;
-  overflow-x: hidden;
-  border-top: 1px solid #ddd;
-  margin-top: 10px;
-}
-
-.product-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.product-table th,
-.product-table td {
-  padding: 12px 10px;
-  text-align: center;
-  font-size: 14px;
-  border-bottom: 1px solid #ddd;
-}
-
-.product-table img {
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
-  border-radius: 6px;
-}
-
-.product-row {
-  cursor: pointer;
-}
-
-/* 왼쪽 프로필 영역 - 30% */
 .profile-section {
-  flex: 4;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -155,377 +78,59 @@ h2 {
   color: #333;
 }
 
-.div3 {
-  color: var(--color-naver-hover, #19ac00);
-  text-align: left;
-  font-family: var(
-    --heading-medium-font-family,
-    "PretendardGov-Bold",
-    sans-serif
-  );
-  font-size: var(--heading-medium-font-size, 16px);
-  line-height: var(--heading-medium-line-height, 150%);
-  font-weight: var(--heading-medium-font-weight, 700);
-  position: relative;
-}
-
-/* 오른쪽 정보 영역 - 70% */
-.frame-1156 {
-  flex: 6;
+/* 버튼 스타일 */
+.button-wrapper {
   display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.frame-1079 {
-  padding: 45px 10px 45px 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  align-items: flex-end;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  width: 721px;
-  height: 229px;
-  position: relative;
-  overflow: hidden;
-}
-
-.frame-1150 {
-  background: #ffffff;
-  padding: 10px;
-  display: flex;
-  flex-direction: row;
-  gap: 24px;
-  align-items: center;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  width: 689px;
-  height: 120px;
-  position: relative;
-  overflow: hidden;
-}
-.frame-1153 {
-  display: flex;
-  flex-direction: row;
+  justify-content: flex-end;
   gap: 10px;
-  align-items: center;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  position: relative;
-}
-.iconamoon-store-thin {
-  flex-shrink: 0;
-  width: 47px;
-  height: 47px;
-  position: relative;
-  overflow: hidden;
-  aspect-ratio: 1;
 }
 
-.icon-wrapper {
+.edit-button,
+.close-button {
+  width: 120px;
+  height: 48px;
+  padding: 0 16px;
+  font-size: 17px;
+  font-family: "PretendardGov-Regular", sans-serif;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
+  transition: background-color 0.2s, box-shadow 0.2s;
+  flex-shrink: 0;
+  box-sizing: border-box;
 }
 
-.group {
-  width: 75%;
-  height: 75%;
-  position: static;
-  right: 12.5%;
-  left: 12.5%;
-  bottom: 12.5%;
-  top: 12.5%;
-  overflow: visible;
-}
-.div4 {
-  color: var(--color-text-basic, #1e2124);
-  text-align: left;
-  font-family: var(
-    --heading-small-font-family,
-    "PretendardGov-Bold",
-    sans-serif
-  );
-  font-size: var(--heading-small-font-size, 19px);
-  line-height: var(--heading-small-line-height, 150%);
-  font-weight: var(--heading-small-font-weight, 700);
-  position: relative;
-}
-.div5 {
-  color: var(--color-text-basic, #1e2124);
-  text-align: right;
-  font-family: var(--heading-small-font-family, "PretendardGov-Bold", sans-serif);
-  font-size: var(--heading-small-font-size, 19px);
-  line-height: var(--heading-small-line-height, 150%);
-  font-weight: var(--heading-small-font-weight, 700);
-  position: relative;
-  width: 100%;            /* 부모 전체 너비 사용 */
-  max-width: 550px;       /* 최대 너비 지정 (원래 550px 유지) */
-  margin: 0;              /* 불필요한 여백 제거 */
-  padding-right: 0;       /* 오른쪽 여백 제거 */
-  box-sizing: border-box; /* padding 포함 너비 계산 */
-}
-.frame-1080 {
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  align-items: flex-end;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  width: 721px;
-  height: 438px;
-  position: relative;
-  overflow: hidden;
-}
-.line-32 {
-  background: #63715f;
-  margin-top: -2px;
-  border-style: solid;
-  border-color: var(--button, #000000);
-  border-width: 2px 0 0 0;
-  flex-shrink: 0;
-  width: 532px;
-  height: 0px;
-  position: relative;
-  transform-origin: 0 0;
-  transform: rotate(180deg) scale(1, 1);
-}
-.frame-11502 {
-  background: #ffffff;
-  padding: 10px;
-  display: flex;
-  flex-direction: row;
-  gap: 24px;
-  align-items: center;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  width: 672px;
-  height: 95px;
-  position: relative;
-  overflow: hidden;
-}
-.iconoir-user {
-  flex-shrink: 0;
-  width: 47px;
-  height: 47px;
-  position: relative;
-  overflow: visible;
-  aspect-ratio: 1;
-}
-.frame-1152 {
-  background: #ffffff;
-  padding: 10px;
-  display: flex;
-  flex-direction: row;
-  gap: 24px;
-  align-items: center;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  width: 672px;
-  height: 95px;
-  position: relative;
-  overflow: hidden;
-}
-.fluent-call-28-regular {
-  flex-shrink: 0;
-  width: 47px;
-  height: 47px;
-  position: relative;
-  overflow: visible;
-  aspect-ratio: 1;
-}
-._010-3924-2137 {
-  color: var(--color-text-basic, #1e2124);
-  text-align: right;
-  font-family: var(
-    --heading-small-font-family,
-    "PretendardGov-Bold",
-    sans-serif
-  );
-  font-size: var(--heading-small-font-size, 19px);
-  line-height: var(--heading-small-line-height, 150%);
-  font-weight: var(--heading-small-font-weight, 700);
-  position: relative;
-  width: 550px;
-}
-.frame-11532 {
-  background: #ffffff;
-  padding: 10px;
-  display: flex;
-  flex-direction: row;
-  gap: 24px;
-  align-items: center;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  width: 672px;
-  height: 95px;
-  position: relative;
-  overflow: hidden;
-}
-.iconamoon-email-thin {
-  flex-shrink: 0;
-  width: 47px;
-  height: 47px;
-  position: relative;
-  overflow: hidden;
-  aspect-ratio: 1;
-}
-.group2 {
-  width: 79.17%;
-  height: 62.5%;
-  position: absolute;
-  right: 10.42%;
-  left: 10.42%;
-  bottom: 18.75%;
-  top: 18.75%;
-  overflow: visible;
-}
-.yoonjung-450-gmail-com {
-  color: var(--color-text-basic, #1e2124);
-  text-align: right;
-  font-family: var(
-    --heading-small-font-family,
-    "PretendardGov-Bold",
-    sans-serif
-  );
-  font-size: var(--heading-small-font-size, 19px);
-  line-height: var(--heading-small-line-height, 150%);
-  font-weight: var(--heading-small-font-weight, 700);
-  position: relative;
-  width: 550px;
-}
-.frame-1081 {
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  align-items: flex-end;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  width: 100%;     /* ✅ 721px → 100% */
-  height: auto;    /* ✅ 고정 높이 제거 */
-  position: relative;
-  overflow: hidden;
-}
-.material-symbols-light-account-balance-wallet-outline {
-  flex-shrink: 0;
-  width: 24px;
-  height: 24px;
-  position: relative;
-  overflow: visible;
-  aspect-ratio: 1;
-}
-.line-33 {
-  background: #63715f;
-  margin-top: -2px;
-  border-style: solid;
-  border-color: var(--button, #000000);
-  border-width: 2px 0 0 0;
-  flex-shrink: 0;
-  width: 561px;
-  height: 0px;
-  position: relative;
-  transform-origin: 0 0;
-  transform: rotate(180deg) scale(1, 1);
-}
-.iconoir-user2 {
-  flex-shrink: 0;
-  width: 47px;
-  height: 47px;
-  position: relative;
-  overflow: visible;
-  aspect-ratio: 1;
-}
-.frame-11522 {
-  background: #ffffff;
-  padding: 10px;
-  display: flex;
-  flex-direction: row;
-  gap: 24px;
-  align-items: center;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  width: 662px;
-  height: 95px;
-  position: relative;
-  overflow: hidden;
-}
-.mdi-light-bank {
-  flex-shrink: 0;
-  width: 47px;
-  height: 47px;
-  position: relative;
-  overflow: visible;
-  aspect-ratio: 1;
-}
-.div6 {
-  color: var(--color-text-basic, #1e2124);
-  text-align: right;
-  font-family: var(
-    --heading-small-font-family,
-    "PretendardGov-Bold",
-    sans-serif
-  );
-  font-size: var(--heading-small-font-size, 19px);
-  line-height: var(--heading-small-line-height, 150%);
-  font-weight: var(--heading-small-font-weight, 700);
-  position: relative;
-  width: 563px;
-}
-.frame-11533 {
-  background: #ffffff;
-  padding: 10px 0px 10px 10px;
-  display: flex;
-  flex-direction: row;
-  gap: 24px;
-  align-items: center;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  width: 672px;
-  height: 95px;
-  position: relative;
-  overflow: hidden;
-}
-.material-symbols-light-account-balance-wallet-outline-sharp {
-  flex-shrink: 0;
-  width: 47px;
-  height: 47px;
-  position: relative;
-  overflow: visible;
-  aspect-ratio: 1;
-}
-._1002-858-069-478 {
-  color: var(--color-text-basic, #1e2124);
-  text-align: right;
-  font-family: var(
-    --heading-small-font-family,
-    "PretendardGov-Bold",
-    sans-serif
-  );
-  font-size: var(--heading-small-font-size, 19px);
-  line-height: var(--heading-small-line-height, 150%);
-  font-weight: var(--heading-small-font-weight, 700);
-  position: relative;
-  width: 550px;
+.edit-button {
+  background-color: #ffffff;
+  color: #2e7d32;
+  border: 2px solid #2e7d32;
 }
 
-.store-info-wrapper {
-  display: flex;
-  flex-direction: column; /* ✅ 세로 방향으로 변경 */
-  gap: 40px;
-  max-width: 1000px;
-  margin: 0 auto;
+.edit-button:hover {
+  background-color: #e8f5e9;
+  box-shadow: 0 0 5px rgba(46, 125, 50, 0.3);
 }
 
+.close-button {
+  background-color: #c0392b;
+  color: #ffffff;
+  border: none;
+}
+
+.close-button:hover {
+  background-color: #922b21;
+  box-shadow: 0 0 5px rgba(201, 57, 43, 0.5);
+}
+
+/* 섹션 타이틀 */
 .section-title-wrapper {
   display: flex;
   align-items: center;
   gap: 24px;
-  padding: 0 20px; /* 필요 시 조정 */
+  padding: 0 20px;
   width: 100%;
   box-sizing: border-box;
 }
@@ -543,4 +148,84 @@ h2 {
   height: 0;
   border-top: 2px solid #000;
   background-color: transparent;
+}
+
+/* 입력 영역 공통 */
+.frame-1079,
+.frame-1080,
+.frame-1081 {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.frame-1150,
+.frame-11502,
+.frame-1152,
+.frame-11532,
+.frame-11522,
+.frame-11533 {
+  background: #ffffff;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  align-items: center;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  width: 100%;
+  height: 95px;
+}
+
+.div3 {
+  color: #19ac00;
+  font-family: "PretendardGov-Bold", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.div4 {
+  color: #1e2124;
+  font-family: "PretendardGov-Bold", sans-serif;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.info-input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.info-textarea {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  height: 100px;
+  resize: none;
+}
+
+.account-button {
+  width: 160px;
+  height: 44px;
+  background-color: #2e7d32;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.account-button:hover {
+  background-color: #27682a;
 }

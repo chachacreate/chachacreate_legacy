@@ -1,5 +1,25 @@
 @charset "UTF-8";
 
+.page-container {
+  display: flex;
+  width: 1920px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.left-padding,
+.right-padding {
+  width: 240px;
+  flex-shrink: 0;
+}
+
+
+.content-wrapper {
+  flex: 1;
+  padding: 40px 0;
+  box-sizing: border-box;
+}
+
 .member-box {
     padding: 20px;
     background-color: #fff;
@@ -14,23 +34,8 @@
     margin-bottom: 20px;
 }
 
-.sidebar ul li a {
-    display: flex;                  /* �� 媛�濡� ���� */
-    justify-content: space-between;/* �� ��履� ���� */
-    align-items: center;            /* �� ��吏� ���� */
-    padding: 10px;                  /* �� 醫��� ������ 10px */
-    text-decoration: none;
-    color: #333;
-    font-weight: 600;
-    font-size: 15px;
-    border-radius: 4px;
-    transition: background-color 0.2s;
-}
 
-.sidebar .arrow {
-    font-size: 16px;
-    color: #555;
-}
+
 
 .content-inner {
     display: flex;
@@ -77,9 +82,24 @@
   flex-direction: row;
   gap: 30px;
   width: 100%;
-  justify-content: center;
   align-items: flex-start;
 }
+
+.product-form-unit {
+  width: 100%;
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.box, .box2, textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
 
 .frame-1076{
   width: 468px;
@@ -183,30 +203,18 @@
   overflow: visible;
 }
 
+/* 상품정보 전체 wrapper */
 .frame-1196 {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  position: relative;
+  width: 100%;
+  box-sizing: border-box;
 }
 
+/* 내부 콘텐츠 프레임 */
 .frame-1079 {
-  padding: 10px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  align-items: center;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  width: 100%;              /* �� 怨��� width �� 100% */
-  max-width: 617px;         /* �� 理��� ��鍮� ���� */
-  height: 630px;
-  position: relative;
-  overflow-y: auto;
-  overflow-x: hidden; /* �� 媛�濡� �ㅽ�щ· 諛⑹� */
   box-sizing: border-box;
 }
 
@@ -350,11 +358,10 @@
   position: relative;
 }
 .group-90 {
-  flex-shrink: 0;
-  width: 617px;
-  height: 108px;
-  position: static;
+  width: 100%;
+  margin-bottom: 20px;
 }
+
 .div20 {
   color: var(--color-text-subtle, #464c53);
   text-align: left;
@@ -362,12 +369,10 @@
   font-size: var(--label-small-font-size, 15px);
   line-height: var(--label-small-line-height, 150%);
   font-weight: var(--label-small-font-weight, 700);
-  position: absolute;
-  left: 0px;
-  top: 493px;
-  width: 617px;
+  margin-bottom: 8px;
 }
-.frame-10772 {
+
+/* .frame-10772 {
   display: flex;
   flex-direction: row;
   gap: 24px;
@@ -378,6 +383,14 @@
   left: 34px;
   top: 526px;
 }
+ */
+ 
+ .frame-10772 {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
 
 .icon-btn-more4 {
   width: 26px;
@@ -583,16 +596,12 @@ textarea.box {
 }
 
 .remove-product-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
+  align-self: flex-end;
   background: #f44336;
   color: #fff;
   border: none;
   border-radius: 4px;
-  padding: 4px 8px;
+  padding: 6px 12px;
   cursor: pointer;
   font-weight: bold;
-  font-size: 14px;
-  z-index: 1000; /* 꼭 추가 */
 }

@@ -17,11 +17,10 @@
 </head>
 <body>
 <div class="content-wrapper">
+<div class="left-padding"></div>
    <%@ include file="/common/store_seller_sidenav.jsp" %>
 
   <div class="main-area">
-    <div class="content-wrapper">
-
       <main class="content">
         <div class="content-inner">
 		  <h2>상품조회</h2>
@@ -75,14 +74,10 @@
 		    </div>
 		  </div>
       </main>
-          <!-- 푸터 -->
-    <footer class="site-footer">
-      <div class="footer-inner">
-        <p>© 2025 뜨락상회. All rights reserved.</p>
-      </div>
-    </footer>
-    </div>
+   
+   
   </div>
+  <div class="right-padding"></div>
 </div>
 
 </body>

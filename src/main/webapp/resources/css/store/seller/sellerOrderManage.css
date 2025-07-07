@@ -10,16 +10,18 @@ body {
 .content-wrapper {
   display: flex;
   width: 1920px;
-  min-height: 100vh;
+  margin: 0 auto;
   background-color: #f4f4f4;
+  min-height: 100vh;
   box-sizing: border-box;
-  margin: 0 auto; /* 화면 중앙 정렬 */
 }
 
-.spacer {
+.left-padding,
+.right-padding {
   width: 240px;
   flex-shrink: 0;
 }
+
 
 /* 전체 레이아웃 */
 .main-area {

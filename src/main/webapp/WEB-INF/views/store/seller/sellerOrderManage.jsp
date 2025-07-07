@@ -49,7 +49,7 @@
 </head>
 <body>
   <div class="content-wrapper">
-    
+    <div class="left-padding"></div>
     <!-- ✅ 왼쪽 여백 -->
     <div class="spacer" style="width: 240px;"></div>
 
@@ -140,8 +140,11 @@
 
           </div>
         </div>
+        
       </main>
+      
     </div>
+    <div class="left-padding"></div>
   </div>
 
 
