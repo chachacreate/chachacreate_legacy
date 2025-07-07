@@ -57,7 +57,7 @@
             </div>
 
             <div class="social-login">
-                <a href="#" class="naver-btn">
+                <a href="${naverLogin}" class="naver-btn">
                     <img src="${cpath}/resources/images/login/naver_icon.png" alt="네이버" style="width:24px; height:24px; margin-right:10px;">
                     네이버 로그인
                 </a>
