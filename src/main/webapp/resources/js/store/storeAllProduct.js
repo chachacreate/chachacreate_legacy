@@ -1,319 +1,373 @@
+// ===============================
+// 전역 변수 선언
+// ===============================
 let cpath = "";
 let storeUrl = "";
-let allProducts = [];  // 전체 상품 저장
+let openedUCategoryId = null;
+let allProducts = [];
 const PRODUCTS_PER_PAGE = 16;
 
+// ===============================
+// 초기 실행: DOM 로드 시 실행할 초기 설정
+// ===============================
 $(() => {
   cpath = document.getElementById("cpath").value;
   storeUrl = document.getElementById("storeUrl").value;
 
-	  // 페이지 로드되면 전체상품 조회
-	  allProduct();
-  
-	  // 카테고리 영역 
-	  loadCategories();
-	  
-	  // UCategory 버튼 클릭시 존재하는 DCategory 조회
-	  $(document).on("click", ".toggle-arrow", function () {
-	  const uCategoryName = $(this).data("category-id");
-	  const dAreaId = `dCategory-area-${uCategoryName}`;
-	  const $target = $(`#${dAreaId}`);
-	
-	  if ($target.is(":visible")) {
-	    $target.slideUp();
-	  } else {
-	    if ($target.children().length === 0) {
-	      selectDCategory(uCategoryName, renderDCategories);
-	    } else {
-	      $target.slideDown();
-	    }
-	  }
-	});
-	
-	
-		 // 검색하기 버튼 클릭시 선택한 카테고리가 .존재하는 상품 조회
-	 	 $(document).on("click",".category-search-btn",function () {
-		  const filters = collectCategoryFilters();
-		  fetchFilteredProducts(filters);
-		});
-  
+  allProduct(); // 전체 상품 조회
 
-	 // 조건 조회시
-	 $(".sort-tab").on("click",function(){
-	 	$(".sort-tab").removeClass("active");
-	 	$(this).addClass("active");
-	 	
-	 	const sortValue = $(this).data("sort");
-	 	sortProducts(sortValue);
-	 });
- 
-	  // 상품명으로 검색시
-	  $("#search-button").on("click", function () {
-	    const inputData = $("#keyword").val();
-	    if (inputData.trim() !== "") {
-	      searchProductName(inputData);
-	    } else {
-	      alert("상품명을 입력하세요.");
-	    }
-	  });
-  
-	  // 전체선택 체크시 하위 체크박스 전체 선택
-	  $(document).on("change", ".check-all", function () {
-	  // 해당 전체선택 체크박스가 속한 main-category-block 찾기
-	  const $mainBlock = $(this).closest(".main-category-block");
-	  // 해당 블록 안의 모든 서브카테고리 체크박스를 선택 또는 해제
-	  const isChecked = $(this).is(":checked");
-	  $mainBlock.find(".subcategory-container input[type='checkbox']").prop("checked", isChecked);
-	});
-	
+  // [1] 전체 상품 텍스트 클릭 시 전체 상품 다시 조회
+  $(".store-title").on("click", () => allProduct());
+
+  // [2] 검색 버튼 클릭 시 상품명 기반 조회
+  $("#search-button").on("click", function () {
+    const inputData = $("#keyword").val();
+    if (inputData.trim() !== "") {
+      searchProductName(inputData);
+    } else {
+      alert("상품명을 입력하세요.");
+    }
+  });
+
+  // [3] 정렬 조건 버튼 클릭 시
+  $(".filter-button").on("click", function () {
+    $(".filter-button").removeClass("active");
+    $(this).addClass("active");
+
+    const sortValue = $(this).data("sort");
+    if (!sortValue) return;
+
+    console.log("조건조회 실행 :", sortValue);
+    sortProducts(sortValue);
+  });
+
+  // [4] 카테고리 조회 버튼 클릭 시
+  $("#toggle-category").on("click", function () {
+    categorySelect();
+  });
+
+  // [5] u카테고리 버튼 클릭 시 d카테고리 조회 또는 토글
+  $(document).on("click", ".toggle-uCategory", function () {
+    const uCategoryId = $(this).data("category-id");
+    const uCategoryName = $(this).data("category-name");
+    const $target = $("#dCategory-area");
+
+    if (openedUCategoryId === uCategoryId) {
+      $target.slideUp();
+      openedUCategoryId = null;
+      return;
+    }
+
+    selectDCategory(uCategoryId, uCategoryName, renderDCategories);
+    $target.slideDown();
+    openedUCategoryId = uCategoryId;
+  });
+
+  // [6] u카테고리 전체 선택 체크 시 연결된 버튼 selected 처리
+  $(document).on("change", ".u-checkbox", function () {
+    const uCategoryId = $(this).val();
+    const isChecked = $(this).is(":checked");
+    const uCategoryName = $(`.toggle-uCategory[data-category-id="${uCategoryId}"]`).data("category-name");
+
+    $(`.filter-btn[data-uid="${uCategoryId}"]`).toggleClass("selected", isChecked);
+    $(`.toggle-uCategory[data-category-id="${uCategoryId}"]`).toggleClass("selected", isChecked);
+
+    const container = document.querySelector(".selected-filters");
+    const existingTag = container.querySelector(`.selected-tag[data-value="${uCategoryName}"]`);
+
+    if (isChecked && !existingTag) {
+      const tag = document.createElement("div");
+      tag.className = "selected-tag";
+      tag.setAttribute("data-value", uCategoryName);
+      tag.innerHTML = `${uCategoryName} <button class="remove-tag">✕</button>`;
+      container.appendChild(tag);
+      attachRemoveEvent(tag.querySelector(".remove-tag"));
+    } else if (!isChecked && existingTag) {
+      existingTag.remove();
+    }
+  });
+
+  // [7] filter-btn 클릭 시 태그 추가/삭제
+  const selectedFiltersContainer = document.querySelector(".selected-filters");
+
+  $(document).on("click", ".filter-btn:not(.toggle-uCategory)", function () {
+    const btn = this;
+    const value = btn.textContent.trim();
+    const isSelected = btn.classList.contains("selected");
+
+    btn.classList.toggle("selected");
+
+    if (!isSelected) {
+      const tag = document.createElement("div");
+      tag.className = "selected-tag";
+      tag.setAttribute("data-value", value);
+      tag.innerHTML = `${value} <button class="remove-tag">\u2715</button>`;
+      selectedFiltersContainer.appendChild(tag);
+      attachRemoveEvent(tag.querySelector(".remove-tag"));
+    } else {
+      const tagToRemove = selectedFiltersContainer.querySelector(`.selected-tag[data-value="${value}"]`);
+      if (tagToRemove) tagToRemove.remove();
+    }
+  });
+
+  // [8] 초기화 버튼 클릭 시 전체 해제
+  $(document).on("click", ".reset-btn", function () {
+    document.querySelectorAll(".selected-tag").forEach(tag => tag.remove());
+    $(".filter-btn").removeClass("selected");
+    $(".u-checkbox").prop("checked", false);
+  });
+
+  // [9] 카테고리 토글 열기/닫기
+  const toggleCategoryBtn = document.getElementById("toggle-category");
+  const categorySection = document.getElementById("category-section");
+  if (toggleCategoryBtn && categorySection) {
+    toggleCategoryBtn.addEventListener("click", () => {
+      categorySection.classList.toggle("category-hidden");
+    });
+  }
+
+  // [10] 선택한 카테고리 기반 상품 검색
+  $(document).on("click", ".category-search-btn", function () {
+    const filters = collectSelectedCategories();
+    fetchFilteredProducts(filters);
+  });
 });
 
+// ===============================
+// 선택된 카테고리 필터 수집
+// ===============================
+function collectSelectedCategories() {
+  const type = [];
+  const u = [];
+  const d = [];
 
-// 체크박스의 체크된 카테고리의 ID값을 수집하는 함수
-function collectCategoryFilters() {
-  const typeIds = $('.type-checkbox:checked').map(function () {
-    return $(this).val();
-  }).get();
+  $(".selected-tag").each(function () {
+    const value = $(this).data("value");
 
-  const uIds = $('.u-checkbox:checked').map(function () {
-    return $(this).val();
-  }).get();
+    $(".filter-btn").each(function () {
+      if ($(this).text().trim() === value && !$(this).hasClass("toggle-uCategory")) {
+        const id = $(this).attr("value");
+        if (id) type.push(id);
+      }
+    });
 
-  const dIds = $('.d-checkbox:checked').map(function () {
-    return $(this).val();
-  }).get();
+    $(".toggle-uCategory").each(function () {
+      if ($(this).text().trim() === value) {
+        const id = $(this).data("category-id");
+        if (id) u.push(id);
+      }
+    });
 
-  const keyword = $('#search-input').val();  // 검색어
-  const sort = $('.sort-tab.active').data('sort') || 'latest';  // 선택된 정렬 기준
+    $(".d-checkbox").each(function () {
+      if ($(this).text().trim() === value) {
+        const id = $(this).val();
+        if (id) d.push(id);
+      }
+    });
+  });
 
-  return { type: typeIds, u: uIds, d: dIds, keyword, sort };
+  return { type, u, d };
 }
 
+// ===============================
+// ✕ 태그 제거 이벤트
+// ===============================
+function attachRemoveEvent(button) {
+  button.addEventListener("click", (e) => {
+    const tag = e.target.closest(".selected-tag");
+    const value = tag.getAttribute("data-value");
+    tag.remove();
 
-
-
-// 조건조회
-function sortProducts(sort){
-  const link = `${cpath}/api/${storeUrl}/products`;
-  
-  $.ajax({
-  	url: link,
-  	dataType: "Json",
-  	data: {sort : sort},
-  	success: function(result){
-  	renderProductList(result.data);
-  	},
-  	error: function (xhr, status, error) {
-      console.error("조건조회 요청 실패:", error);
-    }
-  });
-};
-
-// 카테고리 조회
-function loadCategories() {
-  const link = `${cpath}/api/${storeUrl}/categories`;
-
-  $.ajax({
-    url: link,
-    dataType: "json",
-    success: function (result) {
-      const typeC = result.typeCategory;
-      const uC = result.uCategory;
-	  renderTypeCategories(typeC);
-	  renderUCategories(uC);	
-    },
-    error: function (xhr, status, error) {
-      console.error("카테고리 요청 실패:", error);
-    }
-  });
-};
-
-// U카테고리에 해당하는 D카테고리 조회 함수
-function selectDCategory(uCategoryName, renderDCategories){
-	const link = `${cpath}/api/${storeUrl}/categories`;
-	
-	$.ajax({
-		url: link,
-		data: { uCategoryName },
-		dataType: "json",
-		success: function(result){
-		console.log("D카테고리 : " , result);
-			renderDCategories(result, uCategoryName);
-		},
-		error: function (xhr, status, error) {
-      	console.error("D카테고리 요청 실패:", error);
-    }
-	});
-};
-
-// Type카테고리 조회
-function renderTypeCategories(typeC){
-	const typeArea = document.getElementById("type-category-section");
-  typeArea.innerHTML = "";
-
-  let html = "";
-
-  typeC.forEach(t => {
-    html += `
-      <div class="type-category-block">
-        <div class="main-category-header">
-          <span class="category-name">${t.name}</span>
-          <label class="select">
-            <input type="checkbox"  class="type-checkbox" value="${t.id}"> 선택
-          </label>
-        </div>
-      </div>
-    `;
-  });
-
-  typeArea.innerHTML = html;
-};
-
-// U카테고리 조회
-function renderUCategories(uC) {
-  const uArea = document.getElementById("category-section");
-  uArea.innerHTML = "";
-
-  let html = "";
-
-  uC.forEach(u => {
-    html += `
-      <div id="uCategory-area" class="main-category-block" data-category-id="${u.name}">
-        <div class="main-category-header">
-          <span class="category-name">${u.name}</span>
-          <div class="toggle-arrow" data-category-id="${u.name}">🔽  </div>
-          <label class="select-all">
-            <input type="checkbox" class="check-all u-checkbox" value="${u.id}"> 전체 선택
-          </label>
-        </div>
-        <!-- 여기에만 subcategory-container 존재 -->
-        <div class="subcategory-container" id="dCategory-area-${u.name}" style="display: none;"></div>
-      </div>
-    `;
-  });
-
-  uArea.innerHTML = html;
-}
-
-
-// D카테고리 조회
-function renderDCategories(dC, uCategoryName) {
-  const dArea = document.getElementById(`dCategory-area-${uCategoryName}`);
-  if (!dArea) return;
-
-  let html = "";
-
-  dC.forEach((d) => {
-    html += `
-      <label>
-        <input type="checkbox" class="d-checkbox" value="${d.id}"> ${d.name}
-      </label>
-    `;
-  });
-
-  dArea.innerHTML = html;
-  dArea.style.display = "block";
-}
-
-
-// 체크박스의 체크된 카테고리 요청 함수
-function fetchFilteredProducts(filters) {
-  const url = `${cpath}/api/${storeUrl}/products`;
-  
-  Object.keys(filters).forEach(key => {
-  	if(Array.isArray(filters[key]) && filters[key].length === 0){
-  		filters[key] = '';				// 빈 배열이면 빈 문자열로
-  	}
-  });
-	
-  $.ajax({
-    url: url,
-    method: 'GET',
-    data: filters,
-    traditional: true,  						// 배열 쿼리 파라미터를 name=value1&name=value2로 보냄
-    success: function (result) {
-      renderProductList(result.data);
-    },
-    error: function (xhr, status, error) {
-      console.error('상품 조회 실패:', error);
-    }
+    document.querySelectorAll(".filter-btn").forEach(btn => {
+      if (btn.textContent.trim() === value) {
+        btn.classList.remove("selected");
+      }
+    });
   });
 }
 
-
-// 전체상품 조회
+// ===============================
+// 전체 상품 조회
+// ===============================
 function allProduct() {
-  const link = `${cpath}/api/${storeUrl}/products`;
-
   $.ajax({
-    url: link,
+    url: `${cpath}/api/${storeUrl}/products`,
     dataType: "json",
-    success: function (result) {
-    
+    success: result => {
       allProducts = result.data || [];
       renderProductList(allProducts.slice(0, PRODUCTS_PER_PAGE));
       renderPagination(allProducts.length, 1);
-      
     },
-    error: function (xhr, status, error) {
-      console.error("전체상품 조회 실패:", error);
-    }
+    error: (xhr, status, error) => console.error("전체상품 조회 실패:", error)
   });
 }
 
-// 페이지네이션을 위해 외부JS호출할 함수
-function changePage(pageNumber) {
-  const startIndex = (pageNumber - 1) * PRODUCTS_PER_PAGE;
-  const endIndex = startIndex + PRODUCTS_PER_PAGE;
-  const paginated = allProducts.slice(startIndex, endIndex);
-
-  renderProductList(paginated); // 상품 표시 함수
-  renderPagination(allProducts.length, pageNumber); // 페이지네이션 재렌더링
-}
-
-
-// 상품명 검색 조회
+// ===============================
+// 상품명 검색
+// ===============================
 function searchProductName(keyword) {
-  const link = `${cpath}/api/${storeUrl}/products`;
-
   $.ajax({
-    url: link,
-    data: { keyword: keyword },
+    url: `${cpath}/api/${storeUrl}/products`,
+    data: { keyword },
     dataType: "json",
-    success: function (result) {
-      console.log("검색 결과:", result.data);
-      renderProductList(result.data);
-    },
-    error: function (xhr, status, error) {
-      console.error("검색 요청 실패:", error);
+    success: result => renderProductList(result.data),
+    error: (xhr, status, error) => {
+      console.error("검색 실패:", error);
       alert("검색 실패, 다시 입력해주세요.");
     }
   });
 }
 
+// ===============================
+// 정렬 조건 조회
+// ===============================
+function sortProducts(sort) {
+  $.ajax({
+    url: `${cpath}/api/${storeUrl}/products`,
+    dataType: "json",
+    data: { sort },
+    success: result => renderProductList(result.data),
+    error: (xhr, status, error) => console.error("정렬 실패:", error)
+  });
+}
 
-// 공통 사용 함수
+// ===============================
+// 카테고리 정보 조회
+// ===============================
+function categorySelect() {
+  $.ajax({
+    url: `${cpath}/api/${storeUrl}/categories`,
+    dataType: "json",
+    success: result => {
+      renderTypeCategory(result.typeCategory);
+      renderUCategory(result.uCategory);
+    },
+    error: (xhr, status, error) => console.error("카테고리 조회 실패:", error)
+  });
+}
+
+// ===============================
+// U카테고리 클릭 시 D카테고리 조회
+// ===============================
+function selectDCategory(uCategoryId, uCategoryName, renderDCategories) {
+  $.ajax({
+    url: `${cpath}/api/${storeUrl}/categories`,
+    data: { uCategoryName },
+    dataType: "json",
+    success: result => renderDCategories(result, uCategoryId, uCategoryName),
+    error: (xhr, status, error) => console.error("D카테고리 요청 실패:", error)
+  });
+}
+
+// ===============================
+// Type 카테고리 렌더링
+// ===============================
+function renderTypeCategory(typeC) {
+  const area = document.getElementById("typeCategory");
+  area.innerHTML = "";
+
+  typeC.forEach(t => {
+    area.innerHTML += `<button class="filter-btn" value="${t.id}">${t.name}</button>`;
+  });
+}
+
+// ===============================
+// U 카테고리 렌더링
+// ===============================
+function renderUCategory(uC) {
+  const area = document.getElementById("uCategory");
+  area.innerHTML = "";
+
+  uC.forEach(u => {
+    area.innerHTML += `
+      <button class="filter-btn toggle-uCategory" data-category-id="${u.id}" data-category-name="${u.name}">${u.name}</button>
+      <label class="select-all">
+        <input type="checkbox" class="check-all u-checkbox" value="${u.id}"> 전체 선택
+      </label>
+    `;
+  });
+}
+
+// ===============================
+// D 카테고리 렌더링
+// ===============================
+function renderDCategories(dC, uCategoryId, uCategoryName) {
+  const area = document.getElementById("dCategory-area");
+  if (!area) return;
+
+  let html = "";
+  dC.forEach(d => {
+    html += `<button class="filter-btn d-checkbox" data-uid="${uCategoryId}" data-uname="${uCategoryName}" value="${d.id}">${d.name}</button>`;
+  });
+
+  area.innerHTML = html;
+  area.style.display = "block";
+}
+
+// ===============================
+// 상품 목록 렌더링
+// ===============================
 function renderProductList(products) {
-  const wrapper = document.getElementById("product-list");
+  const wrapper = document.querySelector(".product-grid-container");
   wrapper.innerHTML = "";
 
   products.forEach(product => {
-    const priceText = product.price
-      ? Number(product.price).toLocaleString() + "원"
-      : "가격 정보 없음";
+    const priceText = product.price ? Number(product.price).toLocaleString() + "원" : "가격 정보 없음";
 
-    const html = `
+    wrapper.innerHTML += `
       <div class="product-card" onclick="location.href='${cpath}/${storeUrl}/productdetail/${product.productId}'">
-        <img class="product-img" src="${cpath}/resources/productImages/${product.pimgUrl}" alt="${product.productName}" />
-        <div class="product-name">${product.productName}</div>
-        <div class="product-category-list">
+        <div class="product-image">
+          <img class="product-img" src="${cpath}/resources/productImages/${product.pimgUrl}" alt="${product.productName}" />
+        </div>
+        <div class="product-content">
+          <h2 class="product-name">${product.productName}</h2>
+          <div class="product-category-list">
           <span class="product-category">${product.categoryName || ''}</span>
           <span class="product-category">${product.ucategoryName || ''}</span>
           <span class="product-category">${product.dcategoryName || ''}</span>
+          </div>
+          <div class="product-price">${priceText}</div>
         </div>
-        <div class="product-price">${priceText}</div>
       </div>
     `;
-    wrapper.insertAdjacentHTML("beforeend", html);
   });
+}
+
+// ===============================
+// 필터 조건으로 상품 조회
+// ===============================
+function fetchFilteredProducts(filters) {
+console.log("필터조건으로 상품조회 실행");
+  const { type, u, d } = filters;
+  const link = `${cpath}/api/${storeUrl}/products`;
+    
+  $.ajax({
+    url: link,
+    type: "GET",
+    data: {
+      type: type,
+      u: u,
+      d: d,
+    },
+    traditional: true, // 배열 파라미터 전송을 위해 필요함
+    dataType: "json",
+    success: function (result) {
+      const productList = result.data;
+      renderProductList(productList);
+    },
+    error: function (xhr, status, error) {
+      console.error("조건 검색 실패:", error);
+      alert("상품 검색에 실패했습니다.");
+    }
+  });
+}
+
+// ===============================
+// 페이지네이션
+// ===============================
+function changePage(pageNumber) {
+  const start = (pageNumber - 1) * PRODUCTS_PER_PAGE;
+  const paginated = allProducts.slice(start, start + PRODUCTS_PER_PAGE);
+  renderProductList(paginated);
+  renderPagination(allProducts.length, pageNumber);
 }
