@@ -4,10 +4,12 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.chacha.create.common.entity.member.MemberEntity;
+import com.chacha.create.service.mainhome.personal.PersonalInfoService;
 import com.chacha.create.service.mainhome.store.StoreService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -20,13 +22,22 @@ public class StoreController {
 	@Autowired
 	private StoreService storeService;
     
+	@Autowired
+	private PersonalInfoService personalInfoService;
+	
 	@GetMapping("/stores")
     public String showAllStoresPage() {
 		return "main/mainStoreList";
     }
 	
 	@GetMapping("/description")
-    public String showStoreInfoPage() {
+    public String showStoreInfoPage(HttpSession session, Model model) {
+    	try {
+	    	MemberEntity loginMember = (MemberEntity) session.getAttribute("loginMember");
+	    	model.addAttribute("personalCheck",personalInfoService.selectForPersonalcheckByMemberId(loginMember));
+    	}catch(Exception e){
+    		model.addAttribute("personalCheck",false);
+    	}
 		return "main/mainStoreInfo";
     }
 

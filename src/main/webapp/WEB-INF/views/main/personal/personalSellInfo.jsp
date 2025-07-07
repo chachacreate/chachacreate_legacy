@@ -31,7 +31,7 @@
 	    </ul>
 	    
 	    <!-- ✅ 추가 버튼 -->
-	    <c:if test="${not empty sessionScope.loginMember}">
+	    <c:if test="${sellerCheck}">
 		  <div class="start-button-wrapper">
 		    <a href="${cpath}/auth/join/seller" class="start-sell-btn">개인판매 시작하기</a>
 		  </div>

@@ -1,4 +1,4 @@
-package com.chacha.create.controller.controller.buyer.main;
+package com.chacha.create.controller.controller.buyer;
 
 
 import java.util.List;
@@ -135,12 +135,9 @@ public class StoreMainController {
 	//{storeUrl}/info
 	@GetMapping("/info")
 	public String ShowSeller_info(@PathVariable("storeUrl") String storeUrl, Model model) {
-		
-		setStoreNavInfo(storeUrl, model);
-		
+
 		List<StoreEntity> storeInfoList = storeinfo.selectByStoreInfo(storeUrl);
         List<SellerInfoDTO> sellerInfoList = storeinfo.selectBySellerInfo(storeUrl);
-        
         if (storeInfoList != null && !storeInfoList.isEmpty()) {
             model.addAttribute("storeInfoList", storeInfoList.get(0));
         }
@@ -149,6 +146,7 @@ public class StoreMainController {
             model.addAttribute("sellerInfoList", sellerInfoList.get(0));
         }
         
+        setStoreNavInfo(storeUrl, model);
 		return "store/storeInfo";
 	}
 	
