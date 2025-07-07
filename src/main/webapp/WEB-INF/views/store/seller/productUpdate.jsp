@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <title>뜨락상회 판매자 상품수정</title>
   <%@ include file="/common/header.jsp" %>
-  <link rel="stylesheet" href="${cpath}/resources/css/store/seller/authmain.css">
+
   <link rel="stylesheet" href="${cpath}/resources/css/store/seller/productInsert.css">
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -33,10 +33,12 @@
      data-product-id="${product.productId}"
      data-store-url="${storeUrl}">
 </div>
-<div class="wrapper">
-  <div class="main-area">
+<div class="page-container">
+<div class="left-padding"></div>
+  <%@ include file="/common/store_seller_sidenav.jsp" %>
+
     <div class="content-wrapper">
-      <%@ include file="/common/store_seller_sidenav.jsp" %>
+    
 
       <main class="content">
         <div class="content-inner">
@@ -134,18 +136,19 @@
                       </div>
                     </div>
 
-                    <div class="frame-774">
-                      <button type="submit" class="button2"><span class="div21">저장</span></button>
-                    </div>
+                    
                   </div>
                 </div>
               </div>
             </form>
+            <div class="frame-774">
+                      <button type="submit" class="button2"><span class="div21">저장</span></button>
+                    </div>
           </div>
         </div>
       </main>
     </div>
-  </div>
+	 <div class="right-padding"></div>
 </div>
 </body>
 </html>
