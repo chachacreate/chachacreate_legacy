@@ -133,6 +133,7 @@ body {
   flex-direction: column;
   gap: 6px;
   flex: 1;
+  min-width: 0;
 }
 
 .store-name {
@@ -148,14 +149,15 @@ body {
   font-weight: 600;
 }
 
-.product-description {
+.product-detail {
   font-size: 14px;
   color: #666;
-  white-space: nowrap;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;         /* 최대 2줄로 제한 */
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis; 
-  max-width: 450px;  /* 너비제한.. 유동적으로 하고 싶었으나 실패하여 임의로 설정 */
-  display: block;
+  text-overflow: ellipsis;
+  word-break: break-word;
 }
 
 .product-price {

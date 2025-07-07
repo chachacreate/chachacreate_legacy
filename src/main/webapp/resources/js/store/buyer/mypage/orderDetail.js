@@ -49,10 +49,10 @@ $(document).ready(function () {
         data.orderItems.forEach(item => {
           const productItemHtml = `
             <div class="product-item">
-              <div class="product-box">
-                <img src="${cpath}/resources/images/${item.pimgUrl}" class="product-image" />
+              <div class="product-box" data-product-id="${item.productId}" data-store-url="${item.storeUrl || 'main'}">
+                <img src="${cpath}/resources/productImages/${item.pimgUrl}" class="product-image" />
                 <div class="product-info">
-                  <div class="store-name">${item.storeName}</div>
+                  <div class="store-name">${item.storeName || "뜨락상회"}</div>
                   <div class="product-name">${item.productName}</div>
                   <div class="product-desc">${item.productDetail}</div>
                   <div class="product-price">₩ ${item.orderPrice.toLocaleString()}</div>
@@ -73,4 +73,21 @@ $(document).ready(function () {
       alert("서버 오류로 인해 주문 정보를 불러올 수 없습니다.");
     }
   });
+  
+	// 상품명 또는 이미지 클릭 시 상품 상세로 이동
+	$(document).on('click', '.product-name, .product-image', function () {
+	  const $box = $(this).closest('.product-box');
+	  const productId = $box.data('product-id');
+	  const storeUrl = $box.data('store-url') || 'main';
+	  window.location.href = `${cpath}/${storeUrl}/productdetail/${productId}`;
+	});
+	
+	// 스토어 이름 클릭 시 스토어 메인으로 이동
+	$(document).on('click', '.store-name', function () {
+	  const $box = $(this).closest('.product-box');
+	  const storeUrl = $box.data('store-url') || 'main';
+	  window.location.href = `${cpath}/${storeUrl}`;
+	});
+
+  
 });

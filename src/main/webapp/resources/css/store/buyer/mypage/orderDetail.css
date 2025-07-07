@@ -135,6 +135,12 @@ body {
 .product-desc {
   font-size: 14px;
   color: #666;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;         /* 최대 2줄로 제한 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
 }
 
 .product-price {
@@ -217,4 +223,11 @@ body {
   font-size: 14px;
   color: #666;
   margin-top: 4px;
+}
+
+
+.product-name, 
+.product-image,
+.store-name {
+	cursor: pointer;
 }
