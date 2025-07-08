@@ -47,7 +47,7 @@
                   <td>
                     <div class="review-wrapper">
                       <span class="review-text">${item.reviewText}</span>
-                      <button class="toggle-btn">더보기</button>
+                      <button class="toggle-btn2">더보기</button>
                     </div>
                   </td>
                   <td><fmt:formatDate value="${item.productDate}" pattern="yyyy-MM-dd"/></td>
