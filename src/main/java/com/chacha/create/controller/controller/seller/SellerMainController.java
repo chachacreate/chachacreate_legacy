@@ -317,10 +317,10 @@ public class SellerMainController {
 	}
 	private String convertStatusLabel(OrderStatusEnum status) {
 	    switch (status) {
-	        case CONFIRM: return "발송전";
+	        case CONFIRM: return "주문완료";
 	        case REFUND: return "환불요청";
 	        case REFUND_OK: return "환불완료";
-	        case ORDER_OK: return "주문완료";
+	        case ORDER_OK: return "발송전";
 	        default: return "기타";
 	    }
 	}

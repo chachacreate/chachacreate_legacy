@@ -68,7 +68,7 @@
                   <input type="radio" name="status" value="전체" ${empty selectedStatus ? 'checked' : ''}> 전체
                 </label>
                 <label>
-                  <input type="radio" name="status" value="CONFIRM" ${selectedStatus == 'CONFIRM' ? 'checked' : ''}> 발송전
+                  <input type="radio" name="status" value="ORDER_OK" ${selectedStatus == 'ORDER_OK' ? 'checked' : ''}> 발송전
                 </label>
                 <label>
                   <input type="radio" name="status" value="REFUND" ${selectedStatus == 'REFUND' ? 'checked' : ''}> 환불요청
@@ -77,7 +77,7 @@
                   <input type="radio" name="status" value="REFUND_OK" ${selectedStatus == 'REFUND_OK' ? 'checked' : ''}> 환불완료
                 </label>
                 <label>
-                  <input type="radio" name="status" value="ORDER_OK" ${selectedStatus == 'ORDER_OK' ? 'checked' : ''}> 주문완료
+                  <input type="radio" name="status" value="CONFIRM" ${selectedStatus == 'CONFIRM' ? 'checked' : ''}> 주문완료
                 </label>
               </div>
             </div>
