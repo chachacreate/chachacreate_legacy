@@ -4,7 +4,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>공지 / 소식</title>
+  <title>건의사항</title>
   <link rel="stylesheet" href="${cpath}/resources/css/main/mainNotice.css" />
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>

@@ -126,7 +126,7 @@
 	        // 같은 부모요소 내의 .char-count에 글자수 업데이트
 	        $(this).siblings('.char-count').text(charCountText);
 
-	        // 3000자 초과시 자르기 (선택사항)
+	        // 3000자 초과시 자르기
 	        if (currentLength > maxLength) {
 	            $(this).val($(this).val().substring(0, maxLength));
 	            $(this).siblings('.char-count').text(maxLength + '/' + maxLength);
