@@ -56,46 +56,56 @@ $(document).ready(function () {
   
   // 삭제 버튼 클릭 이벤트 (복수 삭제 가능하게 수정)
   $(".save-button").click(function () {
-    const storeUrl = window.location.pathname.split("/")[2];
+  const storeUrl = window.location.pathname.split("/")[2];
 
-    // 체크된 삭제할 상품 id 배열 수집
-    const deleteList = [];
-    $("input[name='delete']:checked").each(function () {
-      const productId = $(this).data("id");
-      deleteList.push({ productId: productId });
-    });
-
-    if (deleteList.length === 0) {
-      alert("삭제할 상품을 선택하세요.");
-      return;
-    }
-
-    if (!confirm(`${deleteList.length}개 상품을 삭제하시겠습니까?`)) {
-      return;
-    }
-
-    $.ajax({
-      url: `${cpath}/${storeUrl}/seller/products`,
-      type: "DELETE",
-      contentType: "application/json",
-      data: JSON.stringify(deleteList),
-      success: function (response) {
-        alert(response.message);
-        // 삭제 성공 시 화면에서 해당 상품 행 제거
-        deleteList.forEach(item => {
-          $(`input[name='delete'][data-id='${item.productId}']`).closest("tr").remove();
-        });
-        // 선택된 삭제 개수 초기화 가능
-      },
-      error: function (xhr) {
-        if (xhr.responseJSON && xhr.responseJSON.message) {
-          alert(xhr.responseJSON.message);
-        } else {
-          alert("상품 삭제 실패");
-        }
-      }
-    });
+  // 체크된 삭제할 상품 id 배열 수집
+  const deleteList = [];
+  $("input[name='delete']:checked").each(function () {
+    const productId = $(this).data("id");
+    deleteList.push({ productId: productId });
   });
+
+  if (deleteList.length === 0) {
+    alert("삭제할 상품을 선택하세요.");
+    return;
+  }
+
+  if (!confirm(`${deleteList.length}개 상품을 삭제하시겠습니까?`)) {
+    return;
+  }
+
+  $.ajax({
+    url: `${cpath}/${storeUrl}/seller/products`,
+    type: "DELETE",
+    contentType: "application/json",
+    data: JSON.stringify(deleteList),
+    success: function (response) {
+      alert(response.message);
+      // 삭제 성공 시 화면에서 해당 상품 행 제거
+      deleteList.forEach(item => {
+        const $row = $(`input[name='delete'][data-id='${item.productId}']`).closest("tr");
+        
+        // 👉 대표 상품 체크박스가 체크되어 있었다면 해제
+        const $flagshipCheckbox = $row.find("input[name='flagship']");
+        if ($flagshipCheckbox.is(":checked")) {
+          $flagshipCheckbox.prop("checked", false);
+        }
+
+        $row.remove();
+      });
+
+      // ✅ 삭제 후 대표 상품 개수 다시 계산
+      updateSelectedCount();
+    },
+    error: function (xhr) {
+      if (xhr.responseJSON && xhr.responseJSON.message) {
+        alert(xhr.responseJSON.message);
+      } else {
+        alert("상품 삭제 실패");
+      }
+    }
+  });
+});
   
   // 상품 행 클릭 시 상세 페이지 이동
   $(".product-row").click(function (e) {

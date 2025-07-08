@@ -157,7 +157,8 @@ public class ProductService {
         }
     }
 
-	private final String imageSavePath = "C:/shinhan/install/springFramework/workSpace2/chacha_create1/src/main/webapp/resources/productImages";
+	private final String imageSavePath = "C:/shinhan/install/springFramework/workSpace2/chacha_create1/"
+			+ "src/main/webapp/resources/productImages";
 
     @Transactional(rollbackFor = Exception.class)
     public int registerMultipleProductsWithImages(String storeUrl, List<ProductWithImagesDTO> requestList) {
