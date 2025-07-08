@@ -8,7 +8,6 @@
 <title>뜨락상회 판매자 신고 목록 페이지</title>
 
 <%@ include file="/common/header.jsp" %>
-<link rel="stylesheet" type="text/css" href="${cpath}/resources/css/admin/authMain.css">
 <link rel="stylesheet" type="text/css" href="${cpath}/resources/css/admin/declarationManage.css">
 <jsp:include page="/common/storeMain_nav.jsp" />
 <link rel="stylesheet" href="${cpath}/resources/css/store/seller/sellerNotice.css" />
