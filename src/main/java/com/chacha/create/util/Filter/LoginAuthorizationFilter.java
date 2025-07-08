@@ -29,8 +29,8 @@ public class LoginAuthorizationFilter implements Filter {
 
     // ✅ 로그인/권한 검사에서 제외할 URI 목록
     private static final Set<String> WHITELIST = new HashSet<>(Arrays.asList(
-        "/", "/auth/", "/main", // 추가 필요
-        "/css/", "/js/", "/images/" // 정적 자원
+        "/auth/", "/main/", "/chat/", "/api/", "/sendEmail", // 추가 필요
+        "/resources/" // 정적 자원
     ));
     
     public LoginAuthorizationFilter(SellerMapper sellerMapper, StoreMapper storeMapper) {
@@ -39,11 +39,11 @@ public class LoginAuthorizationFilter implements Filter {
     }
 
     @Override
-    public void init(FilterConfig filterConfig) { /* 필요시 사용 */ }
+    public void init(FilterConfig filterConfig) { }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-        throws IOException, ServletException {
+            throws IOException, ServletException {
 
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
@@ -51,34 +51,25 @@ public class LoginAuthorizationFilter implements Filter {
         HttpSession session = req.getSession(false);
         MemberEntity loginMember = (session != null) ? (MemberEntity) session.getAttribute("loginMember") : null;
 
-        if (isWhitelisted(uri)) {
+        // ✅ 화이트리스트 or /{storeUrl}/ 경로는 허용
+        if (isWhitelisted(uri) || isPublicStoreUrl(uri)) {
             chain.doFilter(request, response);
             return;
         }
-        
+
         // 로그인 체크
         if (loginMember == null) {
-        	// res.sendError(ResponseCode.UNAUTHORIZED.getStatus(), "로그인이 필요합니다.");
-        	res.sendRedirect(req.getContextPath() + "/auth/login");
+            res.sendRedirect(req.getContextPath() + "/auth/login");
             return;
         }
 
         Integer memberId = loginMember.getMemberId();
 
-        // /sell 하위 경로 - 개인 판매자만 접근
-        if (uri.startsWith("/main/sell")) {
-            SellerEntity seller = sellerMapper.selectByMemberId(memberId);
-            if (seller == null || seller.getPersonalCheck() != 1) {
-                res.sendError(ResponseCode.FORBIDDEN.getStatus(), "개인 판매자만 접근 가능합니다.");
-                return;
-            }
-        }
-
         // /{storeUrl}/seller 하위 경로 - 해당 스토어 판매자만 접근
-        else if (uri.matches("^/[^/]+/seller(/.*)?$")) {
+        if (uri.matches("^/[^/]+/seller(/.*)?$")) {
             String[] parts = uri.split("/");
             if (parts.length >= 2) {
-                String storeUrl = parts[1]; // /{storeUrl}/seller
+                String storeUrl = parts[1];
                 StoreEntity store = storeMapper.selectByStoreUrl(storeUrl);
                 if (store == null || !isStoreOwner(store, memberId)) {
                     res.sendError(ResponseCode.FORBIDDEN.getStatus(), "해당 스토어의 판매자만 접근 가능합니다.");
@@ -87,8 +78,7 @@ public class LoginAuthorizationFilter implements Filter {
             }
         }
 
-
-        // /admin 경로 - 관리자(memberId == 1)만 접근
+        // /manager 경로 - 관리자만 접근
         else if (uri.startsWith("/manager")) {
             if (!memberId.equals(1)) {
                 res.sendError(ResponseCode.FORBIDDEN.getStatus(), "관리자만 접근 가능합니다.");
@@ -99,17 +89,24 @@ public class LoginAuthorizationFilter implements Filter {
         chain.doFilter(request, response);
     }
 
+    // ✅ 정적 자원 및 일반 화이트리스트 경로
+    private boolean isWhitelisted(String uri) {
+        return WHITELIST.stream().anyMatch(uri::equals) ||
+               WHITELIST.stream().anyMatch(uri::startsWith);
+    }
+
+    // ✅ /{storeUrl}/ (예: /nike/) 패턴만 허용
+    private boolean isPublicStoreUrl(String uri) {
+        // ex) /nike/ 또는 /kakao
+        return uri.matches("^/[^/]+/?$");
+    }
+    
+ // ✅ 스토어 주인인 경우에만 허용
     private boolean isStoreOwner(StoreEntity store, Integer memberId) {
         SellerEntity seller = sellerMapper.selectBySellerId(store.getSellerId());
         return seller != null && seller.getMemberId().equals(memberId);
     }
 
-    @Override
-    public void destroy() { /* 필요시 사용 */ }
-    
-    // ✅ 화이트리스트 체크 (정확 매칭 또는 접두어)
-    private boolean isWhitelisted(String uri) {
-        return WHITELIST.stream().anyMatch(uri::equals) ||
-               WHITELIST.stream().anyMatch(uri::startsWith);
-    }
+	@Override
+	public void destroy() {	}
 }

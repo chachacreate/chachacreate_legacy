@@ -2,7 +2,6 @@ package com.chacha.create.service.buyer.report;
 
 import java.util.Date;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,7 +10,6 @@ import com.chacha.create.common.entity.store.ReportEntity;
 import com.chacha.create.common.exception.NeedLoginException;
 import com.chacha.create.common.mapper.store.ReportMapper;
 import com.chacha.create.common.mapper.store.StoreMapper;
-import com.chacha.create.controller.rest.buyer.report.ReportModalRestController;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
