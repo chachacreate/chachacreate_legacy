@@ -19,13 +19,17 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class StoreManagementUpdateService {
 	
-	private StoreMapper storeMapper;
-    private SellerMapper sellerMapper;
+	private final StoreMapper storeMapper;
+    private final SellerMapper sellerMapper;
 	
     @Transactional(rollbackFor = Exception.class)
 	public int sellerInfoUpdate(MemberEntity loginMember, String storeUrl, StoreManagerUpdateDTO smuDTO) {
-		int result = 0;
+		log.info(storeUrl);
+		log.info(loginMember.toString());
+		log.info(smuDTO.toString());
+    	int result = 0;
 		StoreEntity userStore = storeMapper.selectByStoreUrl(storeUrl);
+		log.info(userStore.toString());
 		StoreEntity storeEntity = StoreEntity.builder()
 				.storeId(userStore.getStoreId())
 				.logoImg(smuDTO.getLogoImg())

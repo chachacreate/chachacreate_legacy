@@ -49,7 +49,7 @@ public class StoreManagementUpdateRestController {
 
         int result = storeService.sellerInfoUpdate(loginMember, storeUrl, smuDTO);
 
-        if (result < 3) {
+        if (result <= 0) {
             // 변경사항 없음 -> 204 No Content로 응답해도 되지만 메시지 남기려면 OK에 메시지 포함
             return ResponseEntity.ok(new ApiResponse<>(ResponseCode.NO_CONTENT, "변경된 정보가 없습니다."));
         } else {

@@ -29,7 +29,8 @@
 			    <div class="profile-img">
 			      <img src="${cpath}/resources/productImages/${logoImg}" alt="스토어 로고" style="height: 80px" />
 			    </div>
-			    <button type="button" class="div3">사진 수정</button>
+				  <button type="button" id="photoChangeBtn" class="div3">사진 수정</button>
+				  <input type="file" id="fileInput" accept="image/*" style="display: none;" />
 			    <div class="store-name">${storeName}</div>
 			  </div>
 			 
@@ -42,7 +43,7 @@
   <div class="frame-1150">
     <div class="frame-1153">
       <div class="iconamoon-store-thin">
-        <iconify-icon icon="mdi:store" width="48" height="48"></iconify-icon>
+        <iconify-icon icon="mdi:store" width="48" height="48"/>
       </div>
       <div class="div4">스토어 소개</div>
     </div>
@@ -58,7 +59,7 @@
 
   <div class="frame-11502">
     <div class="frame-1153">
-      <iconify-icon icon="mdi:account" width="47" height="47" class="iconoir-user"></iconify-icon>
+      <iconify-icon icon="mdi:account" width="47" height="47" class="iconoir-user"/>
       <div class="div4">이름</div>
     </div>
     <input type="text" class="info-input" id="member-name" name="memberName" value="${sessionScope.loginMember.memberName}" readonly="readonly" />
@@ -66,7 +67,7 @@
 
   <div class="frame-1152">
     <div class="frame-1153">
-      <iconify-icon icon="mdi:phone" width="40" height="40"></iconify-icon>
+      <iconify-icon icon="mdi:phone" width="40" height="40"/>
       <div class="div4">연락처</div>
     </div>
     <input type="text" class="info-input" id="member-phone" name="memberPhone" value="" readonly="readonly" />
@@ -74,7 +75,7 @@
 
   <div class="frame-11532">
     <div class="frame-1153">
-      <iconify-icon icon="mdi:email" width="40" height="40"></iconify-icon>
+      <iconify-icon icon="mdi:email" width="40" height="40"/>
       <div class="div4">이메일</div>
     </div>
     <input type="email" class="info-input" id="member-email" name="memberEmail" value="" readonly="readonly" />
@@ -90,7 +91,7 @@
 
   <div class="frame-11522">
     <div class="frame-1153">
-      <iconify-icon icon="mdi:account" width="40" height="40"></iconify-icon>
+      <iconify-icon icon="mdi:account" width="40" height="40"/>
       <div class="div4">이름</div>
     </div>
     <input type="text" id="account-owner" class="info-input" readonly value="${sessionScope.loginMember.memberName}" />
@@ -98,7 +99,7 @@
 
   <div class="frame-11522">
     <div class="frame-1153">
-      <iconify-icon icon="mdi:bank" width="40" height="40"></iconify-icon>
+      <iconify-icon icon="mdi:bank" width="40" height="40"/>
       <div class="div4">은행</div>
     </div>
     <select id="bankselect" class="info-input">
@@ -124,7 +125,7 @@
 
   <div class="frame-11522">
     <div class="frame-1153">
-      <iconify-icon icon="mdi:wallet" width="40" height="40"></iconify-icon>
+      <iconify-icon icon="mdi:wallet" width="40" height="40"/>
       <div class="div4">계좌번호</div>
     </div>
     <input type="text" id="accountnum" class="info-input" placeholder="-없이 계좌번호 입력" />
@@ -132,7 +133,7 @@
 
   <div class="frame-11522">
     <div class="frame-1153">
-      <iconify-icon icon="mdi:badge-account" width="40" height="40"></iconify-icon>
+      <iconify-icon icon="mdi:badge-account" width="40" height="40"/>
       <div class="div4">예금주명</div>
     </div>
     <input type="text" id="accountname" class="info-input" readonly />
@@ -150,7 +151,7 @@
 
   <div class="frame-11522">
     <div class="frame-1153">
-      <iconify-icon icon="mdi:image" width="40" height="40"></iconify-icon>
+      <iconify-icon icon="mdi:image" width="40" height="40"/>
       <div class="div4">작품 사진</div>
     </div>
     <input type="file" id="fileInput" class="info-input" />
@@ -158,7 +159,7 @@
 
   <div class="frame-11522">
     <div class="frame-1153">
-      <iconify-icon icon="mdi:text-box" width="40" height="40"></iconify-icon>
+      <iconify-icon icon="mdi:text-box" width="40" height="40"/>
       <div class="div4">이력 설명</div>
     </div>
     <textarea class="info-textarea" id="profileInfo" placeholder="이력 설명 (최대 150자)" maxlength="150"></textarea>
@@ -188,7 +189,7 @@ const checkObj = {
   accountBank: false,       // 은행
   profileInfo: false        // 이력 설명
 };
-$('.upload-placeholder').on('click', function () {
+$('#photoChangeBtn').on('click', function () {
   $('#fileInput').click();
 });
 $('#fileInput').on('change', function (e) {
@@ -211,7 +212,7 @@ $('#fileInput').on('change', function (e) {
 	  // 이미지 파일일 때 처리 (기존 미리보기 등)
 	  const reader = new FileReader();
 	  reader.onload = function (event) {
-	    $('.upload-placeholder').html(`<img src="${cpath}/resources/productImages/\${file.name}" style="max-width: 100%; max-height: 100%; object-fit: contain;">`);
+	    $('.profile-img').html(`<img src="${cpath}/resources/productImages/\${file.name}" style="max-width: 100%; max-height: 100%; object-fit: contain;">`);
 	  };
 	  reader.readAsDataURL(file);
 	});
@@ -295,7 +296,7 @@ $(document).ready(function () {
         const data = res.data;
 
         // 이미지 및 기본 정보 채우기
-        $("#store-logo").attr("src", "${cpath}/resources/productImages/" + data.logoImg);
+        $("#profile-img").attr("src", "${cpath}/resources/productImages/" + data.logoImg);
         $("#store-name").text(data.storeName);
         $("#store-detail").val(data.storeDetail);
 
