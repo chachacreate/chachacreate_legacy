@@ -305,16 +305,16 @@ h2 {
 }
 
 .card {
-  width: 350px; /* ✅ 카드 폭 증가 */
+  width: 350px; 
   background-color: #fff;
   border-radius: 16px;
   padding: 20px 16px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06); /* ✅ 부드러운 그림자 */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06); 
   text-align: center;
   transition: transform 0.3s ease;
 }
 .card:hover {
-  transform: translateY(-6px); /* ✅ 살짝 뜨는 효과 */
+  transform: translateY(-6px); 
 }
 
 .category-list {
