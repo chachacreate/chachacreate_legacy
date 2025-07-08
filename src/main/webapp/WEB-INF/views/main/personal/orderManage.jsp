@@ -18,23 +18,136 @@
 	src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 </head>
 <body>
+<!-- ✅ Include Header & Nav -->
+<jsp:include page="/common/header.jsp" />
+<jsp:include page="/common/main_nav.jsp" />
 
-	<!-- ✅ Include Header & Nav -->
-	<jsp:include page="/common/header.jsp" />
-	<jsp:include page="/common/main_nav.jsp" />
+<main class="order-container">
+<jsp:include page="/common/main_personal_subnav.jsp" />
 
-	<main class="order-container">
-		<jsp:include page="/common/main_personal_subnav.jsp" />
+<div class="swiper-button-next"></div>
+<div class="swiper-button-prev"></div>
 
-		<div class="swiper-button-next"></div>
-		<div class="swiper-button-prev"></div>
+<div class="swiper-container-wrapper">
+  <div class="swiper mySwiper">
+    <div class="swiper-wrapper">
 
-		<div class="swiper-container-wrapper">
-			<div class="swiper mySwiper">
-				<div class="swiper-wrapper"></div>
-			</div>
-		</div>
-	</main>
+      <!-- ✅ 슬라이드 1 -->
+      <div class="swiper-slide">
+        <div class="slide-content-vertical">
+
+          <!-- 상품 정보 -->
+          <div class="product-info-box">
+            <h3>상품 정보</h3>
+            <div class="product-detail">
+              <img src="resources/images/product_sample.png" alt="상품 이미지" class="product-img">
+              <div class="product-desc">
+                <p>상품명: 혼합 수세미</p>
+                <p>설명: 안녕, 나는 개인인척하는 혼합 수세미</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="order-bottom-wrapper">
+
+<!-- ✅ 주문 필터 버튼 -->
+<div class="order-filter-bar">
+  <button class="order-filter-btn active" data-status="신규">
+  신규 주문 <span class="count" data-type="신규">3</span>건
+</button>
+<button class="order-filter-btn" data-status="환불">
+  환불 요청 <span class="count" data-type="환불">1</span>건
+</button>
+<button class="order-filter-btn" data-status="취소">
+  취소 요청 <span class="count" data-type="취소">1</span>건
+</button>
+</div>
+
+<!-- ✅ 필터링되는 테이블 -->
+<div class="order-section">
+  <h3 id="filter-title">신규 주문</h3>
+  <table class="order-table">
+    <thead>
+      <tr>
+        <th>처리상태</th><th>주문일</th><th>주문번호</th><th>주문자명</th>
+        <th>배송지</th><th>상품 수량</th><th>금액</th><th>관리</th>
+      </tr>
+    </thead>
+    <tbody id="filter-order-body">
+      <% for (int i = 0; i < 10; i++) { %>
+        <tr data-status="<%= status[i] %>" data-index="<%= i %>">
+          <td class="status-label <%= status[i] %>"><%= status[i] %></td>
+          <td><%= orderDate[i] %></td>
+          <td><%= String.format("%08d", i + 1) %></td>
+          <td><%= orderer[i] %></td>
+          <td class="ellipsis">
+            <%= address[i].length() > 25 ? address[i].substring(0, 25) + "..." : address[i] %>
+            <% if(address[i].length() > 25) { %>
+              <button class="address-toggle-btn" data-index="f<%= i %>">\u25BC</button>
+            <% } %>
+          </td>
+      
+          <td><%= quantity[i] %></td>
+          <td><%= String.format("%,d", price[i]) %></td>
+          <td>
+            <% if ("신규".equals(status[i])) { %>
+              <button class="confirm-btn">확인</button>
+            <% } else if ("환불".equals(status[i])) { %>
+              <button class="refund-btn">환불하기</button>
+            <% } else if ("취소".equals(status[i])) { %>
+              <button class="cancel-btn">취소하기</button>
+            <% } %>
+          </td>
+        </tr>
+        <tr class="detail-row address-detail-f<%= i %>" style="display:none;" data-status="<%= status[i] %>">
+          <td colspan="9" class="detail-content">
+            <strong>전체 배송지:</strong> <%= address[i] %><br>
+            <strong>상품 상세:</strong> <%= product[i] %> - 수량 <%= quantity[i] %>개, 가격 <%= String.format("%,d", price[i]) %>원
+          </td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>
+
+<!-- ✅ 주문 내역 테이블 -->
+<div class="order-section">
+  <h3>주문 내역</h3>
+  <table class="order-table">
+    <thead>
+      <tr>
+        <th>처리상태</th><th>주문일</th><th>주문번호</th><th>주문자명</th>
+        <th>배송지</th><th>상품 수량</th><th>금액</th><th>관리</th>
+      </tr>
+    </thead>
+    <tbody id="order-history-body">
+      <!-- JavaScript로 동적으로 이동 및 상태 업데이트 -->
+    </tbody>
+  </table>
+</div>
+
+          </div> <!-- order-bottom-wrapper -->
+
+        </div>
+      </div>
+
+      <!-- ✅ 슬라이드 2 -->
+      <div class="swiper-slide">
+        <div class="slide-content">
+          <h3>개인판매 물품 B</h3>
+          <p>설명: 이곳에 다른 상품 설명 작성</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</main>
+
+ <footer>
+    &copy; 2025 HandCraft Mall. All Rights Reserved.
+  </footer>
 
 	<script>
 		  // 날짜 포맷 함수
@@ -309,7 +422,6 @@
 		    registerEvents();
 		    loadOrders();
 		  });
-
    
 	/* --------------스와이프 JS------------- */
 	const swiper = new Swiper('.mySwiper', {

@@ -80,15 +80,8 @@
   </main>
 
   <!-- 푸터 -->
-  <footer>
-    <div class="footer-inner">
-      <div class="footer-logo">뜨락상회</div>
-      <p>마음을 모은 생활 복지 플랫폼</p>
-      <div class="footer-inputs">
-        <input type="text" placeholder="연락처">
-        <input type="text" placeholder="연락처2">
-      </div>
-    </div>
+ <footer>
+    &copy; 2025 HandCraft Mall. All Rights Reserved.
   </footer>
   
   	<c:if test="${not empty sessionScope.fail}">

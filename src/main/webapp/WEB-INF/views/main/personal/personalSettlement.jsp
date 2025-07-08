@@ -231,6 +231,8 @@
 		</div>
 	</main>
 
-	
+	 <footer>
+    &copy; 2025 HandCraft Mall. All Rights Reserved.
+  </footer>
 </body>
 </html>

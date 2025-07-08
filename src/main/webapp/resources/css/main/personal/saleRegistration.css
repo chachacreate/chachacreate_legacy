@@ -16,22 +16,56 @@ body {
 /* ✅ 설명 박스 */
 .explanation-box {
   background-color: #fff5dd;
-  padding: 20px;
-  margin-bottom: 30px;
+  padding: 32px 40px;
+  margin-bottom: 40px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   position: relative;
+  font-size: 16px;
+  line-height: 1.8;
+  color: #333;
 }
 
+.explanation-box h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.explanation-box ul {
+  margin-top: 12px;
+  padding-left: 20px;
+  list-style-type: disc;
+  color: #555;
+}
+
+.explanation-box li {
+  margin-bottom: 8px;
+}
+
+.explanation-box strong {
+  color: #314932;
+}
+
+/* ✅ 스토어 개설 버튼 */
 .open-store-btn {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 24px;
+  right: 24px;
   background-color: #34432d;
   color: white;
   padding: 10px 20px;
   border: none;
-  border-radius: 20px;
+  border-radius: 24px;
   font-size: 14px;
   cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: background-color 0.2s ease;
+}
+
+.open-store-btn:hover {
+  background-color: #2a3e24;
 }
 
 /* ✅ Swiper wrapper */
@@ -299,19 +333,15 @@ select.category-select {
 }
 
 /* ✅ 푸터 */
-footer {
-  background: #676f58;
-  color: white;
-  padding: 40px 240px;
-  text-align: center;
-}
 
-.footer-inputs input {
-  padding: 8px 12px;
-  margin: 0 10px;
-  border-radius: 4px;
-  border: none;
+footer {
+  background-color: #2d4739;
+  text-align: center;
   font-size: 14px;
+  color: #aaa;
+  padding: 20px 0;
+  margin-top: 40px;
+  border-top: 1px solid #ddd;
 }
 
 /* ✅ 반응형 대응 */

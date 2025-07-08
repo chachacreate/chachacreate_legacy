@@ -25,7 +25,21 @@
   <jsp:include page="/common/main_personal_subnav.jsp" />
 
   <div class="explanation-box">
-    <p>여기에는 개인판매 물품 등록하고 어쩌고 저쩌고 하는 방법들을 설명해놓는 칸입니다.<br>아래에는 접거나 사진을 넣고 만들 예정입니다.</p>
+<p>
+    이곳은 <strong>개인판매 물품 등록 방법</strong>을 안내하는 공간입니다.<br>
+    등록 가능한 물품은 <strong>최대 2개까지</strong>이며, <strong>3개 이상 등록하려면 스토어 개설이 필요합니다.</strong>
+  </p>
+
+  <p>물품 등록 시에는 다음 항목을 반드시 입력해 주세요:</p>
+  <ul>
+    <li>물품 사진</li>
+    <li>상품명</li>
+    <li>가격</li>
+    <li>재고 수량</li>
+    <li>카테고리: 대분류 / 중분류 / 소분류</li>
+    <li>상세 설명</li>
+  </ul>
+
     <button class="open-store-btn">스토어 개설 신청</button>
   </div>
 
@@ -223,16 +237,10 @@
   </div>
 </main>
 
-<footer>
-  <div class="footer-inner">
-    <div class="footer-logo">뜨락상회</div>
-    <p>마음을 모은 생활 복지 플랫폼</p>
-    <div class="footer-inputs">
-      <input type="text" placeholder="연락처">
-      <input type="text" placeholder="연락처2">
-    </div>
-  </div>
-</footer>
+ <footer>
+    &copy; 2025 HandCraft Mall. All Rights Reserved.
+  </footer>
+
 
 
 <script>

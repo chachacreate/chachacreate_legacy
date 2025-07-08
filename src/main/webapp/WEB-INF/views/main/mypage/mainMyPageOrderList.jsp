@@ -12,6 +12,7 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>window.cpath = '${cpath}';</script>
   <script src="${cpath}/resources/js/main/mypage/mainMyPageOrderList.js"></script>
+
 </head>
 <body>
   <div class="wrapper">
@@ -73,11 +74,9 @@
     </main>
 
     <!-- 푸터 -->
-    <footer class="site-footer">
-      <div class="footer-inner">
-        <p>© 2025 뜨락상회. All rights reserved.</p>
-      </div>
-    </footer>
+   <footer>
+    &copy; 2025 HandCraft Mall. All Rights Reserved.
+  </footer>
 
   </div>
 </body>

@@ -121,26 +121,11 @@ body {
 
 /* ✅ 푸터 */
 footer {
-  background-color: #676f58;
-  color: white;
-  padding: 40px 240px;
+  background-color: #2d4739;
   text-align: center;
-  margin-top: 80px;
-}
-
-.footer-logo {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.footer-inputs {
-  margin-top: 20px;
-}
-
-.footer-inputs input {
-  padding: 10px 14px;
-  margin: 0 10px;
-  border: none;
-  border-radius: 4px;
+  font-size: 14px;
+  color: #aaa;
+  padding: 20px 0;
+  margin-top: 40px;
+  border-top: 1px solid #ddd;
 }
