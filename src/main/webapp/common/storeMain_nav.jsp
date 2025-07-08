@@ -30,7 +30,7 @@
 			<a href="${cpath}/${storeUrl}/info" class="nav-item">스토어 정보</a> 
 			<a href="#" class="nav-item" onclick="alert('준비중입니다!')">클래스</a> 
 			<a href="${cpath}/${storeUrl}/mypage" class="nav-item">마이페이지</a> 
-			<a href="${cpath}/main/mypage/cart" class="nav-item">장바구니</a>
+			<a href="${cpath}/${storeUrl}/mypage/cart" class="nav-item">장바구니</a>
 			<a href="${cpath}/${storeUrl}/notices"
 				class="nav-item ${fn:contains(uri, '/main/notice') ? 'active' : ''}">
 				공지/소식 </a>
