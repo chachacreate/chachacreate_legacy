@@ -39,7 +39,7 @@ public class LoginAuthorizationFilter implements Filter {
 
 	// ✅ 로그인/권한 검사에서 제외할 URI 목록
 	private static final Set<String> WHITELIST = new HashSet<>(
-			Arrays.asList("/auth/", "/main/", "/chat/", "/api/", "/sendEmail", // 추가 필요
+			Arrays.asList("/auth/", "/main/", "/chat/", "/api/", "/sendEmail",
 					"/resources/" // 정적 자원
 			));
 

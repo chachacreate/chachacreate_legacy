@@ -68,6 +68,16 @@ public class HttpHandshakeInterceptor implements HandshakeInterceptor {
 	                        log.warn("잘못된 chatroomId 형식: {}", chatroomIdStr);
 	                    }
 	                }
+	                // fromstore 파라미터 추출
+	                String fromstore = servletRequest.getParameter("fromstore");
+	                if (fromstore != null) {
+	                	try {
+	                		attributes.put("fromstore", fromstore);
+	                		log.info("WebSocket 요청 파라미터에서 추출한 fromstore: {}", fromstore);
+	                	} catch (NumberFormatException e) {
+	                		log.warn("잘못된 fromstore 형식: {}", fromstore);
+	                	}
+	                }
 
 	            } else {
 	                log.warn("WebSocket 요청 시 HttpSession이 존재하지 않습니다.");

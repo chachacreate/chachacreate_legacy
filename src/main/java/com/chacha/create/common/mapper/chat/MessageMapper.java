@@ -21,4 +21,5 @@ public interface MessageMapper {
 	List<ChatRoomInfoDTO> selectForStoreNameByMemberId(Integer memberId);
 	List<MessageDTO> selectForMemberWithChatroomIdAllMessage(MessageDTO messageDTO);
 	List<ChatRoomInfoDTO> selectForStoreNameByStoreUrl(String storeUrl);
+	List<MessageDTO> selectForStoreWithChatroomIdAllMessage(MessageDTO messageDTO);
 }

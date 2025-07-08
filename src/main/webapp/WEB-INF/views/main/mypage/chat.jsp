@@ -5,7 +5,6 @@
 <head>
   <meta charset="UTF-8">
   <title>채팅방</title>
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/store/seller/authmain.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/store/chat.css">
   <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
   
@@ -201,9 +200,9 @@ $(document).ready(function() {
             }
             const $chatMessages = $(".chat-messages");
             $chatMessages.append(messageHtml);
-        }
             $chatMessages.scrollTop($chatMessages[0].scrollHeight);  // 자동 스크롤
             updateChatRoomPreview(currentRoomId.toString(), msg.chattingText); // preview 업데이트
+        }
         };
 
         socket.onclose = function() {

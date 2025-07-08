@@ -131,6 +131,20 @@ public class MessageService {
 		return messageDTOs;
 	}
 	
+	// 회원정보와 채팅방 id를 통해 주고받은 메시지를 전부 조회
+	public List<MessageDTO> getMemberStoreAllMessage(int storeId, int chatroomId){
+		List<MessageDTO> messageDTOs = null;
+		log.info("현재 스토어 아이디 : " + storeId);
+		MessageDTO messageDTO = MessageDTO.builder()
+				.chatroomId(chatroomId)
+				.storeId(storeId)
+				.build();
+		
+		messageDTOs = messageMapper.selectForStoreWithChatroomIdAllMessage(messageDTO);
+		log.info(messageDTOs.toString());
+		return messageDTOs;
+	}
+	
 	public List<ChatRoomInfoDTO> getMemberAllChatroom(MemberEntity memberEntity){
 		List<ChatRoomInfoDTO> chattingrooms = messageMapper.selectForStoreNameByMemberId(memberEntity.getMemberId());
 		log.info(chattingrooms.toString());

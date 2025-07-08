@@ -32,6 +32,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		resultMap="messageResultMap" parameterType="messageDTO">
 		SELECT room.chatroom_id, room.member_id, room.store_id, chat.chatting_text, chat.chatting_date, chat.member_check FROM chatroom room LEFT JOIN chatting chat ON(room.chatroom_id = chat.chatroom_id)WHERE room.member_id = #{memberId} and room.chatroom_id = #{chatroomId} ORDER BY chat.chatting_date ASC
 	</select>
+	
+	<select id="selectForStoreWithChatroomIdAllMessage"
+		resultMap="messageResultMap" parameterType="messageDTO">
+		SELECT room.chatroom_id, room.member_id, room.store_id, chat.chatting_text, chat.chatting_date, chat.member_check FROM chatroom room LEFT JOIN chatting chat ON(room.chatroom_id = chat.chatroom_id)WHERE room.store_id = #{storeId} and room.chatroom_id = #{chatroomId} ORDER BY chat.chatting_date ASC
+	</select>
 
 	<select id="selectForMemberWithStoreURlAllMessage"
 		resultMap="messageResultMap" parameterType="messageDTO">

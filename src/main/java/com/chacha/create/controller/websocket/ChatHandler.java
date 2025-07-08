@@ -19,6 +19,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.chacha.create.common.dto.chat.MessageDTO;
 import com.chacha.create.common.entity.member.MemberEntity;
+import com.chacha.create.common.mapper.member.SellerMapper;
+import com.chacha.create.common.mapper.store.StoreMapper;
 import com.chacha.create.service.store_common.header.MessageService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -46,6 +48,12 @@ public class ChatHandler extends TextWebSocketHandler {
     @Autowired
     private MessageService messageService;
 
+    @Autowired
+    private StoreMapper storeMapper;
+    
+    @Autowired
+    private SellerMapper sellerMapper;
+    
     /**
      * 클라이언트가 WebSocket 연결을 성공적으로 맺은 후 호출됩니다.
      * 로그인 여부 확인, 채팅방 ID 파싱 및 세션 저장 등의 초기 처리를 수행합니다.
@@ -56,14 +64,19 @@ public class ChatHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         MemberEntity loginMember = (MemberEntity) session.getAttributes().get("loginMember");
-
+        boolean fromstore = false;
         if (loginMember == null) {
             session.close(CloseStatus.NOT_ACCEPTABLE.withReason("로그인 필요"));
             return;
         }
-
         // 🔽 interceptor에서 저장한 chatroomId 우선 사용
         Integer chatroomId = (Integer) session.getAttributes().get("chatroomId");
+        try {
+        	fromstore = (boolean) session.getAttributes().get("fromstore").equals("true");
+        }catch (Exception e) {
+        	log.info("fromstore 없음");
+        	fromstore = false;
+        }
 
         if (chatroomId == null) {
             // fallback: URI 쿼리 파라미터에서 추출 (storeUrl 기반)
@@ -85,12 +98,20 @@ public class ChatHandler extends TextWebSocketHandler {
             session.close(CloseStatus.BAD_DATA.withReason("chatroomId 또는 storeUrl 필요"));
             return;
         }
-
         session.getAttributes().put("chatroomId", chatroomId);
         chatroomSessions.computeIfAbsent(chatroomId, k -> new CopyOnWriteArrayList<>()).add(session);
 
         log.info("채팅방 {}에 사용자 {} 입장", chatroomId, loginMember.getMemberId());
-        List<MessageDTO> oldMessages = messageService.getMemberStoreAllMessage(loginMember, chatroomId);
+        List<MessageDTO> oldMessages = null;
+        log.info("fromstore : " + fromstore);
+        if (fromstore) {
+        	int storeId = storeMapper.selectBySellerId(sellerMapper.selectByMemberId(loginMember.getMemberId()).getMemberId()).getStoreId();
+        	log.info("스토어 ID : " + storeId);
+        	oldMessages = messageService.getMemberStoreAllMessage(storeId, chatroomId);
+        }else {
+        	oldMessages = messageService.getMemberStoreAllMessage(loginMember, chatroomId);
+        }
+        log.info("기존 메시지 개수: {}", oldMessages.size());
         for (MessageDTO msg : oldMessages) {
             session.sendMessage(new TextMessage(objectMapper.writeValueAsString(msg)));
         }
