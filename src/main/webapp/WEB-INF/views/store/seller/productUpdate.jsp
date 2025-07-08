@@ -136,14 +136,13 @@
                       </div>
                     </div>
 
-                    
                   </div>
                 </div>
               </div>
+               <div class="frame-774">
+                 <button type="submit" class="button2"><span class="div21">저장</span></button>
+               </div>
             </form>
-            <div class="frame-774">
-                      <button type="submit" class="button2"><span class="div21">저장</span></button>
-                    </div>
           </div>
         </div>
       </main>

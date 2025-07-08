@@ -5,7 +5,6 @@
   <meta charset="UTF-8" />
   <title>뜨락상회 판매자 상품등록</title>
   <%@ include file="/common/header.jsp" %>
-  <link rel="stylesheet" href="${cpath}/resources/css/store/seller/authmain.css" />
   <link rel="stylesheet" href="${cpath}/resources/css/store/seller/productInsert.css" />
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
