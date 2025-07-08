@@ -15,7 +15,7 @@ $(document).ready(function () {
         $('.section-block').eq(2).html(`
           <p><strong>${data.orderName}</strong></p>
           <div class="product-desc">${data.orderPhone}</div>
-          <p>${data.addressRoad} ${data.addressDetail} ${data.addressExtra}</p>
+          <p>${data.addressRoad} ${data.addressDetail}</p>
         `);
 
         // 결제 정보
