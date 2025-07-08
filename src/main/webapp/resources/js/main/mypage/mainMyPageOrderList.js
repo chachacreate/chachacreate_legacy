@@ -34,7 +34,7 @@ $(function () {
                         const itemHtml = `
                             <tr data-product-id="${order.productId}" data-store-url="${order.storeUrl}" || 'main'>
                                 <td>${formattedDate}</td>
-                                <td class="product-img"><img src="${cpath}/resources/images/${order.pimgUrl}" alt="${order.productName}" class="order-img"></td>
+                                <td class="product-img"><img src="${cpath}/resources/productImages/${order.pimgUrl}" alt="${order.productName}" class="order-img"></td>
                                 <td class="product-name">${order.productName}</td>
                                 <td>${order.orderCnt}</td>
                                 <td>${order.orderPrice.toLocaleString()}원</td>

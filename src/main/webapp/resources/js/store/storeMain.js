@@ -101,7 +101,7 @@ function renderBestProduct(bestProduct) {
   bestProduct.forEach(bf => {
     const priceText = bf.price ? Number(bf.price).toLocaleString() + "원" : "가격 정보 없음";
     html += `
-      <div class="swiper-slide" onclick="location.href='${cpath}/main/productdetail/${bf.productId}'">
+      <div class="swiper-slide" onclick="location.href='${cpath}/${storeUrl}/productdetail/${bf.productId}'">
         <div class="product-card">
           <div class="product-image-box">
             <img class="product-img" src="${cpath}/resources/productImages/${bf.pimgUrl}" alt="${bf.productName}">

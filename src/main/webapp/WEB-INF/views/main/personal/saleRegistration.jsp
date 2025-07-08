@@ -557,6 +557,7 @@ $('#submit-btn').click(function () {
       if (response.status === 201) {
         alert('상품 등록이 완료되었습니다.');
         $('.swiper-slide').eq(0).find('.edit-btn, .delete-btn').prop('disabled', false);
+        location.href = location.origin + location.pathname;
       } else {
         alert('상품 등록 실패');
       }
@@ -747,6 +748,7 @@ $('#submit-btn2').click(function () {
 	      if (response.status === 201) {
 	        alert('상품 등록이 완료되었습니다.');
 	        $('.swiper-slide').eq(1).find('.edit-btn, .delete-btn').prop('disabled', false);
+	        location.href = location.origin + location.pathname;
 	      } else {
 	        alert('상품 등록 실패');
 	      }
