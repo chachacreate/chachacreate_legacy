@@ -47,8 +47,8 @@ $(function () {
                 </div>
               </td>
               <td>${review.reviewDate}</td>
-              <td>${review.rating}</td> // DB 미등록
-              <td>${review.likeCount}</td> // DB 미등록
+              <!-- <td>${review.rating}</td> // DB 미등록
+              <td>${review.likeCount}</td> // DB 미등록 -->
             </tr>
           `;
           $(".review-table tbody").append(row);
