@@ -176,6 +176,7 @@
       <ul class="submenu">
         <li><a href="${cpath}/${storeUrl}/seller/message">문의 메시지</a></li>
         <li><a href="${cpath}/${storeUrl}/seller/management/seller">스토어 관리</a></li>
+        <li><a href="${cpath}/${storeUrl}/seller/management/notices">공지 사항</a></li>
       </ul>
     </li>
 
