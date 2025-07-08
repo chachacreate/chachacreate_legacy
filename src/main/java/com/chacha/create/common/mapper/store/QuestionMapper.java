@@ -30,7 +30,7 @@ public interface QuestionMapper {
 
     /**
      * 스토어 ID로 문의 목록을 조회합니다.
-     *
+     *	
      * @param storeId 스토어 ID
      * @return {@code List<QuestionEntity>} 해당 스토어의 문의 목록
      */

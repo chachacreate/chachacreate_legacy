@@ -1,10 +1,14 @@
 package com.chacha.create.common.typehandler;
 
-import com.chacha.create.common.enums.category.TypeCategoryEnum;
+import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 
-import java.sql.*;
+import com.chacha.create.common.enums.category.TypeCategoryEnum;
 
 /**
  * MyBatis에서 {@link TypeCategoryEnum}과 DB의 정수 ID 간 매핑을 처리하는 TypeHandler입니다.

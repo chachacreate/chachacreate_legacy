@@ -1,10 +1,10 @@
 package com.chacha.create.common.mapper.category;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.chacha.create.common.entity.category.UCategoryEntity;
-
-import java.util.List;
 
 /**
  * u_category 테이블에 대한 CRUD 작업을 수행하는 MyBatis 매퍼 인터페이스입니다.

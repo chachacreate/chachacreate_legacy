@@ -1,15 +1,10 @@
 package com.chacha.create.controller.controller.seller;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
@@ -19,10 +14,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -39,25 +32,21 @@ import com.chacha.create.common.dto.order.OrderDTO;
 import com.chacha.create.common.dto.order.OrderSumDTO;
 import com.chacha.create.common.dto.product.ProductUpdateDTO;
 import com.chacha.create.common.dto.product.ProductWithImagesDTO;
-
 import com.chacha.create.common.dto.product.ProductlistDTO;
 import com.chacha.create.common.dto.product.ReviewManagementDTO;
 import com.chacha.create.common.dto.store.StoreInfoDTO;
-import com.chacha.create.common.dto.store.StoreInfoManagementDTO;
 import com.chacha.create.common.entity.member.MemberEntity;
 import com.chacha.create.common.entity.order.OrderInfoEntity;
 import com.chacha.create.common.entity.product.ProductEntity;
 import com.chacha.create.common.enums.category.DCategoryEnum;
 import com.chacha.create.common.enums.category.TypeCategoryEnum;
 import com.chacha.create.common.enums.category.UCategoryEnum;
-
 import com.chacha.create.common.enums.error.ResponseCode;
 import com.chacha.create.common.enums.order.OrderStatusEnum;
 import com.chacha.create.common.exception.InvalidRequestException;
 import com.chacha.create.common.exception.LoginFailException;
 import com.chacha.create.service.buyer.detail.ReviewService;
 import com.chacha.create.service.buyer.storeinfo.StoreInfoService;
-import com.chacha.create.service.seller.information.StoreInfoManagementService;
 import com.chacha.create.service.seller.main.SellerMainService;
 import com.chacha.create.service.seller.order.OrderManagementService;
 import com.chacha.create.service.seller.product.ProductService;

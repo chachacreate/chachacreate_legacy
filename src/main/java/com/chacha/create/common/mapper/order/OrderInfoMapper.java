@@ -1,13 +1,10 @@
 package com.chacha.create.common.mapper.order;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.chacha.create.common.dto.order.OrderSumDTO;
 import com.chacha.create.common.entity.order.OrderInfoEntity;
-import com.chacha.create.common.enums.order.OrderStatusEnum;
 
 /**
  * {@code order_info} 테이블에 대한 CRUD 작업을 수행하는 MyBatis 매퍼 인터페이스입니다.

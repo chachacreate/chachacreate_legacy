@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.chacha.create.common.dto.manager.ManagerAdjustmentDTO;
 import com.chacha.create.common.dto.store.StoreInfoDTO;
 import com.chacha.create.common.entity.store.StoreEntity;
 

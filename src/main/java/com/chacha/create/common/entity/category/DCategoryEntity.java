@@ -1,7 +1,7 @@
 package com.chacha.create.common.entity.category;
 
-import com.chacha.create.common.enums.category.UCategoryEnum;
 import com.chacha.create.common.enums.category.DCategoryEnum;
+import com.chacha.create.common.enums.category.UCategoryEnum;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

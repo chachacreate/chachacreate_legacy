@@ -1,11 +1,12 @@
 package com.chacha.create.common.enums.image;
 
+import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
-import java.util.Map;
 
 /**
  * 상품 이미지 타입 열거형 (p_img 테이블의 p_img_enum 컬럼과 매핑)

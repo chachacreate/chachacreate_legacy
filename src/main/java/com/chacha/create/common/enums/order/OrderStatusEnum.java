@@ -1,11 +1,12 @@
 package com.chacha.create.common.enums.order;
 
+import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
-import java.util.Map;
 
 /**
  * 주문 상태 열거형 (order_info 테이블의 order_status 컬럼과 매핑)
