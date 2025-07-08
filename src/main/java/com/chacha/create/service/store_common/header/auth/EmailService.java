@@ -99,6 +99,7 @@ public class EmailService {
         log.info(map.toString());
         int result = dao.updateAuthKey(map);
         // 이전에 이메일 인증을 한 이력이 있을 때
+        dao.updateAuthKey(map);
         // 처음 인증 할 때 
         if(result == 0) {
            result = dao.insertAuthKey(map);
@@ -108,7 +109,5 @@ public class EmailService {
 
    public int checkAuthKey(Map<String, Object> paramMap) {
       return dao.checkAuthKey(paramMap);
-   }      
-   
-   // 테스트
+   }
 }
