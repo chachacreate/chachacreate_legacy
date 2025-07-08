@@ -149,7 +149,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		    success: function(response) {
 		      alert("장바구니에 추가되었습니다.");
 		      // 성공 후 장바구니 페이지로 이동
-		      location.href = `${cpath}/main/mypage/cart`;
+		      location.href = `${cpath}/${storeUrl}/mypage/cart`;
 		    },
 		    error: function(xhr, status, error) {
 		      alert("장바구니 추가 실패: " + error);

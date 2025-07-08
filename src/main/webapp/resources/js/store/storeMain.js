@@ -106,7 +106,7 @@ function renderBestProduct(bestProduct) {
           <div class="product-image-box">
             <img class="product-img" src="${cpath}/resources/productImages/${bf.pimgUrl}" alt="${bf.productName}">
             <div class="product-icon">
-              <a href="${cpath}/main/productdetail/${bf.productId}">
+              <a href="${cpath}/${storeUrl}/productdetail/${bf.productId}">
                 <span class="material-symbols-outlined">arrow_outward</span>
               </a>
             </div>
