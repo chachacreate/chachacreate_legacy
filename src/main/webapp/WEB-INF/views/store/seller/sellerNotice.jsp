@@ -18,7 +18,7 @@
 <body>
   <input type="hidden" id="cpath" value="${cpath}">
   <input type="hidden" id="storeUrl" value="${storeUrl}">
-  
+
 <div class="wrapper">
 <div class="main-area">
 	<div class="content-wrapper">
