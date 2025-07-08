@@ -10,7 +10,94 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
   <script src="${cpath}/resources/js/seller/productInsert.js"></script>
+<script>
+  window.dCategoriesByU = {
+    <c:forEach var="entry" items="${dCategoriesByU}" varStatus="loop">
+      "${entry.key}": [
+        <c:forEach var="d" items="${entry.value}" varStatus="loop2">
+          { id: ${d.id}, name: "${d.name}" }<c:if test="${!loop2.last}">,</c:if>
+        </c:forEach>
+      ]<c:if test="${!loop.last}">,</c:if>
+    </c:forEach>
+  };
+
+  function sendProductDataToServer() {
+	  const productForms = document.querySelectorAll('.product-form-unit');
+	  const formData = new FormData();
+	  const dtoList = [];
+
+	  // 먼저 JSON으로 보낼 상품 정보만 따로 저장
+	  [...productForms].forEach((form, idx) => {
+	    const product = {
+	      productName: form.querySelector('input[name="productName"]').value.trim(),
+	      price: parseInt(form.querySelector('input[name="price"]').value, 10),
+	      productDetail: form.querySelector('textarea[name="description"]').value.trim(),
+	      typeCategoryId: form.querySelector('select[name="typeCategoryId"]').value,
+	      dcategoryId: form.querySelector('select[name="dcategoryId"]').value,
+	      stock: parseInt(form.querySelector('input[name="stock"]').value, 10),
+	      productDate: new Date().getTime(),
+	      saleCnt: 0,
+	      viewCnt: 0
+	    };
+
+	    dtoList.push({
+	      product: product,
+	      images: [] // 실제 파일은 별도로 formData에 추가
+	    });
+
+	    // 파일은 formData에 따로 추가
+	    const photoInputs = form.querySelectorAll('input[type="file"]');
+	    [...photoInputs].forEach((input) => {
+	      const file = input.files[0];
+	      if (file) {
+	        formData.append(`dtoList[\${idx}].images`, file);
+	      }
+	    });
+	  });
+
+	  // JSON을 Blob으로 변환하여 FormData에 추가
+	  const jsonBlob = new Blob([JSON.stringify(dtoList)], { type: 'application/json' });
+	  formData.append('dtoList', jsonBlob);
+
+	  // 디버깅용
+	  console.log("🚀 FormData 전송 내용:");
+	  for (let pair of formData.entries()) {
+	    console.log(pair[0], pair[1]);
+	  }
+
+	  $.ajax({
+	    url: `${cpath}/${storeUrl}/seller/productinsert`,
+	    type: "POST",
+	    data: formData,
+	    enctype: "multipart/form-data",
+	    processData: false,
+	    contentType: false,
+	    success: res => {
+	      console.log("서버 응답:", res);
+	      alert("상품 등록 성공!");
+	      location.href = `${cpath}/${storeUrl}/seller/products`;
+	    },
+	    error: err => {
+	      console.error("에러:", err);
+	      alert("상품 등록 실패");
+	    }
+	  });
+	}
+
+  // 폼 제출 시 수동 전송
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector("form");
+    if (form) {
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        sendProductDataToServer();
+      });
+    }
+  });
+</script>
+
 </head>
+
 <body>
   <div class="page-container">
     <div class="left-padding"></div>
@@ -60,7 +147,7 @@
                         <button type="button" class="remove-product-btn">삭제</button>
                         <div class="text-area">
                           <div class="div17">상품 이름</div>
-                          <input type="text" name="productName" class="box" required />
+                          <input type="text" name="productName" class="box2" required />
                         </div>
                         <div class="text-input">
                           <div class="div17">상품 가격</div>
