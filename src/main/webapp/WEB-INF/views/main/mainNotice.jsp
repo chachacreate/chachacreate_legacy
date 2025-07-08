@@ -17,7 +17,7 @@
   <h2>건의사항</h2>
 
   <div class="search-box">
-    <input type="text" placeholder="검색어를 입력하세요">
+    <input type="text" id="search-keyword" placeholder="검색어를 입력하세요">
     <button class="search-btn">검색</button>
   </div>
 
@@ -53,10 +53,28 @@
   const pageSize = 5;
   let allData = [];
 
-  function renderTable(pageIndex = 1, item) {
+//검색 버튼 클릭 시 제목 필터링
+  $(".search-btn").on("click", function () {
+    const keyword = $(".search-box input").val().toLowerCase().trim();
+
+    const filteredData = allData.filter(item =>
+      item.questionTitle.toLowerCase().includes(keyword)
+    );
+
+    if (filteredData.length === 0) {
+      $("#notice-body").html(`<tr><td colspan="2">검색 결과가 없습니다.</td></tr>`);
+      $("#pagination").empty();
+    } else {
+      renderFilteredTable(filteredData, 1);
+      renderFilteredPagination(filteredData);
+    }
+  });
+
+  // 필터된 테이블 렌더링
+  function renderFilteredTable(data, pageIndex = 1) {
     const start = (pageIndex - 1) * pageSize;
     const end = start + pageSize;
-    const pageData = allData.slice(start, end);
+    const pageData = data.slice(start, end);
 
     const tbody = $("#notice-body");
     tbody.empty();
@@ -79,23 +97,23 @@
     });
   }
 
-  function renderPagination() {
-    const totalPage = Math.ceil(allData.length / pageSize);
+  // 필터된 페이지네이션
+  function renderFilteredPagination(filteredData) {
+    const totalPage = Math.ceil(filteredData.length / pageSize);
     const pg = $("#pagination");
     pg.empty();
 
     for (let i = 1; i <= totalPage; i++) {
-   	  pg.append('<a data-page="' + i + '" class="' + (i === 1 ? 'active' : '') + '">' + i + '</a>');
-   	}
+      pg.append('<a data-page="' + i + '" class="' + (i === 1 ? 'active' : '') + '">' + i + '</a>');
+    }
 
     $(".pagination a").off("click").on("click", function () {
       $(".pagination a").removeClass("active");
       $(this).addClass("active");
       const pageIndex = parseInt($(this).data("page"));
-      renderTable(pageIndex);
+      renderFilteredTable(filteredData, pageIndex);
     });
   }
-
   $(function () {
     // 건의사항 데이터 요청
     $.ajax({
@@ -105,7 +123,7 @@
       success: function (res) {
         if (res.status === 200 && res.data) {
           allData = res.data;
-          renderTable(item = allData);
+          renderFilteredTable(item = allData);
           renderPagination();
           renderTable(1);
         } else {
