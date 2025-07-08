@@ -105,12 +105,13 @@ function renderNewProduct(newProduct) {
   let html = "";
 
   newProduct.forEach((nf) => {
+  	if(nf.storeUrl === null){nf.storeUrl = "main";}
     const priceText = nf.price
       ? Number(nf.price).toLocaleString() + "원"
       : "가격 정보 없음";
 
     html += `
-      <div class="preview-card" onclick="location.href='${cpath}/main/productdetail/${nf.productId}'">
+      <div class="preview-card" onclick="location.href='${cpath}/${nf.storeUrl}/productdetail/${nf.productId}'">
         <img class="new-product-img" src="${cpath}/resources/productImages/${nf.pimgUrl}" alt="${nf.productName}">
         <p class="product-name">${nf.productName}</p>
         <p class="product-price">${priceText}</p>
