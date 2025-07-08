@@ -14,6 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.chacha.create.common.mapper.member.EmailMapper;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class EmailService {
 
@@ -23,7 +26,7 @@ public class EmailService {
     @Autowired
     private JavaMailSender mailSender;
     
-    private String fromEmail = "chachacreate4@gmail.com";
+    private String fromEmail = "chachacreate05@gmail.com";
     private String fromUsername = "chachacreate";
 
     public String createAuthKey() {
@@ -61,8 +64,6 @@ public class EmailService {
         //6자리 난수 인증번호 생성
         String authKey = createAuthKey();
         try {
-
-
             //인증메일 보내기
             MimeMessage mail = mailSender.createMimeMessage();
             
@@ -76,18 +77,12 @@ public class EmailService {
             String mailContent 
                 = "<p>뜨락상회 "+title+" 인증코드입니다.</p>"
                 + "<h3 style='color:blue'>" + authKey + "</h3>";
-            
-            
-            
             // 송신자(보내는 사람) 지정
             mail.setFrom(new InternetAddress(fromEmail, fromUsername));
             mail.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
-            
             // 수신자(받는사람) 지정
-            
             // 이메일 제목 세팅
             mail.setSubject(subject, charset);
-            
             // 내용 세팅
             mail.setText(mailContent, charset, "html"); //"html" 추가 시 HTML 태그가 해석됨
             
@@ -101,18 +96,13 @@ public class EmailService {
         map.put("authKey", authKey);
         map.put("email", email);
         
-        System.out.println(map);
-        
+        log.info(map.toString());
         int result = dao.updateAuthKey(map);
         // 이전에 이메일 인증을 한 이력이 있을 때
-        
         // 처음 인증 할 때 
         if(result == 0) {
            result = dao.insertAuthKey(map);
         }
-        
-
-
         return result;
     }
 
