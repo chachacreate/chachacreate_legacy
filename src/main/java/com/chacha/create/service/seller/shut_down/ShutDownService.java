@@ -2,15 +2,12 @@ package com.chacha.create.service.seller.shut_down;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.chacha.create.common.entity.store.StoreEntity;
 import com.chacha.create.common.enums.order.OrderStatusEnum;
 import com.chacha.create.common.mapper.order.OrderMapper;
-import com.chacha.create.common.mapper.product.PImgMapper;
-import com.chacha.create.common.mapper.product.ProductManageMapper;
 import com.chacha.create.common.mapper.store.StoreMapper;
 
 import lombok.RequiredArgsConstructor;

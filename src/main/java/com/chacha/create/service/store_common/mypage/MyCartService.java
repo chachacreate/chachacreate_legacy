@@ -2,15 +2,12 @@ package com.chacha.create.service.store_common.mypage;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.chacha.create.common.dto.member.CartViewDTO;
 import com.chacha.create.common.entity.member.CartEntity;
 import com.chacha.create.common.mapper.member.CartMapper;
-import com.chacha.create.common.mapper.product.PImgMapper;
-import com.chacha.create.common.mapper.product.ProductManageMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

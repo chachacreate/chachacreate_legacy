@@ -7,8 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.chacha.create.common.entity.member.MemberEntity;
 import com.chacha.create.common.entity.store.QuestionEntity;
-import com.chacha.create.common.mapper.product.PImgMapper;
-import com.chacha.create.common.mapper.product.ProductManageMapper;
 import com.chacha.create.common.mapper.store.QuestionMapper;
 
 import lombok.RequiredArgsConstructor;

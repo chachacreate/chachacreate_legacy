@@ -1,7 +1,6 @@
 package com.chacha.create.service.mainhome.personal;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +13,6 @@ import com.chacha.create.common.entity.member.MemberEntity;
 import com.chacha.create.common.exception.NeedLoginException;
 import com.chacha.create.common.mapper.category.DCategoryMapper;
 import com.chacha.create.common.mapper.category.TypeCategoryMapper;
-import com.chacha.create.common.mapper.category.UCategoryMapper;
 import com.chacha.create.common.mapper.product.PersonalProductMapper;
 
 import lombok.RequiredArgsConstructor;

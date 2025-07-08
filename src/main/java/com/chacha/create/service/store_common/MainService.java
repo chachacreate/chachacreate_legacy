@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.chacha.create.common.dto.product.HomeProductDTO;
@@ -13,8 +12,6 @@ import com.chacha.create.common.enums.category.DCategoryEnum;
 import com.chacha.create.common.enums.category.TypeCategoryEnum;
 import com.chacha.create.common.enums.category.UCategoryEnum;
 import com.chacha.create.common.mapper.product.MainPageMapper;
-import com.chacha.create.common.mapper.product.PImgMapper;
-import com.chacha.create.common.mapper.product.ProductManageMapper;
 import com.chacha.create.common.mapper.store.StoreIdCheckMapper;
 import com.chacha.create.util.ServiceUtil;
 

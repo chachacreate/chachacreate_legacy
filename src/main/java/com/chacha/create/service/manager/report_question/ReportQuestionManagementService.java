@@ -2,7 +2,6 @@ package com.chacha.create.service.manager.report_question;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,8 +9,6 @@ import com.chacha.create.common.entity.member.AlterMessageEntity;
 import com.chacha.create.common.entity.store.QuestionEntity;
 import com.chacha.create.common.entity.store.ReportEntity;
 import com.chacha.create.common.mapper.member.AlterMessageMapper;
-import com.chacha.create.common.mapper.product.PImgMapper;
-import com.chacha.create.common.mapper.product.ProductManageMapper;
 import com.chacha.create.common.mapper.store.QuestionMapper;
 import com.chacha.create.common.mapper.store.ReportMapper;
 

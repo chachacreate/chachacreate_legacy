@@ -8,7 +8,6 @@ import com.chacha.create.common.dto.manager.StoreManagerUpdateDTO;
 import com.chacha.create.common.entity.member.MemberEntity;
 import com.chacha.create.common.entity.member.SellerEntity;
 import com.chacha.create.common.entity.store.StoreEntity;
-import com.chacha.create.common.mapper.member.MemberMapper;
 import com.chacha.create.common.mapper.member.SellerMapper;
 import com.chacha.create.common.mapper.store.StoreMapper;
 
