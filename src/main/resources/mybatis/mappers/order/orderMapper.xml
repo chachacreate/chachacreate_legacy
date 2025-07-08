@@ -379,7 +379,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		JOIN order_info oi ON od.order_id = oi.order_id
 		JOIN product p ON od.product_id = p.product_id
 		JOIN store s ON p.store_id = s.store_id
-		JOIN (
+		LEFT JOIN (
 		    SELECT * FROM p_img
 		    WHERE p_img_enum = 'THUMBNAIL' AND p_img_seq = 1
 		) img ON p.product_id = img.product_id
