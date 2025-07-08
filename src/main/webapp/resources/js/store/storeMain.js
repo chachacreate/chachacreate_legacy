@@ -40,15 +40,17 @@ function mainProduct() {
       wrapper.innerHTML = "";
 
       mainProducts.forEach(bs => {
+      	const desc = bs.productDetail.length > 20 ? bs.productDetail.slice(0,50) + '...' : bs.productDetail;
+      
         const html = `
-          <div class="swiper-slide" onclick="location.href='${cpath}/${bs.storeUrl}'">
+          <div class="swiper-slide" onclick="location.href='${cpath}/${storeUrl}/productdetail/${bs.productId}'">
             <div class="card">
-              <img class="store-img" src="${cpath}/resources/productImages/${bs.logoImg}" alt="${bs.storeName}">
-              <h3>${bs.storeName}</h3>
+              <img class="store-img" src="${cpath}/resources/productImages/${bs.pimgUrl}" alt="${bs.productName}">
+              <h3>${bs.productName}</h3>
               <div class="category-list">
                 <span class="category-tag">${bs.categoryName}</span>
               </div>
-              <p class="store-desc">${bs.storeDetail}</p>
+              <p class="product-desc">${desc}</p>
             </div>
           </div>
         `;
