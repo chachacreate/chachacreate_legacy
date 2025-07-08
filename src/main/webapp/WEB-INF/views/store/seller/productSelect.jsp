@@ -5,7 +5,6 @@
 <meta charset="UTF-8">
 <title>뜨락상회 판매자 상품조회</title>
 <%@ include file="/common/header.jsp" %>
-  <link rel="stylesheet" href="${cpath}/resources/css/store/seller/authmain.css">
   <link rel="stylesheet" href="${cpath}/resources/css/store/seller/productSelect.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
@@ -23,7 +22,7 @@
   <div class="main-area">
       <main class="content">
         <div class="content-inner">
-		  <h2>상품조회</h2>
+		  <h2>판매상품관리</h2>
 		
 		    <div class="button-wrapper">
 		      <button class="edit-button">수정</button>
@@ -38,17 +37,17 @@
 		      <table class="product-table">
 		        <thead>
 		          <tr>
-		            <th>대표이미지</th>
+		            <th>대표<br>이미지</th>
 		            <th>상품이름</th>
 		            <th>상품가격</th>
-		            <th>재고수량</th>
-		            <th>대분류<br>카테고리</th>
-		            <th>중분류<br>카테고리</th>
-		            <th>소분류<br>카테고리</th>
+		            <th>재고<br>수량</th>
+		            <th>대분류</th>
+		            <th>중분류</th>
+		            <th>소분류</th>
 		            <th>등록일</th>
 		            <th>수정일</th>
-		            <th>대표상품<br>(3개)</th>
-		            <th>삭제하기</th>
+		            <th>대표<br>상품<br>(3개)</th>
+		            <th>삭제<br>하기</th>
 		          </tr>
 		        </thead>
 		        <tbody>
