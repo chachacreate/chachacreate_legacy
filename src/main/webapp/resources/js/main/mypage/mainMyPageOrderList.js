@@ -29,7 +29,7 @@ $(function () {
                     data.forEach(order => {
                         const date = new Date(order.orderDate);
                         const formattedDate = date.toISOString().split('T')[0];
-                        const statusText = order.deliveryStatus === '배송 전' ? '배송중' : '배송완료';
+                        const statusText = order.deliveryStatus; // 배송 전, 배송 중, 배송 완료
 
                         const itemHtml = `
                             <tr data-product-id="${order.productId}" data-store-url="${order.storeUrl}" || 'main'>

@@ -44,8 +44,8 @@
           <th>상품명</th>
           <th>리뷰</th>
           <th>작성일</th>
-          <th>평점</th>
-          <th>좋아요 수</th>
+          <!--  <th>평점</th>
+          <th>좋아요 수</th> -->
         </tr>
       </thead>
       <tbody>
