@@ -4,6 +4,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
 	namespace="com.chacha.create.common.mapper.order.OrderMapper">
+	<resultMap id="orderDTOResultMap" type="orderDTO">
+	    <!-- order_info -->
+	    <id property="orderId" column="order_id" />
+	    <result property="memberId" column="member_id" />
+	    <result property="orderDate" column="order_date" />
+	    <result property="orderName" column="order_name" />
+	    <result property="orderStatus" column="order_status" />
+	    
+	    <!-- order_detail -->
+	    <result property="orderDetailId" column="order_detail_id" />
+	    <result property="orderCnt" column="order_cnt" />
+	    <result property="orderPrice" column="order_price" />
+	
+	    <!-- product -->
+	    <result property="productId" column="product_id" />
+	    <result property="storeId" column="store_id" />
+	    <result property="productName" column="product_name" />
+	    <result property="price" column="price" />
+	
+	    <!-- addr -->
+	    <result property="addressId" column="address_id" />
+	    <result property="postNum" column="post_num" />
+	    <result property="addressRoad" column="address_road" />
+	    <result property="addressDetail" column="address_detail" />
+	    <result property="addressExtra" column="address_extra" />
+	    
+	    <!-- card -->
+	    	<result property="cardId" column="card_id" />
+	    	<result property="cardNum" column="card_num" />
+	    	<result property="cardCompany" column="card_company" />
+	</resultMap>
 	
 	<select id="selectForOrderDetailId" resultType="int" parameterType="map">
 	  SELECT order_detail_id
@@ -61,38 +92,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		left outer join order_info oi on(od.order_id = oi.order_id)
 		where s.store_url = #{StoreUrl}
 	</select>
-	
-	<resultMap id="orderDTOResultMap" type="orderDTO">
-	    <!-- order_info -->
-	    <id property="orderId" column="order_id" />
-	    <result property="memberId" column="member_id" />
-	    <result property="orderDate" column="order_date" />
-	    <result property="orderName" column="order_name" />
-	    <result property="orderStatus" column="order_status" />
-	    
-	    <!-- order_detail -->
-	    <result property="orderDetailId" column="order_detail_id" />
-	    <result property="orderCnt" column="order_cnt" />
-	    <result property="orderPrice" column="order_price" />
-	
-	    <!-- product -->
-	    <result property="productId" column="product_id" />
-	    <result property="storeId" column="store_id" />
-	    <result property="productName" column="product_name" />
-	    <result property="price" column="price" />
-	
-	    <!-- addr -->
-	    <result property="addressId" column="address_id" />
-	    <result property="postNum" column="post_num" />
-	    <result property="addressRoad" column="address_road" />
-	    <result property="addressDetail" column="address_detail" />
-	    <result property="addressExtra" column="address_extra" />
-	    
-	    <!-- card -->
-	    	<result property="cardId" column="card_id" />
-	    	<result property="cardNum" column="card_num" />
-	    	<result property="cardCompany" column="card_company" />
-	</resultMap>
 	
 	<select id="selectAll" resultMap="orderDTOResultMap" parameterType="String">
 		SELECT
@@ -247,7 +246,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	JOIN store s ON p.store_id = s.store_id
 	JOIN seller sel ON s.seller_id = sel.seller_id
 	JOIN member m ON sel.member_id = m.member_id
-	WHERE m.member_id = #{memberId} AND sel.personal_check = 0
+	WHERE m.member_id = #{memberId} AND sel.personal_check = 1
 	ORDER BY CASE oi.order_status
 	    WHEN 'ORDER_OK' THEN 1
 	    WHEN 'CONFIRM' THEN 2
@@ -291,7 +290,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	JOIN store s ON p.store_id = s.store_id
 	JOIN seller sel ON s.seller_id = sel.seller_id
 	JOIN member m ON sel.member_id = m.member_id
-	WHERE m.member_id = #{memberId} AND sel.personal_check = 0
+	WHERE m.member_id = #{memberId} AND sel.personal_check = 1
 	AND oi.order_status IN ('REFUND', 'REFUND_OK')
 	ORDER BY CASE oi.order_status
 	    WHEN 'REFUND' THEN 1
@@ -334,7 +333,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	JOIN store s ON p.store_id = s.store_id
 	JOIN seller sel ON s.seller_id = sel.seller_id
 	JOIN member m ON sel.member_id = m.member_id
-	WHERE m.member_id = #{memberId} AND sel.personal_check = 0
+	WHERE m.member_id = #{memberId} AND sel.personal_check = 1
 	AND oi.order_status = #{orderStatus}
 	</select>
 	<select id="selectOrderListByMemberId" resultType="com.chacha.create.common.dto.order.OrderListDTO" parameterType="int">
