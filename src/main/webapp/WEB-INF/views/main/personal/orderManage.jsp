@@ -153,7 +153,12 @@
     </div>
   </div>
 </div>
+
 </main>
+
+ <footer>
+    &copy; 2025 HandCraft Mall. All Rights Reserved.
+  </footer>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {

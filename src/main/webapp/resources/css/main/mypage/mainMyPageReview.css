@@ -1,10 +1,11 @@
 @charset "UTF-8";
 * 기본 세팅 */
-body {
+html, body {
+  height: 100%;     /* ✅ 필수 */
   margin: 0;
   padding: 0;
-  font-family: 'Noto Sans KR', sans-serif;
   background-color: #f7f6f2;
+  font-family: 'Noto Sans KR', sans-serif;
   color: #333;
 }
 
@@ -15,86 +16,7 @@ body {
 }
 
 /* ===== 헤더 ===== */
-header {
-  height: 50px;
-  background-color: #676f58;
-  color: white;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-}
 
-.header-inner {
-  max-width: 1440px;
-  margin: 0 auto;
-  height: 100%;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 0 20px;
-}
-
-.login-bar {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  font-size: 16px;
-}
-
-.logout-btn {
-  background: #ffffff;
-  border: none;
-  color: #676f58;
-  padding: 5px 15px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: all 0.2s;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-}
-
-.logout-btn:hover {
-  background-color: #eeeeee;
-}
-
-/* ===== 네비게이션 ===== */
-.site-nav {
-  background-color: #fff;
-  border-bottom: 1px solid #ccc;
-  padding: 15px 0;
-}
-
-.nav-inner {
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 0 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.nav-logo {
-  font-size: 24px;
-  font-weight: bold;
-  color: #676f58;
-}
-
-.nav-menu {
-  display: flex;
-  gap: 30px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.nav-menu li a {
-  text-decoration: none;
-  color: #333;
-  font-weight: 600;
-  font-size: 16px;
-}
-
-.nav-menu li a:hover {
-  color: #676f58;
-}
 
 /* ===== 메인 ===== */
 .main-area {
@@ -104,38 +26,6 @@ header {
   padding: 20px;
   margin: 0 auto;
   flex: 1;
-}
-
-/* 사이드바 */
-.sidebar {
-  width: 240px;
-  background-color: #CFD3C4;
-  padding-top: 20px;
-  flex-shrink: 0;
-  border-radius: 8px;
-  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-  height: auto;
-}
-
-.sidebar ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.sidebar ul li a {
-  display: block;
-  padding: 15px 20px;
-  text-decoration: none;
-  color: #333;
-  font-weight: 600;
-  font-size: 15px;
-  border-radius: 4px;
-  transition: background-color 0.2s;
-}
-
-.sidebar ul li a:hover {
-  background-color: #bfc4b2;
 }
 
 /* 메인 콘텐츠 */
@@ -253,4 +143,14 @@ header {
 .product-img,
 .review-text {
 	cursor: pointer;
+}
+
+footer {
+  background-color: #2d4739;
+  text-align: center;
+  font-size: 14px;
+  color: #aaa;
+  padding: 20px 0;
+  margin-top: 40px;
+  border-top: 1px solid #ddd;
 }

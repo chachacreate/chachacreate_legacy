@@ -12,6 +12,7 @@
   <script src="${cpath}/resources/js/store/buyer/mypage/cart.js" defer></script>
 </head>
 <body>
+<div class="wrapper">
 <script>
   window.loggedInMemberId = ${loginMember != null ? loginMember.memberId : 'null'};
 </script>
@@ -77,6 +78,9 @@
     </section>
   </div>
 </div>
-
+ <footer>
+    &copy; 2025 HandCraft Mall. All Rights Reserved.
+  </footer>
+</div>
 </body>
 </html>

@@ -56,11 +56,9 @@
 </main>
 
     <!-- 푸터 -->
-    <footer class="site-footer">
-      <div class="footer-inner">
-        <p>© 2025 뜨락상회. All rights reserved.</p>
-      </div>
-    </footer>
+   <footer>
+    &copy; 2025 HandCraft Mall. All Rights Reserved.
+  </footer>
   </div>
   
 </body>

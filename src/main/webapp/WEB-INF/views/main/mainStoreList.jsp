@@ -103,7 +103,11 @@
 		  <button>4</button>
 		  <button>5</button>
 		</div>
+		
 </div>
+ <footer>
+    &copy; 2025 HandCraft Mall. All Rights Reserved.
+  </footer>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   const filterButtons = document.querySelectorAll('.filter-btn');

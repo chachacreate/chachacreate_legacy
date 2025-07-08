@@ -8,7 +8,7 @@
   <meta charset="UTF-8">
   <title>뜨락상회 판매자 메인페이지</title>
   <%@ include file="/common/header.jsp"%>
-  <link rel="stylesheet" href="${cpath}/resources/css/store/seller/authmain.css">
+
   <link rel="stylesheet" href="${cpath}/resources/css/store/seller/sellerMyPage.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
