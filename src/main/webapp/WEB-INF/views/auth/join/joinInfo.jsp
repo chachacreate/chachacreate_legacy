@@ -425,8 +425,8 @@
 	    checkObj.memberPwd = validatePassword(pwd);
 	  });
 	  $('input[type=password]').eq(1).on('input', function() {
-		$('input[type=password]').eq(0).val == $(this).val();
-	    checkObj.memberPwdCheck = $('input[type=password]').eq(0).val == $(this).val();
+		$('input[type=password]').eq(0).val() == $(this).val();
+	    checkObj.memberPwdCheck = $('input[type=password]').eq(0).val() == $(this).val();
 	  });
 
 	  // 사용자 이름 검사 (공백 제외 1자 이상)

@@ -1,5 +1,8 @@
 package com.chacha.create.controller.rest.store_common.header;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.MediaType;
@@ -31,11 +34,21 @@ public class AuthRestController {
     private final RegisterService registerService;
 
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<MemberEntity>> login(HttpSession session, @RequestBody MemberEntity member) {
+    public ResponseEntity<ApiResponse<Map<String,Object>>> login(HttpSession session, @RequestBody MemberEntity member) {
         MemberEntity loginMember = loginService.login(member.getMemberEmail(), member.getMemberPwd());
         log.info(loginMember.toString());
         session.setAttribute("loginMember", loginMember);
-        return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, loginMember));
+        
+        // redirect 경로 가져오기 (없으면 기본 /main)
+        String redirect = (String) session.getAttribute("redirectAfterLogin");
+        if (redirect == null) redirect = "/main";
+        else session.removeAttribute("redirectAfterLogin");
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("loginMember", loginMember);
+        data.put("redirect", redirect);
+        
+        return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, data));
     }
 
     @PostMapping(value = "/join/userinfo", produces = MediaType.APPLICATION_JSON_VALUE)

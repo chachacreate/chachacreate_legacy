@@ -108,7 +108,11 @@ $(document).ready(function() {
       success: function(response, textStatus, xhr) {
         if (xhr.status === 200 && response?.status === 200) {
           alert('로그인 성공');
-          window.location.href = contextpath +  '/main';
+          let redirectUrl = response.data?.redirect || contextpath + '/main';
+          if (!redirectUrl.startsWith(contextpath)) {
+            redirectUrl = contextpath + redirectUrl;
+          }
+          window.location.href = redirectUrl;
         } else {
           alert(response?.message || '로그인 실패');
         }
