@@ -44,7 +44,7 @@ $(function () {
                                 </td>
                             </tr>`;
 
-                        if (order.deliveryStatus === '배송 전') {
+                        if (order.deliveryStatus === '배송 중') {
                             $('.order-page .order-table').eq(0).find('tbody').append(itemHtml);
                             hasShipping = true;
                         } else {
