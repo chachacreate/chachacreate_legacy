@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chacha.create.common.mapper.chat.ChatroomMapper">
+
+	<resultMap id="chatroomResultMap" type="chatroomEntity">
+		<id property="chatroomId" column="chatroom_id" />
+		<result property="storeId" column="store_id" />
+		<result property="memberId" column="member_id" />
+	</resultMap>
+
+	<select id="selectAll" resultMap="chatroomResultMap">
+		SELECT * FROM chatroom
+	</select>
+
+	<select id="selectByChatroomId" resultMap="chatroomResultMap"
+		parameterType="int">
+		SELECT * FROM chatroom WHERE chatroom_id = #{chatroomId}
+	</select>
+
+	<select id="selectByStoreId"
+		resultMap="chatroomResultMap" parameterType="int">
+		SELECT * FROM chatroom WHERE store_id = #{storeId}
+	</select>
+
+	<select id="selectByMemberId"
+		resultMap="chatroomResultMap" parameterType="int">
+		SELECT * FROM chatroom WHERE member_id = #{memberId}
+	</select>
+
+	<insert id="insert" parameterType="chatroomEntity">
+		INSERT INTO chatroom (chatroom_id, store_id, member_id)
+		VALUES (seq_chatroom_id.NEXTVAL, #{storeId}, #{memberId})
+	</insert>
+
+	<update id="update" parameterType="chatroomEntity">
+		UPDATE chatroom
+		SET store_id = #{storeId}, member_id = #{memberId}
+		WHERE chatroom_id = #{chatroomId}
+	</update>
+
+	<delete id="delete" parameterType="int">
+		DELETE FROM chatroom WHERE chatroom_id = #{chatroomId}
+	</delete>
+</mapper>

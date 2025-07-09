@@ -1,0 +1,224 @@
+/* 기본 세팅 */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f9f9f9;
+}
+
+/* 전체 wrapper */
+.order-history-page {
+  display: flex;
+  justify-content: center;
+  padding: 50px;
+}
+
+.order-history-layout {
+  display: flex;
+  flex-direction: row;
+  width: 1200px;
+  gap: 40px;
+}
+
+/* 사이드 메뉴 */
+.sidebar-menu {
+  width: 250px;
+  background-color: #cfd3c4;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.menu-item {
+  padding: 20px;
+  font-size: 16px;
+  border-bottom: 1px solid #bbb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  color: #333;
+}
+
+.menu-item:hover {
+  background-color: #dfe3d9;
+}
+
+.menu-item.selected {
+  background-color: #ffffff;
+  font-weight: bold;
+}
+
+.arrow {
+  font-weight: bold;
+}
+
+/* 주문 내역 섹션 */
+.order-list-section {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  flex: 1;
+}
+
+/* 주문 블록 */
+.order-block {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* 블록 헤더: 제목 + 가로 선 */
+.block-header {
+  display: flex;
+  align-items: center;
+}
+
+.block-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #2a3e34;
+  margin: 0;
+  margin-right: 10px;
+  white-space: nowrap;
+}
+
+.block-divider {
+  flex: 1;
+  height: 2px;
+  background-color: #e0e0e0;
+}
+
+/* 주문 아이템 & 헤더 공통 */
+.order-item, .order-item-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border-radius: 10px;
+}
+
+/* 주문 아이템 */
+.order-item {
+  border: 1px solid #eee;
+  padding: 16px;
+  background-color: #fafafa;
+}
+
+/* 컬럼 제목 행 스타일 (헤더 전용) */
+.order-item-header {
+  height: 50px; /* <<< 헤더 높이 얇게 조정 */
+  padding: 4px 16px;
+  font-weight: 600;
+  background-color: #d9e4d5;
+  color: #2a3e34;
+  pointer-events: none;
+  border-radius: 8px;
+  border: 1px solid #b0bfb0;
+  font-size: 13px;
+  align-items: center;
+}
+
+/* 헤더 안의 이미지 공간 제거 */
+.order-item-header .order-item-image {
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  padding: 0;
+  margin: 0;
+}
+
+/* 날짜 */
+.order-date, .order-item-header .order-date {
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: #666;
+}
+
+/* 상품 이미지 */
+.order-item-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* 주문내역 상세 영역 */
+.order-item-details, .order-item-header .order-item-details {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex: 1;
+}
+
+/* 상품정보 영역 */
+.order-product-info, .order-product-info-header {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #555;
+}
+
+/* 수량 */
+.order-qty, .order-qty-header {
+  width: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: #555;
+  text-align: center;
+}
+
+/* 가격 */
+.order-price, .order-price-header {
+  width: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: #555;
+  text-align: center;
+}
+
+/* 주문 상태 및 버튼 영역 */
+.order-footer, .order-footer-header {
+  width: 130px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 주문 상태 텍스트 */
+.order-status {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2a3e34;
+}
+
+/* 주문상세 버튼 */
+.btn-detail {
+  background-color: #2a3e34;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-detail:hover {
+  background-color: #1f3027;
+}

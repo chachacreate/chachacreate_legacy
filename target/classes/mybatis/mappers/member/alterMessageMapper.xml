@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.chacha.create.common.mapper.member.AlterMessageMapper">
+
+	<!-- Result Mapping -->
+    <resultMap id="AlterMessageResultMap" type="alterMessageEntity">
+        <id property="alterMessageId" column="alter_message_id" />
+        <result property="memberId" column="member_id" />
+        <result property="messageTitle" column="message_title" />
+        <result property="messageContent" column="message_content" />
+    </resultMap>
+
+    <!-- 전체 조회 -->
+    <select id="selectAll" resultMap="AlterMessageResultMap">
+        SELECT *
+        FROM alter_message
+    </select>
+
+    <!-- 기본키로 단건 조회 -->
+    <select id="selectByAlterMessageId" resultMap="AlterMessageResultMap" parameterType="int">
+        SELECT *
+        FROM alter_message
+        WHERE alter_message_id = #{alterMessageId}
+    </select>
+
+    <!-- 삽입 -->
+    <insert id="insert" parameterType="alterMessageEntity">
+        INSERT INTO alter_message (
+            alter_message_id,
+            member_id,
+            message_title,
+            message_content
+        ) VALUES (
+            seq_alter_message_id.nextval,
+            #{memberId},
+            #{messageTitle},
+            #{messageContent}
+        )
+    </insert>
+
+    <!-- 수정 -->
+    <update id="update" parameterType="alterMessageEntity">
+        UPDATE alter_message
+        SET
+            member_id = #{memberId},
+            message_title = #{messageTitle},
+            message_content = #{messageContent}
+        WHERE alter_message_id = #{alterMessageId}
+    </update>
+
+    <!-- 삭제 -->
+    <delete id="delete" parameterType="int">
+        DELETE FROM alter_message
+        WHERE alter_message_id = #{alterMessageId}
+    </delete>
+
+</mapper>

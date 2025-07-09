@@ -1,0 +1,256 @@
+@charset "UTF-8";
+.store-box {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.store-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search-box input {
+    padding: 8px 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 250px;
+}
+
+.store-table {
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.store-table table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.store-table thead {
+    background-color: #676f58;
+    color: white;
+}
+
+.store-table th, .store-table td {
+    padding: 12px 16px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    vertical-align: top;
+    white-space: nowrap;
+}
+
+.store-table td {
+    white-space: normal;
+}
+
+.status-btn {
+    background-color: #cccccc;
+    color: #333;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.status-btn.completed {
+    background-color: #374434;
+    color: white;
+}
+
+.more-button-box {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#showMoreBtn {
+    background-color: #676f58;
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: background-color 0.3s;
+}
+
+#showMoreBtn:hover {
+    background-color: #555d4a;
+}
+
+.open-modal-btn {
+    background-color: #676f58;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* 모달창 디자인 */
+.form-group {
+    margin-bottom: 20px;
+}
+.modal-input, .modal-textarea {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 14px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.modal-input:focus, .modal-textarea:focus {
+    border-color: #676f58;
+    box-shadow: 0 0 5px rgba(103, 111, 88, 0.5);
+    outline: none;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0; top: 0; width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.4);
+    backdrop-filter: blur(2px);
+}
+
+.modal-content {
+    background-color: #ffffff;
+    margin: 12% auto;
+    padding: 30px;
+    border-radius: 12px;
+    width: 450px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.modal-content h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: #333;
+}
+
+.modal-content label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.modal-content input, textarea {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 14px;
+    margin-bottom: 20px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.modal-content input:focus, 
+.modal-content textarea:focus {
+    border-color: #676f58;
+    box-shadow: 0 0 5px rgba(103, 111, 88, 0.5);
+    outline: none;
+}
+
+.modal-buttons {
+    text-align: right;
+}
+
+.modal-buttons button {
+    padding: 10px 20px;
+    border-radius: 6px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#modal-cancel {
+    background-color: #ccc;
+    color: #333;
+}
+
+#modal-cancel:hover {
+    background-color: #b3b3b3;
+}
+
+#modal-submit {
+    background-color: #676f58;
+    color: white;
+    margin-left: 10px;
+}
+
+#modal-submit:hover {
+    background-color: #555d4a;
+}
+/* 승인 확인 모달 디자인 */
+#confirmModal .modal-content {
+    background-color: #ffffff;
+    margin: 15% auto;
+    padding: 30px;
+    border-radius: 12px;
+    width: 400px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    font-family: 'Noto Sans KR', sans-serif;
+    text-align: center;
+}
+
+#confirmModal h3 {
+    margin-bottom: 30px;
+    font-size: 20px;
+    color: #333;
+}
+
+#confirmModal .modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+#confirm-cancel {
+    background-color: #ccc;
+    color: #333;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#confirm-cancel:hover {
+    background-color: #b3b3b3;
+}
+
+#confirm-submit {
+    background-color: #676f58; /* 기본 초록계열 */
+    color: white;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#confirm-submit:hover {
+    background-color: #374434; /* 진한 초록으로 호버시 변경 */
+}
+

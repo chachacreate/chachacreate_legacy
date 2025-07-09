@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean
+      class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+      <property name="locations">
+         <list>
+           <value>/WEB-INF/spring/oracleDB-localhost.properties</value> <!-- 본인 PC로 연결하고싶으면 oracleDB-localhost.properties로 변경하여 사용 -->
+         	<value>classpath:properties/email.properties</value>
+         </list>
+      </property>
+      <property name="fileEncoding" value="UTF-8" />
+   </bean> 
+
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- 같은 타입의 Bean이 여러개인 경우 primary="true"를 설정하면 @Autowired할 때 우선적으로 가져옴 -->
+	<bean id="dataSourceOriginal" primary="true"
+		class="org.apache.commons.dbcp2.BasicDataSource">
+		<property name="driverClassName"
+			value="${oracle.driverClassName}" />
+		<property name="url" value="${oracle.url}" />
+		<property name="username" value="${oracle.username}" />
+		<property name="password" value="${oracle.password}" />
+	</bean>
+
+
+	<bean id="dataSource"
+		class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+		<constructor-arg ref="dataSourceOriginal" />
+		<property name="logFormatter">
+			<bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+				<!-- <property name="loggingType" value="MULTI_LINE"></property> -->
+				<property name="sqlPrefix" value="[ SQL문장 ] "></property>
+			</bean>
+		</property>
+	</bean>
+
+	<!-- sqlSession을 만들기 위한 환경 -->
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="configLocation"
+			value="classpath:mybatis/sqlMapConfig.xml" />
+		<property name="mapperLocations"
+			value="classpath:mybatis/mappers/**/*.xml" />
+	</bean>
+
+	<!-- Mapper의 SQL구문을 실행할 수 있다. SQL문은 session단위로 실행 -->
+	<bean id="sqlSession"
+		class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory"></constructor-arg>
+	</bean>
+</beans>

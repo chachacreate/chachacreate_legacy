@@ -1,0 +1,172 @@
+@charset "UTF-8";
+
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Noto Sans KR', sans-serif;
+  background: linear-gradient(to bottom, #fafafa, #f4f5f1);
+  color: #1e1e1e;
+}
+
+/* 반응형 컨테이너 */
+.seller-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 48px 20px;
+}
+
+/* 👤 프로필 영역 */
+.profile-section {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.profile-img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  margin-bottom: 16px;
+}
+
+.profile-name {
+  font-size: 24px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 6px;
+}
+
+.profile-desc {
+  font-size: 15px;
+  color: #666;
+}
+
+/* 📋 카드 공통 */
+.info-card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 24px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  border-left: 5px solid #98b59d;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 16px;
+}
+
+/* ✏️ 정보 행 */
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 15px;
+}
+
+.label {
+  font-weight: 600;
+  color: #555;
+}
+
+.value {
+  color: #333;
+}
+
+/* 📌 소개박스 */
+.desc-box {
+  background-color: #f7f9f8;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #444;
+}
+
+/* 🏆 이력 리스트 */
+.history-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.history-list li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 10px;
+  font-size: 15px;
+  color: #444;
+}
+
+.history-list li::before {
+  content: '✔';
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #6a9b7d;
+  font-size: 13px;
+}
+
+/* ✅ 반응형 처리 */
+@media (max-width: 768px) {
+  .seller-container {
+    padding: 32px 16px;
+  }
+
+  .profile-img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .profile-name {
+    font-size: 22px;
+  }
+
+  .section-title {
+    font-size: 17px;
+  }
+
+  .info-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .label, .value {
+    font-size: 14px;
+  }
+
+  .desc-box, .history-list li {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .seller-container {
+    padding: 28px 12px;
+  }
+
+  .profile-img {
+    width: 90px;
+    height: 90px;
+  }
+
+  .profile-name {
+    font-size: 20px;
+  }
+
+  .section-title {
+    font-size: 16px;
+  }
+
+  .info-card {
+    padding: 20px;
+  }
+}

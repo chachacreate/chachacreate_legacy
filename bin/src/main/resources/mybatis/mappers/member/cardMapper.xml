@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chacha.create.common.mapper.member.CardMapper">
+
+	<resultMap id="cardResultMap" type="cardEntity">
+		<id property="cardId" column="card_id" />
+		<result property="memberId" column="member_id" />
+		<result property="cardNum" column="card_num" />
+		<result property="cardCompany" column="card_company" />
+		<result property="cardToken" column="card_token" />
+		<result property="cardAlias" column="card_alias" />
+	</resultMap>
+
+	<select id="selectAll" resultMap="cardResultMap">
+		SELECT * FROM card
+	</select>
+
+	<select id="selectByCardId" resultMap="cardResultMap"
+		parameterType="int">
+		SELECT * FROM card WHERE card_id = #{cardId}
+	</select>
+
+	<insert id="insert" parameterType="cardEntity">
+		INSERT INTO card (card_id, member_id, card_num, card_company, card_token,
+		card_alias)
+		VALUES (seq_card_id.NEXTVAL, #{memberId}, #{cardNum}, #{cardCompany}, #{cardToken},
+		#{cardAlias})
+	</insert>
+
+	<update id="update" parameterType="cardEntity">
+		UPDATE card
+		SET member_id = #{memberId}, card_num = #{cardNum}, card_company =
+		#{cardCompany},
+		card_token = #{cardToken}, card_alias = #{cardAlias}
+		WHERE card_id = #{cardId}
+	</update>
+
+	<delete id="delete" parameterType="int">
+		DELETE FROM card WHERE card_id = #{cardId}
+	</delete>
+
+</mapper>

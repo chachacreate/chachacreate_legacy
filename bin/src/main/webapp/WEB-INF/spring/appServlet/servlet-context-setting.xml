@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- beans:을 없애기 위해 mvc를 추가하고 beans를 없앰 -->
+
+	<!-- 서블릿 단위로 접근 -->
+	<!-- @Controller : servlet-context.xml 에서 component-scan  -->
+	<!-- @Component @Repository @Service : root-context.xml 에서 component-scan -->
+	<context:component-scan base-package="com.chacha.create.controller, com.chacha.create.util.exception, com.chacha.create.util.Filter" />
+
+	<!-- @Controller에 요청을 보내기 위해 필요한 HandlerMapping과 HandlerAdapter를 Bean으로 
+		등록 -->
+	<mvc:annotation-driven />
+
+	<!-- 정적 자원의 위치 지정 시 이용 -->
+	<mvc:resources mapping="/resources/**"
+		location="/resources/" />
+
+	<!-- @ResponseBody 한글 설정 -->
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+			<bean
+				class="org.springframework.http.converter.StringHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>text/plain;charset=UTF-8</value> <!-- 기본생성자 한글 설정 -->
+						<value>text/html;charset=UTF-8</value> <!-- html 문서 한글 설정 -->
+					</list>
+				</property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
+		in the /WEB-INF/views directory -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	
+	<!-- 멀티파트 파일 업로드 처리 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="10485760" />
+    </bean>
+
+</beans>

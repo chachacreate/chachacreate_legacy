@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chacha.create.common.mapper.category.TypeCategoryMapper">
+
+	<resultMap id="typeCategoryResultMap"
+		type="typeCategoryEntity">
+		<id property="typeCategoryId" column="type_category_id" />
+		<result property="typeCategoryName" column="type_category_name" />
+	</resultMap>
+
+	<select id="selectAll" resultMap="typeCategoryResultMap">
+		SELECT * FROM type_category
+	</select>
+
+	<select id="selectByTypeCategoryId" resultMap="typeCategoryResultMap">
+		SELECT * FROM type_category WHERE type_category_id = #{typeCategoryId}
+	</select>
+
+	<insert id="insert" parameterType="typeCategoryEntity">
+		INSERT INTO type_category (type_category_id, type_category_name)
+		VALUES (seq_type_category_id.NEXTVAL, #{typeCategoryName})
+	</insert>
+
+	<update id="update" parameterType="typeCategoryEntity">
+		UPDATE type_category
+		SET type_category_name = #{typeCategoryName}
+		WHERE type_category_id = #{typeCategoryId}
+	</update>
+
+	<delete id="delete" parameterType="int">
+		DELETE FROM type_category WHERE type_category_id = #{typeCategoryId}
+	</delete>
+
+</mapper>

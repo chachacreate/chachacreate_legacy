@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.chacha.create.common.mapper.product.ProductManageMapper">
+
+	<select id="updateProductDetail"
+		resultType="productUpdateDTO">
+		SELECT
+		(SELECT p_img_url FROM p_img WHERE product_id = p.product_id AND p_img_seq =
+		1 AND p_img_enum = 'THUMBNAIL') AS p_img_url1,
+		(SELECT p_img_url FROM p_img WHERE product_id = p.product_id AND p_img_seq =
+		2 AND p_img_enum = 'THUMBNAIL') AS p_img_url2,
+		(SELECT p_img_url FROM p_img WHERE product_id = p.product_id AND p_img_seq =
+		3 AND p_img_enum = 'THUMBNAIL') AS p_img_url3,
+		p.product_id,
+		p.product_name,
+		p.product_detail,
+		p.price,
+		p.stock,
+		t.type_category_name,
+		u.u_category_name,
+		d.d_category_name
+		FROM
+		product p
+		JOIN type_category t USING (type_category_id)
+		JOIN d_category d USING (d_category_id)
+		JOIN u_category u USING (u_category_id)
+		JOIN store s USING (store_id)
+		WHERE
+		p.delete_check = 0
+		AND s.store_url = #{storeUrl}
+		AND p.product_id = #{productId}
+	</select>
+
+	<update id="updateProduct"
+		parameterType="productUpdateDTO">
+		UPDATE product
+		SET product_name = #{productName},
+		price = #{price},
+		stock = #{stock},
+		product_detail = #{productDetail},
+		type_category_id = #{typeCategoryId},
+		d_category_id = #{dcategoryId},
+		last_modified_date = SYSDATE
+		WHERE product_id = #{productId}
+	</update>
+
+	<update id="updateProductImages"
+        parameterType="productUpdateDTO">
+	    <if test="pimgUrl1 != null">
+	        UPDATE p_img
+	        SET p_img_url = #{pimgUrl1}
+	        WHERE product_id = #{productId}
+	          AND p_img_seq = 1
+	          AND p_img_enum = 'THUMBNAIL';
+	    </if>
+	    <if test="pimgUrl2 != null">
+	        UPDATE p_img
+	        SET p_img_url = #{pimgUrl2}
+	        WHERE product_id = #{productId}
+	          AND p_img_seq = 2
+	          AND p_img_enum = 'THUMBNAIL';
+	    </if>
+	    <if test="pimgUrl3 != null">
+	        UPDATE p_img
+	        SET p_img_url = #{pimgUrl3}
+	        WHERE product_id = #{productId}
+	          AND p_img_seq = 3
+	          AND p_img_enum = 'THUMBNAIL';
+	    </if>
+	</update>
+
+	<select id="selectByProductId" resultType="productDetailDTO"
+		parameterType="int">
+		SELECT
+		p.*,
+		s.store_name,
+		t.type_category_name,
+		d.d_category_name,
+		u.u_category_name
+		FROM
+		product p
+		LEFT JOIN store s ON p.store_id = s.store_id
+		LEFT JOIN type_category t ON p.type_category_id = t.type_category_id
+		LEFT JOIN d_category d ON p.d_category_id = d.d_category_id
+		LEFT JOIN u_category u ON d.u_category_id = u.u_category_id
+		WHERE
+		p.product_id = #{productId}
+	</select>
+
+	<select id="selectAllByStoreUrl"
+		resultType="productlistDTO">
+		SELECT
+		p_img.p_img_url,
+		p.product_id,
+		p.product_name,
+		p.price,
+		p.stock,
+		t.type_category_name,
+		u.u_category_name,
+		d.d_category_name,
+		p.product_date,
+		p.last_modified_date,
+		p.flagship_check
+		FROM
+		product p
+		JOIN
+		p_img p_img ON p.product_id = p_img.product_id
+		JOIN
+		type_category t using (type_category_id)
+		JOIN
+		d_category d using (d_category_id)
+		JOIN
+		u_category u using (u_category_id)
+		JOIN
+		store s using (store_id)
+		WHERE
+		p_img.p_img_enum = 'THUMBNAIL'
+		AND p_img.p_img_seq = 1
+		AND p.delete_check = 0
+		AND s.store_url = #{storeUrl}
+	</select>
+
+	<update id="updateFlagship"
+		parameterType="productlistDTO">
+		UPDATE product
+		SET flagship_check = #{flagshipCheck}
+		WHERE product_id = #{productId}
+		and delete_check = 0
+	</update>
+
+	<select id="countFlagshipByStoreId" parameterType="string"
+		resultType="int">
+		SELECT COUNT(*)
+		FROM product p
+		JOIN store s ON p.store_id = s.store_id
+		WHERE s.store_url = #{storeUrl}
+		AND p.flagship_check = 1
+		AND p.delete_check = 0
+	</select>
+
+	<update id="updateDeleteCheck" parameterType="int">
+		UPDATE product
+		SET delete_check = 1
+		WHERE product_id = #{productId}
+		AND delete_check = 0
+	</update>
+
+</mapper>

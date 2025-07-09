@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chacha.create.common.mapper.order.DeliveryMapper">
+
+	<resultMap id="deliveryResultMap" type="deliveryEntity">
+		<id property="deliveryId" column="delivery_id" />
+		<result property="orderId" column="order_id" />
+		<result property="deliveryCheck" column="delivery_check" />
+		<result property="deliveryDate" column="delivery_date" />
+		<result property="deliveryFinDate" column="delivery_fin_date" />
+	</resultMap>
+
+	<select id="selectAll" resultMap="deliveryResultMap">
+		SELECT * FROM delivery
+	</select>
+
+	<select id="selectByDeliveryId" resultMap="deliveryResultMap">
+		SELECT * FROM delivery WHERE delivery_id = #{deliveryId}
+	</select>
+
+	<select id="selectByOrderId" resultMap="deliveryResultMap">
+		SELECT * FROM delivery WHERE order_id = #{orderId}
+	</select>
+
+	<insert id="insert" parameterType="deliveryEntity">
+		INSERT INTO delivery (delivery_id, order_id, delivery_check, delivery_date,
+		delivery_fin_date)
+		VALUES (seq_delivery_id.NEXTVAL, #{orderId}, #{deliveryCheck}, #{deliveryDate},
+		#{deliveryFinDate})
+	</insert>
+
+	<update id="update" parameterType="deliveryEntity">
+		UPDATE delivery
+		SET order_id = #{orderId},
+		delivery_check = #{deliveryCheck},
+		delivery_date = #{deliveryDate},
+		delivery_fin_date = #{deliveryFinDate}
+		WHERE delivery_id = #{deliveryId}
+	</update>
+
+	<delete id="delete" parameterType="int">
+		DELETE FROM delivery WHERE delivery_id = #{deliveryId}
+	</delete>
+
+
+</mapper>

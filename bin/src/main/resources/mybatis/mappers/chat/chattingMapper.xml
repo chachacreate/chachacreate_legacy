@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chacha.entity.chatting">
+
+	<resultMap id="chattingResultMap" type="chattingEntity">
+		<id property="chattingId" column="chatting_id" />
+		<result property="chatroomId" column="chatroom_id" />
+		<result property="chattingText" column="chatting_text" />
+		<result property="chattingDate" column="chatting_date" />
+	</resultMap>
+
+	<select id="selectAll" resultMap="chattingResultMap">
+		SELECT * FROM chatting
+	</select>
+
+	<select id="selectByChattingId" resultMap="chattingResultMap"
+		parameterType="int">
+		SELECT * FROM chatting WHERE chatting_id = #{chattingId}
+	</select>
+
+	<select id="selectByChatroomId"
+		resultMap="chattingResultMap" parameterType="int">
+		SELECT * FROM chatting WHERE chatroom_id = #{chatroomId}
+	</select>
+
+	<insert id="insert" parameterType="chattingEntity">
+		INSERT INTO chatting (chatting_id, chatroom_id, chatting_text,
+		chatting_date)
+		VALUES (seq_chatroom_id.NEXTVAL, #{chatroomId}, #{chattingText}, sysdate)
+	</insert>
+
+	<update id="update" parameterType="chattingEntity">
+		UPDATE chatting
+		SET chatroom_id = #{chatroomId}, chatting_text = #{chattingText},
+		chatting_date = #{chattingDate}
+		WHERE chatting_id = #{chattingId}
+	</update>
+
+	<delete id="delete" parameterType="int">
+		DELETE FROM chatting WHERE chatting_id = #{chattingId}
+	</delete>
+
+</mapper>

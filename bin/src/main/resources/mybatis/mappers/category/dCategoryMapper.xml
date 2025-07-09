@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chacha.create.common.mapper.category.DCategoryMapper">
+
+	<resultMap id="dCategoryResultMap" type="dCategoryEntity">
+		<id property="dcategoryId" column="d_category_id" />
+		<result property="ucategoryId" column="u_category_id" />
+		<result property="dcategoryName" column="d_category_name" />
+	</resultMap>
+	
+
+	<select id="selectAll" resultMap="dCategoryResultMap">
+		SELECT * FROM d_category
+	</select>
+
+	<select id="selectByDCategoryId" resultMap="dCategoryResultMap">
+		SELECT * FROM d_category WHERE d_category_id = #{dcategoryId}
+	</select>
+
+	<select id="selectByUCategoryId" resultMap="dCategoryResultMap">
+		SELECT * FROM d_category WHERE u_category_id = #{ucategoryId}
+	</select>
+
+	<insert id="insert" parameterType="dCategoryEntity">
+		INSERT INTO d_category (d_category_id, u_category_id, d_category_name)
+		VALUES (seq_d_category_id.NEXTVAL, #{ucategoryId}, #{dcategoryName})
+	</insert>
+
+	<update id="update" parameterType="dCategoryEntity">
+		UPDATE d_category
+		SET u_category_id = #{uCategoryId},
+		d_category_name = #{dCategoryName}
+		WHERE d_category_id = #{dCategoryId}
+	</update>
+
+	<delete id="delete" parameterType="int">
+		DELETE FROM d_category WHERE d_category_id = #{dCategoryId}
+	</delete>
+
+</mapper>

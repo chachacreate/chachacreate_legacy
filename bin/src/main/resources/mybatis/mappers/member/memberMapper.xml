@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chacha.create.common.mapper.member.MemberMapper">
+	<resultMap id="memberResultMap" type="memberEntity">
+		<id property="memberId" column="MEMBER_ID" />
+		<result property="memberEmail" column="MEMBER_EMAIL" />
+		<result property="memberName" column="MEMBER_NAME" />
+		<result property="memberPwd" column="MEMBER_PWD" />
+		<result property="memberPhone" column="MEMBER_PHONE" />
+		<result property="memberRegi" column="MEMBER_REGI" />
+		<result property="joinDate" column="JOIN_DATE" />
+	</resultMap>
+
+	<select id="selectAll" resultMap="memberResultMap">
+		SELECT * FROM MEMBER
+	</select>
+
+	<select id="selectByMemberId" resultMap="memberResultMap"
+		parameterType="int">
+		SELECT * FROM MEMBER WHERE MEMBER_ID = #{memberId}
+	</select>
+
+	<select id="selectByMemberEmail" resultMap="memberResultMap"
+		parameterType="String">
+		SELECT * FROM MEMBER WHERE MEMBER_EMAIL = #{memberEmail}
+	</select>
+
+	<insert id="insert" parameterType="memberEntity">
+		INSERT INTO MEMBER (MEMBER_ID,
+		MEMBER_EMAIL, MEMBER_NAME, MEMBER_PWD,
+		MEMBER_PHONE, MEMBER_REGI,
+		JOIN_DATE)
+		VALUES (seq_member_id.NEXTVAL, #{memberEmail},
+		#{memberName}, #{memberPwd},
+		#{memberPhone}, #{memberRegi},
+		SYSDATE)
+	</insert>
+
+	<update id="update" parameterType="memberEntity">
+		UPDATE MEMBER SET
+		MEMBER_EMAIL
+		= #{memberEmail},
+		MEMBER_NAME = #{memberName},
+		MEMBER_PWD =
+		#{memberPwd},
+		MEMBER_PHONE = #{memberPhone},
+		MEMBER_REGI =
+		#{memberRegi},
+		JOIN_DATE = #{joinDate}
+		WHERE MEMBER_ID = #{memberId}
+	</update>
+	
+	<update id="updatePwd" parameterType="memberEntity">
+		UPDATE member
+		SET member_pwd = #{memberPwd}
+		WHERE member_id = #{memberId}
+	</update>
+
+	<delete id="delete" parameterType="int">
+		DELETE FROM MEMBER WHERE
+		MEMBER_ID = #{memberId}
+	</delete>
+	
+	
+	<update id="updateMemberInfo" parameterType="memberEntity">
+		UPDATE MEMBER SET
+		MEMBER_PWD =#{memberPwd},
+		MEMBER_PHONE = #{memberPhone}
+		WHERE MEMBER_ID = #{memberId}
+	</update>
+	
+</mapper>

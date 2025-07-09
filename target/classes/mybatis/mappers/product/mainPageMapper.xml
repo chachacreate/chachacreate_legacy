@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chacha.create.common.mapper.product.MainPageMapper">
+	
+	<resultMap id="homeResultMap" type="homeDTO">
+		<result property="storeName" column="store_name" />
+		<result property="storeUrl" column="store_url" />
+		<result property="logoImg" column="logo_img" />
+		<result property="storeDetail" column="store_detail" />
+		<result property="categoryName" column="category_name" />
+		<result property="saleCnt" column="sale_cnt" />
+		<result property="Rnk" column="rnk" />
+	</resultMap>	
+
+	<resultMap id="homeProductResultMap" type="homeProductDTO">
+		<id property="productId" column="product_id" />
+		<result property="typeCategoryId" column="type_category_id" />
+		<result property="dCategoryId" column="d_category_id" />
+		<result property="productName" column="product_name" />
+		<result property="price" column="price" />
+		<result property="productDetail" column="product_detail" />
+		<result property="stock" column="stock" />
+		<result property="productDate" column="product_date" />
+		<result property="lastModifiedDate" column="last_modified_date" />
+		<result property="saleCnt" column="sale_cnt" />
+		<result property="viewCnt" column="view_cnt" />
+		<result property="logoImg" column="logo_img" />
+		<result property="storeDetail" column="store_name" />
+		<result property="storeName" column="store_detail" />
+		
+		<!-- 조인 필드 -->
+		<result property="typeCategoryName" column="type_category_name"/>
+		<result property="dCategoryName" column="d_category_name"/>
+		<result property="uCategoryName" column="u_category_name"/>
+		<result property="pImgUrl" column="p_img_url"/>
+	
+		<!-- mainHome 필드 매핑 -->
+		<association property="mainHome" javaType="homeDTO">
+			<result property="storeId" column="store_id"/>
+			<result property="storeName" column="store_name"/>
+			<result property="storeUrl" column="store_url"/>
+			<result property="logoImg" column="logo_img"/>
+			<result property="storeDetail" column="store_detail"/>
+			<result property="categoryName" column="type_category_name"/> <!-- 예시 -->
+			<result property="saleCnt" column="sale_cnt"/>
+			<result property="rnk" column="rnk"/>
+		</association>
+	</resultMap>
+	
+	<!-- 공통 -->
+	
+	<!-- 상품 리스트 전체 조회 -->
+	<select id="selectForProductList"
+        resultMap="homeProductResultMap"
+        parameterType="map">
+    
+	    SELECT p.*, ca.type_category_name, dc.d_category_name, uc.u_category_name, img.p_img_url, st.store_url
+	    FROM product p
+	    LEFT JOIN type_category ca ON p.type_category_id = ca.type_category_id
+	    LEFT JOIN d_category dc ON p.d_category_id = dc.d_category_id
+	    LEFT JOIN u_category uc ON dc.u_category_id = uc.u_category_id
+	    LEFT JOIN store st ON p.store_id = st.store_id
+	    LEFT JOIN (
+	        SELECT product_id, p_img_url
+	        FROM (
+	            SELECT product_id, p_img_url,
+	                   ROW_NUMBER() OVER (PARTITION BY product_id ORDER BY p_img_seq ASC) AS rn
+	            FROM p_img
+	        ) sub
+	        WHERE rn = 1
+	    ) img ON p.product_id = img.product_id
+	    WHERE p.delete_check = 0
+	    <if test="storeId != null">
+	      AND p.store_id = #{storeId}
+	    </if>
+	
+	    <!-- 카테고리 필터 -->
+	    <if test="(type != null and type.size() > 0) 
+	           or (d != null and d.size() > 0) 
+	           or (u != null and u.size() > 0)">
+	        AND (
+	            <if test="type != null and type.size() > 0">
+	                p.type_category_id IN
+	                <foreach collection="type" item="id" open="(" separator="," close=")">
+	                    #{id}
+	                </foreach>
+	            </if>
+	            <if test="d != null and d.size() > 0">
+	                <if test="type != null and type.size() > 0">OR</if>
+	                p.d_category_id IN
+	                <foreach collection="d" item="id" open="(" separator="," close=")">
+	                    #{id}
+	                </foreach>
+	            </if>
+	            <if test="u != null and u.size() > 0">
+	                <if test="(type != null and type.size() > 0) or (d != null and d.size() > 0)">OR</if>
+	                uc.u_category_id IS NOT NULL
+	                AND uc.u_category_id IN
+	                <foreach collection="u" item="id" open="(" separator="," close=")">
+	                    #{id}
+	                </foreach>
+	            </if>
+	        )
+	    </if>
+	
+	    <!-- 정렬 조건 -->
+	    <choose>
+	        <when test="sort == 'latest'">
+	            ORDER BY p.product_date DESC
+	        </when>
+	        <when test="sort == 'popular'">
+	            ORDER BY p.sale_cnt DESC
+	        </when>
+	        <when test="sort == 'lowprice'">
+	            ORDER BY p.price ASC
+	        </when>
+	        <when test="sort == 'highprice'">
+	            ORDER BY p.price DESC
+	        </when>
+	        <otherwise>
+	            ORDER BY p.product_date DESC
+	        </otherwise>
+	    </choose>
+	</select>
+	
+	<!-- 사용자가 상품이름으로 검색했을때  -->
+	<select id="selectByProductName" resultMap="homeProductResultMap" parameterType="map">
+		SELECT p.*, ca.type_category_name, dc.d_category_name, uc.u_category_name, img.p_img_url
+			FROM product p
+			LEFT JOIN type_category ca ON p.type_category_id = ca.type_category_id
+			LEFT JOIN d_category dc ON p.d_category_id = dc.d_category_id
+			LEFT JOIN u_category uc ON dc.u_category_id = uc.u_category_id
+			LEFT JOIN (
+						SELECT product_id, p_img_url
+						FROM (
+						SELECT product_id, p_img_url,
+						ROW_NUMBER() OVER (PARTITION BY product_id ORDER BY p_img_seq ASC) AS rn
+						FROM p_img
+						) sub
+						WHERE rn = 1
+			) img ON p.product_id = img.product_id
+		WHERE p.delete_check = 0
+		AND p.product_name LIKE '%' || #{keyword} || '%'
+	</select>
+	
+	<!-- 인기상품 -->
+	<select id="selectForBestProduct" parameterType="map" resultMap="homeProductResultMap">
+	  SELECT * FROM (
+	    SELECT
+	      p.product_id, p.product_name, p.price, p.sale_cnt,
+	      ca.type_category_name, dc.d_category_name, uc.u_category_name, img.p_img_url
+	    FROM product p
+	    LEFT JOIN type_category ca ON p.type_category_id = ca.type_category_id
+	    LEFT JOIN d_category dc ON p.d_category_id = dc.d_category_id
+	    LEFT JOIN u_category uc ON dc.u_category_id = uc.u_category_id
+	    LEFT JOIN (
+	      SELECT product_id, p_img_url
+	      FROM (
+	        SELECT product_id, p_img_url,
+	          ROW_NUMBER() OVER (PARTITION BY product_id ORDER BY p_img_seq ASC) AS rn
+	        FROM p_img
+	      ) sub
+	      WHERE rn = 1
+	    ) img ON p.product_id = img.product_id
+	    WHERE p.delete_check = 0
+	    <if test="storeId != null">
+	      AND p.store_id = #{storeId}
+	    </if>
+	    ORDER BY p.sale_cnt DESC
+	  ) WHERE ROWNUM &lt;= 
+	  <choose>
+	    <when test="storeId != null">3</when>
+	    <otherwise>10</otherwise>
+	  </choose>
+	</select>
+	
+	
+	<!-- 스토어 -->
+	
+	<!-- 스토어ID로 해당 스토어의 대표상품 조회 -->
+	<select id="selectForStoreMainProduct" resultMap="homeProductResultMap">
+		<![CDATA[
+			SELECT p.*, ca.type_category_name, dc.d_category_name, uc.u_category_name, img.p_img_url, st.logo_img, st.store_name, st.store_detail
+			FROM product p
+			JOIN (
+			    SELECT product_id
+			    FROM (
+			        SELECT product_id
+			        FROM product
+			        WHERE store_id = #{storeId}
+			        AND FLAGSHIP_CHECK = 1
+			    )
+			    WHERE ROWNUM <= 3
+			) best ON p.product_id = best.product_id
+			LEFT JOIN type_category ca ON p.type_category_id = ca.type_category_id
+			LEFT JOIN d_category dc ON p.d_category_id = dc.d_category_id
+			LEFT JOIN u_category uc ON dc.u_category_id = uc.u_category_id
+			LEFT JOIN store st ON p.store_id = st.store_id
+			LEFT JOIN (
+			    SELECT product_id, p_img_url
+			    FROM (
+			        SELECT product_id, p_img_url,
+			               ROW_NUMBER() OVER (PARTITION BY product_id ORDER BY p_img_seq ASC) AS rn
+			        FROM p_img
+			    ) sub
+			    WHERE rn = 1    
+			) img ON p.product_id = img.product_id
+			WHERE p.delete_check = 0
+		]]>
+	</select>
+	
+	<!-- 메인홈 -->
+	
+	<!-- 메인 홈  인기스토어 리스트 -->
+	<select id="selectForBestStore" resultMap="homeResultMap" parameterType="map">
+	<![CDATA[
+	SELECT *
+	FROM (
+	    SELECT s.store_id, s.store_name, s.store_url, s.logo_img, s.store_detail, cat.category_name, s.sale_cnt,
+	        ROW_NUMBER() OVER (PARTITION BY s.store_id ORDER BY cat.cnt DESC) AS rnk
+	    FROM store s
+	    JOIN product p ON s.store_id = p.store_id
+	    JOIN (
+	        SELECT 
+	            p.store_id,
+	            tc.type_category_id AS category_id,
+	            tc.type_category_name AS category_name,
+	            'type_category' AS category_type,
+	            COUNT(*) AS cnt
+	        FROM product p
+	        JOIN type_category tc ON p.type_category_id = tc.type_category_id
+	        GROUP BY p.store_id, tc.type_category_id, tc.type_category_name
+	        UNION ALL
+	        SELECT 
+	            p.store_id,
+	            dc.d_category_id AS category_id,
+	            dc.d_category_name AS category_name,
+	            'd_category' AS category_type,
+	            COUNT(*) AS cnt
+	        FROM product p
+	        JOIN d_category dc ON p.d_category_id = dc.d_category_id
+	        GROUP BY p.store_id, dc.d_category_id, dc.d_category_name
+	        UNION ALL
+	        SELECT 
+	            p.store_id,
+	            uc.u_category_id AS category_id,
+	            uc.u_category_name AS category_name,
+	            'u_category' AS category_type,
+	            COUNT(*) AS cnt
+	        FROM product p
+	        JOIN d_category dc ON p.d_category_id = dc.d_category_id
+	        JOIN u_category uc ON dc.u_category_id = uc.u_category_id
+	        GROUP BY p.store_id, uc.u_category_id, uc.u_category_name
+	    ) cat ON s.store_id = cat.store_id
+	)
+	WHERE rnk = 1
+	AND SALE_CNT IS NOT NULL
+	AND ROWNUM <= 10
+	ORDER BY sale_cnt DESC
+	]]>
+	</select>
+	
+	<!-- 메인 홈  최신 상품 리스트 -->
+	<select id="selectForNewProduct" resultMap="homeProductResultMap" parameterType="map">
+	<![CDATA[
+	SELECT *
+	FROM (
+	    SELECT 
+	        p.product_name, 
+	        p.price, 
+	        p.product_id,
+	        ca.type_category_name, 
+	        dc.d_category_name, 
+	        uc.u_category_name, 
+	        img.p_img_url, 
+	        p.product_date,
+	        st.store_url
+	    FROM product p
+	    LEFT JOIN type_category ca ON p.type_category_id = ca.type_category_id
+	    LEFT JOIN d_category dc ON p.d_category_id = dc.d_category_id
+	    LEFT JOIN u_category uc ON dc.u_category_id = uc.u_category_id
+		LEFT JOIN store st ON p.store_id = st.store_id
+	    LEFT JOIN (
+	        SELECT product_id, p_img_url
+	        FROM (
+	            SELECT product_id, p_img_url,
+	                   ROW_NUMBER() OVER (PARTITION BY product_id ORDER BY p_img_seq ASC) AS rn
+	            FROM p_img
+	        ) sub
+	        WHERE rn = 1    
+	    ) img ON p.product_id = img.product_id
+	    WHERE p.delete_check = 0
+	    ORDER BY p.product_date DESC
+	)
+	WHERE ROWNUM <= 10
+	]]>
+	</select>
+</mapper>
+	

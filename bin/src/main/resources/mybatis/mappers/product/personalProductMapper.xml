@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chacha.create.common.mapper.product.PersonalProductMapper">
+
+<insert id="insertMainProduct" parameterType="persnonalProductDTO">
+  <!-- insert 전에 시퀀스 값 미리 조회 -->
+  <selectKey keyProperty="productId" resultType="int" order="BEFORE">
+    SELECT seq_product_id.NEXTVAL FROM dual
+  </selectKey>
+
+  INSERT INTO product (
+    product_id, store_id, type_category_id, d_category_id, product_name,
+    price, product_detail, stock, product_date, last_modified_date,
+    sale_cnt, view_cnt, flagship_check, delete_check
+  )
+  VALUES (
+    #{productId},  <!-- 미리 조회한 시퀀스값을 여기에 넣음 -->
+    #{storeId},
+    #{typeCategoryId},
+    #{dcategoryId},
+    #{productName},
+    #{price},
+    #{productDetail},
+    #{stock},
+    SYSDATE,
+    SYSDATE,
+    0,
+    0,
+    0,
+    0
+  )
+</insert>
+
+
+	<!-- 이미지 insert -->
+	<insert id="insertMainProductImage" parameterType="map">
+	  INSERT INTO p_img (
+	    p_img_id,
+	    product_id,
+	    p_img_seq,
+	    p_img_enum,
+	    p_img_url
+	  ) VALUES (
+	    seq_p_img_id.NEXTVAL,
+	    #{productId},
+	    #{seq},
+	    'THUMBNAIL',
+	    #{url}
+	  )
+	</insert>
+	
+	<!-- 이미지 update -->
+	<update id="updateMainProductImage" parameterType="map">
+	   MERGE INTO p_img p
+		  USING (
+		    SELECT 
+		      #{productId} AS product_id,
+		      #{seq} AS p_img_seq,
+		      #{url} AS p_img_url
+		    FROM dual
+		  ) src
+		  ON (
+		    p.product_id = src.product_id
+		    AND p.p_img_seq = src.p_img_seq
+		    AND p.p_img_enum = 'THUMBNAIL'
+		  )
+		  WHEN MATCHED THEN
+		    UPDATE SET p.p_img_url = src.p_img_url
+		  WHEN NOT MATCHED THEN
+		    INSERT (
+		      p_img_id,
+		      product_id,
+		      p_img_seq,
+		      p_img_enum,
+		      p_img_url
+		    )
+		    VALUES (
+		      seq_p_img_id.NEXTVAL,
+		      src.product_id,
+		      src.p_img_seq,
+		      'THUMBNAIL',
+		      src.p_img_url
+		    )
+	</update>
+
+	
+	<select id="selectForSellerAndStoreByMemberId" resultType="map" parameterType="int">
+	    SELECT
+		    s.seller_id,
+		    st.store_id
+		FROM
+		    seller s
+		    LEFT JOIN store st ON s.seller_id = st.seller_id
+		WHERE
+		    s.member_id = #{memberId}
+		    AND s.personal_check = 1
+	</select>
+	
+	<!-- storeId에 해당하는 상품 리스트 조회 -->
+	<select id="selectProductsByStoreId" resultType="persnonalProductDTO" parameterType="int">
+      SELECT 
+		    p.product_id,
+		    p.product_name,
+		    p.product_detail,
+		    p.price,
+		    p.stock,
+		    (SELECT p_img_url FROM p_img WHERE product_id = p.product_id AND p_img_seq = 1 AND p_img_enum = 'THUMBNAIL') AS pimgUrl1,
+		    (SELECT p_img_url FROM p_img WHERE product_id = p.product_id AND p_img_seq = 2 AND p_img_enum = 'THUMBNAIL') AS pimgUrl2,
+		    (SELECT p_img_url FROM p_img WHERE product_id = p.product_id AND p_img_seq = 3 AND p_img_enum = 'THUMBNAIL') AS pimgUrl3,
+		    p.type_category_id,
+		    p.d_category_id,
+		    u.u_category_id
+		FROM product p
+		JOIN d_category d ON p.d_category_id = d.d_category_id
+		JOIN u_category u ON d.u_category_id = u.u_category_id
+		WHERE p.store_id = #{storeId}
+		  AND p.delete_check = 0
+		</select>
+		
+		<update id="updateMainProduct" parameterType="persnonalProductDTO">
+		  UPDATE product
+		  SET
+		    product_name = #{productName},
+		    product_detail = #{productDetail},
+		    price = #{price},
+		    stock = #{stock},
+		    type_category_id = #{typeCategoryId},
+		    d_category_id = #{dcategoryId},
+		    last_modified_date = SYSDATE
+		  WHERE product_id = #{productId}
+		    AND store_id = #{storeId}  <!-- storeId와 일치하는 데이터만 수정 -->
+		</update>
+	
+		<select id="checkProductBelongsToSellerStore" resultType="int">
+		  SELECT COUNT(*) 
+		  FROM product p
+		  JOIN store s ON p.store_id = s.store_id
+		  JOIN seller sel ON s.seller_id = sel.seller_id
+		  WHERE p.product_id = #{productId}
+		    AND sel.seller_id = #{sellerId}
+		    AND s.store_id = #{storeId}
+		    AND sel.personal_check = 1
+		</select>
+		
+		<update id="deleteMainProductById" parameterType="int">
+		  UPDATE product
+		  SET delete_check = 1,
+		      last_modified_date = SYSDATE
+		  WHERE product_id = #{productId}
+		</update>
+</mapper>

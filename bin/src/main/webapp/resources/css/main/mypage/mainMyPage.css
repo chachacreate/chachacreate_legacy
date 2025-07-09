@@ -1,0 +1,227 @@
+/* 기본 세팅 */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Noto Sans KR', sans-serif;
+  background-color: #f7f6f2;
+  color: #333;
+}
+
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* ===== 메인 ===== */
+.main-area {
+  max-width: 1440px;
+  width: 100%;
+  display: flex;
+  padding: 20px;
+  margin: 0 auto;
+  flex: 1;
+}
+
+
+/* 콘텐츠 */
+.page-content {
+  flex: 1;
+  margin-left: 30px;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.05);
+}
+/* 메인콘텐츠 */
+/* 마이정보 폼 */
+.info-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.form-group input {
+  padding: 10px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.address-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.search-btn {
+  padding: 10px 15px;
+  background-color: #676f58;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.search-btn:hover {
+  background-color: #5a614f;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.save-btn {
+  background-color: #676f58;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  background-color: #ccc;
+  color: #333;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.save-btn:hover {
+  background-color: #505645;
+}
+
+.cancel-btn:hover {
+  background-color: #bbb;
+}
+
+/* 결제수단 */
+.payment-section {
+  margin-top: 50px;
+  border-top: 1px solid #ddd;
+  padding-top: 30px;
+}
+
+.toggle-payment-form {
+  padding: 10px 20px;
+  background-color: #676f58;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.toggle-payment-form:hover {
+  background-color: #505645;
+}
+
+.payment-form select,
+.payment-form input[type="text"] {
+  padding: 10px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+}
+
+.card-expiry {
+  display: flex;
+  gap: 10px;
+}
+
+/* 등록된 카드 정보 */
+.registered-payment {
+  margin-top: 40px;
+}
+
+.registered-payment h3 {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.card-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f1f1f1;
+  padding: 15px 20px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.card-info {
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.card-date {
+  color: #777;
+  font-size: 14px;
+}
+
+.card-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-btn,
+.delete-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.edit-btn {
+  background-color: #888;
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: #666;
+}
+
+.delete-btn {
+  background-color: #e57373;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #d32f2f;
+}
+
+/* ===== 푸터 ===== */
+.site-footer {
+  background-color: #676f58;
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  margin-top: 40px;
+}
+
+.footer-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 20px;
+}

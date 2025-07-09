@@ -1,0 +1,277 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined");
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background-color: #f7f6f2;
+  margin: 0;
+  padding: 0;
+}
+
+/* 📦 전체 컨테이너 */
+.container-store {
+  max-width: 1280px;
+  margin: 0 auto;
+  background-color: #fdfbf7;
+}
+
+main {
+  padding: 40px 0;
+}
+
+section {
+  margin-bottom: 60px;
+}
+h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* 🏷️ 스토어 배너 */
+.store-banner {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  background-color: #fff6ee;
+  padding: 32px;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  margin-bottom: 40px;
+  margin-top:20px;
+}
+.store-banner img {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 16px;
+}
+.store-intro h1 {
+  font-size: 28px;
+  color: #2d4739;
+}
+.store-intro p {
+  font-size: 15px;
+  color: #555;
+}
+
+/* 📣 공지사항 */
+.store-notice {
+  background: #fff1e0;
+  padding: 10px 16px;
+  margin-bottom: 30px;
+  border-left: 6px solid #d6aa7b;
+  font-size: 14px;
+  color: #333;
+}
+
+/* 🧭 카테고리 탭 */
+.category-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+.category-tabs .tab {
+  padding: 8px 20px;
+  background-color: #eee;
+  border-radius: 20px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+.category-tabs .tab.active {
+  background-color: #2d4739;
+  color: white;
+}
+
+/* 🛍️ 상품 그리드 */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 24px;
+  margin-bottom: 60px;
+}
+
+/* 🧾 리뷰 요약 */
+.review-summary {
+  background-color: #fafafa;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 15px;
+  color: #666;
+}
+
+/* Swiper */
+.swiper {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  padding: 20px 0;
+}
+
+.swiper-wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 30px;
+}
+
+.swiper-slide {
+  flex: 0 0 calc((100% - 60px) / 3);
+  max-width: calc((100% - 60px) / 3);
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+
+
+/* 반응형 */
+@media (max-width: 1024px) {
+  .swiper-slide {
+    flex: 1 1 calc(50% - 30px);
+  }
+}
+@media (max-width: 640px) {
+  .swiper-slide {
+    flex: 1 1 100%;
+  }
+}
+
+/* Swiper pagination (불릿) */
+.swiper-pagination-bullet {
+  background-color: #aaa;
+}
+.swiper-pagination-bullet-active {
+  background-color: #2d4739;
+}
+
+/* 상품 카드 */
+.product-section {
+  padding-block: 5rem;
+  font-family: 'Lato', sans-serif;
+  color: #111;
+}
+
+.product-card {
+  width: 100%;
+  max-width: 320px;
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+}
+
+
+.product-image-box {
+  position: relative;
+  height: 240px;
+  overflow: hidden;
+}
+.product-image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-icon {
+  position: absolute;
+  bottom: -6px;
+  right: -6px;
+  width: 90px;
+  height: 90px;
+  background: #2d4739;
+  border-top-left-radius: 50%;
+  overflow: hidden;
+}
+.product-icon::after {
+  content: "";
+  position: absolute;
+  top: -20px;
+  right: 6px;
+  width: 20px;
+  height: 20px;
+  background: transparent;
+  border-bottom-right-radius: 20px;
+  box-shadow: 5px 5px 0 5px #2d4739;
+  z-index: 0;
+}
+.product-icon a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #282828;
+  color: #fff;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 1.6rem;
+  z-index: 2;
+}
+.product-icon a:hover {
+  transform: scale(1.1);
+}
+.curve-shadow {
+  position: absolute;
+  bottom: -10px;
+  right: -10px;
+  width: 40px;
+  height: 40px;
+  background-color: #2d4739;
+  border-top-left-radius: 50%;
+  z-index: 0;
+}
+
+.product-content {
+  padding: 1rem;
+}
+.product-content h3 {
+  font-size: 1.3rem;
+  text-transform: capitalize;
+}
+.product-content p {
+  font-size: 0.95rem;
+  color: #666;
+  margin-top: 0.5rem;
+}
+
+.category-badges {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.badge {
+  background-color: #d3b19a;
+  color: #282828;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 8px;
+  text-transform: uppercase;
+}
+
+/* Footer */
+footer {
+  background-color: #2d4739;
+  text-align: center;
+  font-size: 14px;
+  color: #aaa;
+  padding: 20px 0;
+  margin-top: 40px;
+  border-top: 1px solid #ddd;
+}

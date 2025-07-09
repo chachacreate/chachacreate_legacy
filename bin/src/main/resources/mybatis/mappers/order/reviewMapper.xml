@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.chacha.create.common.mapper.order.ReviewMapper">
+
+	<resultMap id="reviewResultMap" type="reviewEntity">
+		<id property="reviewId" column="review_id" />
+		<result property="orderDetailId" column="order_detail_id" />
+		<result property="reviewDate" column="review_date" />
+		<result property="reviewText" column="review_text" />
+	</resultMap>
+
+	<select id="selectAll" resultMap="reviewResultMap">
+		SELECT * FROM review
+	</select>
+
+	<select id="selectByReviewId" resultMap="reviewResultMap">
+		SELECT * FROM review WHERE
+		review_id = #{reviewId}
+	</select>
+	
+	<select id="selectByMemberId" resultMap="reviewResultMap">
+		SELECT
+			r.review_id,
+			r.order_detail_id,
+			r.review_date,
+			r.review_text
+		FROM
+			review r
+		JOIN order_detail od ON r.order_detail_id = od.order_detail_id
+		JOIN order_info o ON od.order_id = o.order_id
+		WHERE o.member_id = #{memberId}
+		ORDER BY r.review_date DESC
+	</select>
+	
+	<select id="selectByOrderDetailId" resultMap="reviewResultMap">
+		SELECT * FROM
+		review WHERE order_detail_id = #{orderDetailId}
+	</select>
+	
+	<!-- 상품에 대한 전체 리뷰 조회 + 내 리뷰 우선 -->
+	<select id="selectByProductId" resultType="reviewDTO">
+	    SELECT r.review_id,
+		            r.order_detail_id,
+		            r.review_date,
+		            r.review_text,
+		            oi.member_id,
+		            m.member_name
+	    FROM review r
+	    JOIN order_detail od ON r.order_detail_id = od.order_detail_id
+	    JOIN order_info oi ON od.order_id = oi.order_id
+	    JOIN member m ON oi.member_id = m.member_id
+	    WHERE od.product_id = #{productId}
+	    ORDER BY
+	        <choose>
+	            <when test="memberId != null">
+	                CASE WHEN oi.member_id = #{memberId} THEN 0 ELSE 1 END,
+	                r.review_date DESC
+	            </when>
+	            <otherwise>
+	                r.review_date DESC
+	            </otherwise>
+	        </choose>
+	</select>
+	
+	<!-- 리뷰 작성 가능 여부 체크 -->
+	<select id="selectForCheckReview" resultType="int">
+	    SELECT COUNT(*)
+	    FROM order_detail od
+	    JOIN order_info oi ON od.order_id = oi.order_id
+	    WHERE od.order_detail_id = #{orderDetailId}
+	      AND oi.member_id = #{memberId}
+	      AND NOT EXISTS (
+	          SELECT 1
+	          FROM review r
+	          WHERE r.order_detail_id = od.order_detail_id
+	      )
+	</select>
+	
+	<insert id="insert" parameterType="reviewEntity">
+		INSERT INTO review (review_id,
+		order_detail_id, review_date, review_text)
+		VALUES
+		(seq_review_id.NEXTVAL, #{orderDetailId}, #{reviewDate},
+		#{reviewText})
+	</insert>
+
+	<update id="update">
+	    UPDATE review
+	    SET review_text = #{review.reviewText},
+	        review_date = #{review.reviewDate}
+	    WHERE review_id = #{review.reviewId}
+	      AND order_detail_id IN (
+	          SELECT od.order_detail_id
+	          FROM order_detail od
+	          JOIN order_info oi ON od.order_id = oi.order_id
+	          WHERE oi.member_id = #{memberId}
+	      )
+	</update>
+
+	<delete id="delete">
+	    DELETE FROM review
+	    WHERE review_id = #{reviewId}
+	      AND order_detail_id IN (
+	          SELECT od.order_detail_id
+	          FROM order_detail od
+	          JOIN order_info oi ON od.order_id = oi.order_id
+	          WHERE oi.member_id = #{memberId}
+	      )
+	</delete>
+
+	<select id="selectByStoreUrl" resultType="map"
+		parameterType="string">
+		SELECT r.review_date, m.member_name,
+		TO_CHAR(r.review_text) review_text, p.product_name, p.product_date
+		FROM review r
+		JOIN order_detail od ON r.order_detail_id = od.order_detail_id
+		JOIN order_info oi ON od.order_id = oi.order_id
+		JOIN member m ON oi.member_id = m.member_id 
+		JOIN product p ON od.product_id = p.product_id
+		JOIN store s ON p.store_id = s.store_id
+		WHERE s.store_url = #{storeUrl}
+		ORDER BY r.review_date DESC
+	</select>
+	
+	<select id="selectAllmyReview"
+		resultType="com.chacha.create.common.dto.product.ReviewManagementDTO">
+		SELECT 
+		    R.REVIEW_DATE,
+		    PIMG.p_img_url,
+		    P.PRODUCT_NAME,
+		    O.MEMBER_ID,
+		    R.REVIEW_TEXT
+		FROM REVIEW R
+		JOIN ORDER_DETAIL OD ON R.ORDER_DETAIL_ID = OD.ORDER_DETAIL_ID
+		JOIN ORDER_INFO O ON OD.ORDER_ID = O.ORDER_ID
+		JOIN PRODUCT P ON OD.PRODUCT_ID = P.PRODUCT_ID
+		JOIN STORE S ON P.STORE_ID = S.STORE_ID
+		LEFT JOIN P_IMG PIMG 
+		    ON P.PRODUCT_ID = PIMG.PRODUCT_ID 
+		WHERE 
+		    PIMG.P_IMG_ENUM = 'THUMBNAIL'
+		    AND PIMG.P_IMG_SEQ = 1
+		    AND P.DELETE_CHECK = 0
+		    AND S.STORE_URL = #{storeUrl}
+		ORDER BY R.REVIEW_DATE DESC
+	</select>
+
+</mapper>

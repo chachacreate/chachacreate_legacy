@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chacha.create.common.mapper.store.ReportMapper">
+
+	<resultMap id="reportResultMap" type="reportEntity">
+		<id property="reportId" column="report_id" />
+		<result property="memberId" column="member_id" />
+		<result property="sellerId" column="seller_id" />
+		<result property="reportDate" column="report_date" />
+		<result property="reportTitle" column="report_title" />
+		<result property="reportText" column="report_text" />
+	</resultMap>
+
+	<select id="selectAll" resultMap="reportResultMap">
+		SELECT * FROM report
+	</select>
+
+	<select id="selectByReportId" resultMap="reportResultMap"
+		parameterType="int">
+		SELECT * FROM report WHERE report_id = #{reportId}
+	</select>
+
+	<select id="selectByMemberId" resultMap="reportResultMap"
+		parameterType="int">
+		SELECT * FROM report WHERE member_id = #{memberId}
+	</select>
+
+	<select id="selectBySellerId" resultMap="reportResultMap"
+		parameterType="int">
+		SELECT * FROM report WHERE seller_id = #{sellerId}
+	</select>
+
+	<insert id="insert" parameterType="reportEntity">
+		INSERT INTO report (report_id, member_id, seller_id, report_date,
+		report_title, report_text)
+		VALUES (seq_report_id.NEXTVAL, #{memberId}, #{sellerId}, #{reportDate},
+		#{reportTitle}, #{reportText})
+	</insert>
+
+	<update id="update" parameterType="reportEntity">
+		UPDATE report
+		SET member_id = #{memberId}, seller_id = #{sellerId}, report_date =
+		#{reportDate},
+		report_title = #{reportTitle}, report_text = #{reportText}
+		WHERE report_id = #{reportId}
+	</update>
+
+	<delete id="delete" parameterType="int">
+		DELETE FROM report WHERE report_id = #{reportId}
+	</delete>
+
+</mapper>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.chacha.create.common.mapper.store.NoticeMapper">
+
+	<resultMap id="noticeResultMap" type="noticeEntity">
+		<id property="noticeId" column="notice_id" />
+		<result property="storeId" column="store_id" />
+		<result property="noticeCheck" column="notice_check" />
+		<result property="noticeTitle" column="notice_title" />
+		<result property="noticeText" column="notice_text" />
+		<result property="noticeDate" column="notice_date" />
+	</resultMap>
+
+	<select id="selectAll" resultMap="noticeResultMap">
+		SELECT * FROM notice
+	</select>
+
+	<select id="selectByNoticeId" resultMap="noticeResultMap"
+		parameterType="int">
+		SELECT * FROM notice WHERE notice_id = #{noticeId}
+	</select>
+
+	<select id="selectByStoreId" resultMap="noticeResultMap"
+		parameterType="int">
+		SELECT * FROM notice WHERE store_id = #{storeId}
+	</select>
+
+	<insert id="insert" parameterType="noticeEntity">
+		INSERT INTO notice (notice_id,
+		store_id, notice_check, notice_title,
+		notice_text, notice_date)
+		VALUES
+		(seq_notice_id.NEXTVAL, #{storeId}, #{noticeCheck}, #{noticeTitle},
+		#{noticeText}, #{noticeDate})
+	</insert>
+
+	<update id="update" parameterType="noticeEntity">
+		UPDATE notice
+		SET store_id =
+		#{storeId}, notice_check = #{noticeCheck}, notice_title =
+		#{noticeTitle},
+		notice_text = #{noticeText}, notice_date =
+		#{noticeDate}
+		WHERE notice_id = #{noticeId}
+	</update>
+
+	<delete id="delete" parameterType="int">
+		DELETE FROM notice WHERE
+		notice_id = #{noticeId}
+	</delete>
+
+	<select id="noticeList" parameterType="string" resultType="map">
+		SELECT n.notice_id AS noticeId, n.notice_title AS noticeTitle,
+		m.member_name AS memberName, to_char(n.notice_date,'rr-MM-dd') AS noticeDate
+		from notice n
+		JOIN store st ON n.store_id = st.store_id
+		JOIN seller se ON
+		st.seller_id = se.seller_id
+		JOIN member m ON se.member_id = m.member_id
+		where st.store_url = #{aa}
+	</select>
+
+	<select id="noticeDetailList" resultType="map">
+		SELECT n.notice_id AS noticeId, n.notice_title AS
+		noticeTitle, TO_CHAR(n.notice_text) AS noticeText, m.member_name AS memberName,
+		n.notice_date AS noticeDate
+		from notice n
+		JOIN store st ON n.store_id = st.store_id
+		JOIN seller se ON st.seller_id = se.seller_id
+		JOIN member m ON se.member_id = m.member_id
+		where st.store_url = #{storeUrl} and n.notice_id= #{noticeId} 
+	</select>
+
+</mapper>
