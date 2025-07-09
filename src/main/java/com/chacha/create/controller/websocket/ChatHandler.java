@@ -105,7 +105,7 @@ public class ChatHandler extends TextWebSocketHandler {
         List<MessageDTO> oldMessages = null;
         log.info("fromstore : " + fromstore);
         if (fromstore) {
-        	int storeId = storeMapper.selectBySellerId(sellerMapper.selectByMemberId(loginMember.getMemberId()).getMemberId()).getStoreId();
+        	int storeId = storeMapper.selectBySellerId(sellerMapper.selectByMemberId(loginMember.getMemberId()).getSellerId()).getStoreId();
         	log.info("스토어 ID : " + storeId);
         	oldMessages = messageService.getMemberStoreAllMessage(storeId, chatroomId);
         }else {
