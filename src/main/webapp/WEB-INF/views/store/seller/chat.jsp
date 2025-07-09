@@ -86,7 +86,7 @@ $(document).ready(function() {
                     const itemHtml = `
                         <li class="chat-room-item" data-room-id="\${room.chatroomId}" data-store-url="\${room.storeUrl}">
                             <div class="chat-room-name">\${room.memberName}</div>
-                            <div class="chat-room-preview" data-room-id="\${room.chatroomId}">\${room.chattingText}</div>
+                            <div class="chat-room-preview" data-room-id="\${room.chatroomId}">\${room.chattingText? room.chattingText:'채팅이 없습니다.'}</div>
                         </li>
                     `;
                     $list.append(itemHtml);
