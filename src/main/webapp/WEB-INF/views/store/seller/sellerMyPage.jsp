@@ -74,52 +74,65 @@
           </a>
 
           <%-- 리뷰 박스 --%>
-          <a href="#" style="text-decoration: none; color: inherit;">
-            <div class="member-box scroll-box">
-              <div class="member-header">
-                <div class="title-with-info">
-                  <h2>신규 리뷰관리</h2>
-                </div>
-              </div>
-              <div class="member-body">
-                <div class="review-content-row">
-                  <a href="${cpath}/${storeUrl}/seller/reviews" class="frame-1035 link-box fixed-width">
-                    <div class="ellipse-1">
-                      <iconify-icon icon="mdi:pencil-box-outline" class="icon-inner"></iconify-icon>
-                    </div>
-                    <div class="frame-1039">
-                      <div class="div11">신규리뷰</div>
-                      <div class="_1000">${reviewCount}건</div>
-                    </div>
-                  </a>
-                  <div class="reviewgraph-placeholder right-side">
-                    <table style="width: 80%; border-collapse: collapse;">
-                      <thead>
-                        <tr style="background-color: #6c734d; color: white; text-align: center;">
-                          <th>리뷰 작성일</th>
-                          <th>작성자</th>
-                          <th>상품명</th>
-                          <th>리뷰 내용</th>
-                          <th>상품 등록일</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <c:forEach var="review" items="${reviewList}">
-                          <tr style="text-align: center; border-bottom: 1px solid #ccc;">
-                            <td><fmt:formatDate value="${review.REVIEW_DATE}" pattern="yyyy-MM-dd" /></td>
-                            <td>${review.MEMBER_NAME}</td>
-                            <td>${review.PRODUCT_NAME}</td>
-                            <td style="white-space: pre-line;">${review.REVIEW_TEXT}</td>
-                            <td><fmt:formatDate value="${review.PRODUCT_DATE}" pattern="yyyy-MM-dd" /></td>
-                          </tr>
-                        </c:forEach>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
+<a href="#" style="text-decoration: none; color: inherit;">
+  <div class="member-box scroll-box">
+    <div class="member-header">
+      <div class="title-with-info">
+        <h2>신규 리뷰관리</h2>
+      </div>
+    </div>
+
+    <div class="member-body">
+      <div class="review-content-row">
+        <a href="${cpath}/${storeUrl}/seller/reviews" class="frame-1035 link-box fixed-width">
+          <div class="ellipse-1">
+            <iconify-icon icon="mdi:pencil-box-outline" class="icon-inner"></iconify-icon>
+          </div>
+          <div class="frame-1039">
+            <div class="div11">신규리뷰</div>
+            <div class="_1000">${reviewCount}건</div>
+          </div>
+        </a>
+
+        <div class="reviewgraph-placeholder right-side">
+          <div class="review-table-wrapper">
+            <table class="review-table">
+              <thead>
+                <tr style="background-color: #6c734d; color: white; text-align: center;">
+                  <th>리뷰 작성일</th>
+                  <th>작성자</th>
+                  <th>상품명</th>
+                  <th>리뷰 내용</th>
+                  <th>상품 등록일</th>
+                </tr>
+              </thead>
+              <tbody id="review-body">
+                <c:forEach var="review" items="${reviewList}" varStatus="status">
+                  <tr class="review-row <c:if test='${!status.first}'>hidden</c:if>">
+                    <td><fmt:formatDate value="${review.REVIEW_DATE}" pattern="yyyy-MM-dd" /></td>
+                    <td>${review.MEMBER_NAME}</td>
+                    <td>${review.PRODUCT_NAME}</td>
+                    <td style="white-space: pre-line;">${review.REVIEW_TEXT}</td>
+                    <td><fmt:formatDate value="${review.PRODUCT_DATE}" pattern="yyyy-MM-dd" /></td>
+                  </tr>
+                </c:forEach>
+              </tbody>
+            </table>
+
+            <div class="review-btn-wrapper">
+              <button class="toggle-review-btn" onclick="toggleReviews()">전체 리뷰 보기</button>
             </div>
-          </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</a>
+
+          
+          
+          
+          
         </div>
       </main>
     </div>
@@ -129,6 +142,23 @@
 </body>
 
 <script>
+
+let isExpanded = false;
+
+function toggleReviews() {
+  const rows = document.querySelectorAll(".review-row");
+  const button = document.querySelector(".toggle-review-btn");
+
+  rows.forEach((row, index) => {
+    if (index > 0) {
+      row.classList.toggle("hidden");
+    }
+  });
+
+  isExpanded = !isExpanded;
+  button.textContent = isExpanded ? "리뷰 접기" : "전체 리뷰 보기";
+}
+
   $(document).ready(function() {
     const storeUrl = '${storeUrl}';
     $.ajax({

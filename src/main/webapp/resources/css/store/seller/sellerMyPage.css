@@ -30,6 +30,39 @@
   gap: 30px;
 }
 
+/* 리뷰 테이블 토글 관련 */
+.hidden {
+  display: none;
+}
+
+.review-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  max-height: 200px; /* 초기 높이 제한 */
+  position: relative;
+}
+
+.review-btn-wrapper {
+  text-align: right;
+  margin-top: 8px;
+}
+
+.toggle-review-btn {
+  background-color: #34432d;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.toggle-review-btn:hover {
+  background-color: #2a3e34;
+}
+
+
 .member-box {
   padding: 20px;
   background-color: #fff;
