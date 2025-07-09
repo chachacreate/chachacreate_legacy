@@ -1,63 +1,64 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="/common/header.jsp" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ include file="/common/header.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>판매자페이지 채팅방</title>
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/store/chat.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
+<meta charset="UTF-8">
+<title>판매자페이지 채팅방</title>
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/store/chat.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script
+	src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
 </head>
 <body>
-<div class="wrapper">
-  <div class="main-area">
-    <div class="content-wrapper">
-      <!-- 사이드바 -->
-      <%@ include file="/common/store_seller_sidenav.jsp" %>
+	<div class="wrapper">
+		<div class="main-area">
+			<div class="content-wrapper">
+				<!-- 사이드바 -->
+				<%@ include file="/common/store_seller_sidenav.jsp"%>
 
-      <!-- 메인 콘텐츠 (chat.jsp 내용) -->
-      <main class="content">
-        <div class="content-inner">
-          
-          <div class="chat-container">
+				<!-- 메인 콘텐츠 (chat.jsp 내용) -->
+				<main class="content">
+					<div class="content-inner">
 
-            <!-- 채팅방 목록 -->
-            <div class="chat-sidebar">
-              <h2>채팅방</h2>
-              <div class="chat-search">
-                <input type="text" id='chat-search-input' placeholder="채팅방 검색">
-              </div>
-              <ul id="chat-room-list" class="chat-room-list">
-              </ul>
-            </div>
+						<div class="chat-container">
 
-            <!-- 채팅방 내용 -->
-            <div class="chat-main">
-              <div class="chat-header">
-                <h3></h3>
-              </div>
-              <div class="chat-messages">
+							<!-- 채팅방 목록 -->
+							<div class="chat-sidebar">
+								<h2>채팅방</h2>
+								<div class="chat-search">
+									<input type="text" id='chat-search-input' placeholder="채팅방 검색">
+								</div>
+								<ul id="chat-room-list" class="chat-room-list">
+								</ul>
+							</div>
 
-              </div>
-              <div class="chat-input">
-                <input type="text" placeholder="메시지를 입력하세요">
-                <button>전송</button>
-              </div>
-            </div>
+							<!-- 채팅방 내용 -->
+							<div class="chat-main">
+								<div class="chat-header">
+									<h3></h3>
+								</div>
+								<div class="chat-messages"></div>
+								<div class="chat-input">
+									<input type="text" placeholder="메시지를 입력하세요">
+									<button>전송</button>
+								</div>
+							</div>
 
-          </div>
+						</div>
 
-        </div>
-      </main>
+					</div>
+				</main>
 
-    </div>
-  </div>
+			</div>
+		</div>
 
-  <footer>&copy; 2025 뜨락상회</footer>
-</div>
+		<footer>&copy; 2025 뜨락상회</footer>
+	</div>
 
-<script>
+	<script>
 let socket = null;
 let currentRoomId = null;
 
@@ -145,6 +146,7 @@ $(document).ready(function() {
         socket.onmessage = function(event) {
             const msg = JSON.parse(event.data);
             console.log(msg);
+            if(msg.chattingText!=null){
             const formattedDate = formatDate(msg.chattingDate);
             let messageHtml = ``;
             if(parseInt(msg.memberCheck) === 1){
@@ -166,6 +168,7 @@ $(document).ready(function() {
             $chatMessages.append(messageHtml);
             $chatMessages.scrollTop($chatMessages[0].scrollHeight);  // 자동 스크롤
             updateChatRoomPreview(currentRoomId.toString(), msg.chattingText); // preview 업데이트
+            }
         };
 
         socket.onclose = function() {
