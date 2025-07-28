@@ -5,63 +5,89 @@
   "https://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 
-	<!-- log값 처리, jdbc가 null이 왔을때 처리 -->
-	<settings>
-		<setting name="logImpl" value="LOG4J" />
-		<setting name="jdbcTypeForNull" value="NULL" />
-	</settings>
+   <!-- log값 처리, jdbc가 null이 왔을때 처리 -->
+   <settings>
+      <setting name="logImpl" value="LOG4J" />
+      <setting name="jdbcTypeForNull" value="NULL" />
+      <setting name="mapUnderscoreToCamelCase" value="true"/>
+   </settings>
 
-	<!-- 타입 별칭 지정 -->
-	<typeAliases>
-		<!-- Entity의 type에 대한 별칭 지정 -->
-		<!-- category -->
-	    <typeAlias type="com.chacha.create.common.entity.category.DCategoryEntity" alias="dCategoryEntity" />
-	    <typeAlias type="com.chacha.create.common.entity.category.TypeCategoryEntity" alias="typeCategoryEntity" />
-	    <typeAlias type="com.chacha.create.common.entity.category.UCategoryEntity" alias="uCategoryEntity" />
-	    <!-- chat -->
-	    <typeAlias type="com.chacha.create.common.entity.chat.ChatroomEntity" alias="chatroomEntity" />
-	    <typeAlias type="com.chacha.create.common.entity.chat.ChattingEntity" alias="chattingEntity" />
-	    <!-- member -->
-	    <typeAlias type="com.chacha.create.common.entity.member.AddressEntity" alias="addressEntity" />
-	    <typeAlias type="com.chacha.create.common.entity.member.CardEntity" alias="cardEntity" />
-	    <typeAlias type="com.chacha.create.common.entity.member.CartEntity" alias="cartEntity" />
-	    <typeAlias type="com.chacha.create.common.entity.member.MemberEntity" alias="memberEntity" />
-	    <typeAlias type="com.chacha.create.common.entity.member.SellerEntity" alias="sellerEntity" />
-		<!-- order -->
-	    <typeAlias type="com.chacha.create.common.entity.order.DeliveryEntity" alias="deliveryEntity" />
-	    <typeAlias type="com.chacha.create.common.entity.order.OrderDetailEntity" alias="orderDetailEntity" />
-	    <typeAlias type="com.chacha.create.common.entity.order.OrderInfoEntity" alias="orderInfoEntity" />
-	    <typeAlias type="com.chacha.create.common.entity.order.ReviewEntity" alias="reviewEntity" />
-		<!-- product -->
-	    <typeAlias type="com.chacha.create.common.entity.product.PImgEntity" alias="pImgEntity" />
-	    <typeAlias type="com.chacha.create.common.entity.product.ProductEntity" alias="productEntity" />
-		<!-- store -->
-	    <typeAlias type="com.chacha.create.common.entity.store.NoticeEntity" alias="noticeEntity" />
-	    <typeAlias type="com.chacha.create.common.entity.store.QuestionEntity" alias="questionEntity" />
-	    <typeAlias type="com.chacha.create.common.entity.store.ReportEntity" alias="reportEntity" />
-	    <typeAlias type="com.chacha.create.common.entity.store.StoreEntity" alias="storeEntity" />
-	
-		<!-- DTO의 type에 대한 별칭 지정 -->
-	    <!-- <typeAlias type="com.chacha.create.model.[작업명].AddressDTO" alias="addressDTO" /> --> <!-- 예시임 -->
+   <!-- 타입 별칭 지정 -->
+   <typeAliases>
+      <!-- Entity의 type에 대한 별칭 지정 -->
+      <!-- category -->
+       <typeAlias type="com.chacha.create.common.entity.category.DCategoryEntity" alias="dCategoryEntity" />
+       <typeAlias type="com.chacha.create.common.entity.category.TypeCategoryEntity" alias="typeCategoryEntity" />
+       <typeAlias type="com.chacha.create.common.entity.category.UCategoryEntity" alias="uCategoryEntity" />
+       <!-- chat -->
+       <typeAlias type="com.chacha.create.common.entity.chat.ChatroomEntity" alias="chatroomEntity" />
+       <typeAlias type="com.chacha.create.common.entity.chat.ChattingEntity" alias="chattingEntity" />
+       <!-- member -->
+       <typeAlias type="com.chacha.create.common.entity.member.AddrEntity" alias="addrEntity" />
+       <typeAlias type="com.chacha.create.common.entity.member.AlterMessageEntity" alias="alterMessageEntity" />
+       <typeAlias type="com.chacha.create.common.entity.member.CardEntity" alias="cardEntity" />
+       <typeAlias type="com.chacha.create.common.entity.member.CartEntity" alias="cartEntity" />
+       <typeAlias type="com.chacha.create.common.entity.member.MemberEntity" alias="memberEntity" />
+       <typeAlias type="com.chacha.create.common.entity.member.SellerEntity" alias="sellerEntity" />
+      <!-- order -->
+       <typeAlias type="com.chacha.create.common.entity.order.DeliveryEntity" alias="deliveryEntity" />
+       <typeAlias type="com.chacha.create.common.entity.order.OrderDetailEntity" alias="orderDetailEntity" />
+       <typeAlias type="com.chacha.create.common.entity.order.OrderInfoEntity" alias="orderInfoEntity" />
+       <typeAlias type="com.chacha.create.common.entity.order.ReviewEntity" alias="reviewEntity" />
+      <!-- product -->
+       <typeAlias type="com.chacha.create.common.entity.product.PImgEntity" alias="pImgEntity" />
+       <typeAlias type="com.chacha.create.common.entity.product.ProductEntity" alias="productEntity" />
+      <!-- store -->
+       <typeAlias type="com.chacha.create.common.entity.store.NoticeEntity" alias="noticeEntity" />
+       <typeAlias type="com.chacha.create.common.entity.store.QuestionEntity" alias="questionEntity" />
+       <typeAlias type="com.chacha.create.common.entity.store.ReportEntity" alias="reportEntity" />
+       <typeAlias type="com.chacha.create.common.entity.store.StoreEntity" alias="storeEntity" />
+   
+   	  <!-- Enum에 대한 별칭 지정 -->
+       <typeAlias type="com.chacha.create.common.enums.order.OrderStatusEnum" alias="orderStatusEnum" />
+   
+      <!-- DTO의 type에 대한 별칭 지정 -->
+       <typeAlias type="com.chacha.create.common.dto.chat.MessageDTO" alias="messageDTO" />
+       <typeAlias type="com.chacha.create.common.dto.chat.ChatroomWithMessagesDTO" alias="chatroomWithMessagesDTO" />
+       <typeAlias type="com.chacha.create.common.dto.chat.ChatRoomInfoDTO" alias="chatRoomInfoDTO" />
+       
+       <typeAlias type="com.chacha.create.common.dto.product.HomeDTO" alias="homeDTO" />
+       <typeAlias type="com.chacha.create.common.dto.product.HomeProductDTO" alias="homeProductDTO" />
+       <typeAlias type="com.chacha.create.common.dto.product.ProductDetailDTO" alias="productDetailDTO" />
+       <typeAlias type="com.chacha.create.common.dto.product.PersonalProductDTO" alias="persnonalProductDTO" />
+       <typeAlias type="com.chacha.create.common.dto.product.ProductUpdateDTO" alias="productUpdateDTO" />
+       <typeAlias type="com.chacha.create.common.dto.product.ProductlistDTO" alias="productlistDTO" />
+       <typeAlias type="com.chacha.create.common.dto.product.ReviewDTO" alias="reviewDTO" />
+       <typeAlias type="com.chacha.create.common.dto.store.StoreInfoManagementDTO" alias="storeInfoManagementDTO" />
+       
+       <typeAlias type="com.chacha.create.common.dto.manager.ManagerAdjustmentDTO" alias="managerAdjustmentDTO" />
+       
+       <typeAlias type="com.chacha.create.common.dto.member.SellerInfoDTO" alias="sellerInfoDTO" />
+       
+       <typeAlias type="com.chacha.create.common.dto.login.KakaoTokenResponseDTO" alias="kakaoTokenResponseDTO" />
+       
+       <typeAlias type="com.chacha.create.common.dto.order.OrderSumDTO" alias="orderSumDTO" />
+       <typeAlias type="com.chacha.create.common.dto.order.OrderDTO" alias="orderDTO" />
 
-	</typeAliases>
-	
-	<!-- Enum과 DB 매핑 -->
-	<typeHandlers>
+       <typeAlias type="com.chacha.create.common.dto.store.StoreInfoDTO" alias="storeInfoDTO" />
+   </typeAliases>
+   
+   <!-- Enum과 DB 매핑 -->
+   <typeHandlers>
     <!-- 상위 카테고리 Enum용 TypeHandler -->
-    <typeHandler handler="com.chacha.create.common.typehandler.UCategoryEnumTypeHandler"/>
+    <typeHandler handler="com.chacha.create.common.typehandler.UCategoryEnumTypeHandler" javaType="com.chacha.create.common.enums.category.UCategoryEnum"/>
     
     <!-- 하위 카테고리 Enum용 TypeHandler -->
-    <typeHandler handler="com.chacha.create.common.typehandler.DCategoryEnumTypeHandler"/>
+    <typeHandler handler="com.chacha.create.common.typehandler.DCategoryEnumTypeHandler" javaType="com.chacha.create.common.enums.category.DCategoryEnum"/>
     
     <!-- 수공예 기법 Enum용 TypeHandler -->
-    <typeHandler handler="com.chacha.create.common.typehandler.TypeCategoryEnumTypeHandler"/>
+    <typeHandler handler="com.chacha.create.common.typehandler.TypeCategoryEnumTypeHandler" javaType="com.chacha.create.common.enums.category.TypeCategoryEnum"/>
     
     <!-- 상품 이미지 Enum용 TypeHandler (예: PImgEnumTypeHandler) -->
-    <typeHandler handler="com.chacha.create.common.typehandler.ProductImageTypeEnumTypeHandler"/>
+    <typeHandler handler="com.chacha.create.common.typehandler.ProductImageTypeEnumTypeHandler" javaType="com.chacha.create.common.enums.image.ProductImageTypeEnum"/>
     
     <!-- 주문 상태 Enum용 TypeHandler -->
-    <typeHandler handler="com.chacha.create.common.typehandler.OrderStatusEnumTypeHandler"/>
+    <typeHandler handler="com.chacha.create.common.typehandler.OrderStatusEnumTypeHandler" javaType="com.chacha.create.common.enums.order.OrderStatusEnum"/>
   </typeHandlers>
 
 </configuration>

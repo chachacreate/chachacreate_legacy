@@ -1,0 +1,166 @@
+@charset "UTF-8";
+
+body {
+  margin: 0;
+  font-family: 'Noto Sans KR', sans-serif;
+  background-color: #ffffff;
+  color: #333;
+  padding: 0;
+}
+
+/* ✅ 본문 */
+.sale-container {
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;                /* ⭐ 가운데 정렬 */
+  padding: 60px 0px;            /* 상하 60px, 좌우 40px */
+  background-color: white;
+  box-sizing: border-box;
+}
+
+
+
+/* ✅ 소개 영역 */
+.intro-section {
+  margin-bottom: 40px;
+}
+
+.intro-section h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.intro-section ul {
+  margin-top: 16px;
+  padding-left: 20px;
+}
+
+.intro-section ul li {
+  margin-bottom: 8px;
+  list-style-type: disc;
+}
+
+.intro-flexbox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 16px;
+}
+
+.intro-flexbox ul {
+  margin: 0;
+  padding-left: 20px;
+  flex: 1;
+}
+
+.start-button-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.start-sell-btn {
+  background-color: #2d4739;
+  color: #fff;
+  padding: 14px 28px;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.3s ease;
+}
+
+.start-sell-btn:hover {
+  background-color: #3c5d49;
+}
+
+.tip-box {
+  margin-top: 20px;
+  background-color: #fffbe6;
+  padding: 16px;
+  border-radius: 8px;
+  color: #c00;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ✅ 단계 안내 */
+/* ✅ 전체 섹션 */
+.step-section {
+  padding: 60px 40px;
+  background-color: #f8f9f5;
+}
+
+/* ✅ 래퍼 */
+.step-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: space-between;
+}
+
+/* ✅ 각 step 카드 */
+.step {
+  width: calc(50% - 15px);
+  background-color: #fff;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+  text-align: left;
+  transition: transform 0.2s ease;
+}
+
+.step:hover {
+  transform: translateY(-6px);
+}
+
+/* ✅ STEP 헤더 */
+.step-header {
+  display: inline-block;
+  background-color: #a3cc7b;
+  color: #fff;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+/* ✅ 설명 텍스트 */
+.step p {
+  font-size: 15px;
+  color: #444;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+/* ✅ 이미지 */
+.step img {
+  width: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+  margin-top: 8px;
+}
+
+/* ✅ 반응형 (모바일) */
+@media (max-width: 768px) {
+  .step {
+    width: 100%;
+  }
+}
+
+
+/* ✅ 푸터 */
+footer {
+  background-color: #2d4739;
+  text-align: center;
+  font-size: 14px;
+  color: #aaa;
+  padding: 20px 0;
+  margin-top: 40px;
+  border-top: 1px solid #ddd;
+}

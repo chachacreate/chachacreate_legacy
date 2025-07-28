@@ -30,17 +30,17 @@ import lombok.NoArgsConstructor;
 public class PImgEntity {
 
     /** 상품 이미지 고유 ID (기본 키) */
-    private Integer pImgId;
+    private Integer pimgId;
 
     /** 이미지가 속한 상품 ID (product 테이블의 외래키) */
     private Integer productId;
 
     /** 이미지 URL 경로 */
-    private String pImgUrl;
+    private String pimgUrl;
 
     /** 이미지 타입 (예: 썸네일, 상세 설명 등, {@link ProductImageTypeEnum}) */
-    private ProductImageTypeEnum pImgEnum;
+    private ProductImageTypeEnum pimgEnum;
 
     /** 이미지 순서 (정렬용 시퀀스 번호) */
-    private Integer pImgSeq;
+    private Integer pimgSeq;
 }

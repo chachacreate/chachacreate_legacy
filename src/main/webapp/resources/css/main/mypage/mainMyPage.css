@@ -1,0 +1,349 @@
+/* 기본 세팅 */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Noto Sans KR', sans-serif;
+  background-color: #f7f6f2;
+  color: #333;
+}
+
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* ===== 메인 ===== */
+.main-area {
+  max-width: 1440px;
+  width: 100%;
+  display: flex;
+  padding: 20px;
+  margin: 0 auto;
+  flex: 1;
+}
+
+
+/* 콘텐츠 */
+.page-content {
+  flex: 1;
+  margin-left: 30px;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.05);
+}
+/* 메인콘텐츠 */
+/* 마이정보 폼 */
+.info-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.form-group input {
+  padding: 10px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.address-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.search-btn {
+  padding: 10px 15px;
+  background-color: #3a4d41;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.search-btn:hover {
+  background-color: #2a3e34;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.save-btn {
+  background-color: #3a4d41;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  background-color: #ccc;
+  color: #333;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.save-btn:hover {
+  background-color: #2a3e34;
+}
+
+.cancel-btn:hover {
+  background-color: #bbb;
+}
+
+/* 결제수단 */
+.payment-section {
+  margin-top: 50px;
+  border-top: 1px solid #ddd;
+  padding-top: 30px;
+}
+
+.toggle-payment-form {
+  padding: 10px 20px;
+  background-color: #3a4d41;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.toggle-payment-form:hover {
+  background-color: #2D4739;
+}
+
+.payment-form select,
+.payment-form input[type="text"] {
+  padding: 10px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+}
+
+.card-expiry {
+  display: flex;
+  gap: 10px;
+}
+
+/* -----판매자 정보/이력등록 수정용 */
+/* 🔸 폼 공통 */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+
+.cancel-btn {
+  background-color: #ccc;
+  color: #333;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.cancel-btn:hover {
+  background-color: #bbb;
+}
+
+/* 🔸 입력박스 공통 */
+.input-box,
+.input-box2,
+select {
+  padding: 10px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+/* 🔸 섹션 제목 */
+.section-box {
+  margin-bottom: 40px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-desc {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* 🔸 계좌 안내 박스 */
+.account-warning-box {
+  background-color: #f8fbf7;          /* 연한 민트톤 배경 */
+  border-left: 4px solid #2a3e34;     /* 좌측 포인트 강조선 */
+  border-radius: 10px;                /* 둥근 모서리 */
+  padding: 20px 24px;                 /* 안쪽 여백 */
+  margin-top: 12px;
+  margin-bottom: 20px;
+}
+
+.account-warning-title {
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  color: #2a3e34;                    /* 진한 녹색 글씨 */
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+.account-warning-list {
+  margin: 0;
+  padding-left: 20px;
+  color: #333;
+  font-size: 14px;
+  line-height: 1.6;
+}
+/* 🔸 계좌 입력 */
+.account-input {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.account-button {
+  background-color: #3a4d41;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.account-button:hover {
+  background-color: #2D4739;
+}
+
+/* 🔸 이력 등록 */
+.career-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.career-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  align-items: flex-start;
+}
+
+.upload-placeholder {
+  width: 500px;
+  height: 300px;
+  font-size: 40px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+/* .upload-placeholder img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+} */
+
+.career-text {
+  width: 100%;
+  min-height: 80px;
+  font-size: 14px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  resize: none;
+  box-sizing: border-box;
+}
+
+.char-count {
+  align-self: flex-end;
+  font-size: 12px;
+  color: #888;
+}
+
+/*  */
+
+.edit-btn,
+.delete-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.edit-btn {
+  background-color: #888;
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: #666;
+}
+
+.delete-btn {
+  background-color: #e57373;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #d32f2f;
+}
+
+/* ===== 푸터 ===== */
+footer {
+  background-color: #2d4739;
+  text-align: center;
+  font-size: 14px;
+  color: #aaa;
+  padding: 20px 0;
+  margin-top: 40px;
+  border-top: 1px solid #ddd;
+}

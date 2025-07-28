@@ -2,6 +2,8 @@ package com.chacha.create.common.entity.order;
 
 import java.sql.Date;
 
+import com.chacha.create.common.enums.order.OrderStatusEnum;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,6 +25,7 @@ import lombok.NoArgsConstructor;
  * orderPhone : 주문자 연락처
  * addressId  : 배송지 주소 ID (외래키, address 테이블과 연관)
  * cardId     : 결제 카드 ID (외래키, card 테이블과 연관)
+ * orderStatus : 처리 상태
  * </pre>
  */
 @Data
@@ -64,4 +67,9 @@ public class OrderInfoEntity {
      * 결제 카드 ID
      */
     private Integer cardId;
+    
+    /**
+     * 처리 상태
+     */
+    private OrderStatusEnum orderStatus;
 }

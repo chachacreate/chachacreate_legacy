@@ -1,0 +1,160 @@
+@charset "UTF-8";
+
+/* 전체 기본 */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background: #f7f6f2;
+  display: flex;
+  justify-content: center;
+}
+
+/* 메인 컨테이너 */
+.order-complete-container {
+  width: 100%;
+  max-width: 1200px;
+  padding: 60px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+/* 완료 메시지 */
+.complete-icon {
+  width: 100px;
+  height: 100px;
+}
+
+.complete-message {
+  font-size: 28px;
+  font-weight: 600;
+  color: #000;
+}
+
+.order-number {
+  font-size: 18px;
+  color: #676f58;
+  padding-bottom: 20px;
+}
+
+/* 주문 상품 섹션 */
+.order-section {
+  width: 100%;
+  max-width: 1120px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 30px;
+  margin-bottom: 50px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0px;
+  border-bottom: 2px solid #000;
+}
+
+.section-header h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.section-more {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* 공통 그리드 구조: 이미지 + 상품명 + 수량 + 가격 */
+.order-grid {
+  display: grid;
+  grid-template-columns: 150px 1fr 100px 150px;
+  align-items: center;
+  text-align: center;
+  padding: 10px 0;
+}
+
+.order-header {
+  border-bottom: 1px solid #000;
+  font-weight: 600;
+}
+
+.order-item {
+  border-bottom: 1px solid #ccc;
+}
+
+.product-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  justify-self: center;
+}
+
+/* 배송지/결제정보 */
+.horizontal-sections {
+  display: flex;
+  max-width: 1200px;
+  gap: 20px;
+  width: 100%;
+}
+
+.info-box {
+  flex: 1;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.info-box-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #000;
+  padding-bottom: 10px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.info-label {
+  font-weight: 500;
+  color: #333;
+}
+
+.info-value {
+  color: #000;
+}
+
+/* 하단 버튼 가로 정렬용 컨테이너 */
+.button-group {
+  display: flex;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+/* 홈/주문내역 돌아가기 버튼만 적용 */
+.button-group button {
+  background-color: #2a3e34;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button-group button:hover {
+  background-color: #222;
+}

@@ -1,0 +1,179 @@
+@charset "UTF-8";
+
+html, body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #f8f8f8;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.notice-container {
+  padding: 60px 240px 20px 240px;
+  background: white;
+   flex: 1; /* ✅ 남은 공간을 채움 */
+}
+
+.search-box {
+  margin-bottom: 30px;
+  display: flex;
+  gap: 12px;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 12px 16px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.search-box .search-btn {
+  padding: 12px 20px;
+  background-color: #2D4739;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.write-area {
+  margin-bottom: 30px;
+}
+
+#write-btn {
+  display: block;
+  font-size: 24px;
+  background: #676f58;
+  color: white;
+  border: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+#write-form {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+#write-form input,
+#write-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+#write-form button {
+  background: #676f58;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.notice-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 40px;
+}
+
+.notice-table th,
+.notice-table td {
+  padding: 16px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+.accordion {
+  cursor: pointer;
+  background-color: #fff;
+}
+
+.accordion:hover {
+  background-color: #f1f1f1;
+}
+
+.answer-row {
+  background-color: #fafafa;
+}
+
+.answer {
+  padding: 20px;
+  color: #555;
+  line-height: 1.5;
+}
+
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding-bottom: 16px;
+}
+
+.pagination a {
+  padding: 8px 14px;
+  background: #eee;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #555;
+  cursor: pointer;
+}
+
+.pagination a.active {
+  background-color: #676f58;
+  color: white;
+}
+
+/* 공지사항 목록 테이블 스타일 */
+.notice-header {
+  background-color: #fffef4;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.notice-header:hover {
+  background-color: #fef0c9;
+}
+
+.notice-header td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+  font-size: 15px;
+}
+
+/* 클릭시 열리는 공지 상세 내용 */
+.notice-content {
+  background-color: #fff;
+  font-size: 14px;
+}
+
+.notice-content .notice-text {
+  padding: 16px;
+  border-bottom: 1px solid #ddd;
+  color: #333;
+}
+
+
+/* 푸터 스타일 */
+footer {
+ margin-top: 0;
+  background: #2d4739;
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  font-size: 14px;
+}
+
+

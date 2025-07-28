@@ -1,0 +1,273 @@
+@charset "UTF-8";
+
+/* 湲곕낯 �ㅼ�� */
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background-color: #ffffff;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+/* ���� �ㅻ�� */
+.header-banner {
+  background: #ebfee1;
+  padding: 32px 40px;
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0; /* �ㅻ�� ���� 怨��� */
+}
+
+/* ������ seller-container */
+.seller-container {
+  flex: 1;
+  overflow-y: auto;       /* �� �ㅽ�щ· ���� */
+  padding: 24px 240px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 32px;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between; /* �쇱そ怨� �ㅻⅨ履� ����瑜� ���쇰� 遺�由� */
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 20px;
+}
+
+.logo-title-wrapper {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+.page-title {
+  font-size: 44px;
+  font-weight: 700;
+}
+
+body {
+  margin: 0;
+  font-family: 'Pretendard', sans-serif;
+  background-color: #fff;
+  color: #1e2124;
+}
+
+.main-title {
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 600px;  /* input ��鍮��� ���� */
+}
+
+.field-label-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 8px;
+}
+
+.div17 {
+  text-align: left;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'PretendardGov-Bold', sans-serif;
+  color: #464c53;
+}
+
+.frame-817-btn {
+  all: unset; /* 湲곕낯 踰��� �ㅽ���� ��嫄� */
+  width: 100%;      /* 遺�紐� 媛�濡� 100% */
+  height: 350px;    /* 湲곗〈 frame-817 ���� ��吏� */
+  border-radius: 3px;
+  background: #e6e8ea;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+/* hover �④낵 (frame-8152-btn怨� ����) */
+.frame-817-btn:hover {
+  background-color: #cbd1d7;
+  box-shadow: 0 0 6px rgba(0,0,0,0.15);
+}
+
+
+.required-mark {
+  color: red;
+  font-size: 18px;
+  margin-left: 8px; /* ������ 媛�寃� */
+  font-weight: bold;
+}
+
+.frame-754 {
+  background: #ffffff;
+  border: 1px solid #2a3e34;
+  border-radius: 5px;
+  width: 600px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+}
+
+.input-field {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 0 10px;
+  font-size: 16px;
+  font-family: 'PretendardGov-Regular', sans-serif;
+}
+
+.box {
+  background: var(--color-input-surface, #ffffff);
+  border-radius: 6px;
+  border: 1px solid #58616a;
+  padding: 16px;
+  font-size: 16px;
+  font-family: 'PretendardGov-Regular', sans-serif;
+  color: #1e2124;
+  height: 400px;
+  resize: none;
+  width: 100%;       /* �� input怨� ��鍮� 留�異� */
+  box-sizing: border-box;
+}
+
+.counter-low {
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-1, 2px);
+  align-items: center;
+  justify-content: flex-end;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+._12 {
+  color: #28a745;
+  text-align: left;
+  font-family: var(
+    --body-small-font-family,
+    "PretendardGov-Regular",
+    sans-serif
+  );
+  font-size: var(--body-small-font-size, 15px);
+  line-height: var(--body-small-line-height, 150%);
+  font-weight: var(--body-small-font-weight, 400);
+  position: relative;
+}
+._100 {
+  color: var(--color-text-subtle, #464c53);
+  text-align: left;
+  font-family: var(
+    --body-small-font-family,
+    "PretendardGov-Regular",
+    sans-serif
+  );
+  font-size: var(--body-small-font-size, 15px);
+  line-height: var(--body-small-line-height, 150%);
+  font-weight: var(--body-small-font-weight, 400);
+  position: relative;
+}
+
+.frame-752 {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  width: 600px;
+}
+
+.component-3 {
+  background: #2a3e34;
+  border-radius: 5px;
+  width: 100%;
+  height: 56px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 19px;
+  font-weight: 700;
+  font-family: "PretendardGov-Bold", sans-serif;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.component-3:hover {
+  background-color: #1f2c26;
+}
+
+/* ���� 臾멸뎄 ���� */
+.consent-section {
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.consent-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'PretendardGov-Bold', sans-serif;
+  color: #1e2124;
+}
+
+.consent-subtext {
+  color: #868e96;
+  font-size: 14px;
+  margin-left: 2px;
+}
+
+.checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.checkbox-input {
+  width: 18px;
+  height: 18px;
+}
+
+.checkbox-label {
+  font-size: 15px;
+  color: #1e2124;
+}

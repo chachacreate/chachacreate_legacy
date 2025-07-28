@@ -1,0 +1,44 @@
+@charset "UTF-8";
+
+/* Figma Styles of your File */
+:root {
+  /* Colors */
+  /* Fonts */
+  --bold-font-family: Afacad-Regular, sans-serif;
+  --bold-font-size: 64px;
+  --bold-line-height: 22px;
+  --bold-font-weight: 400;
+  --bold-font-style: normal;
+
+  /* Effects */
+}
+/* Figma Color Variables of your File */
+:root,
+[data-variable-collection-mode="mode-1"] {
+  /* mode-1 */
+  --color-text-basic: var(--color-text-basic);
+  --color-icon-gray: var(--color-icon-gray);
+  --color-action-secondary-on: var(--color-action-secondary-on);
+  --chacha-color-header: #676f58;
+  --chacha-color-text-base: #f9f9f9;
+  --chacha-color-banner: #a3ab94;
+  --chacha-color-button-thick: #2a3e34;
+  --chacha-color-button-light: #cfd3c4;
+  --color-text-subtle: var(--color-text-subtle);
+  --color-text-bolder: var(--color-text-bolder);
+  --color-border-gray-dark: var(--color-border-gray-dark);
+  --color-element-inverse: var(--color-element-inverse);
+  --color-kakao-basic: #fde500;
+  --color-naver-basic: #1dc800;
+  --color-kakao-hover: #e2cc00;
+  --color-naver-hover: #19ac00;
+  --chacha-color-header-stroke: #d2d2d2;
+  --chacha-color-dark-brown: #6f4e37;
+  --chacha-color-light-brown: #a67b5b;
+  --chacha-color-light-cream: #fff8e1;
+  --chacha-color-dark-cream: #eadca6;
+  --chacha-color-dark-pink: #d9a5a5;
+  --chacha-color-light-pink: #f2c6ac;
+  --chacha-color-gray: #d6d6d6;
+  --chacha-color-beige: #f5f2eb;
+}

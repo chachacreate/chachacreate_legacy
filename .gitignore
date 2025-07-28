@@ -1,0 +1,47 @@
+# === Java 컴파일 결과 ===
+*.class
+
+# === 로그 파일 ===
+*.log
+
+# === BlueJ 설정 파일 ===
+*.ctxt
+
+# === J2ME 관련 임시 폴더 ===
+.mtj.tmp/
+
+# === 패키징 결과물 ===
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# === JVM 크래시 로그 ===
+hs_err_pid*
+replay_pid*
+
+# === 빌드 디렉토리 ===
+/target/
+bin/
+
+# === Eclipse 설정 파일 ===
+.classpath
+.project
+.settings/
+.springBeans
+
+# === IntelliJ 설정 파일 (사용 시) ===
+.idea/
+*.iml
+
+# === macOS 시스템 파일 ===
+.DS_Store
+
+# === Windows 썸네일 캐시 ===
+Thumbs.db
+
+# === 민감한 설정 파일 ===
+*.properties

@@ -12,9 +12,7 @@
 	<!-- 서블릿 단위로 접근 -->
 	<!-- @Controller : servlet-context.xml 에서 component-scan  -->
 	<!-- @Component @Repository @Service : root-context.xml 에서 component-scan -->
-	<context:component-scan
-		base-package="com.chacha.create.mainhome.main.controller" />
-
+	<context:component-scan base-package="com.chacha.create.controller, com.chacha.create.util.exception, com.chacha.create.util.Filter" />
 
 	<!-- @Controller에 요청을 보내기 위해 필요한 HandlerMapping과 HandlerAdapter를 Bean으로 
 		등록 -->
@@ -46,5 +44,10 @@
 		<property name="prefix" value="/WEB-INF/views/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
+	
+	<!-- 멀티파트 파일 업로드 처리 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="10485760" />
+    </bean>
 
 </beans>

@@ -68,4 +68,5 @@ public interface ReportMapper {
      * @return 처리된 행 수
      */
     int delete(int reportId);
+
 }

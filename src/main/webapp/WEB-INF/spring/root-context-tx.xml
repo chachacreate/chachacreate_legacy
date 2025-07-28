@@ -14,11 +14,10 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
 	<!-- global로 접근, @Mapper(DAO/Repository) 스캔 -->
-	<mybatis-spring:scan
-		base-package="com.chacha.create.common.mapper" />
+	<mybatis-spring:scan base-package="com.chacha.create.common.mapper" />
 	
 	<!-- global로 접근, @Repository(DAO/Repository 스캔) -->
-	<context:component-scan base-package="com.chacha.create.common.dao"/> <!-- 예시임 -->
+	<context:component-scan base-package="com.chacha.create.service, com.chacha.create.dao, com.chacha.create.repository"/> <!-- 예시임 -->
 
 	<!-- @Aspect scan -->
 	<aop:aspectj-autoproxy />

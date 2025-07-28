@@ -3,6 +3,7 @@ package com.chacha.create.common.mapper.member;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.chacha.create.common.entity.member.SellerEntity;
 
@@ -59,4 +60,12 @@ public interface SellerMapper {
      * @return 삭제 성공 시 영향 받은 행 수
      */
     int delete(int sellerId);
+    
+    int updateSellerInfo(SellerEntity seller);
+    
+    int updateBypersonalCheck(@Param("sellerId") int sellerId, @Param("personalCheck") int personalCheck);
+
+	// for 자신의 상품인지 검증
+    int selectMemberIdForSellerId(int sellerId);
+    
 }

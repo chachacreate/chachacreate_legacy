@@ -1,8 +1,9 @@
 package com.chacha.create.common.enums.order;
 
+import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,48 +11,74 @@ import lombok.Getter;
 /**
  * 주문 상태 열거형 (order_info 테이블의 order_status 컬럼과 매핑)
  * <p>
- * - ORDER_OK: 주문 완료
- * - CONFIRM: 구매 확정
- * - REFUND: 환불 요청
+ * - ORDER_OK: 주문 완료<br>
+ * - CONFIRM: 구매 확정<br>
+ * - REFUND: 환불 요청<br>
  * - REFUND_OK: 환불 완료
+ * </p>
+ *
+ * <p><b>입력 예시:</b>
+ * <pre>{@code
+ * "ORDER_OK"
+ * "주문 완료"
+ * { "code": "ORDER_OK", "name": "주문 완료" }
+ * }</pre>
+ * </p>
+ *
+ * <p><b>출력 예시:</b>
+ * <pre>{@code
+ * "주문 완료"
+ * }</pre>
  * </p>
  */
 @Getter
 @AllArgsConstructor
-@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum OrderStatusEnum {
 
-    /** 주문 완료 (기본 상태) */
-    ORDER_OK("ORDER_OK", "주문 완료"),
+    ORDER_OK("ORDER_OK", "주문완료"),
+    CONFIRM("CONFIRM", "발송전"),
+    REFUND("REFUND", "환불요청"),
+    REFUND_OK("REFUND_OK", "환불완료");
 
-    /** 구매 확정 */
-    CONFIRM("CONFIRM", "구매 확정"),
+    private final String code;   // DB에 저장하는 값
+    @JsonValue
+    private final String name;   // JSON 직렬화 시 보여줄 값
 
-    /** 환불 요청 */
-    REFUND("REFUND", "환불 요청"),
-
-    /** 환불 완료 */
-    REFUND_OK("REFUND_OK", "환불 완료");
-
-    /** DB 저장용 코드 */
-    private final String code;
-
-    /** 사용자에게 보여줄 이름 */
-    private final String name;
-
-    /**
-     * 문자열 코드로부터 enum 객체 생성 (역직렬화 시 사용)
-     *
-     * @param code DB에 저장된 주문 상태 코드
-     * @return 매칭되는 OrderStatusEnum
-     */
     @JsonCreator
-    public static OrderStatusEnum fromCode(@JsonProperty("code") String code) {
-        for (OrderStatusEnum status : values()) {
-            if (status.code.equalsIgnoreCase(code)) {
-                return status;
+    public static OrderStatusEnum from(Object value) {
+        if (value instanceof String) {
+            String val = (String) value;
+            // code 기준 찾기 (DB 저장/조회용)
+            for (OrderStatusEnum status : values()) {
+                if (status.code.equalsIgnoreCase(val)) {
+                    return status;
+                }
+            }
+            // 혹시 name으로도 찾고 싶으면 여기 추가 가능
+            for (OrderStatusEnum status : values()) {
+                if (status.name.equalsIgnoreCase(val)) {
+                    return status;
+                }
+            }
+        } else if (value instanceof Map) {
+            Object codeObj = ((Map<?, ?>) value).get("code");
+            if (codeObj instanceof String) {
+                String code = (String) codeObj;
+                for (OrderStatusEnum status : values()) {
+                    if (status.code.equalsIgnoreCase(code)) {
+                        return status;
+                    }
+                }
             }
         }
-        throw new IllegalArgumentException("Invalid order status code: " + code);
+        throw new IllegalArgumentException("Invalid order status value: " + value);
+    }
+    
+    /**
+     * DB에 저장할 code 값을 반환합니다.
+     */
+    public String getCode() {
+        return code;
     }
 }
+

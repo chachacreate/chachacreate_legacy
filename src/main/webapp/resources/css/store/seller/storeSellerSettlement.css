@@ -1,0 +1,275 @@
+html, body {
+  height: 1080px;
+  min-height: 1080px;
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+}
+
+.full-wrapper {
+  display: flex;
+  width: 1920px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background-color: #f2f2f2;
+}
+
+.left-padding,
+.right-padding {
+  width: 240px;
+  flex-shrink: 0;
+}
+
+.main-layout {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  min-width: 0;
+  overflow: hidden;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+.content-inner {
+  background: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+
+
+.swiper-container-wrapper {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  position: relative;
+  padding-bottom: 40px;
+}
+
+.swiper {
+  width: 100%;
+  box-sizing: border-box;
+  padding-bottom: 40px;
+}
+
+.swiper-slide {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 30px 40px;
+  box-sizing: border-box;
+  height: 100%;
+  overflow-y: auto;
+  min-width: 0;
+}
+
+.settlement-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Noto Sans KR', sans-serif;
+  color: #333;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* 상품 정보 */
+.product-info {
+  margin-bottom: 30px;
+}
+
+.product-detail {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.product-img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.product-desc p {
+  font-size: 13px;
+  margin: 4px 0;
+  word-break: break-word;
+}
+
+/* 정산 요약 */
+.settlement-summary {
+  margin-bottom: 40px;
+}
+
+.settlement-summary .sub-title {
+  font-size: 14px;
+  color: #888;
+  margin-left: 10px;
+}
+
+.summary-grid {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+  margin-top: 20px;
+}
+
+.chart-box {
+  flex: 2;
+  background-color: #f8f8f8;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.info-box {
+  flex: 1;
+  background: #f4f4f4;
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.info-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.info-tab {
+  background-color: #676f58;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+}
+
+.info-tab.active {
+  background-color: #2e6b4e;
+}
+
+.total-amount {
+  font-size: 20px;
+  font-weight: bold;
+  word-break: break-word;
+  white-space: nowrap;
+}
+
+/* 등록/수정 버튼 */
+.edit-btn {
+  margin-top: 20px;
+  background-color: #2e6b4e;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.edit-btn:hover {
+  background-color: #24543e;
+}
+
+.edit-form {
+  margin-top: 20px;
+  background-color: #f2f2f2;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.edit-form label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.edit-form input {
+  width: 100%;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 4px;
+}
+
+.edit-form button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #444;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* 정산 테이블 */
+.settlement-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-top: 30px;
+}
+
+.settlement-table th,
+.settlement-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+.settlement-table th {
+  background-color: #dde0d2;
+  font-weight: bold;
+}
+
+.delete-btn {
+  background-color: #a94442;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background-color: #922d2d;
+}
+
+/* Swiper 버튼 */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #333;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  position: absolute;
+}
+
+.swiper-button-prev {
+  left: 20px;
+}
+
+.swiper-button-next {
+  right: 20px;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 16px;
+}

@@ -4,12 +4,19 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location"
-			value="/WEB-INF/spring/oracleDB.properties" /> <!-- 본인 PC로 연결하고싶으면 oracleDB-localhost.properties로 변경하여 사용 -->
-		<property name="fileEncoding" value="UTF-8" />
-	</bean>
+      class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+      <property name="locations">
+         <list>
 
+            <value>classpath:properties/oracleDB.properties</value> <!-- 본인 PC로 연결하고싶으면 oracleDB-localhost.properties로 변경하여 사용 -->
+
+         	<value>classpath:properties/email.properties</value>
+         	<value>classpath:properties/kakao.properties</value>
+         	<value>classpath:properties/naver.properties</value>
+         </list>
+      </property>
+      <property name="fileEncoding" value="UTF-8" />
+   </bean> 
 
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<!-- 같은 타입의 Bean이 여러개인 경우 primary="true"를 설정하면 @Autowired할 때 우선적으로 가져옴 -->
@@ -41,7 +48,7 @@
 		<property name="configLocation"
 			value="classpath:mybatis/sqlMapConfig.xml" />
 		<property name="mapperLocations"
-			value="classpath:mybatis/mappers/*.xml" />
+			value="classpath:mybatis/mappers/**/*.xml" />
 	</bean>
 
 	<!-- Mapper의 SQL구문을 실행할 수 있다. SQL문은 session단위로 실행 -->

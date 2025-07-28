@@ -22,6 +22,7 @@ import lombok.NoArgsConstructor;
  * account: 123-456-7890
  * accountBank: 국민은행
  * profileInfo: 판매자 프로필 정보 및 소개
+ * personalCheck: 개인판매자 여부(0: 판매자, 1:개인판매자)
  * </pre>
  */
 @NoArgsConstructor
@@ -59,4 +60,9 @@ public class SellerEntity {
      * 판매자 프로필 정보 및 소개
      */
     private String profileInfo;
+    
+    /**
+     * 개인판매자 여부
+     */
+    private Integer personalCheck;
 }

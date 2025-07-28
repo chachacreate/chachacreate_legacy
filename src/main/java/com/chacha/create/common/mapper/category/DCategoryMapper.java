@@ -3,6 +3,7 @@ package com.chacha.create.common.mapper.category;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+
 import com.chacha.create.common.entity.category.DCategoryEntity;
 
 /**
@@ -24,7 +25,7 @@ public interface DCategoryMapper {
      * @param dCategoryId 상세 카테고리 ID
      * @return 조회된 상세 카테고리 객체 (없으면 null)
      */
-    DCategoryEntity selectByDCategoryId(int dCategoryId);
+    DCategoryEntity selectByDCategoryId(int dcategoryId);
 
     /**
      * 상위 카테고리 ID에 속하는 상세 카테고리 목록을 조회합니다.
@@ -32,7 +33,7 @@ public interface DCategoryMapper {
      * @param uCategoryId 상위 카테고리 ID
      * @return 상세 카테고리 목록
      */
-    List<DCategoryEntity> selectByUCategoryId(int uCategoryId);
+    List<DCategoryEntity> selectByUCategoryId(int ucategoryId);
 
     /**
      * 시퀀스를 사용하여 새로운 상세 카테고리를 등록합니다.
@@ -56,5 +57,5 @@ public interface DCategoryMapper {
      * @param dCategoryId 삭제할 상세 카테고리 ID
      * @return 삭제된 행의 수
      */
-    int delete(int dCategoryId);
+    int delete(int dcategoryId);
 }

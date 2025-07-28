@@ -1,0 +1,309 @@
+/* 기본 설정 */
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background-color: #ffffff;
+  margin: 0;
+  padding: 0;
+}
+
+/* 전체 wrapper */
+.container {
+  padding: 0;
+  position: relative;
+}
+
+/* 상단 헤더 */
+.header-banner {
+  background: #ebfee1;
+  padding: 32px 40px;
+  display: flex;
+  justify-content: center;
+}
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  width: 1200px;
+}
+.logo-title-wrapper {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+.page-title {
+  font-size: 44px;
+  font-weight: 700;
+}
+
+
+/* 가입 단계 */
+.step-indicator {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  align-items: center;
+  margin: 40px 0 20px;
+}
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  color: #a0a0a0;
+}
+.step.current {
+  font-weight: 700;
+  color: #2d4739;
+}
+.step_label {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.step-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #dfe8dc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.step.current .step-circle {
+  background-color: #4a7153;
+  color: white;
+}
+.arrow {
+  width: 20px;
+  height: 20px;
+  opacity: 0.6;
+}
+
+.current {
+  color: #a3ab94;
+}
+.step-num {
+  text-decoration: underline;
+  font-weight: 700;
+  color: #2d4739;
+}
+.arrow {
+  width: 40px;
+  height: 40px;
+}
+
+/* ===== 회원가입 입력 박스 ===== */
+.register-wrapper {
+  width: 100%;
+  max-width: 640px;
+  margin: 60px auto;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 40px 32px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* 제목, 부제목 */
+.register-wrapper .title {
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 8px;
+  color: #2a3e34;
+}
+
+.register-wrapper .subtitle {
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 32px;
+}
+
+/* 소셜 로그인 아이콘 */
+.social-login {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+.social-icon {
+  width: 52px;
+  height: 52px;
+  cursor: pointer;
+  object-fit: contain;
+  transition: transform 0.2s ease;
+}
+.social-icon:hover {
+  transform: scale(1.05);
+}
+
+/* ===== 폼 영역 ===== */
+.form-group {
+  margin-bottom: 24px;
+}
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #2a3e34;
+}
+
+/* input 기본 필드 */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="button"] {
+  width: 100%;
+  height: 44px;
+  padding: 0 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border 0.2s;
+}
+input:focus {
+  border-color: #4a7153;
+  outline: none;
+}
+
+/* 이메일 인증 버튼 조합 */
+.input-with-button {
+  display: flex;
+  gap: 10px;
+}
+.input-with-button input {
+  flex: 1;
+}
+.input-with-button button {
+  background-color: #2a3e34;
+  color: white;
+  border: none;
+  padding: 0 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.input-with-button button:hover {
+  background-color: #1d2a25;
+}
+
+/* 인증번호 영역 */
+.signUp-input-area {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+#authKey {
+  flex: 1;
+}
+#checkAuthKeyBtn {
+  background-color: #4a7153;
+  color: #fff;
+  border: none;
+  padding: 0 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+#authKeyMessage {
+  display: block;
+  margin-top: 6px;
+  font-size: 13px;
+  color: #999;
+}
+#authKeyMessage.confirm {
+  color: #2d4739;
+  font-weight: bold;
+}
+
+/* 주민번호 박스 */
+.rrn-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.rrn-box input {
+  width: 100px;
+  text-align: center;
+}
+.rrn-box input[type="password"] {
+  width: 120px;
+}
+
+/* 회원유형 설명 */
+.type-desc {
+  font-size: 13px;
+  color: #666;
+  margin: 8px 0 12px;
+  line-height: 1.5;
+}
+
+/* 구매자 / 판매자 버튼 */
+.user-types {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+.type-button {
+  padding: 12px 24px;
+  border: 2px solid #2a3e34;
+  background-color: #fff;
+  color: #2a3e34;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.type-button:hover {
+  background-color: #2a3e34;
+  color: #fff;
+}
+.type-button.active {
+  background-color: #2a3e34;
+  color: #fff;
+}
+
+/* 버튼 영역 */
+.form-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 32px;
+}
+.cancel,
+.submit {
+  padding: 12px 24px;
+  font-size: 15px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.cancel {
+  background: transparent;
+  border: 1px solid #999;
+  color: #555;
+}
+.cancel:hover {
+  background-color: #eee;
+}
+.submit {
+  background-color: #2a3e34;
+  color: white;
+  border: none;
+}
+.submit:hover {
+  background-color: #1d2a25;
+}
+
+

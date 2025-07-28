@@ -1,8 +1,10 @@
 package com.chacha.create.common.mapper.store;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.chacha.create.common.entity.store.NoticeEntity;
 
@@ -60,4 +62,8 @@ public interface NoticeMapper {
      * @return 영향 받은 행 수
      */
     int delete(int noticeId);
+    
+    List<Map<String, Object>> noticeList(String storeUrl);
+
+    List<Map<String, Object>> noticeDetailList(@Param("storeUrl") String storeUrl, @Param("noticeId") int noticeId);
 }

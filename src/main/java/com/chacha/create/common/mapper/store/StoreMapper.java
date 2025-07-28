@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.chacha.create.common.dto.store.StoreInfoDTO;
 import com.chacha.create.common.entity.store.StoreEntity;
 
 /**
@@ -29,6 +30,14 @@ public interface StoreMapper {
     StoreEntity selectByStoreId(int storeId);
 
     /**
+     * 스토어 URL로 특정 스토어를 조회합니다.
+     *
+     * @param storeUrl 스토어 URL
+     * @return 스토어 엔티티 {@code StoreEntity}
+     */
+    StoreEntity selectByStoreUrl(String storeUrl);
+
+    /**
      * 판매자 ID로 해당 판매자의 스토어를 조회합니다.
      *
      * @param sellerId 판매자 ID
@@ -36,6 +45,15 @@ public interface StoreMapper {
      */
     StoreEntity selectBySellerId(int sellerId);
 
+    
+    /**
+     * 스토어ID로 판매자ID 조회 
+     *
+     * @param 조회하려는 판매자의 스토어ID
+     * @return 해당 스토어의 판매자ID
+     */
+    int selectForSellerIdByStoreId(int storeId);
+    
     /**
      * 새로운 스토어를 등록합니다.
      * 스토어 ID는 {@code seq_store_id.NEXTVAL}을 통해 자동 생성됩니다.
@@ -60,4 +78,17 @@ public interface StoreMapper {
      * @return 처리된 행 수
      */
     int delete(int storeId);
+    
+    List<StoreEntity> selectByStoreInfo(String storeUrl);
+    
+    int updateStoreInfo(StoreEntity storeEntity);
+
+	int selectForCountUrlByStoreUrl(String storeUrl);
+
+	int selectForCountProductByMemberId(Integer memberId);
+
+	StoreInfoDTO selectForThisStoreInfo(String storeUrl);
+	
+	int updatePersonalCheck(int sellerId);
+
 }

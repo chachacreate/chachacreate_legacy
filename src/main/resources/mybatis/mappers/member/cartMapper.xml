@@ -11,13 +11,61 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="productCnt" column="product_cnt" />
 	</resultMap>
 
-	<select id="selectAll" resultMap="cartResultMap">
-		SELECT * FROM cart
+	<!-- 장바구니 목록 전체 조회 + view에 필요한 정보 -->
+	<select id="selectForCartViewList" resultType="com.chacha.create.common.dto.member.CartViewDTO">
+	    SELECT
+	        c.cart_id,
+	        c.member_id,
+	        c.product_id,
+	        c.product_cnt,
+	        p.product_name,
+	        p.product_detail,
+	        p.price,
+	        p.stock,
+	        s.store_id,
+	        s.store_name,
+	        s.store_url,
+	        img.p_img_url AS p_img_url
+	    FROM cart c
+	    JOIN product p ON c.product_id = p.product_id
+	    JOIN store s ON p.store_id = s.store_id
+	    JOIN (
+	        SELECT * FROM p_img
+	        WHERE p_img_enum = 'THUMBNAIL' AND p_img_seq = 1
+	    ) img ON p.product_id = img.product_id
+	    WHERE c.member_id = #{memberId}
 	</select>
-
-	<select id="selectByCartId" resultMap="cartResultMap"
-		parameterType="int">
-		SELECT * FROM cart WHERE cart_id = #{cartId}
+	
+	<!-- 상품별로 조회 -->
+	<select id="selectForCartItem" resultMap="cartResultMap" parameterType="map">
+		SELECT * FROM cart
+		WHERE member_id = #{memberId} AND product_id = #{productId}
+	</select>
+	
+	<!-- 상품별 조회 + view에 필요한 정보 -->
+	<select id="selectForCartViewItem" resultType="com.chacha.create.common.dto.member.CartViewDTO">
+	    SELECT
+	        c.cart_id,
+	        c.member_id,
+	        c.product_id,
+	        c.product_cnt,
+	        p.product_name,
+	        p.product_detail,
+	        p.price,
+	        p.stock,
+	        s.store_id,
+	        s.store_name,
+	        s.store_url,
+	        img.p_img_url AS p_img_url
+	    FROM cart c
+	    JOIN product p ON c.product_id = p.product_id
+	    JOIN store s ON p.store_id = s.store_id
+	    JOIN (
+	        SELECT * FROM p_img
+	        WHERE p_img_enum = 'THUMBNAIL' AND p_img_seq = 1
+	    ) img ON p.product_id = img.product_id
+	    WHERE c.member_id = #{memberId}
+	      AND c.product_id = #{productId}
 	</select>
 
 	<insert id="insert" parameterType="cartEntity">
@@ -25,15 +73,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES (seq_cart_id.NEXTVAL, #{memberId}, #{productId}, #{productCnt})
 	</insert>
 
-	<update id="update" parameterType="cartEntity">
+	<update id="updateForProductCnt" parameterType="cartEntity">
 		UPDATE cart
-		SET member_id = #{memberId}, product_id = #{productId}, product_cnt =
-		#{productCnt}
+		SET product_cnt = #{productCnt}
 		WHERE cart_id = #{cartId}
 	</update>
-
-	<delete id="delete" parameterType="int">
+	
+	<!-- 단건 삭제 -->
+	<delete id="deleteByCartId" parameterType="int">
 		DELETE FROM cart WHERE cart_id = #{cartId}
+	</delete>
+
+	<!-- 전체 삭제 -->
+	<delete id="deleteByMemberId" parameterType="int">
+		DELETE FROM cart WHERE member_id = #{memberId}
 	</delete>
 
 </mapper>

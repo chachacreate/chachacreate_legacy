@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,7 +31,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-@JsonFormat(shape = JsonFormat.Shape.OBJECT)
+@JsonFormat(shape = JsonFormat.Shape.STRING)
 public enum DCategoryEnum {
 
     // 패션잡화
@@ -74,7 +73,7 @@ public enum DCategoryEnum {
     private final String name;
 
     /** 연결된 상위 카테고리 (u_category 테이블의 외래키 매핑) */
-    private final UCategoryEnum uCategory;
+    private final UCategoryEnum ucategory;
 
     /**
      * 주어진 상위 카테고리에 해당하는 하위 카테고리 목록을 반환합니다.
@@ -82,9 +81,12 @@ public enum DCategoryEnum {
      * @param uCategory 상위 카테고리 enum
      * @return 해당 상위 카테고리에 속하는 {@link DCategoryEnum} 리스트
      */
+    
+    public UCategoryEnum getUcategory() { return ucategory; }
+    
     public static List<DCategoryEnum> getByUCategory(UCategoryEnum uCategory) {
         return Arrays.stream(values())
-                .filter(d -> d.uCategory == uCategory)
+                .filter(d -> d.ucategory == uCategory)
                 .collect(Collectors.toList());
     }
 
@@ -96,10 +98,38 @@ public enum DCategoryEnum {
      * @throws IllegalArgumentException 해당 ID에 대응하는 enum이 없는 경우 예외 발생
      */
     @JsonCreator
-    public static DCategoryEnum fromId(@JsonProperty("id") int id) {
+    public static DCategoryEnum fromJson(Object input) {
+        if (input instanceof Integer) {
+            return fromId((Integer) input);
+        }
+        if (input instanceof String) {
+            String str = (String) input;
+            // 숫자 문자열이면 숫자로 변환 시도
+            try {
+                int id = Integer.parseInt(str);
+                return fromId(id);
+            } catch (NumberFormatException e) {
+                // 이름 비교
+                for (DCategoryEnum d : values()) {
+                    if (d.name().equalsIgnoreCase(str) || d.name.equals(str)) {
+                        return d;
+                    }
+                }
+            }
+        }
+        throw new IllegalArgumentException("Invalid DCategory input: " + input);
+    }
+
+    public static DCategoryEnum fromId(int id) {
         for (DCategoryEnum d : values()) {
             if (d.id == id) return d;
         }
         throw new IllegalArgumentException("Invalid DCategory id: " + id);
     }
+    
+    @Override
+    public String toString() {
+        return name;
+    }
+
 }

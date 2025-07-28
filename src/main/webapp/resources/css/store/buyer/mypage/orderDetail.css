@@ -1,0 +1,233 @@
+@charset "UTF-8";
+
+/* 기본 세팅 */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f7f6f2;
+}
+
+/* 전체 wrapper */
+.order-detail-page {
+  display: flex;
+  justify-content: center;
+  padding: 50px;
+}
+
+.order-detail-layout {
+  display: flex;
+  flex-direction: row;
+  width: 1200px;
+  gap: 40px;
+}
+
+/* 사이드 메뉴 */
+.sidebar-menu {
+  width: 250px;
+  background-color: #cfd3c4;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.menu-item {
+  padding: 20px;
+  font-size: 16px;
+  border-bottom: 1px solid #bbb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  color: #333;
+}
+
+.menu-item:hover {
+  background-color: #dfe3d9;
+}
+
+.menu-item.selected {
+  background-color: #ffffff;
+  font-weight: bold;
+}
+
+.arrow {
+  font-weight: bold;
+}
+
+/* 주문 상세 콘텐츠 */
+.order-detail-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* 공통 블록 (카드 형태) */
+.section-block {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.05);
+}
+
+/* 블록 헤더: 제목 + 가로 선 */
+.block-header {
+  display: flex;
+  align-items: center;
+}
+
+.block-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #2a3e34;
+  margin-right: 10px;
+}
+
+.block-divider {
+  flex: 1;
+  height: 2px;
+  background-color: #e0e0e0;
+}
+
+/* 상품 리스트 */
+.product-item {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 20px;
+  background-color: #fff;
+}
+
+.product-box {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.product-image {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  flex-shrink: 0;
+}
+
+.product-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: #333;
+}
+
+.store-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #557a46;
+}
+
+.product-name {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.product-desc {
+  font-size: 14px;
+  color: #666;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;         /* 최대 2줄로 제한 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+}
+
+.product-price {
+  font-size: 16px;
+  font-weight: 700;
+  color: #2a3e34;
+}
+
+/* 리뷰 버튼 */
+.review-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 120px;
+  flex-shrink: 0;
+}
+
+.review-button {
+  padding: 10px 16px;
+  background-color: #2a3e34;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.review-button:hover {
+  background-color: #1f3027;
+}
+
+/* 텍스트 */
+.section-block p {
+  font-size: 16px;
+  color: #444;
+  margin: 8px 0;
+}
+
+/* 강조된 총금액 */
+.payment-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 20px;
+  font-weight: bold;
+  color: #2a3e34;
+  margin-bottom: 16px;
+  padding: 12px;
+  background-color: #f1f5f2;
+  border-radius: 8px;
+}
+
+/* 상세 항목 라벨-값 정렬 */
+.payment-detail {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 6px;
+}
+
+.payment-detail .label {
+  color: #555;
+}
+
+.payment-detail .value {
+  font-weight: 600;
+}
+
+/* 구분선 */
+.payment-divider {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 16px 0;
+}
+
+/* 카드 정보 메모 */
+.payment-note {
+  font-size: 14px;
+  color: #666;
+  margin-top: 4px;
+}
+
+
+.product-name, 
+.product-image,
+.store-name {
+	cursor: pointer;
+}

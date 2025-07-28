@@ -1,0 +1,327 @@
+/* 기본 설정 */
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background-color: #ffffff;
+  margin: 0;
+  padding: 0;
+}
+
+/* 전체 wrapper */
+.container {
+  padding: 0;
+  position: relative;
+}
+
+/* 상단 헤더 */
+.header-banner {
+  background: #ebfee1;
+  padding: 32px 40px;
+  display: flex;
+  justify-content: center;
+}
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  width: 1200px;
+}
+.logo-title-wrapper {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+.page-title {
+  font-size: 44px;
+  font-weight: 700;
+}
+
+
+/* 가입 단계 */
+.step-indicator {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  align-items: center;
+  margin: 40px 0 20px;
+}
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  color: #a0a0a0;
+}
+.step.current {
+  font-weight: 700;
+  color: #2d4739;
+}
+.step_label {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.step-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #dfe8dc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.step.current .step-circle {
+  background-color: #4a7153;
+  color: white;
+}
+.arrow {
+  width: 20px;
+  height: 20px;
+  opacity: 0.6;
+}
+
+.current {
+  color: #a3ab94;
+}
+.step-num {
+  text-decoration: underline;
+  font-weight: 700;
+  color: #2d4739;
+}
+.arrow {
+  width: 40px;
+  height: 40px;
+}
+
+/* ✅ 전체 컨테이너 정렬 */
+.seller-container {
+  max-width: 1000px;
+  margin: 60px auto;
+  padding: 40px 32px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+/* ✅ 메인 제목 */
+.main-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #2a3e34;
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+/* ✅ 섹션 공통 */
+.section-box {
+  margin-bottom: 56px;
+}
+.section-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #2a3e34;
+  display: flex;
+  align-items: center;
+}
+.section-desc {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 20px;
+}
+.check {
+  color: #4a7153;
+  margin-right: 8px;
+  font-weight: bold;
+}
+
+/* ✅ input 필드 */
+.input-box,
+.input-box2,
+select {
+  width: 100%;
+  padding: 14px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  transition: border 0.2s;
+}
+.input-box2 {
+  width: calc(50% - 12px);
+}
+.input-box:focus,
+.input-box2:focus,
+select:focus {
+  border-color: #4a7153;
+  outline: none;
+}
+
+/* ✅ 계좌 입력 그룹 */
+.account-input {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+/* ✅ 계좌 등록 버튼 */
+.account-button {
+  padding: 14px 20px;
+  background-color: #2a3e34;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.account-button:hover {
+  background-color: #1d2a25;
+}
+
+/* ✅ 계좌 안내 */
+.account-warning-box {
+  background-color: #f5f9f5;
+  border-left: 4px solid #4a7153;
+  padding: 16px 20px;
+  border-radius: 8px;
+  margin: 16px 0 24px;
+}
+.account-warning-title {
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  color: #2a3e34;
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+.account-warning-list {
+  font-size: 14px;
+  color: #444;
+  padding-left: 20px;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ✅ 이력 등록 */
+.career-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+.career-box {
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #fafafa;
+  transition: border 0.2s;
+}
+.career-box:hover {
+  border-color: #4a7153;
+}
+.upload-placeholder {
+  width: 500px;
+  height: 300px;
+  border: 2px dashed #bbb;
+  border-radius: 8px;
+  font-size: 40px;
+  color: #bbb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+.career-text {
+  width: 100%;
+  height: 80px;
+  padding: 10px;
+  font-size: 14px;
+  resize: none;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+.career-text:focus {
+  border-color: #4a7153;
+}
+.char-count {
+  font-size: 12px;
+  text-align: right;
+  color: #888;
+  margin-top: 4px;
+}
+
+/* ✅ 버튼 정렬 */
+.button-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 40px;
+}
+.btn-outline,
+.btn-primary {
+  padding: 14px 32px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-outline {
+  background-color: #fff;
+  border: 2px solid #2a3e34;
+  color: #2a3e34;
+}
+.btn-outline:hover {
+  background-color: #f3f3f3;
+}
+.btn-primary {
+  background-color: #2a3e34;
+  color: white;
+  border: none;
+}
+.btn-primary:hover {
+  background-color: #1f2e28;
+}
+
+
+
+
+/* 워닝경고 */
+.account-warning-box {
+  border-left: 4px solid #2a3e34;  /* 포인트 컬러 강조선 */
+  padding: 12px 24px;
+  margin-top: 12px;
+  margin-bottom: 20px;
+}
+
+.account-warning-title {
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  color: #2a3e34;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.icon-info {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+}
+
+.account-warning-list {
+  margin: 0;
+  padding-left: 20px;
+  color: #333;
+  font-size: 14px;
+  line-height: 1.6;
+}

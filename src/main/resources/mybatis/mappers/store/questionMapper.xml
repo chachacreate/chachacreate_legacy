@@ -6,12 +6,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<resultMap id="questionResultMap" type="questionEntity">
 		<id property="questionId" column="question_id" />
-		<result property="storeId" column="store_id" />
 		<result property="memberId" column="member_id" />
 		<result property="questionTitle" column="question_title" />
 		<result property="questionText" column="question_text" />
 		<result property="questionDate" column="question_date" />
-		<result property="questionAnswer" column="question_answer" />
 	</resultMap>
 
 	<select id="selectAll" resultMap="questionResultMap">
@@ -34,17 +32,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<insert id="insert" parameterType="questionEntity">
-		INSERT INTO question (question_id, store_id, member_id, question_title,
-		question_text, question_date, question_answer)
-		VALUES (seq_question_id.NEXTVAL, #{storeId}, #{memberId}, #{questionTitle},
-		#{questionText}, #{questionDate}, #{questionAnswer})
+		INSERT INTO question (question_id, member_id, question_title,
+		question_text, question_date)
+		VALUES (seq_question_id.NEXTVAL, #{memberId}, #{questionTitle},
+		#{questionText}, sysdate)
 	</insert>
 
 	<update id="update" parameterType="questionEntity">
 		UPDATE question
-		SET store_id = #{storeId}, member_id = #{memberId},
+		SET member_id = #{memberId},
 		question_title = #{questionTitle}, question_text = #{questionText},
-		question_date = #{questionDate}, question_answer = #{questionAnswer}
+		question_date = #{questionDate}
 		WHERE question_id = #{questionId}
 	</update>
 

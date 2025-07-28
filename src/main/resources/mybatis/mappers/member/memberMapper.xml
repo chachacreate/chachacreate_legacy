@@ -18,8 +18,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<select id="selectByMemberId" resultMap="memberResultMap"
-		parameterType="long">
+		parameterType="int">
 		SELECT * FROM MEMBER WHERE MEMBER_ID = #{memberId}
+	</select>
+
+	<select id="selectByMemberEmail" resultMap="memberResultMap"
+		parameterType="String">
+		SELECT * FROM MEMBER WHERE MEMBER_EMAIL = #{memberEmail}
 	</select>
 
 	<insert id="insert" parameterType="memberEntity">
@@ -30,7 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES (seq_member_id.NEXTVAL, #{memberEmail},
 		#{memberName}, #{memberPwd},
 		#{memberPhone}, #{memberRegi},
-		#{joinDate})
+		SYSDATE)
 	</insert>
 
 	<update id="update" parameterType="memberEntity">
@@ -46,9 +51,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		JOIN_DATE = #{joinDate}
 		WHERE MEMBER_ID = #{memberId}
 	</update>
+	
+	<update id="updatePwd" parameterType="memberEntity">
+		UPDATE member
+		SET member_pwd = #{memberPwd}
+		WHERE member_id = #{memberId}
+	</update>
 
 	<delete id="delete" parameterType="int">
 		DELETE FROM MEMBER WHERE
 		MEMBER_ID = #{memberId}
 	</delete>
+	
+	
+	<update id="updateMemberInfo" parameterType="memberEntity">
+		UPDATE MEMBER SET
+		MEMBER_PWD =#{memberPwd},
+		MEMBER_PHONE = #{memberPhone}
+		WHERE MEMBER_ID = #{memberId}
+	</update>
+	
 </mapper>

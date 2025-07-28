@@ -1,0 +1,607 @@
+@charset "UTF-8";
+
+.page-container {
+  display: flex;
+  width: 1920px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.left-padding,
+.right-padding {
+  width: 240px;
+  flex-shrink: 0;
+}
+
+
+.content-wrapper {
+  flex: 1;
+  padding: 40px 0;
+  box-sizing: border-box;
+}
+
+.member-box {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.member-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+
+
+
+.content-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.frame-1075 {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.top-action {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;        /* �� 踰��� 以��대�ㅼ� ��寃� 怨��� */
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;           /* �� 諛����� ��泥� ��鍮� ��蹂� */
+  max-width: 100%;       /* �� �뱀�� width ������硫� �댁�� */
+  padding: 0 10px;       /* �� �� �� �щ갚留� 二쇨�, �대� ���� 蹂댄�� */
+  box-sizing: border-box;
+}
+
+.top-bar h2 {
+  font-size: 24px;       /* �� 湲��� �ш린 議곗�� (��: 24px ����) */
+  margin: 0;
+  white-space: nowrap;   /* �� 以�諛�轅� 諛⑹� */
+  flex-shrink: 0;        /* �� ���ㅽ�멸� 以��대�ㅼ� ��寃� 怨��� */
+}
+
+.form-body-row {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.product-form-unit {
+  width: 100%;
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.box, .box2, textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+
+.frame-1076{
+  width: 468px;
+  height: auto; /* 怨��� ���� ��嫄� */
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-sizing: border-box;
+}
+
+.frame-817,
+.frame-815 {
+  width: 100%;         /* 遺�紐⑥�� width�� 留�寃� */
+  height: 350px;       /* 湲곗〈 400px �� 350px濡� 議곗�� */
+  border-radius: 3px;
+  background: #e6e8ea;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.icon-button {
+  width: 142px;            /* �� .frame-8152�� ���� */
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.frame-1077 {
+  display: flex;
+  flex-direction: row;
+  gap: 10px; /* 媛�寃� ��吏� */
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%; /* 遺�紐� ��鍮��� 留�異� */
+  box-sizing: border-box;
+}
+
+/* �대�몄� ������ 踰��쇱�쇰� 泥�由� (諛곌꼍 + �대┃ 媛���) */
+.frame-8152-btn {
+  all: unset; /* 湲곕낯 踰��� �ㅽ���� ��嫄� */
+  cursor: pointer;
+  width: 142px;
+  height: 142px;
+  border-radius: 3px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e6e8ea;
+}
+
+/* �대� div ��吏� �� ����泥��� �ъ�� 媛��� */
+.frame-8152 {
+  display: flex;
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center;     /* 세로 중앙 정렬 */
+  width: 100%;             /* 필요 시 너비 지정 */
+  height: 100%;            /* 필요 시 높이 지정 */
+}
+
+.icon-btn-more3 {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  left: 75.5px;
+  top: 75px;
+}
+.container {
+  opacity: 0.1;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  right: 0%;
+  left: 0%;
+  bottom: 0%;
+  top: 0%;
+}
+
+.frame-1078 {
+  display: flex;
+  flex-direction: row;
+  gap: 21px;               /* �� 踰��� 媛��� 媛�寃� 議곗�� */
+  align-items: center;
+  justify-content: flex-start;
+  width: 468px;            /* �� 遺�紐⑥�� ���쇳�� ��鍮�濡� ���� */
+  box-sizing: border-box;
+}
+
+.icon-menu {
+  flex-shrink: 0;
+  width: 48px;
+  height: 49px;
+  position: relative;
+  overflow: visible;
+}
+
+/* 상품정보 전체 wrapper */
+.frame-1196 {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* 내부 콘텐츠 프레임 */
+.frame-1079 {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-sizing: border-box;
+}
+
+.text-area {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-3, 8px);
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 617px;
+  height: 118px;
+  position: relative;
+}
+.div17 {
+  color: var(--color-text-subtle, #464c53);
+  text-align: left;
+  font-family: var(--label-small-font-family, "PretendardGov-Bold", sans-serif);
+  font-size: var(--label-small-font-size, 15px);
+  line-height: var(--label-small-line-height, 150%);
+  font-weight: var(--label-small-font-weight, 700);
+  position: relative;
+  align-self: stretch;
+}
+.box {
+  background: var(--color-input-surface, #ffffff);
+  border-radius: var(--radius-medium2, 6px);
+  border-style: solid;
+  border-color: var(--color-input-border, #58616a);
+  border-width: 1px;
+  padding: var(--padding-3, 8px) var(--padding-6, 16px) var(--padding-3, 8px)
+    var(--padding-6, 16px);
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-8, 32px);
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex: 1;
+  position: relative;
+}
+.div18 {
+  color: var(--color-text-disabled, #8a949e);
+  text-align: left;
+  font-family: var(
+    --label-medium-font-family,
+    "PretendardGov-Regular",
+    sans-serif
+  );
+  font-size: var(--label-medium-font-size, 17px);
+  line-height: var(--label-medium-line-height, 150%);
+  font-weight: var(--label-medium-font-weight, 400);
+  position: relative;
+}
+.counter-low {
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-1, 2px);
+  align-items: center;
+  justify-content: flex-end;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+._12 {
+  color: #28a745;
+  text-align: left;
+  font-family: var(
+    --body-small-font-family,
+    "PretendardGov-Regular",
+    sans-serif
+  );
+  font-size: var(--body-small-font-size, 15px);
+  line-height: var(--body-small-line-height, 150%);
+  font-weight: var(--body-small-font-weight, 400);
+  position: relative;
+}
+._100 {
+  color: var(--color-text-subtle, #464c53);
+  text-align: left;
+  font-family: var(
+    --body-small-font-family,
+    "PretendardGov-Regular",
+    sans-serif
+  );
+  font-size: var(--body-small-font-size, 15px);
+  line-height: var(--body-small-line-height, 150%);
+  font-weight: var(--body-small-font-weight, 400);
+  position: relative;
+}
+.text-input {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-3, 8px);
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 617px;
+  position: relative;
+}
+.box2 {
+  background: var(--color-input-surface, #ffffff);
+  border-radius: var(--radius-medium3, 8px);
+  border-style: solid;
+  border-color: var(--color-input-border, #58616a);
+  border-width: 1px;
+  padding: 0px var(--padding-6, 16px) 0px var(--padding-6, 16px);
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-3, 8px);
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: var(--size-height-8, 56px);
+  position: relative;
+}
+.div19 {
+  color: var(--color-text-disabled, #8a949e);
+  text-align: left;
+  font-family: var(
+    --label-large-font-family,
+    "PretendardGov-Regular",
+    sans-serif
+  );
+  font-size: var(--label-large-font-size, 19px);
+  line-height: var(--label-large-line-height, 150%);
+  font-weight: var(--label-large-font-weight, 400);
+  position: relative;
+  flex: 1;
+}
+.text-area2 {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-3, 8px);
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 617px;
+  height: 230px;
+  position: relative;
+}
+.group-90 {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.div20 {
+  color: var(--color-text-subtle, #464c53);
+  text-align: left;
+  font-family: var(--label-small-font-family, "PretendardGov-Bold", sans-serif);
+  font-size: var(--label-small-font-size, 15px);
+  line-height: var(--label-small-line-height, 150%);
+  font-weight: var(--label-small-font-weight, 700);
+  margin-bottom: 8px;
+}
+
+/* .frame-10772 {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 549px;
+  position: absolute;
+  left: 34px;
+  top: 526px;
+}
+ */
+ 
+ .frame-10772 {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+
+.icon-btn-more4 {
+  width: 26px;
+  height: 26px;
+  position: absolute;
+  left: 70.71px;
+  top: 25px;
+  overflow: visible;
+}
+
+.icon-btn-more5 {
+  width: 26px;
+  height: 26px;
+  position: absolute;
+  left: 70.71px;
+  top: 25px;
+  overflow: visible;
+}
+
+.icon-btn-more6 {
+  width: 26px;
+  height: 26px;
+  position: absolute;
+  left: 70.71px;
+  top: 25px;
+  overflow: visible;
+}
+
+.frame-774 {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-end;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 610px;
+  height: 20px;
+  position: relative;
+}
+
+.button2 {
+  background: #2a3e34;
+  border-radius: var(--radius-medium2, 6px);
+  padding: 0px var(--padding-6, 16px) 0px var(--padding-6, 16px);
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-2, 4px);
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 120px;
+  height: var(--size-height-7, 48px);
+  min-width: 78px;
+  position: relative;
+}
+.div21 {
+  color: var(--color-text-inverse-static, #ffffff);
+  text-align: center;
+  font-family: var(
+    --label-medium-font-family,
+    "PretendardGov-Regular",
+    sans-serif
+  );
+  font-size: var(--label-medium-font-size, 17px);
+  line-height: var(--label-medium-line-height, 150%);
+  font-weight: var(--label-medium-font-weight, 400);
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* frame-817�� 踰��쇳�� */
+.frame-817-btn {
+  all: unset; /* 湲곕낯 踰��� �ㅽ���� ��嫄� */
+  width: 100%;      /* 遺�紐� 媛�濡� 100% */
+  height: 350px;    /* 湲곗〈 frame-817 ���� ��吏� */
+  border-radius: 3px;
+  background: #e6e8ea;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+/* hover �④낵 (frame-8152-btn怨� ����) */
+.frame-817-btn:hover {
+  background-color: #cbd1d7;
+  box-shadow: 0 0 6px rgba(0,0,0,0.15);
+}
+
+/* frame-8152-btn (�대�몄� ���� 踰���) */
+.frame-8152-btn {
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.frame-8152-btn:hover {
+  background-color: #cbd1d7; /* 諛곌꼍�� 吏���寃� 蹂�寃� */
+  box-shadow: 0 0 6px rgba(0,0,0,0.15);
+}
+
+.icon-plus, .icon-menu {
+  width: 24px;
+  height: 24px;
+  font-size: 24px;
+}
+
+.icon-button{
+  display: flex;
+  align-items: center; /* ��吏� 以��� ���� */
+  width: 135px;        /* 湲곗〈 ��鍮� ��吏� */
+  height: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.icon-button2 {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center; /* ��吏� 以��� ���� */
+  width: 142px;        /* 湲곗〈 ��鍮� ��吏� */
+  height: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.text-area,
+.text-input,
+.text-area2,
+.group-90 {
+  width: 100%;              /* �� 617px �� 100%濡� 蹂�寃� */
+  max-width: 617px;         /* �� ���� �� 理��� ��鍮� ���� */
+}
+
+.frame-10772 {
+  width: 100%;              /* �� 媛�濡� ��移� 諛⑹� */
+  gap: 16px;                /* �� �ъ�� 媛�寃� 議곗�� */
+  flex-wrap: wrap;          /* �� 諛����� ���� */
+}
+
+.frame-8153,
+.frame-816,
+.frame-8172 {
+  flex: 1 1 30%;            /* �� ��鍮� ���� 議곗�� (理��� 3�깅�) */
+  max-width: 160px;
+}
+
+.box,
+.box2,
+textarea.box {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #58616a;
+  border-radius: 6px;
+  padding: 8px 16px;
+}
+
+.category-select {
+  flex: 1;
+  width: 100%;                         /* �� input泥��� 苑� 李④� */
+  height: 56px;
+  padding: 0 16px;
+  font-size: 17px;
+  font-family: "PretendardGov-Regular", sans-serif;
+  border: 1px solid #58616a;
+  border-radius: 8px;
+  background-color: #fff;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%23616161' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 16px center;  /* ���댄�� ��移� */
+  background-size: 16px 16px;
+  appearance: none;                        /* 湲곕낯 ���댄�� ��嫄� */
+  box-sizing: border-box;
+  cursor: pointer;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.frame-817-btn.has-image,
+.frame-8152-btn.has-image {
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+.frame-817-btn .icon-plus,
+.frame-8152-btn .icon-plus {
+  transition: opacity 0.3s ease;
+}
+
+.frame-817-btn.has-image .icon-plus,
+.frame-8152-btn.has-image .icon-plus {
+  opacity: 0; /* 이미지가 있으면 + 아이콘 안보이게 */
+}
+
+.remove-product-btn {
+  align-self: flex-end;
+  background: #f44336;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-weight: bold;
+}

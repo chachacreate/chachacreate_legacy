@@ -25,8 +25,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <insert id="insert" parameterType="orderDetailEntity">
+        <selectKey keyProperty="orderDetailId" resultType="int" order="BEFORE">
+	        SELECT seq_order_detail_id.NEXTVAL FROM dual
+	    </selectKey>
         INSERT INTO order_detail (order_detail_id, order_id, product_id, order_cnt, order_price)
-        VALUES (seq_order_detail_id.NEXTVAL, #{orderId}, #{productId}, #{orderCnt}, #{orderPrice})
+        VALUES (#{orderDetailId}, #{orderId}, #{productId}, #{orderCnt}, #{orderPrice})
     </insert>
 
     <update id="update" parameterType="orderDetailEntity">

@@ -1,10 +1,11 @@
 package com.chacha.create.common.entity.member;
 
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.Date;
 
 /**
  * 회원 정보를 나타내는 엔티티 클래스입니다.

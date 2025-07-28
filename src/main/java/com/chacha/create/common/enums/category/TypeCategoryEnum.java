@@ -3,6 +3,8 @@ package com.chacha.create.common.enums.category;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -16,32 +18,33 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-@JsonFormat(shape = JsonFormat.Shape.OBJECT) // JSON 직렬화 시 객체 형태로 변환
+@JsonFormat(shape = JsonFormat.Shape.STRING) // JSON 직렬화 시 문자 형태로 변환
 public enum TypeCategoryEnum {
 
+	
+    /** 실을 이용해 손으로 짜는 뜨개질 공예 */
+    KNITTING(1, "뜨개질공예"),
+    
     /** 금속을 주재료로 하는 공예 */
-    METAL(1, "금속공예"),
+    METAL(2, "금속공예"),
 
     /** 목재를 이용한 공예 */
-    WOOD(2, "목공예"),
+    WOOD(3, "목공예"),
 
     /** 점토를 구워 만드는 도자기 형태의 공예 */
-    CERAMIC(3, "도자기공예"),
+    CERAMIC(4, "도자기공예"),
 
     /** 유리를 이용하여 제작하는 공예 */
-    GLASS(4, "유리공예"),
+    GLASS(5, "유리공예"),
 
     /** 동물 가죽 등을 가공하여 만든 공예 */
-    LEATHER(5, "가죽공예"),
+    LEATHER(6, "가죽공예"),
 
     /** 레진(수지)를 활용한 공예 */
-    RESIN(6, "레진공예"),
+    RESIN(7, "레진공예"),
 
     /** 꽃, 식물 등을 활용한 공예 */
-    PLANT(7, "식물공예"),
-
-    /** 실을 이용해 손으로 짜는 뜨개질 공예 */
-    KNITTING(8, "뜨개질공예"),
+    PLANT(8, "식물공예"),
 
     /** 천을 재단하고 바느질하여 만드는 양재공예 */
     SEWING(9, "양재공예"),
@@ -53,6 +56,7 @@ public enum TypeCategoryEnum {
     private final int id;
 
     /** 수공예 기법 이름 (한글) */
+    @JsonValue
     private final String name;
 
     /**
@@ -62,11 +66,39 @@ public enum TypeCategoryEnum {
      * @return 해당 ID를 갖는 {@link TypeCategoryEnum}
      * @throws IllegalArgumentException ID가 유효하지 않을 경우 예외 발생
      */
-    @JsonCreator
-    public static TypeCategoryEnum fromId(@JsonProperty("id") int id) {
+    public static TypeCategoryEnum fromId(@JsonProperty("typeCategoryId") int id) {
         for (TypeCategoryEnum t : values()) {
             if (t.id == id) return t;
         }
         throw new IllegalArgumentException("Invalid TypeCategory id: " + id);
     }
+    
+    @JsonCreator
+    public static TypeCategoryEnum fromJson(Object input) {
+        if (input instanceof Integer) {
+            return fromId((Integer) input);
+        }
+        if (input instanceof String) {
+            String str = (String) input;
+            // 숫자 문자열이면 숫자로 변환 시도
+            try {
+                int id = Integer.parseInt(str);
+                return fromId(id);
+            } catch (NumberFormatException e) {
+                // 숫자가 아니면 이름으로 처리
+                for (TypeCategoryEnum type : values()) {
+                    if (type.name().equalsIgnoreCase(str) || type.name.equals(str)) {
+                        return type;
+                    }
+                }
+            }
+        }
+        throw new IllegalArgumentException("Invalid TypeCategory input: " + input);
+    }
+
+    @Override
+    public String toString() {
+        return name; // JSON 출력 시 문자열로
+    }
+
 }

@@ -2,6 +2,8 @@ package com.chacha.create.common.entity.store;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -46,5 +48,6 @@ public class NoticeEntity {
     private String noticeText;
 
     /** 공지사항 등록 일자 */
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date noticeDate;
 }

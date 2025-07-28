@@ -26,7 +26,7 @@ public interface PImgMapper {
      * @param pImgId 이미지 ID
      * @return 해당 이미지 ID의 {@code PImgEntity} 객체
      */
-    PImgEntity selectByPImgId(int pImgId);
+    PImgEntity selectByPImgId(int pimgId);
 
     /**
      * 상품 ID로 해당 상품의 모든 이미지를 조회합니다.
@@ -59,5 +59,7 @@ public interface PImgMapper {
      * @param pImgId 삭제할 이미지 ID
      * @return 영향 받은 행 수
      */
-    int delete(int pImgId);
+    int delete(int pimgId);
+
+	void deleteImagesByProductId(int productId);
 }

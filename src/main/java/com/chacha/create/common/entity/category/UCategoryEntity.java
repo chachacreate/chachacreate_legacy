@@ -26,8 +26,8 @@ import lombok.NoArgsConstructor;
 public class UCategoryEntity {
 
     /** 상위 카테고리 enum (기본 키 역할) */
-    private UCategoryEnum uCategoryId;
+    private UCategoryEnum ucategoryId;
 
     /** 상위 카테고리 이름 (예: 공예, 패션잡화 등) */
-    private String uCategoryName;
+    private String ucategoryName;
 }

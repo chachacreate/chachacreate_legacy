@@ -1,0 +1,956 @@
+@charset "EUC-KR";
+
+.div,
+.div * {
+  box-sizing: border-box;
+}
+.div {
+  background: #f0f0f0;
+  height: 1080px;
+  position: relative;
+  overflow: hidden;
+}
+.div2 {
+  background: var(--chacha-color-header, #676f58);
+  width: 1920px;
+  height: 50px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+.frame-1024 {
+  display: flex;
+  flex-direction: row;
+  gap: 28px;
+  align-items: center;
+  justify-content: flex-start;
+  position: absolute;
+  left: 1383px;
+  top: 0px;
+}
+.div3 {
+  color: #ffffff;
+  text-align: right;
+  font-family: "-", sans-serif;
+  font-size: 16px;
+  line-height: 150%;
+  font-weight: 400;
+  position: relative;
+  width: 191px;
+}
+.div-3-span {
+  font-family: "Poppins-Bold", sans-serif;
+  font-weight: 700;
+}
+.div-3-span2 {
+  font-family: "Poppins-Regular", sans-serif;
+}
+.rectangle-439 {
+  background: var(--chacha-color-button-thick, #2a3e34);
+  flex-shrink: 0;
+  width: 84px;
+  height: 50px;
+  position: relative;
+}
+.div4 {
+  color: #ffffff;
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 16px;
+  line-height: 150%;
+  font-weight: 400;
+  position: relative;
+}
+.div5 {
+  color: #ffffff;
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 16px;
+  line-height: 150%;
+  font-weight: 400;
+  position: absolute;
+  left: 238px;
+  top: 13px;
+}
+.div6 {
+  background: #ffffff;
+  border-style: solid;
+  border-color: var(--chacha-color-header-stroke, #d2d2d2);
+  border-width: 1px;
+  width: 1920px;
+  height: 100px;
+  position: absolute;
+  left: 0px;
+  top: 50px;
+}
+.group-2 {
+  position: absolute;
+  inset: 0;
+}
+.div7 {
+  border-radius: 8px;
+  padding: var(--padding-4, 4px) var(--padding-12, 12px) 0px
+    var(--padding-12, 12px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-4, 4px);
+  align-items: center;
+  justify-content: center;
+  height: var(--size-height-56, 56px);
+  position: absolute;
+  left: 1695px;
+  top: 72px;
+}
+.icon-size {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+.icon-myinfo {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  position: relative;
+  overflow: visible;
+}
+.div8 {
+  color: var(--color-text-basic, #1e2124);
+  text-align: left;
+  font-family: var(--typo-font-type, "PretendardGov-Bold", sans-serif);
+  font-size: var(--font-size-navigation-depth-medium, 17px);
+  line-height: 150%;
+  font-weight: 700;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.div9 {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  height: 665px;
+  position: absolute;
+  left: 135px;
+  top: 150px;
+}
+.div10 {
+  background: var(--chacha-color-button-light, #cfd3c4);
+  padding: 24px 0px 24px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 266px;
+  height: 930px;
+  position: relative;
+}
+.frame-1018 {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+._1 {
+  flex-shrink: 0;
+  width: 133px;
+  height: 133px;
+  position: relative;
+  object-fit: cover;
+  aspect-ratio: 1;
+}
+.div11 {
+  color: var(--color-text-subtle, #464c53);
+  text-align: left;
+  font-family: var(
+    --heading-medium-font-family,
+    "PretendardGov-Bold",
+    sans-serif
+  );
+  font-size: var(--heading-medium-font-size, 24px);
+  line-height: var(--heading-medium-line-height, 150%);
+  font-weight: var(--heading-medium-font-weight, 700);
+  position: relative;
+}
+.frame-841 {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 266px;
+  position: relative;
+}
+.main-menu-open-2-depth-bar-atomic-pc {
+  background: rgba(255, 255, 255, 0);
+  padding: var(--padding-6, 16px) var(--padding-8, 24px) var(--padding-6, 16px)
+    var(--padding-8, 24px);
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-7, 24px);
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 58px;
+  position: relative;
+}
+.div12 {
+  color: var(--color-text-basic, #1e2124);
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: var(--font-size-navigation-depth-medium, 17px);
+  line-height: 150%;
+  font-weight: 400;
+  position: relative;
+  flex: 1;
+}
+.icon-arrow-right {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  position: relative;
+  overflow: visible;
+}
+.main-menu-open-2-depth-bar-atomic-pc2 {
+  background: var(--color-action-secondary-on, rgba(255, 255, 255, 0));
+  padding: var(--padding-6, 16px) var(--padding-8, 24px) var(--padding-6, 16px)
+    var(--padding-8, 24px);
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-7, 24px);
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 58px;
+  position: relative;
+}
+.icon-arrow-right2 {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  position: relative;
+  overflow: visible;
+}
+._2-depth-bar {
+  color: var(--color-text-basic, #1e2124);
+  text-align: left;
+  font-family: var(
+    --navigation-depth-medium-font-family,
+    "PretendardGov-Regular",
+    sans-serif
+  );
+  font-size: var(--navigation-depth-medium-font-size, 17px);
+  line-height: var(--navigation-depth-medium-line-height, 150%);
+  font-weight: var(--navigation-depth-medium-font-weight, 400);
+  position: relative;
+  flex: 1;
+}
+.icon-arrow-down {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  position: relative;
+  overflow: visible;
+}
+.icon-arrow-right3 {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  position: relative;
+  overflow: visible;
+}
+.div13 {
+  color: var(--color-text-basic, #1e2124);
+  text-align: left;
+  font-family: var(
+    --navigation-depth-medium-font-family,
+    "PretendardGov-Regular",
+    sans-serif
+  );
+  font-size: var(--navigation-depth-medium-font-size, 17px);
+  line-height: var(--navigation-depth-medium-line-height, 150%);
+  font-weight: var(--navigation-depth-medium-font-weight, 400);
+  position: relative;
+  flex: 1;
+}
+.icon-arrow-right4 {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  position: relative;
+  overflow: visible;
+}
+.icon-arrow-right5 {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  position: relative;
+  overflow: visible;
+}
+.main-menu-open-2-depth-bar-atomic-pc3 {
+  background: var(--chacha-color-button-light, #cfd3c4);
+  padding: var(--padding-6, 16px) var(--padding-8, 24px) var(--padding-6, 16px)
+    var(--padding-8, 24px);
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-7, 24px);
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 58px;
+  position: relative;
+}
+._2-depth-bar2 {
+  color: var(--color-text-secondary, #052b57);
+  text-align: left;
+  font-family: var(--typo-font-type, "PretendardGov-Regular", sans-serif);
+  font-size: var(--font-size-navigation-depth-medium, 17px);
+  line-height: 150%;
+  font-weight: 400;
+  position: relative;
+  flex: 1;
+}
+.icon-arrow-right6 {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  position: relative;
+  overflow: visible;
+}
+.icon-arrow-right7 {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  position: relative;
+  overflow: visible;
+}
+.frame-1021 {
+  padding: 24px 41px 24px 41px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+  justify-content: flex-end;
+  flex-shrink: 0;
+  height: 217px;
+  position: relative;
+  overflow: hidden;
+}
+.button {
+  background: var(--chacha-color-button-thick, #2a3e34);
+  border-radius: var(--radius-medium4, 8px);
+  padding: 0px var(--padding-8, 24px) 0px var(--padding-8, 24px);
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-2, 4px);
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  height: var(--size-height-9, 64px);
+  min-width: 98px;
+  position: relative;
+}
+.div14 {
+  color: var(--color-text-inverse-static, #ffffff);
+  text-align: center;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: var(--font-size-label-large, 19px);
+  line-height: 150%;
+  font-weight: 400;
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.frame-1074 {
+  padding: 45px 0px 45px 45px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 1380px;
+  height: 930px;
+  position: absolute;
+  left: 401px;
+  top: 150px;
+  overflow: hidden;
+}
+.div15 {
+  color: var(--color-text-subtle, #464c53);
+  text-align: left;
+  font-family: var(
+    --heading-large-font-family,
+    "PretendardGov-Bold",
+    sans-serif
+  );
+  font-size: var(--heading-large-font-size, 32px);
+  line-height: var(--heading-large-line-height, 150%);
+  letter-spacing: var(--heading-large-letter-spacing, 1px);
+  font-weight: var(--heading-large-font-weight, 700);
+  position: relative;
+}
+.frame-1085 {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 813px;
+  position: relative;
+  overflow-y: auto;
+}
+.div16 {
+  background: #ffffff;
+  border-radius: 3px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 1335px;
+  height: 1710px;
+  position: relative;
+  overflow-y: auto;
+}
+.frame-1081 {
+  padding: 20px 60px 20px 60px;
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-end;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 92px;
+  position: relative;
+  overflow: hidden;
+}
+.icon-btn-more {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  overflow: visible;
+}
+.frame-1075 {
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 741px;
+  position: relative;
+  overflow: hidden;
+}
+.frame-1076 {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 617px;
+  height: 731px;
+  position: relative;
+  overflow: hidden;
+}
+.frame-817 {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-shrink: 0;
+  width: 400px;
+  height: 400px;
+  position: relative;
+}
+.frame-815 {
+  background: #e6e8ea;
+  border-radius: 3px;
+  flex-shrink: 0;
+  width: 400px;
+  height: 400px;
+  position: relative;
+  overflow: hidden;
+}
+.icon-btn-more2 {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  left: 175.5px;
+  top: 175px;
+  overflow: visible;
+}
+.frame-1077 {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.frame-8152 {
+  background: #e6e8ea;
+  border-radius: 3px;
+  flex-shrink: 0;
+  width: 200px;
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+}
+.icon-btn-more3 {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  left: 75.5px;
+  top: 75px;
+}
+.container {
+  opacity: 0.1;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  right: 0%;
+  left: 0%;
+  bottom: 0%;
+  top: 0%;
+}
+.frame-1078 {
+  display: flex;
+  flex-direction: row;
+  gap: 168px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 617px;
+  position: relative;
+}
+.icon-menu {
+  flex-shrink: 0;
+  width: 48px;
+  height: 49px;
+  position: relative;
+  overflow: visible;
+}
+.icon-menu2 {
+  flex-shrink: 0;
+  width: 47px;
+  height: 49px;
+  position: relative;
+  overflow: visible;
+}
+.icon-menu3 {
+  flex-shrink: 0;
+  width: 48px;
+  height: 49px;
+  position: relative;
+  overflow: visible;
+}
+.frame-1079 {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 617px;
+  height: 731px;
+  position: relative;
+  overflow: hidden;
+}
+.text-area {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-3, 8px);
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 617px;
+  height: 118px;
+  position: relative;
+}
+.div17 {
+  color: var(--color-text-subtle, #464c53);
+  text-align: left;
+  font-family: var(--label-small-font-family, "PretendardGov-Bold", sans-serif);
+  font-size: var(--label-small-font-size, 15px);
+  line-height: var(--label-small-line-height, 150%);
+  font-weight: var(--label-small-font-weight, 700);
+  position: relative;
+  align-self: stretch;
+}
+.box {
+  background: var(--color-input-surface, #ffffff);
+  border-radius: var(--radius-medium2, 6px);
+  border-style: solid;
+  border-color: var(--color-input-border, #58616a);
+  border-width: 1px;
+  padding: var(--padding-3, 8px) var(--padding-6, 16px) var(--padding-3, 8px)
+    var(--padding-6, 16px);
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-8, 32px);
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex: 1;
+  position: relative;
+}
+.div18 {
+  color: var(--color-text-disabled, #8a949e);
+  text-align: left;
+  font-family: var(
+    --label-medium-font-family,
+    "PretendardGov-Regular",
+    sans-serif
+  );
+  font-size: var(--label-medium-font-size, 17px);
+  line-height: var(--label-medium-line-height, 150%);
+  font-weight: var(--label-medium-font-weight, 400);
+  position: relative;
+}
+.counter-low {
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-1, 2px);
+  align-items: center;
+  justify-content: flex-end;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+._12 {
+  color: var(--color-text-primary, #0b50d0);
+  text-align: left;
+  font-family: var(
+    --body-small-font-family,
+    "PretendardGov-Regular",
+    sans-serif
+  );
+  font-size: var(--body-small-font-size, 15px);
+  line-height: var(--body-small-line-height, 150%);
+  font-weight: var(--body-small-font-weight, 400);
+  position: relative;
+}
+._100 {
+  color: var(--color-text-subtle, #464c53);
+  text-align: left;
+  font-family: var(
+    --body-small-font-family,
+    "PretendardGov-Regular",
+    sans-serif
+  );
+  font-size: var(--body-small-font-size, 15px);
+  line-height: var(--body-small-line-height, 150%);
+  font-weight: var(--body-small-font-weight, 400);
+  position: relative;
+}
+.text-input {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-3, 8px);
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 617px;
+  position: relative;
+}
+.box2 {
+  background: var(--color-input-surface, #ffffff);
+  border-radius: var(--radius-medium3, 8px);
+  border-style: solid;
+  border-color: var(--color-input-border, #58616a);
+  border-width: 1px;
+  padding: 0px var(--padding-6, 16px) 0px var(--padding-6, 16px);
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-3, 8px);
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: var(--size-height-8, 56px);
+  position: relative;
+}
+.div19 {
+  color: var(--color-text-disabled, #8a949e);
+  text-align: left;
+  font-family: var(
+    --label-large-font-family,
+    "PretendardGov-Regular",
+    sans-serif
+  );
+  font-size: var(--label-large-font-size, 19px);
+  line-height: var(--label-large-line-height, 150%);
+  font-weight: var(--label-large-font-weight, 400);
+  position: relative;
+  flex: 1;
+}
+.text-area2 {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-3, 8px);
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 617px;
+  height: 230px;
+  position: relative;
+}
+.group-90 {
+  flex-shrink: 0;
+  width: 617px;
+  height: 108px;
+  position: static;
+}
+.div20 {
+  color: var(--color-text-subtle, #464c53);
+  text-align: left;
+  font-family: var(--label-small-font-family, "PretendardGov-Bold", sans-serif);
+  font-size: var(--label-small-font-size, 15px);
+  line-height: var(--label-small-line-height, 150%);
+  font-weight: var(--label-small-font-weight, 700);
+  position: absolute;
+  left: 0px;
+  top: 493px;
+  width: 617px;
+}
+.frame-10772 {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 549px;
+  position: absolute;
+  left: 34px;
+  top: 526px;
+}
+.frame-8153 {
+  background: #e6e8ea;
+  border-radius: 3px;
+  flex-shrink: 0;
+  width: 167px;
+  height: 75px;
+  position: relative;
+  overflow: hidden;
+}
+.icon-btn-more4 {
+  width: 26px;
+  height: 26px;
+  position: absolute;
+  left: 70.71px;
+  top: 25px;
+  overflow: visible;
+}
+.frame-816 {
+  background: #e6e8ea;
+  border-radius: 3px;
+  flex-shrink: 0;
+  width: 167px;
+  height: 75px;
+  position: relative;
+  overflow: hidden;
+}
+.icon-btn-more5 {
+  width: 26px;
+  height: 26px;
+  position: absolute;
+  left: 70.71px;
+  top: 25px;
+  overflow: visible;
+}
+.frame-8172 {
+  background: #e6e8ea;
+  border-radius: 3px;
+  flex-shrink: 0;
+  width: 167px;
+  height: 75px;
+  position: relative;
+  overflow: hidden;
+}
+.icon-btn-more6 {
+  width: 26px;
+  height: 26px;
+  position: absolute;
+  left: 70.71px;
+  top: 25px;
+  overflow: visible;
+}
+.frame-1082 {
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 803px;
+  position: relative;
+  overflow: hidden;
+}
+.icon-btn-more7 {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  left: 175.5px;
+  top: 175px;
+  overflow: visible;
+}
+.icon-menu4 {
+  flex-shrink: 0;
+  width: 48px;
+  height: 49px;
+  position: relative;
+  overflow: visible;
+}
+.icon-menu5 {
+  flex-shrink: 0;
+  width: 47px;
+  height: 49px;
+  position: relative;
+  overflow: visible;
+}
+.icon-menu6 {
+  flex-shrink: 0;
+  width: 48px;
+  height: 49px;
+  position: relative;
+  overflow: visible;
+}
+.frame-10792 {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 617px;
+  height: 793px;
+  position: relative;
+  overflow: hidden;
+}
+.icon-btn-more8 {
+  width: 26px;
+  height: 26px;
+  position: absolute;
+  left: 70.71px;
+  top: 25px;
+  overflow: visible;
+}
+.icon-btn-more9 {
+  width: 26px;
+  height: 26px;
+  position: absolute;
+  left: 70.71px;
+  top: 25px;
+  overflow: visible;
+}
+.icon-btn-more10 {
+  width: 26px;
+  height: 26px;
+  position: absolute;
+  left: 70.71px;
+  top: 25px;
+  overflow: visible;
+}
+.frame-773 {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 1;
+  width: 610px;
+  position: relative;
+}
+._3 {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  left: 135px;
+  top: 50px;
+  aspect-ratio: 1;
+}
+._2 {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  right: 0%;
+  left: 0%;
+  bottom: 0%;
+  top: 0%;
+  object-fit: cover;
+}
+
+/* Figma Styles of your File */
+:root {
+  /* Colors */
+  /* Fonts */
+  --bold-font-family: Afacad-Regular, sans-serif;
+  --bold-font-size: 64px;
+  --bold-line-height: 22px;
+  --bold-font-weight: 400;
+  --bold-font-style: normal;
+
+  /* Effects */
+}
+/* Figma Color Variables of your File */
+:root,
+[data-variable-collection-mode="mode-1"] {
+  /* mode-1 */
+  --color-text-basic: var(--color-text-basic);
+  --color-icon-gray: var(--color-icon-gray);
+  --color-action-secondary-on: var(--color-action-secondary-on);
+  --chacha-color-header: #676f58;
+  --chacha-color-text-base: #f9f9f9;
+  --chacha-color-banner: #a3ab94;
+  --chacha-color-button-thick: #2a3e34;
+  --chacha-color-button-light: #cfd3c4;
+  --color-text-subtle: var(--color-text-subtle);
+  --color-text-bolder: var(--color-text-bolder);
+  --color-border-gray-dark: var(--color-border-gray-dark);
+  --color-element-inverse: var(--color-element-inverse);
+  --color-kakao-basic: #fde500;
+  --color-naver-basic: #1dc800;
+  --color-kakao-hover: #e2cc00;
+  --color-naver-hover: #19ac00;
+  --chacha-color-header-stroke: #d2d2d2;
+  --chacha-color-dark-brown: #6f4e37;
+  --chacha-color-light-brown: #a67b5b;
+  --chacha-color-light-cream: #fff8e1;
+  --chacha-color-dark-cream: #eadca6;
+  --chacha-color-dark-pink: #d9a5a5;
+  --chacha-color-light-pink: #f2c6ac;
+  --chacha-color-gray: #d6d6d6;
+  --chacha-color-beige: #f5f2eb;
+}

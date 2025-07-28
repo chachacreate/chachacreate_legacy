@@ -1,7 +1,7 @@
 package com.chacha.create.common.entity.category;
 
-import com.chacha.create.common.enums.category.UCategoryEnum;
 import com.chacha.create.common.enums.category.DCategoryEnum;
+import com.chacha.create.common.enums.category.UCategoryEnum;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,12 +29,12 @@ import lombok.NoArgsConstructor;
 public class DCategoryEntity {
 
     /** 하위 카테고리 enum (기본 키 역할) */
-    private DCategoryEnum dCategoryId;
+    private DCategoryEnum dcategoryId;
 
     /** 상위 카테고리 enum (외래키 역할) */
-    private UCategoryEnum uCategoryId;
+    private UCategoryEnum ucategoryId;
 
     /** 하위 카테고리 이름 (예: 가방, 반지 등) */
-    private String dCategoryName;
+    private String dcategoryName;
 
 }

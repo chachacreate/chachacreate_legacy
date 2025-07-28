@@ -1,0 +1,313 @@
+@charset "UTF-8";
+
+
+.login-page,
+.login-page * {
+  box-sizing: border-box;
+}
+
+.login-page {
+  background: #f3f4f0;
+  padding: 24px;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+body {
+  margin: 0;
+}
+
+button {
+  all: unset;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+  justify-content: center;
+  width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.logo_frame {
+  flex-shrink: 0;
+  width: 214px;
+  height: 214px;
+  position: relative;
+  object-fit: cover;
+  aspect-ratio: 1;
+}
+
+.email_password_frame {
+  background: #f3f7e8;
+  border-radius: 5px;
+  border-style: solid;
+  border-color: #2a3e34;
+  border-width: 1px;
+  padding: 0px 10px 0px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-shrink: 0;
+  width: 440px;
+  height: 56px;
+  position: relative;
+}
+
+.input-box {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  background: #f3f7e8;
+  font-family: var(--body-large-font-family, "PretendardGov-Regular", sans-serif);
+  font-size: var(--body-large-font-size, 19px);
+  color: var(--color-text-subtle, #464c53);
+}
+
+.input-box::selection {
+  background: #d4e6c2; /* 원하는 색상으로 바꾸세요 */
+  color: #000000;      /* 선택된 텍스트 색상도 지정 가능 */
+}
+
+.input-box:focus {
+  outline: none;
+  background: #f3f7e8;
+}
+
+.input-box:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px #f3f7e8 inset !important;
+  -webkit-text-fill-color: #464c53 !important;
+}
+
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  height: 282px;
+  position: relative;
+}
+
+.form-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.checkbox {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.checkbox2 {
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-3, 8px);
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 172px;
+  position: relative;
+}
+
+.item {
+  padding: 3px 0px 3px 0px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.checkbox-item {
+  background: var(--color-element-inverse, #ffffff);
+  border-radius: var(--radius-small2, 4px);
+  border-style: solid;
+  border-color: var(--color-border-gray-dark, #58616a);
+  border-width: 1px;
+  padding: var(--padding-1, 2px);
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 24px;
+  height: var(--size-height-4, 24px);
+  position: relative;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-2, 4px);
+  align-items: flex-start;
+  justify-content: center;
+  flex: 1;
+  position: relative;
+}
+
+.rememberId_frame {
+  color: var(--color-text-bolder, #131416);
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: var(--font-size-label-large, 19px);
+  line-height: 150%;
+  font-weight: 400;
+  position: relative;
+  align-self: stretch;
+}
+
+.login-button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 440px;
+  position: relative;
+  cursor: pointer;
+}
+
+.component_login {
+  border: none;
+  background-color: #2a3e34;
+  border-radius: 5px;
+  width: 440px;
+  height: 56px;
+  cursor: pointer;
+
+  color: white;               
+  font-weight: bold;         
+  display: flex;              
+  align-items: center;       
+  justify-content: center;    
+  font-size: 16px;        
+}
+
+a {
+  text-decoration: none;
+}
+
+
+.login-bottom-links {
+  display: flex;
+  flex-direction: row;
+  gap: 200px;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.link-text {
+  color: var(--color-text-subtle, #464c53);
+  text-align: left;
+  font-family: var(--body-medium-font-family, "PretendardGov-Regular", sans-serif);
+  font-size: var(--body-medium-font-size, 17px);
+  line-height: var(--body-medium-line-height, 150%);
+  font-weight: var(--body-medium-font-weight, 400);
+  position: relative;
+}
+
+.social-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  width: 100%;
+  padding: 10px 0;
+}
+
+.line {
+  flex: 1;
+  height: 1px;
+  background-color: #2a3e34;
+}
+
+.social-label {
+  padding: 0 10px;
+  background-color: #f3f4f0;
+  color: #2a3e34;
+  font-family: "Roboto-SemiBold", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  white-space: nowrap;
+  border-radius: 5px;
+}
+
+.social-login {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+}
+
+.naver-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 440px;
+  height: 50px;
+  background-color: #1dc800;
+  color: #fff;
+  font-weight: bold;
+  font-size: 16px;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.kakao-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 440px;
+  height: 50px;
+  background-color: #fee500;
+  color: #3c1e1e;
+  font-weight: bold;
+  font-size: 16px;
+  text-decoration: none;
+  border-radius: 5px;
+}

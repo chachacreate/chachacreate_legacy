@@ -1,0 +1,347 @@
+:root {
+  --color-banner: #676f58;
+  --color-button-light: #f9f9f9;
+  --color-header: #a3ab94;
+  --text-base: #333;
+  --text-base2: #f9f9f9;
+}
+
+/* 전체 채팅 영역 */
+.chat-container {
+  display: flex;
+  width: 900px;
+  height: 700px;
+  margin: 40px auto;
+  background-color: white;
+  border-radius: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  gap: 24px;
+  padding: 20px;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+}
+
+
+
+/* 검색창 */
+.chat-search {
+  margin-bottom: 16px;
+}
+
+.chat-search input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+/* 채팅방 목록 */
+.chat-room-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.chat-room-item {
+  padding: 10px 12px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  background-color: white;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.chat-room-item:hover {
+  background-color: #eee;
+}
+
+.chat-room-name {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.chat-room-preview {
+  font-size: 13px;
+  color: #777;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 오른쪽 메인 채팅영역 */
+.chat-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  background-color: #fafafa;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* 채팅 상단 */
+.chat-header {
+  padding-bottom: 12px;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 20px;
+}
+
+.chat-header h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+/* 메시지 영역 */
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-right: 10px;
+}
+
+/* 말풍선 메시지 */
+.message {
+  max-width: 60%;
+  padding: 12px 16px;
+  border-radius: 18px;
+  font-size: 14px;
+  line-height: 1.5;
+  position: relative;
+  word-break: break-word;
+}
+
+.message-text {
+  margin: 0;
+}
+
+.message.received {
+  background-color: var(--color-banner);
+  color: var(--text-base2);
+  align-self: flex-start;
+  border-bottom-left-radius: 6px;
+}
+
+.message.sent {
+  background-color: var(--color-header);
+  color: var(--text-base2);
+  align-self: flex-end;
+  border-bottom-right-radius: 6px;
+}
+
+/* 메시지 시간 */
+.message-time {
+  font-size: 11px;
+  color: #d6d6d6;
+  margin-top: 6px;
+  display: block;
+  text-align: right;
+}
+
+/* 입력창 */
+.chat-input {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  outline: none;
+}
+
+.chat-input button {
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: none;
+  background-color: #2a3e34;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.chat-input button:hover {
+  background-color: #3366cc;
+}
+
+.chat-room-item.active {
+  background-color: #cfd3c4;
+  color: var(--text-base2);
+}
+
+
+/* 헤더 및 사이드바, 푸터 영역 */
+
+.member-box {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.member-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.sidebar ul li a {
+    display: flex;                  /* ➤ 가로 정렬 */
+    justify-content: space-between;/* ➤ 양쪽 정렬 */
+    align-items: center;            /* ➤ 수직 정렬 */
+    padding: 10px;                  /* ➤ 좌우 위아래 10px */
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+    font-size: 15px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+.sidebar .arrow {
+    font-size: 16px;
+    color: #555;
+}
+/* 기본 구조 */
+.content-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+9:29
+@charset "EUC-KR";
+/* 전체 공통 설정 (mainauth_style)*/
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #F8F9FA;
+    height: 100vh;
+    overflow: hidden;
+    color: #333;
+}
+/* 전체 wrapper */
+.wrapper {
+    width: 100%;
+}
+
+/* 본문 전체 영역 */
+.main-area {
+    display: flex;
+    height: calc(100vh - 50px);
+    justify-content: center;
+}
+/* 콘텐츠 최대 폭 */
+.content-wrapper {
+    max-width: 1440px;
+    width: 100%;
+    display: flex;
+    padding: 0 20px;
+}
+
+
+.btn-go-buyer {
+    background-color: #676F58;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 19px;
+    padding: 16px 24px;
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+}
+.btn-go-buyer:hover {
+    background-color: #555D4A;
+}
+/* 본문 콘텐츠 영역 */
+.content {
+    flex-grow: 1;
+    background-color: #FFFFFF;
+    padding: 40px;
+    overflow-y: auto;
+    box-sizing: border-box;
+    border-radius: 0 8px 8px 0;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+/* 카드 박스 */
+.summary-box {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+.summary-item {
+    flex: 1;
+    background-color: #FFFFFF;
+    color: #333;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    border: 1px solid #D1D1D1;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.summary-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+.icon {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+.summary-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+.summary-info {
+    display: flex;
+    justify-content: space-around;
+    font-size: 14px;
+}
+.count {
+    color: #D9534F;
+    font-weight: bold;
+}
+/* 잔액 박스 */
+.balance-box {
+    background-color: #FFFFFF;
+    border: 1px solid #D1D1D1;
+    color: #212529;
+    padding: 30px 20px;
+    font-size: 22px;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+.balance-label {
+    font-weight: 600;
+}
+.balance-amount {
+    font-size: 28px;
+    font-weight: bold;
+}
+/* 푸터 */
+footer {
+  background-color: #2d4739;
+  text-align: center;
+  font-size: 14px;
+  color: #aaa;
+  padding: 20px 0;
+  margin-top: 40px;
+  border-top: 1px solid #ddd;
+}

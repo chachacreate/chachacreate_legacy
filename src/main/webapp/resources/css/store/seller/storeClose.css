@@ -1,0 +1,176 @@
+@charset "UTF-8";
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'PretendardGov-Regular', sans-serif;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f4f4f4;
+}
+
+.main-content {
+  display: flex;
+  flex: 1;
+}
+
+.side-padding {
+  width: 240px;
+  flex-shrink: 0;
+}
+
+.main-area {
+  flex-grow: 1;
+  display: flex;
+/*   flex-direction: column; */
+  height: 100%; /* ✅ 높이 100% 추가 */
+}
+
+.content-wrapper {
+  display: flex;
+  flex: 1; /* ✅ 남은 영역 전부 사용 */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+main.content {
+  flex-grow: 1;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 40px 60px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+
+/* 폐업 폼 내부 */
+.content-inner {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.frame-1171 {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 100%;
+  min-height: 400px;
+  padding: 45px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
+  margin: 0 auto;
+}
+
+.icon-system-warning {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+}
+
+.div16 {
+  color: #2a3e34;
+  font-size: 28px;
+  font-weight: 700;
+  font-family: "PretendardGov-Bold", sans-serif;
+  text-align: center;
+}
+
+.div17 {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+}
+
+.frame-758,
+.frame-757 {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.frame-754 {
+  background: #f3f7e8;
+  border: 1px solid #2a3e34;
+  border-radius: 5px;
+  width: 440px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+}
+
+.input-field {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 0 10px;
+  font-size: 16px;
+  font-family: 'PretendardGov-Regular', sans-serif;
+  color: #2a3e34;
+}
+
+.frame-752 {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  width: 440px;
+}
+
+.component-3 {
+  background: #2a3e34;
+  border-radius: 5px;
+  width: 100%;
+  height: 56px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 19px;
+  font-weight: 700;
+  font-family: "PretendardGov-Bold", sans-serif;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.component-3:hover {
+  background-color: #1f2c26;
+}
+
+footer {
+  background-color: #2d4739;
+  text-align: center;
+  font-size: 14px;
+  color: #aaa;
+  padding: 20px 0;
+  margin-top: 40px;
+  border-top: 1px solid #ddd;
+}

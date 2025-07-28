@@ -1,0 +1,360 @@
+@charset "UTF-8";
+
+/* ✅ 기본 설정 */
+body {
+  margin: 0;
+  font-family: 'Noto Sans KR', sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+.register-container {
+  padding: 60px 240px;
+  background: white;
+}
+
+/* ✅ 설명 박스 */
+.explanation-box {
+  background-color: #fff5dd;
+  padding: 32px 40px;
+  margin-bottom: 40px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  position: relative;
+  font-size: 16px;
+  line-height: 1.8;
+  color: #333;
+}
+
+.explanation-box h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.explanation-box ul {
+  margin-top: 12px;
+  padding-left: 20px;
+  list-style-type: disc;
+  color: #555;
+}
+
+.explanation-box li {
+  margin-bottom: 8px;
+}
+
+.explanation-box strong {
+  color: #314932;
+}
+
+/* ✅ 스토어 개설 버튼 */
+.open-store-btn {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background-color: #34432d;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 24px;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: background-color 0.2s ease;
+}
+
+.open-store-btn:hover {
+  background-color: #2a3e24;
+}
+
+/* ✅ Swiper wrapper */
+.swiper-wrapper {
+  display: flex;
+  transition-property: transform;
+  box-sizing: content-box;
+}
+
+.swiper-container-wrapper {
+  width: 100%;
+  overflow: hidden;
+  margin: 40px 0;
+  position: relative;
+}
+
+.swiper {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 0 40px;
+}
+
+.swiper-slide {
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #f4f4f4;
+  border-radius: 16px;
+  padding: 40px;
+}
+
+/* ✅ 슬라이드 내부 구성 */
+.slide-full {
+  width: 100%;
+}
+
+.slide-card {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+/* ✅ 이미지 업로드 박스 */
+.image-upload-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.img-placeholder {
+  width: 200px;
+  height: 200px;
+  background: #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+  display:flex;
+  justify-content: center;
+  align-items:center;'
+}
+
+/* ✅ 상품 정보 */
+.product-info {
+  flex: 1;
+  min-width: 300px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 24px 28px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #2a3e34;
+  font-size: 15px;
+}
+
+input[type="text"],
+select.category-select {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  box-sizing: border-box;
+  background-color: #fafafa;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input-inline input[type="number"] {
+  width: 200px; /* 적절한 길이로 조정 */
+  padding: 12px 16px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  box-sizing: border-box;
+  background-color: #fafafa;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+  border-color: #5b7153;
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(91, 113, 83, 0.15);
+  outline: none;
+}
+
+input::placeholder {
+  color: #aaa;
+}
+
+/* ✅ 단위 텍스트 정렬 */
+.input-inline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.input-inline .unit {
+  font-size: 14px;
+  color: #555;
+  white-space: nowrap;
+  padding: 0 6px;
+}
+
+/* ✅ 셀렉트박스 */
+select.category-select {
+  margin-bottom: 10px;
+  background-color: #fff;
+}
+
+/* ✅ 상세 설명 */
+.detail-form {
+  padding: 20px 0;
+}
+
+.detail-form textarea {
+  width: 100%;
+  height: 150px;
+  padding: 14px 16px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  resize: vertical;
+  background-color: #fafafa;
+}
+
+.detail-form textarea:focus {
+  border-color: #5b7153;
+  box-shadow: 0 0 0 3px rgba(91, 113, 83, 0.15);
+  outline: none;
+}
+
+/* ✅ 상세 페이지 토글 버튼 */
+.section-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #34432d; /* 진한 녹색 느낌 */
+  margin: 40px 0 20px;
+  position: relative;
+  padding-left: 16px;
+}
+
+.section-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 6px;
+  width: 6px;
+  height: 24px;
+  background-color: #8fc28a; /* 포인트 색상 */
+  border-radius: 3px;
+}
+
+/* ✅ 수정/삭제 버튼 영역 */
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.edit-btn,
+.delete-btn {
+  padding: 10px 18px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: not-allowed;
+  background-color: #dcdcdc;
+  color: #777;
+  transition: all 0.3s;
+}
+
+.edit-btn:enabled,
+.delete-btn:enabled {
+  cursor: pointer;
+  background-color: #34432d;
+  color: #fff;
+}
+
+.edit-btn:enabled:hover,
+.delete-btn:enabled:hover {
+  background-color: #2a3e26;
+}
+
+/* ✅ 등록 버튼 */
+.submit-section {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.submit-btn {
+  background-color: #34432d;
+  color: white;
+  padding: 14px 36px;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 24px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+  background-color: #2a3e26;
+}
+
+/* ✅ Swiper 화살표 */
+.swiper-button-prev,
+.swiper-button-next {
+  color: #333;
+  width: 40px;
+  height: 40px;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.swiper-button-prev {
+  left: 10px;
+}
+
+.swiper-button-next {
+  right: 10px;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 18px;
+}
+
+/* ✅ 푸터 */
+
+footer {
+  background-color: #2d4739;
+  text-align: center;
+  font-size: 14px;
+  color: #aaa;
+  padding: 20px 0;
+  margin-top: 40px;
+  border-top: 1px solid #ddd;
+}
+
+/* ✅ 반응형 대응 */
+@media (max-width: 1024px) {
+  .register-container {
+    padding: 40px 20px;
+  }
+
+  .swiper-slide {
+    padding: 20px;
+  }
+
+  .product-info {
+    padding: 20px;
+  }
+}

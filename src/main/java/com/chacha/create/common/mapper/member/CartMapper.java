@@ -3,7 +3,9 @@ package com.chacha.create.common.mapper.member;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
+import com.chacha.create.common.dto.member.CartViewDTO;
 import com.chacha.create.common.entity.member.CartEntity;
 
 /**
@@ -12,43 +14,24 @@ import com.chacha.create.common.entity.member.CartEntity;
 @Mapper
 public interface CartMapper {
 
-    /**
-     * 모든 장바구니 데이터를 조회합니다.
-     * 
-     * @return 장바구니 엔티티 리스트
-     */
-    List<CartEntity> selectAll();
+    List<CartViewDTO> selectForCartViewList(int memberId);
+    
+    CartEntity selectForCartItem(
+    		@Param("memberId") int memberId,
+            @Param("productId") int productId
+            );
 
-    /**
-     * cart_id로 특정 장바구니 데이터를 조회합니다.
-     * 
-     * @param cartId 조회할 장바구니 ID
-     * @return 조회된 CartEntity 객체 (없으면 null)
-     */
-    CartEntity selectByCartId(int cartId);
+    CartViewDTO selectForCartViewItem(
+    		@Param("memberId") int memberId,
+    		@Param("productId") int productId
+    		);
 
-    /**
-     * 새로운 장바구니 데이터를 삽입합니다.
-     * seq_cart_id 시퀀스를 사용하여 cart_id가 자동 생성됩니다.
-     * 
-     * @param entity 삽입할 CartEntity 객체
-     * @return 삽입 성공 시 영향 받은 행 수
-     */
     int insert(CartEntity entity);
 
-    /**
-     * 기존 장바구니 데이터를 수정합니다.
-     * 
-     * @param entity 수정할 CartEntity 객체
-     * @return 수정 성공 시 영향 받은 행 수
-     */
-    int update(CartEntity entity);
+    int updateForProductCnt(CartEntity entity);
 
-    /**
-     * cart_id로 장바구니 데이터를 삭제합니다.
-     * 
-     * @param cartId 삭제할 장바구니 ID
-     * @return 삭제 성공 시 영향 받은 행 수
-     */
-    int delete(int cartId);
+    int deleteByCartId(int cartId);
+
+    int deleteByMemberId(int memberId);
+    
 }

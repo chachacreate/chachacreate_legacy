@@ -28,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insert" parameterType="chattingEntity">
 		INSERT INTO chatting (chatting_id, chatroom_id, chatting_text,
 		chatting_date)
-		VALUES (seq_chatroom_id.NEXTVAL, #{chatroomId}, #{chattingText}, #{chattingDate})
+		VALUES (seq_chatroom_id.NEXTVAL, #{chatroomId}, #{chattingText}, sysdate)
 	</insert>
 
 	<update id="update" parameterType="chattingEntity">

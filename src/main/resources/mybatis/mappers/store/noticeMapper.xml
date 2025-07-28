@@ -2,7 +2,8 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.chacha.create.common.mapper.store.NoticeMapper">
+<mapper
+	namespace="com.chacha.create.common.mapper.store.NoticeMapper">
 
 	<resultMap id="noticeResultMap" type="noticeEntity">
 		<id property="noticeId" column="notice_id" />
@@ -51,5 +52,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		notice_id = #{noticeId}
 	</delete>
 
+	<select id="noticeList" parameterType="string" resultType="map">
+		SELECT n.notice_id AS noticeId, n.notice_title AS noticeTitle,
+		m.member_name AS memberName, to_char(n.notice_date,'rr-MM-dd') AS noticeDate
+		from notice n
+		JOIN store st ON n.store_id = st.store_id
+		JOIN seller se ON
+		st.seller_id = se.seller_id
+		JOIN member m ON se.member_id = m.member_id
+		where st.store_url = #{aa}
+	</select>
+
+	<select id="noticeDetailList" resultType="map">
+		SELECT n.notice_id AS noticeId, n.notice_title AS
+		noticeTitle, TO_CHAR(n.notice_text) AS noticeText, m.member_name AS memberName,
+		n.notice_date AS noticeDate
+		from notice n
+		JOIN store st ON n.store_id = st.store_id
+		JOIN seller se ON st.seller_id = se.seller_id
+		JOIN member m ON se.member_id = m.member_id
+		where st.store_url = #{storeUrl} and n.notice_id= #{noticeId} 
+	</select>
 
 </mapper>

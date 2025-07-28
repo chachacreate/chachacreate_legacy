@@ -25,7 +25,15 @@ public interface MemberMapper {
      * @param memberId 조회할 회원 ID
      * @return 조회된 MemberEntity 객체 (없으면 null)
      */
-    MemberEntity selectByMemberId(long memberId);
+    MemberEntity selectByMemberId(int memberId);
+
+    /**
+     * 회원 EMAIL로 특정 회원 정보를 조회합니다.
+     * 
+     * @param memberEmail 조회할 회원 ID
+     * @return 조회된 MemberEntity 객체 (없으면 null)
+     */
+    MemberEntity selectByMemberEmail(String memberEmail);
 
     /**
      * 새로운 회원 정보를 삽입합니다.
@@ -43,7 +51,9 @@ public interface MemberMapper {
      * @return 수정 성공 시 영향 받은 행 수
      */
     int update(MemberEntity member);
-
+    
+    // 비밀번호만 변경
+    int updatePwd(MemberEntity member);
     /**
      * 회원 ID로 회원 정보를 삭제합니다.
      * 
@@ -51,4 +61,7 @@ public interface MemberMapper {
      * @return 삭제 성공 시 영향 받은 행 수
      */
     int delete(int memberId);
+    
+    int updateMemberInfo(MemberEntity member);
+    
 }

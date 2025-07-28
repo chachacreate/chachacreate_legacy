@@ -2,6 +2,8 @@ package com.chacha.create.common.entity.order;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -40,6 +42,7 @@ public class ReviewEntity {
     /**
      * 리뷰 작성일
      */
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date reviewDate;
 
     /**

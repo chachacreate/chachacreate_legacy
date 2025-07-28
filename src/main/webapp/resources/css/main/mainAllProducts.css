@@ -1,0 +1,349 @@
+/* ===============================
+   ✅ 공통: 전체 페이지 레이아웃 및 폰트
+================================== */
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background-color: #f7f6f2;
+  margin: 0;
+  padding: 0;
+}
+
+.store-page-container {
+  max-width: 1440px;
+  margin: 60px auto;
+  padding: 40px 0px;
+  box-sizing: border-box;
+}
+
+/* ===============================
+   ✅ 검색창 영역
+================================== */
+#product-search {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+#search-form {
+  display: flex;
+  width: 60%;
+  border: 2px solid #ccc;
+  border-radius: 30px;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+#keyword {
+  flex: 1;
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+}
+
+#search-button {
+  background-color: #2D4739;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  cursor: pointer;
+}
+
+/* ===============================
+   ✅ 전체 상품 제목 스타일 (버튼 효과 포함)
+================================== */
+.store-title {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.store-title:active {
+  transform: scale(0.97);
+  opacity: 0.7;
+}
+
+/* ===============================
+   ✅ 정렬 필터 버튼 영역
+================================== */
+.filter-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.filter-button {
+  padding: 10px 18px;
+  background-color: #e0e0e0;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.filter-button.active {
+  background-color: #2D4739;
+  color: white;
+}
+
+/* ✅ .filter-button 안에 포함된 #toggle-category도 동일하게 적용됨 */
+
+/* ===============================
+   ✅ 카테고리 영역
+================================== */
+#category-section {
+  background-color: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+  display: block;
+}
+
+.category-hidden {
+  display: none !important;
+}
+
+/* ===============================
+   ✅ 카테고리 그룹별 스타일
+================================== */
+.filter-group {
+  margin-bottom: 16px;
+}
+
+.filter-group-title {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.filter-options {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+#uCategory {
+  margin-bottom: 16px;
+}
+
+#dCategory-area {
+  margin-top: 12px;
+  margin-bottom: 24px;
+}
+
+/* ===============================
+   ✅ 카테고리 버튼 스타일
+================================== */
+.filter-btn {
+  padding: 6px 14px;
+  border-radius: 20px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.filter-btn.selected {
+  background-color: #d8edff;
+  color: #2196f3;
+  border-color: #2196f3;
+  font-weight: bold;
+}
+
+/* ===============================
+   ✅ 선택된 필터 태그 및 초기화 버튼
+================================== */
+.selected-filters {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 24px 0 20px 0;
+}
+
+.reset-btn {
+  background-color: #ddd;
+  border: none;
+  border-radius: 50%;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.selected-tag {
+  background-color: #e6e6e6;
+  padding: 6px 12px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.remove-tag {
+  margin-left: 8px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* ===============================
+   ✅ 카테고리 검색 버튼 영역
+================================== */
+.category-search-btn-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 30px;
+  padding-right: 250px;
+}
+
+.category-search-btn {
+  padding: 10px 20px;
+  background-color: #2D4739;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.category-search-btn:hover {
+  background-color: #1e3327;
+}
+
+/* ===============================
+   ✅ 상품 카드 영역 (정렬, 정돈된 UI)
+================================== */
+.product-grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* ✅ 가로 4개 고정 */
+  gap: 24px;
+  padding: 40px 0;
+}
+
+.product-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 16px;
+  min-height: 380px; /* ✅ 세로 높이 확보 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+}
+
+.product-image {
+  width: 100%;
+  height: 180px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.product-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.product-content {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.product-name {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #222;
+}
+
+.product-price {
+  font-size: 15px;
+  font-weight: bold;
+  color: #2D4739;
+  margin-top: 8px;
+}
+
+/* ===============================
+   ✅ 상품 카테고리 태그 스타일
+================================== */
+.product-category-list {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.product-category {
+  background-color: #D3B19A;
+  color: #282828;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 8px;
+  text-transform: uppercase;
+}
+
+/* ===============================
+   ✅ 페이지네이션
+================================== */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 40px 0;
+}
+
+.pagination button {
+  padding: 8px 14px;
+  border: none;
+  background-color: #e0e0e0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.pagination button.active {
+  background-color: #2D4739;
+  color: white;
+}
+
+/* ===============================
+   ✅ 기타
+================================== */
+.divider {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 30px 0;
+}
+
+/* ===============================
+   ✅ 푸터
+================================== */
+footer {
+  background-color: #2d4739;
+  text-align: center;
+  font-size: 14px;
+  color: #aaa;
+  padding: 20px 0;
+  margin-top: 40px;
+  border-top: 1px solid #ddd;
+}

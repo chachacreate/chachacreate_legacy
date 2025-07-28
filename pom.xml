@@ -10,9 +10,9 @@
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
 		<java-version>1.11</java-version>
-		<org.springframework-version>5.3.5</org.springframework-version>
-		<org.aspectj-version>1.6.10</org.aspectj-version>
-		<org.slf4j-version>1.6.6</org.slf4j-version>
+		<org.springframework-version>5.3.30</org.springframework-version>
+		<org.aspectj-version>1.9.19</org.aspectj-version>
+		<org.slf4j-version>1.7.36</org.slf4j-version>
 	</properties>
 
 	<!-- dependency가 꼬였을 때 C:\Users\fzaca\.m2\repository에서 파일 전부 삭제 후 Maven 
@@ -20,18 +20,40 @@
 	<!-- 이유 : Maven Repository에서 local 저장소로 다운로드 받을 때 네트워크에서 에러가 나와 파일이 깨진채로 
 		받아질 수 있음 -->
 	<dependencies>
-				<!-- Mockito + JUnit5 연동: MockitoExtension 포함 -->
+		
+		<!-- Gson 라이브러리 -->
+		<dependency>
+		  <groupId>com.google.code.gson</groupId>
+		  <artifactId>gson</artifactId>
+		  <version>2.10.1</version>
+		</dependency>
+	  <!-- 이메일 인증 -->
+		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.7</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+	
+		<!-- Mockito + JUnit5 연동: MockitoExtension 포함 -->
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-junit-jupiter</artifactId>
-			<version>5.2.0</version>
+			<version>5.12.0</version>
 			<scope>test</scope>
 		</dependency>
 		<!-- Spring Test -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
-			<version>5.3.30</version>
+			<version>${org.springframework-version}</version>
 			<scope>test</scope>
 		</dependency>
 		<!-- JUnit5 -->
@@ -51,12 +73,6 @@
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
-			<version>5.12.0</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-junit-jupiter</artifactId>
 			<version>5.12.0</version>
 			<scope>test</scope>
 		</dependency>
@@ -83,12 +99,12 @@
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
-			<version>1.2.2</version>
+			<version>1.4</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>1.3.2</version>
+			<version>2.11.0</version>
 		</dependency>
 		<!-- 썸네일을 만ㄷ르기 위해 -->
 		<dependency>

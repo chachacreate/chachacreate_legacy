@@ -1,0 +1,102 @@
+@charset "UTF-8";
+* 기본 세팅 */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  min-width: 1920px;     /* ✅ 최소 너비 고정 (옵션) */
+  min-height: 1080px;    /* ✅ 최소 높이 고정 */
+}
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== 메인 ===== */
+.main-area {
+  flex: 1; /* ✅ 본문이 남은 공간을 채움 */
+  display: flex;
+  max-width: 1440px;
+  width: 100%;
+  padding: 20px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* 메인 콘텐츠 */
+
+.order-page {
+  flex: 1; /* ✅ 추가: order-page도 세로 공간 채우게 */
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  max-width: 1440px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.order-page h2 {
+  font-size: 20px;
+  margin: 40px 0 15px;
+  color: #333;
+}
+
+.order-table {
+  width: 1000px;
+  border-collapse: collapse;
+  margin-bottom: 40px;
+}
+
+.order-table th {
+  background-color: #B6BEA7;
+  color: #fff;
+  padding: 12px;
+  text-align: center;
+  font-size: 15px;
+}
+
+.order-table td {
+  padding: 15px 10px;
+  text-align: center;
+  font-size: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.order-img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.btn-detail {
+  background-color: #676f58;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-detail:hover {
+  background-color: #505645;
+}
+
+.product-name, 
+.product-img {
+  cursor: pointer;	
+}
+
+
+footer {
+  background-color: #2d4739;
+  text-align: center;
+  font-size: 14px;
+  color: #aaa;
+  padding: 20px 0;
+  margin-top: 40px;
+  border-top: 1px solid #ddd;
+}

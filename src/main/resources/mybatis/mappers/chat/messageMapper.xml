@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chacha.create.common.mapper.chat.MessageMapper">
+
+	<resultMap id="messageResultMap" type="messageDTO">
+		<id property="chatroomId" column="chatroom_id" />
+		<result property="storeId" column="store_id" />
+		<result property="memberId" column="member_id" />
+		<result property="chattingText" column="chatting_text" />
+		<result property="chattingDate" column="chatting_date" />
+		<result property="memberCheck" column="member_check" />
+	</resultMap>
+
+	<select id="selectByChatroomId" resultMap="messageResultMap"
+		parameterType="messageDTO">
+		SELECT room.chatroom_id, room.member_id, room.store_id, chat.chatting_text, chat.chatting_date, chat.member_check FROM chatroom room LEFT JOIN chatting chat ON(room.chatroom_id = chat.chatroom_id) WHERE room.chatroom_id = #{chatroomId} ORDER BY chat.chatting_date ASC
+	</select>
+
+	<select id="selectByMemberId"
+		resultMap="messageResultMap" parameterType="int">
+		SELECT room.chatroom_id, room.member_id, room.store_id, chat.chatting_text, chat.chatting_date, chat.member_check FROM chatroom room LEFT JOIN chatting chat ON(room.chatroom_id = chat.chatroom_id)WHERE room.member_id = #{memberId} ORDER BY chat.chatting_date ASC
+	</select>
+
+	<select id="selectForMemberWithStoreAllMessage"
+		resultMap="messageResultMap" parameterType="messageDTO">
+		SELECT room.chatroom_id, room.member_id, room.store_id, chat.chatting_text, chat.chatting_date, chat.member_check FROM chatroom room LEFT JOIN chatting chat ON(room.chatroom_id = chat.chatroom_id)WHERE room.member_id = #{memberId} and room.store_id = #{storeId} ORDER BY chat.chatting_date ASC
+	</select>
+
+	<select id="selectForMemberWithChatroomIdAllMessage"
+		resultMap="messageResultMap" parameterType="messageDTO">
+		SELECT room.chatroom_id, room.member_id, room.store_id, chat.chatting_text, chat.chatting_date, chat.member_check FROM chatroom room LEFT JOIN chatting chat ON(room.chatroom_id = chat.chatroom_id)WHERE room.member_id = #{memberId} and room.chatroom_id = #{chatroomId} ORDER BY chat.chatting_date ASC
+	</select>
+	
+	<select id="selectForStoreWithChatroomIdAllMessage"
+		resultMap="messageResultMap" parameterType="messageDTO">
+		SELECT room.chatroom_id, room.member_id, room.store_id, chat.chatting_text, chat.chatting_date, chat.member_check FROM chatroom room LEFT JOIN chatting chat ON(room.chatroom_id = chat.chatroom_id)WHERE room.store_id = #{storeId} and room.chatroom_id = #{chatroomId} ORDER BY chat.chatting_date ASC
+	</select>
+
+	<select id="selectForMemberWithStoreURlAllMessage"
+		resultMap="messageResultMap" parameterType="messageDTO">
+		SELECT room.chatroom_id, room.member_id, room.store_id, chat.chatting_text, chat.chatting_date, chat.member_check FROM chatroom room LEFT JOIN chatting chat ON(room.chatroom_id = chat.chatroom_id)WHERE room.member_id = #{memberId} and room.store_id = (select store_id from store where store_url = #{storeUrl}) ORDER BY chat.chatting_date ASC
+	</select>
+	<select id="selectForGetChatRoomIdByStoreURl"
+			resultMap="messageResultMap" parameterType="messageDTO">
+		SELECT room.chatroom_id, room.member_id, room.store_id, chat.chatting_text, chat.chatting_date, chat.member_check
+		FROM (
+			SELECT * FROM chatroom 
+			WHERE member_id = #{memberId} 
+			  AND store_id = (SELECT store_id FROM store WHERE store_url = #{storeUrl}) 
+			  AND ROWNUM = 1
+		) room
+		LEFT JOIN chatting chat ON(room.chatroom_id = chat.chatroom_id)
+		ORDER BY chat.chatting_date ASC
+	</select>
+
+	<select id="selectForStoreNameByMemberId"
+	        resultType="chatRoomInfoDTO"
+	        parameterType="int">
+	    SELECT
+	        room.chatroom_id AS chatroomId,
+	        room.member_id AS memberId,
+	        m.member_name AS memberName,
+	        store.store_name AS storeName,
+	        store.store_url AS storeUrl,
+	        MAX(chat.chatting_text) KEEP (DENSE_RANK FIRST ORDER BY chat.chatting_date DESC) AS chattingText
+	    FROM chatroom room
+	    JOIN store store ON room.store_id = store.store_id
+	    JOIN member m ON room.member_id = m.member_id
+	    LEFT JOIN chatting chat ON room.chatroom_id = chat.chatroom_id
+	    WHERE room.member_id = #{memberId}
+	    GROUP BY room.chatroom_id, room.member_id, m.member_name, store.store_name, store.store_url
+	    ORDER BY MAX(chat.chatting_date) DESC
+	</select>
+	
+	<select id="selectForStoreNameByStoreUrl"
+	        resultType="chatRoomInfoDTO"
+	        parameterType="String">
+	    SELECT
+	        room.chatroom_id AS chatroomId,
+	        room.member_id AS memberId,
+	        m.member_name AS memberName,
+	        store.store_name AS storeName,
+	        store.store_url AS storeUrl,
+	        MAX(chat.chatting_text) KEEP (DENSE_RANK FIRST ORDER BY chat.chatting_date DESC) AS chattingText
+	    FROM chatroom room
+	    JOIN store store ON room.store_id = store.store_id
+	    JOIN member m ON room.member_id = m.member_id
+	    LEFT JOIN chatting chat ON room.chatroom_id = chat.chatroom_id
+	    WHERE store.store_url = #{storeUrl}
+	    GROUP BY room.chatroom_id, room.member_id, m.member_name, store.store_name, store.store_url
+	    ORDER BY MAX(chat.chatting_date) DESC
+	</select>
+
+	<insert id="insertChatroom" parameterType="messageDTO">
+		INSERT INTO chatroom (chatroom_id, store_id, member_id)
+		VALUES (seq_chatroom_id.NEXTVAL, #{storeId}, #{memberId})
+	</insert>
+
+	<insert id="insertChatting" parameterType="messageDTO">
+		INSERT INTO chatting (chatting_id, chatroom_id, chatting_text,
+		chatting_date, member_check)
+		VALUES (seq_chatting_id.NEXTVAL, #{chatroomId}, #{chattingText}, sysdate, #{memberCheck})
+	</insert>
+	
+</mapper>
