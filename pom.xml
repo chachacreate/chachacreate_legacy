@@ -6,6 +6,7 @@
 	<groupId>com.chacha</groupId>
 	<artifactId>chachaCreate</artifactId>
 	<name>chachaCreate</name>
+	<finalName>ROOT</finalName>
 	<packaging>war</packaging>
 	<version>chachaCreate</version>
 	<properties>
