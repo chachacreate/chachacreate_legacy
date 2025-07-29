@@ -19,8 +19,8 @@
       <Host appBase="webapps" autoDeploy="true" name="localhost" unpackWARs="true">
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt"/>
 
-      <!-- context path 설정 -->
-      <Context docBase="chachaCreate" path="/create" reloadable="true" source="org.eclipse.jst.jee.server:chachaCreate"/>
+      <!-- context path 설정 제거해야함 -->
+      <!-- <Context docBase="chachaCreate" path="/create" reloadable="true" source="org.eclipse.jst.jee.server:chachaCreate"/> -->
       </Host>
     </Engine>
   </Service>
