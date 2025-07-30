@@ -512,22 +512,3 @@ insert into D_CATEGORY VALUES(seq_u_category_id.nextval, 5,'반려동물');
 insert into D_CATEGORY VALUES(seq_u_category_id.nextval, 5,'문구');
 
 select * from d_category;
-
--- db 테스트용 user 추가
-insert into member (
-    member_id,
-    member_email,
-    member_name,
-    member_pwd,
-    member_phone,
-    member_regi,
-    join_date
-) VALUES (
-    seq_member_id.NEXTVAL,
-    'testuser@example.com',
-    '테스트회원',
-    'password123',
-    '010-1234-5678',
-    '서울시 강남구',
-    SYSDATE
-);
