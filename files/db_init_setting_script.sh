@@ -7,6 +7,7 @@ sleep 5
 echo "▶️ 사용자 chacha 생성 및 권한 부여"
 sqlplus -s sys/oracle@localhost:1521/XE as sysdba <<EOF
 WHENEVER SQLERROR EXIT SQL.SQLCODE
+Drop sequence audses$;
 Create sequence audses$ start with 1 increment by 1 minvalue 1 maxvalue 32000 cycle cache 20 noorder;
 CREATE USER chacha IDENTIFIED BY 1234;
 GRANT CONNECT, RESOURCE TO chacha;
