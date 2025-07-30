@@ -7,7 +7,7 @@ sleep 5
 echo "▶️ 사용자 chacha 생성 및 권한 부여"
 sqlplus -s system/oracle <<EOF
 WHENEVER SQLERROR EXIT SQL.SQLCODE
-CREATE USER chacha IDENTIFIED BY 1234;
+CREATE USER chacha@localhost IDENTIFIED BY 1234;
 GRANT CONNECT, RESOURCE TO chacha;
 EXIT
 EOF
