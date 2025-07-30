@@ -2,14 +2,7 @@
 
 echo "== 시작: db_init_setting_script.sh =="
 
-# 0. Oracle DB 기동 대기
-echo "⏳ Oracle DB가 준비될 때까지 대기 중..."
-until echo "exit" | sqlplus -s system/oracle | grep "Connected to"; do
-  echo "🕐 Oracle 준비 대기 중..."
-  sleep 5
-done
-echo "✅ Oracle DB 기동 완료"
-
+sleep 5
 # 1. system 계정으로 chacha 사용자 생성 및 권한 부여
 echo "▶️ 사용자 chacha 생성 및 권한 부여"
 sqlplus -s system/oracle <<EOF
