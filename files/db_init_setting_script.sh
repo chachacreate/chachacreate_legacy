@@ -15,6 +15,6 @@ EOF
 
 # 2. chacha 계정으로 테이블 생성 SQL 실행
 echo "▶️ chacha 계정으로 테이블 생성 시작"
-sqlplus -s chacha/1234 @/docker-entrypoint-initdb.d/db_table_create.sql
+sqlplus -s chacha/1234@//localhost:1521/XE @/docker-entrypoint-initdb.d/db_table_create.sql
 
 echo "✅ 완료: db_init_setting_script.sh"
