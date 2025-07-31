@@ -2,12 +2,15 @@ package com.chacha.create.util.Filter;
 
 import org.springframework.stereotype.Component;
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.servlet.*;
 import javax.servlet.FilterConfig;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
+@Slf4j
 @Component
 public class CorsResponseHeaderFilter implements Filter {
 
@@ -24,6 +27,7 @@ public class CorsResponseHeaderFilter implements Filter {
         
         if (requestURI.endsWith("/auth/kakao") || requestURI.endsWith("/auth/naver")) {
             if ("http://chachacreate.dustbox.kr".equals(origin)) {
+            	log.info("카카오로그인 헤더 추가 중~~~");
                 response.setHeader("Access-Control-Allow-Origin", origin);
                 response.setHeader("Access-Control-Allow-Credentials", "true");
                 response.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS");
