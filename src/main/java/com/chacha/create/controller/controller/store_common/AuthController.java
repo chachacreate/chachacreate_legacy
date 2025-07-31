@@ -1,6 +1,8 @@
 package com.chacha.create.controller.controller.store_common;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,24 +50,35 @@ public class AuthController {
 
 	    String finalRedirect = "/main"; // 기본값
 
-	    // 1. 쿼리 파라미터에 redirect가 명시된 경우
 	    if (redirect != null && !redirect.isBlank()) {
-	        // 경로 통일(/ 없으면 /를 붙여서 저장)
-	        finalRedirect = redirect.startsWith("/") ? redirect : "/" + redirect;
+	        if (redirect.startsWith("http")) {
+	            // 절대 URL이면 URI 파싱해서 경로만 추출
+	            try {
+	                URI  uri = new URI(redirect);
+	                finalRedirect = uri.getPath();
+	                if (uri.getQuery() != null) {
+	                    finalRedirect += "?" + uri.getQuery();
+	                }
+	                if (!finalRedirect.startsWith("/")) {
+	                    finalRedirect = "/" + finalRedirect;
+	                }
+	            } catch (URISyntaxException e) {
+	                finalRedirect = "/main";
+	            }
+	        } else {
+	            // 상대경로인 경우 / 붙여서 통일
+	            finalRedirect = redirect.startsWith("/") ? redirect : "/" + redirect;
+	        }
 	    } else {
-	        // 2. 쿼리 파라미터가 없는 경우(Referer 헤더를 사용하여 직전 페이지 정보 추출)
 	        String referer = request.getHeader("Referer");
-	        String contextPath = request.getContextPath(); // 예: /create
+	        String contextPath = request.getContextPath();
 
 	        if (referer != null && referer.contains(request.getServerName())) {
 	            try {
-	                // contextPath 이후 경로만 추출
 	                String pathAfterContext = referer.substring(referer.indexOf(contextPath) + contextPath.length());
 	                if (!pathAfterContext.startsWith("/")) {
 	                    pathAfterContext = "/" + pathAfterContext;
 	                }
-
-	                // 중복된 contextPath 제거 (ex. /create/create)
 	                finalRedirect = pathAfterContext.startsWith(contextPath)
 	                        ? pathAfterContext.substring(contextPath.length())
 	                        : pathAfterContext;
@@ -75,7 +88,7 @@ public class AuthController {
 	                }
 
 	            } catch (Exception e) {
-	                log.warn("⚠️ [login] redirect 계산 실패, 기본값 사용", e);
+	                finalRedirect = "/main";
 	            }
 	        }
 	    }
@@ -83,13 +96,13 @@ public class AuthController {
 	    // 최종 리다이렉트 경로 세션에 저장
 	    session.setAttribute("redirectAfterLogin", finalRedirect);
 
-	    // ✅ 카카오 로그인 URL 구성
+	    // 카카오 로그인 URL 구성
 	    String kakaoLogin = "https://kauth.kakao.com/oauth/authorize?response_type=code"
 	            + "&client_id=" + kakaoClientDTO.getClientId()
 	            + "&redirect_uri=" + kakaoClientDTO.getRedirectUri();
 	    model.addAttribute("kakaoLogin", kakaoLogin);
 
-	    // ✅ 네이버 로그인 URL 구성
+	    // 네이버 로그인 URL 구성
 	    String naverLogin = "https://nid.naver.com/oauth2.0/authorize?response_type=code"
 	            + "&client_id=" + naverClientDTO.getClientId()
 	            + "&redirect_uri=" + naverClientDTO.getRedirectUri()
@@ -141,20 +154,23 @@ public class AuthController {
 
 	    if (referer != null && referer.contains(request.getServerName())) {
 	        try {
-	            String pathAfterContext = referer.substring(referer.indexOf(contextPath) + contextPath.length());
-	            if (!pathAfterContext.startsWith("/")) {
-	                pathAfterContext = "/" + pathAfterContext;
+	            URI refererUri = new URI(referer);
+	            String path = refererUri.getPath();
+
+	            if (path != null && path.startsWith(contextPath)) {
+	                path = path.substring(contextPath.length());
+	            }
+	            if (path == null || path.isBlank()) {
+	                path = "/";
+	            }
+	            if (!path.startsWith("/")) {
+	                path = "/" + path;
 	            }
 
-	            redirectAfterLogout = pathAfterContext.startsWith(contextPath)
-	                    ? pathAfterContext.substring(contextPath.length())
-	                    : pathAfterContext;
+	            redirectAfterLogout = path;
 
-	            if (!redirectAfterLogout.startsWith("/")) {
-	                redirectAfterLogout = "/" + redirectAfterLogout;
-	            }
-	        } catch (Exception e) {
-	            log.warn("⚠️ [logout] redirect 계산 실패, 기본값 사용", e);
+	        } catch (URISyntaxException e) {
+	            log.warn("⚠️ [logout] Referer 파싱 실패, 기본값 사용", e);
 	        }
 	    }
 
@@ -162,6 +178,7 @@ public class AuthController {
 
 	    return "redirect:" + redirectAfterLogout;
 	}
+
 
 	
 	@GetMapping("/kakao")
