@@ -241,9 +241,9 @@ $(function () {
   function deleteAllItems() {
     if (!confirm("장바구니 전체 비우시겠습니까?")) return;
     $.ajax({
-      url: `${apiUrl}/deleteAll`,
+      url: `${apiUrl}/deleteAll?memberId=${loggedInMemberId}`,
       method: "DELETE",
-      data: { memberId: memberId }
+      data: { memberId: loggedInMemberId }
     }).done(function () {
       location.reload();
     });

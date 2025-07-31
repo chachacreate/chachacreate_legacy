@@ -149,6 +149,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		    success: function(response) {
 		      alert("장바구니에 추가되었습니다.");
 		      // 성공 후 장바구니 페이지로 이동
+		      if (!confirm("장바구니로 이동하시겠습니까?")) return;
 		      location.href = `${cpath}/${storeUrl}/mypage/cart`;
 		    },
 		    error: function(xhr, status, error) {
@@ -183,6 +184,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		
 		  // sessionStorage에 저장
 		  sessionStorage.setItem("orderItems", JSON.stringify([item]));
+		  console.log(item);
 		
 		  // 결제 페이지로 이동
 		  window.location.href = `${cpath}/${storeUrl}/order`;
