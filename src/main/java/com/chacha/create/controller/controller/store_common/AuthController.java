@@ -45,41 +45,51 @@ public class AuthController {
 	@GetMapping("/login")
 	public String login(@RequestParam(value = "redirect", required = false) String redirect,
 	                    HttpServletRequest request, HttpSession session, Model model) {
-	    if (redirect != null) {
-	        session.setAttribute("redirectAfterLogin", redirect.startsWith("/") ? redirect : "/" + redirect);
-	        log.info("redirectAfterLogin set by param: {}", redirect);
+
+	    String finalRedirect = "/main"; // 기본값
+
+	    // 1. 쿼리 파라미터에 redirect가 명시된 경우
+	    if (redirect != null && !redirect.isBlank()) {
+	        // 경로 통일(/ 없으면 /를 붙여서 저장)
+	        finalRedirect = redirect.startsWith("/") ? redirect : "/" + redirect;
 	    } else {
+	        // 2. 쿼리 파라미터가 없는 경우(Referer 헤더를 사용하여 직전 페이지 정보 추출)
 	        String referer = request.getHeader("Referer");
+	        String contextPath = request.getContextPath(); // 예: /create
+
 	        if (referer != null && referer.contains(request.getServerName())) {
-	        	String contextPath = request.getContextPath();
-	        	String pathAfterContext = referer.substring(referer.indexOf(contextPath) + contextPath.length());
+	            try {
+	                // contextPath 이후 경로만 추출
+	                String pathAfterContext = referer.substring(referer.indexOf(contextPath) + contextPath.length());
+	                if (!pathAfterContext.startsWith("/")) {
+	                    pathAfterContext = "/" + pathAfterContext;
+	                }
 
-	        	if (!pathAfterContext.startsWith("/")) {
-	        	    pathAfterContext = "/" + pathAfterContext;
-	        	}
-	        	
-	        	String redirectPath;
-	        	if (referer.contains(contextPath)) {
-	        		// 경로에 /create가 포함되어 있으면 그대로
-	        	    redirectPath = pathAfterContext;
-	        	} else {
-	        		// 없으면 붙여서
-	        	    redirectPath = contextPath + pathAfterContext;
-	        	}
+	                // 중복된 contextPath 제거 (ex. /create/create)
+	                finalRedirect = pathAfterContext.startsWith(contextPath)
+	                        ? pathAfterContext.substring(contextPath.length())
+	                        : pathAfterContext;
 
-	        	session.setAttribute("redirectAfterLogin", redirectPath);
-	        	log.info("redirectAfterLogin set by referer: {}", redirectPath);
+	                if (!finalRedirect.startsWith("/")) {
+	                    finalRedirect = "/" + finalRedirect;
+	                }
 
+	            } catch (Exception e) {
+	                log.warn("⚠️ [login] redirect 계산 실패, 기본값 사용", e);
+	            }
 	        }
 	    }
 
-	    // 카카오 로그인 URL 구성
+	    // 최종 리다이렉트 경로 세션에 저장
+	    session.setAttribute("redirectAfterLogin", finalRedirect);
+
+	    // ✅ 카카오 로그인 URL 구성
 	    String kakaoLogin = "https://kauth.kakao.com/oauth/authorize?response_type=code"
 	            + "&client_id=" + kakaoClientDTO.getClientId()
 	            + "&redirect_uri=" + kakaoClientDTO.getRedirectUri();
 	    model.addAttribute("kakaoLogin", kakaoLogin);
 
-	    // 네이버 로그인 URL 구성
+	    // ✅ 네이버 로그인 URL 구성
 	    String naverLogin = "https://nid.naver.com/oauth2.0/authorize?response_type=code"
 	            + "&client_id=" + naverClientDTO.getClientId()
 	            + "&redirect_uri=" + naverClientDTO.getRedirectUri()
@@ -123,23 +133,32 @@ public class AuthController {
 	}
 	
 	@GetMapping("/logout")
-	public String logout_page(HttpServletRequest request, HttpSession session) {
-	    // 로그아웃하기 전에 현재 페이지나 Referer 가져오기
+	public String logout(HttpServletRequest request, HttpSession session) {
 	    String referer = request.getHeader("Referer");
 	    String contextPath = request.getContextPath();
 
 	    String redirectAfterLogout = "/main"; // 기본값
 
 	    if (referer != null && referer.contains(request.getServerName())) {
-	        String pathAfterContext = referer.substring(referer.indexOf(contextPath) + contextPath.length());
-	        if (!pathAfterContext.startsWith("/")) {
-	            pathAfterContext = "/" + pathAfterContext;
+	        try {
+	            String pathAfterContext = referer.substring(referer.indexOf(contextPath) + contextPath.length());
+	            if (!pathAfterContext.startsWith("/")) {
+	                pathAfterContext = "/" + pathAfterContext;
+	            }
+
+	            redirectAfterLogout = pathAfterContext.startsWith(contextPath)
+	                    ? pathAfterContext.substring(contextPath.length())
+	                    : pathAfterContext;
+
+	            if (!redirectAfterLogout.startsWith("/")) {
+	                redirectAfterLogout = "/" + redirectAfterLogout;
+	            }
+	        } catch (Exception e) {
+	            log.warn("⚠️ [logout] redirect 계산 실패, 기본값 사용", e);
 	        }
-	        redirectAfterLogout = pathAfterContext;
 	    }
 
-	    session.setAttribute("redirectAfterLogout", redirectAfterLogout);
-	    session.invalidate();
+	    session.invalidate(); // 세션 무효화
 
 	    return "redirect:" + redirectAfterLogout;
 	}

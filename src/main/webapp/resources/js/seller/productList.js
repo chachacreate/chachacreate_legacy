@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    const pathSegments = window.location.pathname.split("/");
+    const storeUrl = pathSegments[pathSegments.length - 3];
   updateSelectedCount();
 
   $("input[name='flagship']").change(function () {
@@ -56,7 +58,6 @@ $(document).ready(function () {
   
   // 삭제 버튼 클릭 이벤트 (복수 삭제 가능하게 수정)
   $(".save-button").click(function () {
-  const storeUrl = window.location.pathname.split("/")[2];
 
   // 체크된 삭제할 상품 id 배열 수집
   const deleteList = [];
@@ -115,7 +116,6 @@ $(document).ready(function () {
     }
 
     const productId = $(this).data("product-id");
-    const storeUrl = window.location.pathname.split("/")[2];
     const detailUrl = `${cpath}/${storeUrl}/productdetail/${productId}`;
 
     window.location.href = detailUrl;

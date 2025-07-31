@@ -6,7 +6,7 @@ $(function () {
   // 현재 URL에서 storeUrl 추출
   function getCurrentStoreUrlFromPath() {
     const pathSegments = window.location.pathname.split("/");
-    const storeUrl = pathSegments[2];
+    const storeUrl = pathSegments[pathSegments.length - 3];
 
     // storeUrl이 "main"이어도 null로 처리(개인 판매자 고려)
     return (storeUrl === "main" || !storeUrl) ? null : storeUrl;

@@ -1,7 +1,7 @@
 $(function () {
 
-  const pathParts = window.location.pathname.split('/');
-  const storeUrl = pathParts.includes('mypage') ? pathParts[pathParts.indexOf('mypage') - 1] : 'default';
+  const pathSegments = window.location.pathname.split('/');
+  const storeUrl = pathSegments.includes('mypage') ? pathParts[pathParts.indexOf('mypage') - 1] : 'default';
 
   const checkObj = {
     passwordValid: false,
