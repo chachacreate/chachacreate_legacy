@@ -1,6 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const storeUrl = window.location.pathname.split("/")[2];
-
   // 1. 스토어 이름 동적 삽입
   fetch(`/api/store/${storeUrl}/name`)
     .then(res => res.json())

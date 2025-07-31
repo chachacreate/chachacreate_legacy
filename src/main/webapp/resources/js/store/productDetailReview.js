@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const pathSegments = window.location.pathname.split("/");
-  const storeUrl = pathSegments[1];
-  const productId = pathSegments[3];
+  const storeUrl = pathSegments[pathSegments.length - 3];
+  const productId = pathSegments[pathSegments.length - 1];
   const cpath = document.body.getAttribute("data-cpath") || "";
 
   let orderDetailId = null;
