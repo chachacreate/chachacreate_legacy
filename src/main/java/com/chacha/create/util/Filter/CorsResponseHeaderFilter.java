@@ -22,8 +22,8 @@ public class CorsResponseHeaderFilter implements Filter {
         String requestURI = request.getRequestURI();
 
         
-        if (requestURI.startsWith("/auth/kakao") || requestURI.startsWith("/auth/naver")) {
-            if ("https://www.chateat.store".equals(origin)) {
+        if (requestURI.endsWith("/auth/kakao") || requestURI.endsWith("/auth/naver")) {
+            if ("http://chachacreate.dustbox.kr".equals(origin)) {
                 response.setHeader("Access-Control-Allow-Origin", origin);
                 response.setHeader("Access-Control-Allow-Credentials", "true");
                 response.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS");
