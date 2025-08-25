@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -12,12 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/main")
 public class HomeMainController {
-	
-	// 변경해주세요
-	@GetMapping("/test")
-	public String showTestPage() {
-		return "store/seller/sellerOrderManage";
-	}
 	
     // 메인 홈 페이지
     @GetMapping

@@ -20,6 +20,28 @@
 	<!-- 이유 : Maven Repository에서 local 저장소로 다운로드 받을 때 네트워크에서 에러가 나와 파일이 깨진채로 
 		받아질 수 있음 -->
 	<dependencies>
+		
+		<!-- jasypt 암호화 풀기 -->
+		<!-- https://mvnrepository.com/artifact/org.jasypt/jasypt -->
+		<dependency>
+		    <groupId>org.jasypt</groupId>
+		    <artifactId>jasypt</artifactId>
+		    <version>1.9.3</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.jasypt/jasypt-spring31 -->
+		<dependency>
+		    <groupId>org.jasypt</groupId>
+		    <artifactId>jasypt-spring31</artifactId>
+		    <version>1.9.3</version>
+		</dependency>
+		
+		<dependency>
+		  <groupId>io.github.cdimascio</groupId>
+		  <artifactId>dotenv-java</artifactId>
+		  <version>3.0.0</version>
+		</dependency>
+		
+	
 
 		<!-- Gson 라이브러리 -->
 		<dependency>

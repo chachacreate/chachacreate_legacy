@@ -3,6 +3,25 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
 	
-	<!-- Root Context: defines shared resources visible to all other web components -->
-		
+	
+	<!-- Jasypt 암호화기 설정 -->
+	<bean id="encryptor" class="org.jasypt.encryption.pbe.StandardPBEStringEncryptor">
+	    <property name="password" value="#{T(io.github.cdimascio.dotenv.Dotenv).load().get('JASYPT_ENCRYPTOR_PASSWORD')}"/>
+	    <property name="algorithm" value="PBEWithMD5AndDES"/>
+	</bean>
+
+	
+	<!-- Jasypt 프로퍼티 설정 -->
+	<bean class="org.jasypt.spring31.properties.EncryptablePropertyPlaceholderConfigurer">
+		<constructor-arg ref="encryptor"/>
+		<property name="locations">
+			<list>
+				<value>classpath:git_submodule_chacha/application-db.properties</value>
+				<value>classpath:git_submodule_chacha/application-common.properties</value>
+				<value>classpath:git_submodule_chacha/application-secrets.properties</value>
+			</list>
+		</property>
+		<property name="fileEncoding" value="UTF-8"/>
+		<property name="ignoreUnresolvablePlaceholders" value="false"/>
+	</bean>
 </beans>

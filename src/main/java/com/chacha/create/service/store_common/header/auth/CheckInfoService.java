@@ -23,7 +23,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-@PropertySource("classpath:properties/bankaccount.properties")
 public class CheckInfoService {
 
     @Value("${iamport.key}")
