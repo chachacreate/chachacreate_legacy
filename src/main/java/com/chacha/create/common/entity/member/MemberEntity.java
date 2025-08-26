@@ -65,4 +65,9 @@ public class MemberEntity {
      * 회원 가입일자
      */
     private Date joinDate;
+    
+    /**
+     * 회원 가입일자
+     */
+    private String memberRole;
 }

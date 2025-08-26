@@ -76,17 +76,19 @@
 	<!-- 로그인 필터 -->
 	<filter>
 		<filter-name>loginFilter</filter-name>
-		<filter-class>com.chacha.create.util.Filter.LoginAuthorizationFilter</filter-class>
+		<filter-class>com.chacha.create.util.Filter.LoginAuthorizationFilter
+		</filter-class>
 	</filter>
 
 	<filter-mapping>
 		<filter-name>loginFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
-		<filter>
+
+	<filter>
 		<filter-name>corsResponseHeaderFilter</filter-name>
-		<filter-class>com.chacha.create.util.Filter.CorsResponseHeaderFilter</filter-class>
+		<filter-class>com.chacha.create.util.Filter.CorsResponseHeaderFilter
+		</filter-class>
 	</filter>
 
 	<filter-mapping>
