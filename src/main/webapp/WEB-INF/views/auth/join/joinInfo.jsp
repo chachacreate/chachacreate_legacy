@@ -66,7 +66,7 @@
 						<div class="input-with-button">
 							<input type="text" name="memberEmail" id="memberEmail"
 								placeholder="아이디(이메일)" maxlength="30" autocomplete="off">
-							<button type="button" id="sendAutdhKeyBtn">이메일인증</button>
+							<button type="button" id="sendAuthKeyBtn">이메일인증</button>
 						</div>
 						<!-- 인증번호 입력 -->
 						<label for="emailCheck"> <span class="required">*</span>
@@ -540,17 +540,17 @@
 	
 	    // JSON 객체 생성
 	    const data = {
-	    		"member":{memberEmail: memberEmail,
-	    		      memberPwd: memberPwd,
-	    		      memberName: memberName,
-	    		      memberPhone: memberPhone,
-	    		      memberRegi: memberRegi},
+	    		"member":{email: memberEmail,
+	    		      password: memberPwd,
+	    		      name: memberName,
+	    		      phone: memberPhone,
+	    		      registrationNumber: memberRegi},
    		      "addr":{
    		    	postNum: postNum,
    		    	addressRoad: addressRoad,
    		    	addressDetail : addressDetail,
    		    	addressExtra: addressExtra,
-   		    	addressCheck:1
+   		    	isDefault:true
 	    		}
 	    };
 	
@@ -559,15 +559,15 @@
    		    	addressRoad: addressRoad,
    		    	addressDetail : addressDetail,
    		    	addressExtra: addressExtra,
-   		    	addressCheck:1
+   		    	isDefault:true
 	    		});
 	    // 버튼이 active 된 것의 값을 찾음
 	    const selectedType = document.querySelector('.type-button.active');
 	    const userType = selectedType?.dataset.type;
-	    
+	    const BOOT_API = '${springBootApiUrl}';
 	    // AJAX POST 요청
 	    $.ajax({
-	    	  url: contextPath + '/legacy/auth/join/userinfo',
+	    	  url: BOOT_API + '/auth/join',
 	    	  type: 'POST',
 	    	  contentType: 'application/json',
 	    	  data: JSON.stringify(data),

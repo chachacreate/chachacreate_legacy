@@ -12,7 +12,7 @@
 	<!-- 서블릿 단위로 접근 -->
 	<!-- @Controller : servlet-context.xml 에서 component-scan  -->
 	<!-- @Component @Repository @Service : root-context.xml 에서 component-scan -->
-	<context:component-scan base-package="com.chacha.create.controller.controller, com.chacha.create.controller.rest, com.chacha.create.util.exception, com.chacha.create.util.Filter" />
+	<context:component-scan base-package="com.chacha.create.controller, com.chacha.create.util" />
 
 	<!-- @Controller에 요청을 보내기 위해 필요한 HandlerMapping과 HandlerAdapter를 Bean으로 
 		등록 -->

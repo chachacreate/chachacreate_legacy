@@ -6,6 +6,8 @@
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<script src="${cpath}/resources/js/boot.js"></script>
+	
 
 <div class="header-wrapper">
   <div class="header-inner">
@@ -39,7 +41,7 @@
 	      			<a href="${cpath}/${storeUrl}/mypage/message?makeChat=true" class="header-btn">${storeName}에 메시지 보내기</a>
 	      	  </c:if>
 	      </c:if>
-	      <a href="${cpath}/auth/logout" class="header-btn" onclick="alert('로그아웃');">로그아웃</a>
+	      <a href="javascript:void(0);" class="header-btn" id="btn-logout">로그아웃</a>
 	    </div>
     </c:if>
   </div>
@@ -83,3 +85,31 @@ html, body {
   font-family: 'Jua', sans-serif;
 }
 </style>
+
+<script>
+$('#btn-logout').on('click', function() {
+	const BOOT_API = '${springBootApiUrl}';
+	console.log("로그아웃 버튼 클릭");
+    // 1) Spring Boot 로그아웃 호출 (accessToken 자동 포함)
+    $.ajax({
+        url: BOOT_API + '/auth/logout',
+        type: 'POST',
+        data: { email:"${sessionScope.loginMember.memberEmail}" },
+        xhrFields: { withCredentials: true },
+        success: function(resp){
+            console.log("Spring Boot 로그아웃 완료:", resp);
+            clearAccessToken(); // 토큰 제거
+        },
+        error: function(xhr, status, error){
+            console.warn("Spring Boot 로그아웃 실패:", error);
+        },
+        complete: function(){
+            // 2) 기존 JSP/Legacy 로그아웃 이동
+            alert('로그아웃 되었습니다.');
+            window.location.href = '${cpath}/auth/logout';
+        }
+    });
+});
+</script>
+
+

@@ -2,6 +2,7 @@ package com.chacha.create.util.exception;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -11,6 +12,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 import com.chacha.create.common.exception.LoginFailException;
 import com.chacha.create.common.exception.NeedLoginException;
+import com.chacha.create.util.BootPathConfig;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,16 +20,12 @@ import lombok.extern.slf4j.Slf4j;
 @ControllerAdvice
 public class ExceptionAdvice {
 
-	@Value("${spring.boot.api.url}")
-	private String springBootApiUrl;
+	@Autowired
+	BootPathConfig bootpath;
 
-	@Value("${spring.legacy.api.url}")
-	private String springLegacyApiUrl;
-
-	@ModelAttribute
-	public void addApiUrls(Model model) {
-		model.addAttribute("springBootApiUrl", springBootApiUrl);
-		model.addAttribute("springLegacyApiUrl", springLegacyApiUrl);
+	@ModelAttribute("springBootApiUrl")
+	public String addApiUrls(Model model) {
+		return bootpath.getBootUrl();
 	}
 
 	// 404 에러 처리

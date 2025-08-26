@@ -17,7 +17,7 @@
 		<property name="locations">
 			<list>
 				<value>classpath:git_submodule_chacha/application-db.properties</value>
-				<value>classpath:git_submodule_chacha/application-common.properties</value>
+				<!-- <value>classpath:git_submodule_chacha/application-common.properties</value> -->
 				<value>classpath:git_submodule_chacha/application-secrets.properties</value>
 			</list>
 		</property>

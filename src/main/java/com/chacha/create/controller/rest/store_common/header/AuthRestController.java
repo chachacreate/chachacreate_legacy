@@ -69,4 +69,15 @@ public class AuthRestController {
         return ResponseEntity.status(ResponseCode.CREATED.getStatus())
                              .body(new ApiResponse<>(ResponseCode.CREATED, result));
     }
+    
+    @PostMapping("/loginSuccess")
+    public ResponseEntity<ApiResponse<MemberEntity>> login(
+            @RequestBody MemberEntity member,
+            HttpSession session) {
+
+        // 로그인 성공 시 세션에 저장
+        session.setAttribute("loginMember", member);
+
+        return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, member));
+    }
 }

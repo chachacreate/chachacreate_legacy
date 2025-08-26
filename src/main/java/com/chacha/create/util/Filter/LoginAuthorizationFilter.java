@@ -29,6 +29,7 @@ import com.chacha.create.common.entity.store.StoreEntity;
 import com.chacha.create.common.enums.error.ResponseCode;
 import com.chacha.create.common.mapper.member.SellerMapper;
 import com.chacha.create.common.mapper.store.StoreMapper;
+import com.chacha.create.util.BootPathConfig;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -43,7 +44,7 @@ public class LoginAuthorizationFilter implements Filter {
 	private StoreMapper storeMapper;
 	
 	// ConfigUtil Bean 저장용 필드 추가
-	private LoginAuthorizationConfig configUtil;
+	private BootPathConfig configUtil;
 
 	// ✅ 로그인/권한 검사에서 제외할 URI 목록
 	private static final Set<String> WHITELIST = new HashSet<>(
@@ -61,8 +62,8 @@ public class LoginAuthorizationFilter implements Filter {
 		
 		try {
 			// ConfigUtil Bean 조회 시도
-			this.configUtil = ctx.getBean(LoginAuthorizationConfig.class);
-			log.debug("ConfigUtil Bean 조회 성공: {}", configUtil.getSpringBootApiUrl());
+			this.configUtil = ctx.getBean(BootPathConfig.class);
+			log.debug("ConfigUtil Bean 조회 성공: {}", configUtil.getBootUrl());
 		} catch (Exception e) {
 			log.error("ConfigUtil Bean 조회 실패, 기본값 사용: {}", e.getMessage());
 			// ConfigUtil이 없을 경우 기본값으로 처리
@@ -182,7 +183,7 @@ public class LoginAuthorizationFilter implements Filter {
 	 * ConfigUtil Bean을 늦은 초기화로 조회
 	 * @return ConfigUtil Bean 또는 null
 	 */
-	private LoginAuthorizationConfig getConfigUtil() {
+	private BootPathConfig getConfigUtil() {
 		// configUtil이 이미 있으면 반환
 		return configUtil;
 	}
@@ -196,7 +197,7 @@ public class LoginAuthorizationFilter implements Filter {
 		HttpURLConnection conn = null;
 		try {
 			// 늦은 초기화로 configUtil 조회
-			LoginAuthorizationConfig config = getConfigUtil();
+			BootPathConfig config = getConfigUtil();
 			String validateUrl = (config != null) 
 				? config.getTokenValidateUrl() 
 				: "http://localhost:8888/api/auth/validate";
