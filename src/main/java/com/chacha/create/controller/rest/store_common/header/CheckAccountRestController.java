@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.chacha.create.service.store_common.header.auth.CheckInfoService;
 
 @RestController
-@RequestMapping("/legacy/checkAccount")
+@RequestMapping("/legacy/common/bank")
 public class CheckAccountRestController {
 	
 	@Autowired

@@ -12,20 +12,20 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.chacha.create.service.store_common.header.auth.EmailService;
 
 @RestController
-@RequestMapping("/legacy/sendEmail")
+@RequestMapping("/legacy/auth/join")
 @SessionAttributes("authKey")
 public class EmailRestController {
     
     @Autowired
     private EmailService service;
     
-    @GetMapping("/signUp")
+    @GetMapping("/email")
     public int signUp(String email) {
         return service.signUp(email, "회원 가입");
     }
     
     
-    @GetMapping("/checkAuthKey")
+    @GetMapping("/otp")
     public int checkAuthKey(@RequestParam Map<String, Object> paramMap){
 
 
