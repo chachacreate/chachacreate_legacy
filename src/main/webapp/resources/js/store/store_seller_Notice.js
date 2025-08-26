@@ -56,7 +56,7 @@ function noticeList() {
 // ================================
 function fetchNotices() {
   $.ajax({
-    url: `${cpath}/api/${storeUrl}/seller/management/noticeselect`,
+    url: `${cpath}/legacy/${storeUrl}/seller/management/noticeselect`,
     dataType: "json",
     success: result => {
       if (!result || !Array.isArray(result.data)) return;
@@ -210,7 +210,7 @@ $(document).on("click", "#submit-post", function () {
 
   $.ajax({
     type: "POST",
-    url: `${cpath}/api/${storeUrl}/seller/management/noticeinsert`,
+    url: `${cpath}/legacy/${storeUrl}/seller/management/noticeinsert`,
     contentType: "application/json",
     data: JSON.stringify(postData),
     success: function () {
@@ -235,7 +235,7 @@ $(document).on("click", ".delete-notice-btn", function (e) {
 
   $.ajax({
     type: "DELETE",
-    url: `${cpath}/api/${storeUrl}/seller/management/noticedelete/${id}`,
+    url: `${cpath}/legacy/${storeUrl}/seller/management/noticedelete/${id}`,
     success: function () {
       alert("삭제되었습니다.");
       fetchNotices();
@@ -305,7 +305,7 @@ $(document).on("click", ".submit-edit-btn", function () {
 
   $.ajax({
     type: "PUT",
-    url: `${cpath}/api/${storeUrl}/seller/management/noticeupdate`,
+    url: `${cpath}/legacy/${storeUrl}/seller/management/noticeupdate`,
     contentType: "application/json",
     data: JSON.stringify({ noticeId: id, storeUrl, noticeTitle: title, noticeText: content, noticeCheck: isChecked, noticeDate: now }),
     success: function () {

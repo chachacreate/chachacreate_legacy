@@ -117,7 +117,7 @@
   $(function () {
     // 건의사항 데이터 요청
     $.ajax({
-      url: "${cpath}/api/main/question",
+      url: "${cpath}/legacy/main/question",
       method: "GET",
       contentType: 'application/json',
       success: function (res) {
@@ -160,7 +160,7 @@
 		 }
 	
 	   	  $.ajax({
-	   	    url: "${cpath}/api/main/question",
+	   	    url: "${cpath}/legacy/main/question",
 	   	    method: "POST",
 	   	    contentType: 'application/json',
 	   	    data: JSON.stringify({

@@ -191,7 +191,7 @@ function attachRemoveEvent(button) {
 // ===============================
 function allProduct() {
   $.ajax({
-    url: `${cpath}/api/${storeUrl}/products`,
+    url: `${cpath}/legacy/${storeUrl}/products`,
     dataType: "json",
     success: result => {
       allProducts = result.data || [];
@@ -207,7 +207,7 @@ function allProduct() {
 // ===============================
 function searchProductName(keyword) {
   $.ajax({
-    url: `${cpath}/api/${storeUrl}/products`,
+    url: `${cpath}/legacy/${storeUrl}/products`,
     data: { keyword },
     dataType: "json",
     success: result => renderProductList(result.data),
@@ -223,7 +223,7 @@ function searchProductName(keyword) {
 // ===============================
 function sortProducts(sort) {
   $.ajax({
-    url: `${cpath}/api/${storeUrl}/products`,
+    url: `${cpath}/legacy/${storeUrl}/products`,
     dataType: "json",
     data: { sort },
     success: result => renderProductList(result.data),
@@ -236,7 +236,7 @@ function sortProducts(sort) {
 // ===============================
 function categorySelect() {
   $.ajax({
-    url: `${cpath}/api/${storeUrl}/categories`,
+    url: `${cpath}/legacy/${storeUrl}/categories`,
     dataType: "json",
     success: result => {
       renderTypeCategory(result.typeCategory);
@@ -251,7 +251,7 @@ function categorySelect() {
 // ===============================
 function selectDCategory(uCategoryId, uCategoryName, renderDCategories) {
   $.ajax({
-    url: `${cpath}/api/${storeUrl}/categories`,
+    url: `${cpath}/legacy/${storeUrl}/categories`,
     data: { uCategoryName },
     dataType: "json",
     success: result => renderDCategories(result, uCategoryId, uCategoryName),
@@ -339,7 +339,7 @@ function renderProductList(products) {
 function fetchFilteredProducts(filters) {
 console.log("필터조건으로 상품조회 실행");
   const { type, u, d } = filters;
-  const link = `${cpath}/api/${storeUrl}/products`;
+  const link = `${cpath}/legacy/${storeUrl}/products`;
     
   $.ajax({
     url: link,

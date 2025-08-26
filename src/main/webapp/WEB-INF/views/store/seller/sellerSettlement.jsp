@@ -228,7 +228,7 @@ function drawGraph(ctx, labels, salesData) {
 
 $(function(){
     $.ajax({
-        url:"${cpath}/api/${storeUrl}/seller/management/settlement",
+        url:"${cpath}/legacy/${storeUrl}/seller/management/settlement",
         success:function(responseData){
             var settlementList = responseData.data.settlementList;
             var settlementByDayList = responseData.data.settlementByDayList;

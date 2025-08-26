@@ -21,7 +21,7 @@
 
 		<!-- ✅ 검색창: 서브탭 바로 밑에 위치 -->
 		<div id="product-search">
-			<form id="search-form" action="/api/main/productlist" method="get">
+			<form id="search-form" action="/legacy/main/productlist" method="get">
 				<input type="text" name="query" placeholder="Search"
 					id="search-input" />
 				<button type="submit" id="search-button">🔍</button>
@@ -186,7 +186,7 @@ const pageSize = 12;
 // 전체 데이터를 한번만 불러온 후 저장
 function fetchStoreListOnce() {
   $.ajax({
-    url: `${cpath}/api/main/store/stores`,
+    url: `${cpath}/legacy/main/store/stores`,
     method: 'GET',
     contentType: 'application/json',
     success: function (response) {

@@ -87,7 +87,7 @@ $(document).ready(function() {
 		const isAlreadyMade = sessionStorage.getItem('chatCreated');
 		if(!isAlreadyMade){
 		 $.ajax({
-			 url: '${cpath}/api/${storeUrl}/message/makeChatting',
+			 url: '${cpath}/legacy/${storeUrl}/message/makeChatting',
 			 method: 'POST',
 			 success: function(response){
 				 if (response?.status === 201) {
@@ -108,7 +108,7 @@ $(document).ready(function() {
 	
 //-------------------채팅방 목록 불러오기----------------------------------
     $.ajax({
-        url: '${cpath}/api/main/message/chatrooms',
+        url: '${cpath}/legacy/main/message/chatrooms',
         method: 'GET',
         success: function(response) {
             if (response.status === 200) {

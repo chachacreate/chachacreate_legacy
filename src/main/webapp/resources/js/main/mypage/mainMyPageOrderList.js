@@ -16,7 +16,7 @@ $(function () {
 
     function loadOrderList(cpath) {
         $.ajax({
-            url: cpath + '/api/main/mypage/orders',
+            url: cpath + '/legacy/main/mypage/orders',
             method: 'GET',
             contentType: 'application/json',
             success: function (response) {

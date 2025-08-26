@@ -274,7 +274,7 @@
 
 			  function loadOrders() {
 				  $.ajax({
-				    url: `${cpath}/api/main/sell/order/management`,
+				    url: `${cpath}/legacy/main/sell/order/management`,
 				    method: 'GET',
 				    contentType: 'application/json',
 				    success: function (response) {

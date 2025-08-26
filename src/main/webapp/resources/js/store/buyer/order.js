@@ -10,7 +10,7 @@ $(document).ready(function () {
   $('#addrCheck').on('click', function () {
     if ($(this).is(':checked')) {
       $.ajax({
-        url: `${cpath}/api/main/mypage/order/addr`,
+        url: `${cpath}/legacy/main/mypage/order/addr`,
         type: 'GET',
         success: function (data) {
           if (data.status === 200) {
@@ -170,7 +170,7 @@ $(document).ready(function () {
 
         $.ajax({
           type: "POST",
-          url: `${cpath}/api/main/order`,
+          url: `${cpath}/legacy/main/order`,
           contentType: "application/json",
           data: JSON.stringify(orderRequestDTO),
           success: function (response) {
@@ -182,7 +182,7 @@ $(document).ready(function () {
                 const cartIds = products.map(p => p.cartId).filter(id => id);
                 const deletePromises = cartIds.map(cartId =>
                   $.ajax({
-                    url: `${cpath}/api/main/mypage/cart/delete/${cartId}`,
+                    url: `${cpath}/legacy/main/mypage/cart/delete/${cartId}`,
                     type: 'DELETE'
                   })
                 );

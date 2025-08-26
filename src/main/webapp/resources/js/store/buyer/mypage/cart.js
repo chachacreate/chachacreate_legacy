@@ -1,7 +1,7 @@
 $(function () {
   const cpath = $(".cart-page").data("cpath");
   const memberId = window.loggedInMemberId || null;
-  const apiUrl = `${cpath}/api/main/mypage/cart`;
+  const apiUrl = `${cpath}/legacy/main/mypage/cart`;
 
   // 현재 URL에서 storeUrl 추출
   function getCurrentStoreUrlFromPath() {

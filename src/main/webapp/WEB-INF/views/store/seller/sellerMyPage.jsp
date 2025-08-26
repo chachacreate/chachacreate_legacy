@@ -162,7 +162,7 @@ function toggleReviews() {
   $(document).ready(function() {
     const storeUrl = '${storeUrl}';
     $.ajax({
-      url: '/create/api/' + storeUrl + '/seller/main',
+      url: '/legacy/' + storeUrl + '/seller/main',
       method: 'GET',
       dataType: 'json',
       success: function(response) {

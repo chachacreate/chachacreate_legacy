@@ -185,7 +185,7 @@
      
      $(function(){
     	   $.ajax({
-    	      url:"${cpath}/api/main/sell/management",    // 서버에 데이터 요청   
+    	      url:"${cpath}/legacy/main/sell/management",    // 서버에 데이터 요청   
     	      success:function(responseData){             // 서버가 반환한 responseData를 통해 콜백 함수 실행     
     	         var view = f_makeView(responseData.data.sellmanageList);  //responseData.data.sellmanageList 정산 상품 별 리스트를 받아 html 슬라이드 템플릿으로 바꿔주는 함수
     	         $("#here").html(view); //만든 html을 id가 here인 div에 넣어서 슬라이드 생성

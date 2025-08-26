@@ -8,7 +8,7 @@ $(() => {
 
 // 인기 스토어 조회
 function mainHomeInfo(){
-	const link = `${cpath}/api/main`;
+	const link = `${cpath}/legacy/main`;
 	
 	$.ajax({
 		url: link,

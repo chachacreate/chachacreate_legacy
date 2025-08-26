@@ -28,7 +28,7 @@ $(function () {
 
 
   $.ajax({
-    url: cpath + "/api/main/mypage/reviewmemberById",
+    url: cpath + "/legacy/main/mypage/reviewmemberById",
     method: "GET",
     dataType: "json",
     success: function (response) {

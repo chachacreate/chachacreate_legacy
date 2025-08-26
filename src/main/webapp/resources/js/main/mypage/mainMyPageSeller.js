@@ -47,7 +47,7 @@ $(function () {
 
   // 판매자 정보 조회
   $.ajax({
-    url: `${cpath}/api/main/sell/info`,
+    url: `${cpath}/legacy/main/sell/info`,
     method: 'GET',
     dataType: 'json',
     success: function (res) {
@@ -157,7 +157,7 @@ $(function () {
     }
 
     $.ajax({
-      url: `${cpath}/api/checkAccount`,
+      url: `${cpath}/legacy/common/bank`,
       method: 'GET',
       data: { bank_code, bank_num },
       success: function (res) {
@@ -205,7 +205,7 @@ $(function () {
     };
 
     $.ajax({
-      url: `${cpath}/api/main/sell/info`,
+      url: `${cpath}/legacy/main/sell/info`,
       method: 'POST',
       contentType: 'application/json',
       data: JSON.stringify(dataToSend),

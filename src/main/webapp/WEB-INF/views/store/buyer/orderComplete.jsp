@@ -82,7 +82,7 @@
     	  });
 
       $.ajax({
-        url: `${pageContext.request.contextPath}/api/main/mypage/orderdetail/\${orderId}`,
+        url: `${pageContext.request.contextPath}/legacy/main/mypage/orderdetail/\${orderId}`,
         type: 'GET',
         contentType: 'application/json',
         success: function (res) {

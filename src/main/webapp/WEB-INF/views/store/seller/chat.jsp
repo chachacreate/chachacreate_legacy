@@ -74,7 +74,7 @@ $(document).ready(function() {
 
 //-------------------채팅방 목록 불러오기----------------------------------
     $.ajax({
-        url: '${cpath}/api/${storeUrl}/message/chatrooms',
+        url: '${cpath}/legacy/${storeUrl}/message/chatrooms',
         method: 'GET',
         success: function(response) {
             if (response.status === 200) {

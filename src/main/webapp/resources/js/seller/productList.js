@@ -33,7 +33,7 @@ $(document).ready(function () {
     });
 
     $.ajax({
-      url: `${cpath}/${storeUrl}/seller/products`,
+      url: `${cpath}/legacy/${storeUrl}/seller/products`,
       type: "PUT",
       contentType: "application/json",
       data: JSON.stringify(dtoList),

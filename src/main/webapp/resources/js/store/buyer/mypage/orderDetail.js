@@ -1,6 +1,6 @@
 $(document).ready(function () {
   $.ajax({
-    url: `${cpath}/api/main/mypage/orderdetail/${orderId}`,
+    url: `${cpath}/legacy/main/mypage/orderdetail/${orderId}`,
     method: 'GET',
     success: function (res) {
       if (res.status === 200) {

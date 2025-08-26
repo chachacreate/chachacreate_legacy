@@ -15,7 +15,7 @@ function loadStoreInfo() {
   }
 
   $.ajax({
-    url: `${cpath}/api/${storeUrl}/info`,
+    url: `${cpath}/legacy/${storeUrl}/info`,
     dataType: "json",
     success: function (result) {
       

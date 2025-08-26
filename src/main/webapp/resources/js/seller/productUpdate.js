@@ -108,7 +108,7 @@ $(function () {
   });
 
   $.ajax({
-    url: `${cpath}/${storeUrl}/seller/productupdate/${productId}`,
+    url: `${cpath}/legacy/${storeUrl}/seller/productupdate/${productId}`,
     method: 'POST',
     data: formData,
     enctype: "multipart/form-data",

@@ -229,7 +229,7 @@ $(function() {
 		}
 
 		$.ajax({
-			url : '${cpath}/api/checkAccount',
+			url : '${cpath}/legacy/common/bank',
 			method : 'GET',
 			data : {
 				bank_code : bank_code,
@@ -288,7 +288,7 @@ $(document).ready(function () {
 			};
 
   $.ajax({
-    url: "${cpath}/api/${storeUrl}/seller/management/sellerInfo",
+    url: "${cpath}/legacy/${storeUrl}/seller/management/sellerInfo",
     method: "GET",
     contentType: 'application/json',
     success: function (res) {
@@ -343,7 +343,7 @@ $('#sellerInfoSubmit').on('click', function () {
     };
 
     $.ajax({
-        url: '${cpath}/api/${storeUrl}/seller/management/sellerInfo',
+        url: '${cpath}/legacy/${storeUrl}/seller/management/sellerInfo',
         method: 'PUT',
         contentType: 'application/json',
         data: JSON.stringify(data),

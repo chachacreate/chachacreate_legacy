@@ -149,7 +149,7 @@
 		}
 
 		$.ajax({
-			url: '${cpath}/api/main/store/checkurl',
+			url: '${cpath}/legacy/main/store/checkurl',
 			method: 'GET',
 			data: { storeUrl: storeUrl },
 			success: function (response) {
@@ -213,7 +213,7 @@
 		};
 
 			$.ajax({
-				url: '${cpath}/api/main/store/openform',
+				url: '${cpath}/legacy/main/store/openform',
 				method: 'PUT',
 				contentType: 'application/json',
 				data: JSON.stringify(formData),

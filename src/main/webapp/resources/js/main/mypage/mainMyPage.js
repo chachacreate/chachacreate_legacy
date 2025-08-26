@@ -14,7 +14,7 @@ $(function () {
 
   // 회원 정보(+기본 배송지) 불러오기
   $.ajax({
-    url: `${cpath}/api/${storeUrl}/mypage`,
+    url: `${cpath}/legacy/${storeUrl}/mypage`,
     type: "GET",
     dataType: "json",
     success: function (res) {
@@ -32,7 +32,7 @@ $(function () {
 
         // 기본 배송지 조회 API
         $.ajax({
-          url: `${cpath}/api/${storeUrl}/mypage/order/addr`,
+          url: `${cpath}/legacy/${storeUrl}/mypage/order/addr`,
           type: "GET",
           dataType: "json",
           success: function (addrRes) {
@@ -157,7 +157,7 @@ $(function () {
 	    const memberPwd = { memberPwd: pwd };
 	
 	    $.ajax({
-	      url: `${cpath}/api/${storeUrl}/mypage/update/password`,
+	      url: `${cpath}/legacy/${storeUrl}/mypage/update/password`,
 	      type: "POST",
 	      contentType: "application/json; charset=UTF-8",
 	      data: JSON.stringify(memberPwd),
@@ -193,7 +193,7 @@ $(function () {
 	    };
 	
 	    $.ajax({
-	      url: `${cpath}/api/${storeUrl}/mypage/order/addr/update`,
+	      url: `${cpath}/legacy/${storeUrl}/mypage/order/addr/update`,
 	      type: "POST",
 	      contentType: "application/json; charset=UTF-8",
 	      data: JSON.stringify(addrData),

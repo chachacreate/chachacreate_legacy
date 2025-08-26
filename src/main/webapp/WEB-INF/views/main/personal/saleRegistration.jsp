@@ -340,7 +340,7 @@ pimgUrl4 = null, pimgUrl5 = null, pimgUrl6 = null;
 $(document).ready(function () {
     // 상품 데이터를 받아오는 AJAX 요청
     $.ajax({
-        url: '${cpath}/api/main/sell/products', // 요청 URL
+        url: '${cpath}/legacy/main/sell/products', // 요청 URL
         type: 'GET', // GET 방식으로 요청
         dataType: 'json', // JSON 응답 처리
         success: function (response) {
@@ -549,7 +549,7 @@ $('#submit-btn').click(function () {
   };
 
   $.ajax({
-    url: '${cpath}/api/main/sell/sellregister',
+    url: '${cpath}/legacy/main/sell/sellregister',
     method: 'POST',
     contentType: 'application/json',
     data: JSON.stringify(data),
@@ -639,7 +639,7 @@ $('#edit-btn').on('click', function() {
     	  };
 		console.log(data);
         $.ajax({
-            url: '${cpath}/api/main/sell/sellregister/update',
+            url: '${cpath}/legacy/main/sell/sellregister/update',
             method: 'PUT',
             contentType: 'application/json',
             data: JSON.stringify(data),
@@ -661,7 +661,7 @@ $('#edit-btn').on('click', function() {
 	  const productId = $('#productId').val().trim();
 
     $.ajax({
-      url: '${cpath}/api/main/sell/sellregister/delete',
+      url: '${cpath}/legacy/main/sell/sellregister/delete',
       type: 'PUT',
       contentType: 'application/json',
       dataType: 'json',
@@ -740,7 +740,7 @@ $('#submit-btn2').click(function () {
 	  };
 
 	  $.ajax({
-	    url: '${cpath}/api/main/sell/sellregister',
+	    url: '${cpath}/legacy/main/sell/sellregister',
 	    method: 'POST',
 	    contentType: 'application/json',
 	    data: JSON.stringify(data),
@@ -830,7 +830,7 @@ $('#edit-btn2').on('click', function() {
  	  };
 		console.log(data);
      $.ajax({
-         url: '${cpath}/api/main/sell/sellregister/update',
+         url: '${cpath}/legacy/main/sell/sellregister/update',
          method: 'PUT',
          contentType: 'application/json',
          data: JSON.stringify(data),
@@ -853,7 +853,7 @@ $('#delete-btn2').on('click', function () {
 	  const productId = $('#productId2').val().trim();
 
   $.ajax({
-    url: '${cpath}/api/main/sell/sellregister/delete',
+    url: '${cpath}/legacy/main/sell/sellregister/delete',
     type: 'PUT',
     contentType: 'application/json',
     dataType: 'json',

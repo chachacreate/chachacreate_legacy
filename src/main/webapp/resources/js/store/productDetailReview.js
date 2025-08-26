@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!loggedInMemberId) {
     document.querySelector(".review-form").style.display = "none";
   } else {
-    const orderDetailUrl = `${cpath}/api/${storeUrl}/order/${loggedInMemberId}/products/${productId}/orderdetail`;
+    const orderDetailUrl = `${cpath}/legacy/${storeUrl}/order/${loggedInMemberId}/products/${productId}/orderdetail`;
     $.ajax({
       url: orderDetailUrl,
       method: "GET",
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   $.ajax({
-    url: `${cpath}/api/auth/editable/${productId}`,
+    url: `${cpath}/legacy/auth/editable/${productId}`,
     method: "GET",
     dataType: "json",
     success: function(res) {
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function checkReviewWritable(orderDetailId) {
     $.ajax({
-      url: `${cpath}/api/${storeUrl}/productdetail/${productId}/review/check`,
+      url: `${cpath}/legacy/${storeUrl}/productdetail/${productId}/review/check`,
       method: "GET",
       data: { orderDetailId },
       dataType: "json",
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function loadReviews() {
     $.ajax({
-      url: `${cpath}/api/${storeUrl}/productdetail/${productId}/review`,
+      url: `${cpath}/legacy/${storeUrl}/productdetail/${productId}/review`,
       method: "GET",
       dataType: "json",
       success: function(data) {
@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const reviewId = this.dataset.reviewId;
 
                 $.ajax({
-                  url: `${cpath}/api/${storeUrl}/seller/review/member/${reviewId}`,
+                  url: `${cpath}/legacy/${storeUrl}/seller/review/member/${reviewId}`,
                   method: "GET",
                   dataType: "json",
                   success: function (res) {
@@ -159,7 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function addReview(reviewText) {
     $.ajax({
-      url: `${cpath}/api/${storeUrl}/productdetail/${productId}/review`,
+      url: `${cpath}/legacy/${storeUrl}/productdetail/${productId}/review`,
       method: "POST",
       contentType: "application/json",
       data: JSON.stringify({ reviewText, orderDetailId }),
@@ -238,7 +238,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function updateReview(reviewId, reviewText) {
     $.ajax({
-      url: `${cpath}/api/${storeUrl}/productdetail/${productId}/review`,
+      url: `${cpath}/legacy/${storeUrl}/productdetail/${productId}/review`,
       method: "PUT",
       contentType: "application/json",
       data: JSON.stringify({ reviewId, reviewText }),
@@ -255,7 +255,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function deleteReview(reviewId) {
     $.ajax({
-      url: `${cpath}/api/${storeUrl}/productdetail/${productId}/review?reviewId=${reviewId}`,
+      url: `${cpath}/legacy/${storeUrl}/productdetail/${productId}/review?reviewId=${reviewId}`,
       method: "DELETE",
       success: function () {
         loadReviews();
@@ -296,7 +296,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     $.ajax({
-      url: `${cpath}/api/${storeUrl}/reportinsert`,
+      url: `${cpath}/legacy/${storeUrl}/reportinsert`,
       method: 'POST',
       contentType: 'application/json',
       data: JSON.stringify(reportData),

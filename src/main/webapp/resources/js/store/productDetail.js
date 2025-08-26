@@ -5,11 +5,11 @@ document.addEventListener("DOMContentLoaded", function () {
   const storeUrl = pathSegments[pathSegments.length - 3];
   const productId = pathSegments[pathSegments.length - 1];
   const cpath = document.body.getAttribute("data-cpath") || "";
-  const apiUrl = `${cpath}/api/${storeUrl}/productdetail/${productId}`;
+  const apiUrl = `${cpath}/legacy/${storeUrl}/productdetail/${productId}`;
   
   // 나의 상품이면 수정 버튼 보이게
 	$.ajax({
-	  url: `${cpath}/api/auth/editable/${productId}`,
+	  url: `${cpath}/legacy/auth/editable/${productId}`,
 	  method: "GET",
 	  dataType: "json",
 	  success: function(res) {
@@ -142,7 +142,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		  };
 		
 		  $.ajax({
-		    url: `${cpath}/api/main/mypage/cart`,
+		    url: `${cpath}/legacy/main/mypage/cart`,
 		    method: "POST",
 		    contentType: "application/json",
 		    data: JSON.stringify(cartData),
@@ -228,7 +228,7 @@ document.addEventListener("DOMContentLoaded", function () {
         };
 
         $.ajax({
-          url: `${cpath}/api/${storeUrl}/reportinsert`,
+          url: `${cpath}/legacy/${storeUrl}/reportinsert`,
           method: 'POST',
           contentType: 'application/json',
           data: JSON.stringify(reportData),

@@ -200,7 +200,7 @@
 				}
 
 				$.ajax({
-					url : '${cpath}/api/checkAccount',
+					url : '${cpath}/legacy/common/bank',
 					method : 'GET',
 					data : {
 						bank_code : bank_code,
@@ -260,7 +260,7 @@
 		        }
 	
 		        $.ajax({
-		            url: '${cpath}/api/auth/join/seller',
+		            url: '${cpath}/legacy/auth/join/seller',
 		            method: 'POST',
 		            contentType: 'application/json',
 		            data: JSON.stringify(sellerData),

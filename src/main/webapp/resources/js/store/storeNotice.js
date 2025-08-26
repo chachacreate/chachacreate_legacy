@@ -27,7 +27,7 @@ $(document).ready(() => {
 // ================================
 function fetchNotices() {
   $.ajax({
-    url: `${cpath}/api/${storeUrl}/seller/management/noticeselect`,
+    url: `${cpath}/legacy/${storeUrl}/seller/management/noticeselect`,
     dataType: "json",
     success: result => {
       if (!result || !Array.isArray(result.data)) return;

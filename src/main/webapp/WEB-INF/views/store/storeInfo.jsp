@@ -118,7 +118,7 @@
   <script>
   $(function () {
 	  $.ajax({
-	    url: "${cpath}/api/${storeUrl}/info",
+	    url: "${cpath}/legacy/${storeUrl}/info",
 	    method: 'GET',
 	    contentType: 'application/json',
 	    success: function (data) {

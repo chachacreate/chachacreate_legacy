@@ -182,7 +182,7 @@ function collectSelectedCategories() {
 // ===============================
 function fetchFilteredProducts(filters) {
   const { type, u, d } = filters;
-  const link = `${cpath}/api/main/products`;
+  const link = `${cpath}/legacy/main/products`;
 
   $.ajax({
     url: link,
@@ -230,7 +230,7 @@ function attachRemoveEvent(button) {
 // 전체 상품 조회
 // ===============================
 function allProduct() {
-  const link = `${cpath}/api/main/products`;
+  const link = `${cpath}/legacy/main/products`;
 
   $.ajax({
     url: link,
@@ -251,7 +251,7 @@ function allProduct() {
 // 상품명 검색
 // ===============================
 function searchProductName(keyword) {
-  const link = `${cpath}/api/main/products`;
+  const link = `${cpath}/legacy/main/products`;
   $.ajax({
     url: link,
     data: { keyword },
@@ -271,7 +271,7 @@ function searchProductName(keyword) {
 // 정렬 조건으로 조회
 // ===============================
 function sortProducts(sort) {
-  const link = `${cpath}/api/main/products`;
+  const link = `${cpath}/legacy/main/products`;
   $.ajax({
     url: link,
     dataType: "json",
@@ -289,7 +289,7 @@ function sortProducts(sort) {
 // 카테고리 정보 조회
 // ===============================
 function categorySelect() {
-  const link = `${cpath}/api/main/categories`;
+  const link = `${cpath}/legacy/main/categories`;
   $.ajax({
     url: link,
     dataType: "json",
@@ -307,7 +307,7 @@ function categorySelect() {
 // u카테고리 클릭 시 d카테고리 요청
 // ===============================
 function selectDCategory(uCategoryId, uCategoryName, renderDCategories) {
-  const link = `${cpath}/api/main/categories`;
+  const link = `${cpath}/legacy/main/categories`;
 
   $.ajax({
     url: link,

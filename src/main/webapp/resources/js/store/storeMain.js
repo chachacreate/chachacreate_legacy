@@ -30,7 +30,7 @@ function renderStoreInfo(store) {
 //대표 상품 조회 및 Swiper 초기화
 function mainProduct() {
   $.ajax({
-    url: `${cpath}/api/${storeUrl}`,
+    url: `${cpath}/legacy/${storeUrl}`,
     dataType: "json",
     success: function (result) {
       const mainProducts = result.data.mainProduct;
@@ -83,7 +83,7 @@ function mainProduct() {
 //인기 상품 조회 및 Swiper 초기화
 function bestProduct() {
   $.ajax({
-    url: `${cpath}/api/${storeUrl}`,
+    url: `${cpath}/legacy/${storeUrl}`,
     dataType: "json",
     success: function (result) {
       const bestProducts = result.data.bestProduct;
@@ -150,7 +150,7 @@ function renderBestProduct(bestProduct) {
 //공지사항 조회
 function storeNotices() {
   $.ajax({
-    url: `${cpath}/api/${storeUrl}/seller/management/noticeselect`,
+    url: `${cpath}/legacy/${storeUrl}/seller/management/noticeselect`,
     dataType: "json",
     success: result => {
       if (!result || !Array.isArray(result.data)) return;

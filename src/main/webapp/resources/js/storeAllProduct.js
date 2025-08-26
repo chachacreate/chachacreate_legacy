@@ -1,13 +1,13 @@
 document.addEventListener("DOMContentLoaded", function () {
   // 1. 스토어 이름 동적 삽입
-  fetch(`/api/store/${storeUrl}/name`)
+  fetch(`/legacy/store/${storeUrl}/name`)
     .then(res => res.json())
     .then(data => {
       document.getElementById("store-name-dynamic").textContent = data.storeName;
     });
 
   // 2. 카테고리 목록 동적 삽입
-  fetch(`/api/store/${storeUrl}/categories`)
+  fetch(`/legacy/store/${storeUrl}/categories`)
     .then(res => res.json())
     .then(categories => {
       const section = document.getElementById("category-section");
@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // 3. 상품 목록 불러오기
   function fetchAndRenderProducts(page = 1, sort = 'latest', keyword = '') {
-    const url = new URL(`/api/store/${storeUrl}/products`, window.location.origin);
+    const url = new URL(`/legacy/store/${storeUrl}/products`, window.location.origin);
     url.searchParams.append("page", page);
     url.searchParams.append("sort", sort);
     if (keyword) url.searchParams.append("query", keyword);

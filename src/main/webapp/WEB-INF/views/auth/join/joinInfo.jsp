@@ -66,7 +66,7 @@
 						<div class="input-with-button">
 							<input type="text" name="memberEmail" id="memberEmail"
 								placeholder="아이디(이메일)" maxlength="30" autocomplete="off">
-							<button type="button" id="sendAuthKeyBtn">이메일인증</button>
+							<button type="button" id="sendAutdhKeyBtn">이메일인증</button>
 						</div>
 						<!-- 인증번호 입력 -->
 						<label for="emailCheck"> <span class="required">*</span>
@@ -315,7 +315,7 @@
 	        return;
 		}
 	    $.ajax({
-	        url: contextPath + "/sendEmail/signUp",
+	        url: contextPath + "/legacy/auth/join/email",
 	        type: "GET",
 	        data: { email: email },
 	        success: function(result) {
@@ -363,7 +363,7 @@
 	        const inputKey = $("#authKey").val();
 	
 	        $.ajax({
-	            url: contextPath + "/sendEmail/checkAuthKey",
+	            url: contextPath + "/legacy/auth/join/otp",
 	            type: "GET",
 	            data: { inputKey: inputKey, email: tempEmail },
 	            success: function(result) {
@@ -567,7 +567,7 @@
 	    
 	    // AJAX POST 요청
 	    $.ajax({
-	    	  url: contextPath + '/api/auth/join/userinfo',
+	    	  url: contextPath + '/legacy/auth/join/userinfo',
 	    	  type: 'POST',
 	    	  contentType: 'application/json',
 	    	  data: JSON.stringify(data),
