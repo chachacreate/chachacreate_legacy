@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Slf4j
-@RequestMapping("/api/{storeUrl}/seller/management")
+@RequestMapping("/legacy/{storeUrl}/seller/management")
 public class NoticeRestController {
 
     @Autowired

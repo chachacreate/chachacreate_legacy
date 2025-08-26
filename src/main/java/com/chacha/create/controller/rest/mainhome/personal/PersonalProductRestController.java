@@ -23,7 +23,7 @@ import com.chacha.create.service.mainhome.personal.PersonalProductService;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping("/api/main/sell")
+@RequestMapping("/legacy/main/sell")
 @Slf4j
 public class PersonalProductRestController {
 

@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Slf4j
-@RequestMapping("/api/manager")
+@RequestMapping("/legacy/manager")
 public class ReportQuestionManagementRestController {
 
     @Autowired

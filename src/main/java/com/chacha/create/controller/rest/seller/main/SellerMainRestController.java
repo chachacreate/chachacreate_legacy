@@ -18,7 +18,7 @@ import com.chacha.create.common.enums.error.ResponseCode;
 import com.chacha.create.service.seller.main.SellerMainService;
 
 @RestController
-@RequestMapping("/api/{storeUrl}/seller")
+@RequestMapping("/legacy/{storeUrl}/seller")
 public class SellerMainRestController {
  
 	@Autowired

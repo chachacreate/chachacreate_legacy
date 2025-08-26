@@ -14,7 +14,7 @@ import com.chacha.create.common.enums.error.ResponseCode;
 import com.chacha.create.service.manager.adjustment.AdjustmentService;
 
 @RestController
-@RequestMapping("/api/manager/adjustment")
+@RequestMapping("/legacy/manager/adjustment")
 public class AdjustmentRestController {
 
     @Autowired

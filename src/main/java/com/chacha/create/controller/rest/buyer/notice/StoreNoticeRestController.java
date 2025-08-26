@@ -15,7 +15,7 @@ import com.chacha.create.common.enums.error.ResponseCode;
 import com.chacha.create.service.buyer.notice.StoreNoticeService;
 
 @RestController
-@RequestMapping("/api/{storeUrl}")
+@RequestMapping("/legacy/{storeUrl}")
 public class StoreNoticeRestController {
 
     @Autowired

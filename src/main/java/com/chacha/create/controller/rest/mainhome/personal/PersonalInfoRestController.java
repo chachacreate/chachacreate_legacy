@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/main/sell")
+@RequestMapping("/legacy/main/sell")
 public class PersonalInfoRestController {
 	
 	@Autowired

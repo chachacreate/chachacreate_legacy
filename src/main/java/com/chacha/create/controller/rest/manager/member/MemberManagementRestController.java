@@ -17,7 +17,7 @@ import com.chacha.create.service.manager.member.MemberManagementService;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping("/api/manager")
+@RequestMapping("/legacy/manager")
 @Slf4j
 public class MemberManagementRestController {
 

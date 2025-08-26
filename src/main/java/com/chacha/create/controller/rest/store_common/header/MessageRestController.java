@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/{storeUrl}/message")
+@RequestMapping("/legacy/{storeUrl}/message")
 public class MessageRestController {
 
 	@Autowired

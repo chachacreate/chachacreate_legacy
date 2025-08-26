@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Slf4j
-@RequestMapping("/api/main/sell")
+@RequestMapping("/legacy/main/sell")
 public class PersonalOrderManageRestController {
 
     @Autowired

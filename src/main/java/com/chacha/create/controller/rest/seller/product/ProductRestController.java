@@ -25,7 +25,7 @@ import com.chacha.create.service.seller.product.ProductService;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping("/api/{storeUrl}/seller")
+@RequestMapping("/legacy/{storeUrl}/seller")
 @Slf4j
 public class ProductRestController {
 

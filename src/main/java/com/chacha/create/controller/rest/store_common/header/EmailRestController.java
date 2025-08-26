@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.chacha.create.service.store_common.header.auth.EmailService;
 
 @RestController
-@RequestMapping("/sendEmail")
+@RequestMapping("/legacy/sendEmail")
 @SessionAttributes("authKey")
 public class EmailRestController {
     
