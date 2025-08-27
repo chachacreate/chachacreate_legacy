@@ -24,7 +24,7 @@
 	   건의사항
 	</a>
       <a href="${cpath}/main/sell/sellguide" class="nav-item">개인판매</a>
-      <a href="#" class="nav-item" onclick="alert('준비중입니다!')">클래스</a>
+      <a href="${cpath}/main/classes" class="nav-item">클래스</a>
       <a href="${cpath}/main/mypage" class="nav-item">마이페이지</a>
       <a href="${cpath}/main/mypage/cart" class="nav-item">장바구니</a>
     </div>
