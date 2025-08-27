@@ -6,6 +6,8 @@
 
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<!-- 같은 타입의 Bean이 여러개인 경우 primary="true"를 설정하면 @Autowired할 때 우선적으로 가져옴 -->
+	
+	<!-- 오라클 내부 서버 -->
 	<bean id="dataSourceOriginal" primary="true"
 		class="org.apache.commons.dbcp2.BasicDataSource">
 		<property name="driverClassName"
@@ -14,6 +16,20 @@
 		<property name="username" value="${oracle.username}" />
 		<property name="password" value="${oracle.password}" />
 	</bean>
+	
+	<!-- 오라클 원격 서버 -->
+	
+<!-- 	<bean id="dataSourceOriginal" class="org.apache.commons.dbcp2.BasicDataSource" primary="true">
+	    <property name="driverClassName" value="${oracle.wallet.driverClassName}" />
+	    <property name="url">
+	        <value>
+	            ${oracle.wallet.url}${oracle.wallet.submodule.path}/${oracle.wallet.path}
+	        </value>
+	    </property>
+	
+	    <property name="username" value="${oracle.wallet.username}" />
+	    <property name="password" value="${oracle.wallet.password}" />
+	</bean> -->
 
 
 	<bean id="dataSource"
