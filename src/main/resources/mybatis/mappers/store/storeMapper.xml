@@ -105,5 +105,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  SET personal_check = 1
 	  WHERE seller_id = #{sellerId}
 	</update>
+	
+	<select id="selectForSellerDetail" resultType="SellerEntity" parameterType="String">
+	SELECT sel.seller_id, sel.member_id, sel.opening_date, sel.account, sel.account_bank, sel.profile_info, sel.personal_check
+	FROM store s
+	join seller sel on s.seller_id = sel.seller_id
+	WHERE s.store_url = #{storeUrl}
+	</select>
 
 </mapper>

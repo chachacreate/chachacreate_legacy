@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.chacha.create.common.dto.store.StoreInfoDTO;
+import com.chacha.create.common.entity.member.SellerEntity;
 import com.chacha.create.common.entity.store.StoreEntity;
 
 /**
@@ -90,5 +91,7 @@ public interface StoreMapper {
 	StoreInfoDTO selectForThisStoreInfo(String storeUrl);
 	
 	int updatePersonalCheck(int sellerId);
+	
+	SellerEntity selectForSellerDetail(String storeUrl);
 
 }
