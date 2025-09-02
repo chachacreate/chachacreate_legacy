@@ -37,6 +37,10 @@ public class ProductService {
 	public int productimgInsert(PImgEntity p_imge) {
 		return pimgMapper.insert(p_imge);
 	}
+	
+	public int productimgUpdate(PImgEntity p_imge) {
+		return pimgMapper.update(p_imge);
+	}
 
 	public int productInsert(ProductEntity product) {
 		return productMapper.insert(product);
@@ -53,12 +57,12 @@ public class ProductService {
 	public List<ProductlistDTO> productAllListByStoreUrl(String storeUrl){
 		List<ProductlistDTO> products = productDetailMapper.selectAllByStoreUrl(storeUrl);
 		
-		// 각 상품의 이미지 URL을 S3 Full URL로 변환
-		for (ProductlistDTO product : products) {
-			if (product.getPimgUrl() != null && !product.getPimgUrl().isEmpty()) {
-				product.setPimgUrl(s3Uploader.getFullUrl(product.getPimgUrl()));
-			}
-		}
+		// 이미 Full URL이 저장되어 있으므로 변환 불필요
+		// for (ProductlistDTO product : products) {
+		//     if (product.getPimgUrl() != null && !product.getPimgUrl().isEmpty()) {
+		//         product.setPimgUrl(s3Uploader.getFullUrl(product.getPimgUrl()));
+		//     }
+		// }
 		
 		return products;
 	}
@@ -81,17 +85,65 @@ public class ProductService {
 	    return result;
 	}
 	
+	/**
+	 * Full URL에서 S3 키를 추출하는 메서드
+	 */
+	private String extractS3KeyFromUrl(String fullUrl) {
+	    try {
+	        // Full URL에서 S3 키 추출
+	        // 예: "https://bucket-name.s3.region.amazonaws.com/images/product/abc123.jpg" 
+	        // -> "images/product/abc123.jpg"
+	        String[] parts = fullUrl.split(".amazonaws.com/");
+	        if (parts.length > 1) {
+	            return parts[1];
+	        }
+	        return fullUrl; // 추출 실패 시 원본 반환
+	    } catch (Exception e) {
+	        log.error("S3 키 추출 실패: {}", fullUrl, e);
+	        return fullUrl;
+	    }
+	}
+	
+	/**
+	 * S3 키에서 썸네일 키를 생성하는 메서드
+	 */
+	private String generateThumbnailKey(String originalKey) {
+	    // 원본: "images/product/abc123.jpg" -> 썸네일: "thumbnails/images/product/abc123.jpg"
+	    return "thumbnails/" + originalKey;
+	}
+	
+	/**
+	 * 원본 이미지와 썸네일을 모두 삭제하는 메서드
+	 */
+	private void deleteImageWithThumbnail(String imageUrl) {
+	    try {
+	        // Full URL에서 S3 키 추출
+	        String s3Key = extractS3KeyFromUrl(imageUrl);
+	        
+	        // 원본 이미지 삭제
+	        s3Uploader.delete(s3Key);
+	        log.info("S3 원본 이미지 삭제: {}", imageUrl);
+	        
+	        // 썸네일 이미지 삭제
+	        String thumbnailKey = generateThumbnailKey(s3Key);
+	        s3Uploader.delete(thumbnailKey);
+	        log.info("S3 썸네일 이미지 삭제: {}", thumbnailKey);
+	        
+	    } catch (Exception e) {
+	        log.error("S3 이미지 삭제 중 오류 발생: {}", imageUrl, e);
+	    }
+	}
+	
 	@Transactional(rollbackFor = Exception.class)
 	public int productDeleteByEntities(List<ProductEntity> productList) {
 	    int result = 0;
 
 	    for (ProductEntity entity : productList) {
-	        // S3에서 이미지 파일 삭제
+	        // S3에서 이미지 파일 삭제 (원본 + 썸네일)
 	        List<PImgEntity> images = pimgMapper.selectByProductId(entity.getProductId());
 	        for (PImgEntity image : images) {
 	            if (image.getPimgUrl() != null && !image.getPimgUrl().isEmpty()) {
-	                s3Uploader.delete(image.getPimgUrl());
-	                log.info("S3 이미지 삭제: {}", image.getPimgUrl());
+	                deleteImageWithThumbnail(image.getPimgUrl());
 	            }
 	        }
 	        
@@ -109,18 +161,18 @@ public class ProductService {
     public ProductUpdateDTO getProductDetail(String storeUrl, int productId) {
         ProductUpdateDTO product = productDetailMapper.updateProductDetail(storeUrl, productId);
         
-        // 이미지 URL을 S3 Full URL로 변환
-        if (product != null) {
-            if (product.getPimgUrl1() != null && !product.getPimgUrl1().isEmpty()) {
-                product.setPimgUrl1(s3Uploader.getFullUrl(product.getPimgUrl1()));
-            }
-            if (product.getPimgUrl2() != null && !product.getPimgUrl2().isEmpty()) {
-                product.setPimgUrl2(s3Uploader.getFullUrl(product.getPimgUrl2()));
-            }
-            if (product.getPimgUrl3() != null && !product.getPimgUrl3().isEmpty()) {
-                product.setPimgUrl3(s3Uploader.getFullUrl(product.getPimgUrl3()));
-            }
-        }
+        // 이미 Full URL이 저장되어 있으므로 변환 불필요
+        // if (product != null) {
+        //     if (product.getPimgUrl1() != null && !product.getPimgUrl1().isEmpty()) {
+        //         product.setPimgUrl1(s3Uploader.getFullUrl(product.getPimgUrl1()));
+        //     }
+        //     if (product.getPimgUrl2() != null && !product.getPimgUrl2().isEmpty()) {
+        //         product.setPimgUrl2(s3Uploader.getFullUrl(product.getPimgUrl2()));
+        //     }
+        //     if (product.getPimgUrl3() != null && !product.getPimgUrl3().isEmpty()) {
+        //         product.setPimgUrl3(s3Uploader.getFullUrl(product.getPimgUrl3()));
+        //     }
+        // }
         
         return product;
     }
@@ -138,29 +190,31 @@ public class ProductService {
 
             if (file.isEmpty()) continue;
 
-            // 기존 이미지 S3에서 삭제
+            // 기존 이미지 S3에서 삭제 (원본 + 썸네일)
             existingImages.stream()
                 .filter(img -> img.getPimgSeq() == seq)
                 .findFirst()
                 .ifPresent(img -> {
-                    s3Uploader.delete(img.getPimgUrl());
+                    deleteImageWithThumbnail(img.getPimgUrl());
                     pimgMapper.delete(img.getPimgId());
-                    log.info("기존 S3 이미지 삭제: {}", img.getPimgUrl());
+                    log.info("기존 이미지 삭제 완료: {}", img.getPimgUrl());
                 });
 
             try {
-                // S3에 새 이미지 업로드
+                // S3에 새 이미지 업로드하고 Full URL로 저장
                 String s3Key = s3Uploader.uploadImage(file);
+                String fullUrl = s3Uploader.getFullUrl(s3Key);
+                log.info("updateProductDetailWithImages : " + fullUrl);
                 
                 PImgEntity image = PImgEntity.builder()
                     .productId(dto.getProductId())
-                    .pimgUrl(s3Key)  // S3 Key 저장
+                    .pimgUrl(fullUrl)  // Full URL 저장
                     .pimgEnum(ProductImageTypeEnum.THUMBNAIL)
                     .pimgSeq(seq)
                     .build();
 
-                productimgInsert(image);
-                log.info("S3 이미지 업로드 성공: {}", s3Key);
+                productimgUpdate(image);
+                log.info("S3 이미지 업로드 성공: {}", fullUrl);
 
             } catch (Exception e) {
                 log.error("S3 이미지 업로드 실패: {}", file.getOriginalFilename(), e);
@@ -199,12 +253,14 @@ public class ProductService {
                 if (file.isEmpty()) continue;
 
                 try {
-                    // S3에 이미지 업로드
+                    // S3에 이미지 업로드하고 Full URL로 저장
                     String s3Key = s3Uploader.uploadImage(file);
+                    String fullUrl = s3Uploader.getFullUrl(s3Key);
+                    log.info("registerMultipleProductsWithImages : " + fullUrl);
 
                     PImgEntity image = PImgEntity.builder()
                             .productId(product.getProductId())
-                            .pimgUrl(s3Key)  // S3 Key 저장
+                            .pimgUrl(fullUrl)  // Full URL 저장
                             .pimgEnum(ProductImageTypeEnum.THUMBNAIL)
                             .pimgSeq(seq++)
                             .build();
@@ -212,7 +268,7 @@ public class ProductService {
                     int result = productimgInsert(image);
                     if (result > 0) {
                         imgInsertCount++;
-                        log.info("✅ S3 이미지 업로드 및 DB 저장 성공: {}", s3Key);
+                        log.info("✅ S3 이미지 업로드 및 DB 저장 성공: {}", fullUrl);
                     }
 
                 } catch (Exception e) {
@@ -240,15 +296,15 @@ public class ProductService {
         
         List<ProductEntity> products = productMapper.selectByStoreId(storeId);
         
-        // 각 상품의 이미지 정보를 가져와서 S3 Full URL로 변환
-        for (ProductEntity product : products) {
-            List<PImgEntity> images = pimgMapper.selectByProductId(product.getProductId());
-            for (PImgEntity image : images) {
-                if (image.getPimgUrl() != null && !image.getPimgUrl().isEmpty()) {
-                    image.setPimgUrl(s3Uploader.getFullUrl(image.getPimgUrl()));
-                }
-            }
-        }
+        // 이미 Full URL이 저장되어 있으므로 변환 불필요
+        // for (ProductEntity product : products) {
+        //     List<PImgEntity> images = pimgMapper.selectByProductId(product.getProductId());
+        //     for (PImgEntity image : images) {
+        //         if (image.getPimgUrl() != null && !image.getPimgUrl().isEmpty()) {
+        //             image.setPimgUrl(s3Uploader.getFullUrl(image.getPimgUrl()));
+        //         }
+        //     }
+        // }
         
         return products;
     }

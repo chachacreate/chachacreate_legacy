@@ -79,7 +79,7 @@ public class ProductRestController {
 	    }
 	}
 
-	@GetMapping("/productupdate/{productId}")
+	@PostMapping("/productupdate/{productId}")
 	public ResponseEntity<ApiResponse<ProductUpdateDTO>> getProductDetail(@PathVariable String storeUrl,
 			@PathVariable int productId) {
 		ProductUpdateDTO product = productService.getProductDetail(storeUrl, productId);

@@ -54,7 +54,7 @@
 		          <tbody>
 					  <c:forEach var="item" items="${productList}">
 					    <tr class="product-row" data-product-id="${item.productId}">
-						  <td><img src="<%= request.getContextPath() %>/resources/productImages/${item.pimgUrl}" alt="대표이미지" /></td>
+						  <td><img src="${item.pimgUrl}" alt="대표이미지" /></td>
 						  <td>${item.productName}</td>
 						  <td><fmt:formatNumber value="${item.price}" type="number" />원</td>
 						  <td>${item.stock}</td>

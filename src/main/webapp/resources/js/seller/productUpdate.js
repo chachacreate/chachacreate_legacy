@@ -40,7 +40,7 @@ $(function () {
   if (!filename) return;
   
   // 파일 경로 구성: /resources/productImages/{파일명}
-  const finalUrl = cpath + "/resources/productImages/" + filename;
+  const finalUrl = filename;
 
   const $label = $(`label[for="${selector}"]`);
   $label.css("background-image", `url(${finalUrl})`).addClass("has-image");

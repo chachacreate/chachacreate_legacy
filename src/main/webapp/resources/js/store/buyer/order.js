@@ -10,9 +10,10 @@ $(document).ready(function () {
   $('#addrCheck').on('click', function () {
     if ($(this).is(':checked')) {
       $.ajax({
-        url: `${cpath}/legacy/main/mypage/order/addr`,
+        url: `http://localhost:8888/api/info/memberAdress/${loginMember.memberId}`,
         type: 'GET',
         success: function (data) {
+        console.log(data);
           if (data.status === 200) {
             const addr = data.data;
             $('#sample6_postcode').val(addr.postNum);

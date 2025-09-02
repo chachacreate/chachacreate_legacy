@@ -40,12 +40,12 @@ public class ProductDetailService {
 	    int minSeq = Integer.MAX_VALUE;
 	    
 	    for (PImgEntity img : pImgList) {
-	        String fullUrl = null;
+	        String fullUrl = img.getPimgUrl();
 	        
 	        // S3 Key를 Full URL로 변환
-	        if (img.getPimgUrl() != null && !img.getPimgUrl().isEmpty()) {
-	            fullUrl = s3Uploader.getFullUrl(img.getPimgUrl());
-	        }
+//	        if (img.getPimgUrl() != null && !img.getPimgUrl().isEmpty()) {
+//	            fullUrl = s3Uploader.getFullUrl(img.getPimgUrl());
+//	        }
 	        
 	        if (ProductImageTypeEnum.THUMBNAIL.equals(img.getPimgEnum())) {
 	            if (fullUrl != null) {
