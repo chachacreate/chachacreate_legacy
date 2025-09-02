@@ -150,4 +150,24 @@
 		      last_modified_date = SYSDATE
 		  WHERE product_id = #{productId}
 		</update>
+		
+		<!-- 상품 정보 조회 (삭제 시 S3 이미지 URL 확인용) -->
+		<select id="selectProductById" resultType="persnonalProductDTO" parameterType="int">
+		    SELECT 
+		        p.product_id,
+		        p.product_name,
+		        p.product_detail,
+		        p.price,
+		        p.stock,
+		        (SELECT p_img_url FROM p_img WHERE product_id = p.product_id AND p_img_seq = 1 AND p_img_enum = 'THUMBNAIL') AS pimgUrl1,
+		        (SELECT p_img_url FROM p_img WHERE product_id = p.product_id AND p_img_seq = 2 AND p_img_enum = 'THUMBNAIL') AS pimgUrl2,
+		        (SELECT p_img_url FROM p_img WHERE product_id = p.product_id AND p_img_seq = 3 AND p_img_enum = 'THUMBNAIL') AS pimgUrl3,
+		        p.type_category_id,
+		        p.d_category_id,
+		        u.u_category_id
+		    FROM product p
+		    JOIN d_category d ON p.d_category_id = d.d_category_id
+		    JOIN u_category u ON d.u_category_id = u.u_category_id
+		    WHERE p.product_id = #{productId}
+		</select>
 </mapper>

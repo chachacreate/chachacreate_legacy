@@ -3,11 +3,13 @@ package com.chacha.create.common.dto.error;
 import com.chacha.create.common.enums.error.ResponseCode;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class ApiResponse<T> {
     private int status;
     private String message;

@@ -6,20 +6,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	namespace="com.chacha.create.common.mapper.manage.ManageMapper">
 
 	<select id="selectBySellerInfo" resultType="sellerInfoDTO"
-		parameterType="string">
-		SELECT
-		m.member_name AS sellerName,
-		m.member_phone AS
-		sellerPhone,
-		m.member_email AS sellerEmail,
-		s.profile_info AS
-		sellerProfile
-		FROM store st
-		JOIN seller s ON st.seller_id = s.seller_id
-		JOIN member m ON s.member_id = m.member_id
-		WHERE st.store_url =
-		#{storeUrl}
-	</select>
+	        parameterType="string">
+	        SELECT
+	        s.profile_info AS
+	        sellerProfile
+	        FROM store st
+	        JOIN seller s ON st.seller_id = s.seller_id
+	        WHERE st.store_url =
+	        #{storeUrl}
+	    </select>
 
 	<!-- &lt; : <와 같음 -->
 	<select id="storeAdjustment" resultType="managerAdjustmentDTO">
