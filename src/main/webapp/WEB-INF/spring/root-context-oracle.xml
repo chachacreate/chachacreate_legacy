@@ -7,55 +7,29 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<!-- 같은 타입의 Bean이 여러개인 경우 primary="true"를 설정하면 @Autowired할 때 우선적으로 가져옴 -->
 	
-	<!-- 오라클 내부 서버 -->
-	<bean id="dataSourceOriginal" primary="true"
-		class="org.apache.commons.dbcp2.BasicDataSource">
-		<property name="driverClassName"
-			value="${oracle.driverClassName}" />
-		<property name="url" value="${oracle.url}" />
-		<property name="username" value="${oracle.username}" />
-		<property name="password" value="${oracle.password}" />
+
+	<bean class="com.chacha.create.util.DataSourceConfig"/>
+	
+		<!-- AwsS3Properties Bean 등록 -->
+<!-- 	<bean id="awsS3Properties" class="com.chacha.create.util.s3.AwsS3Properties">
+	    <property name="accessKeyId" value="${aws.s3.access-key-id}"/>
+	    <property name="secretAccessKey" value="${aws.s3.secret-access-key}"/>
+	    <property name="region" value="${aws.s3.region}"/>
+	    <property name="bucketName" value="${aws.s3.bucket-name}"/>
 	</bean>
 	
-	<!-- 오라클 원격 서버 -->
+	3) AwsS3Config: 생성자 주입
+	<bean id="awsS3Config" class="com.chacha.create.util.s3.AwsS3Config">
+	    <constructor-arg ref="awsS3Properties"/>
+	</bean>
 	
-<!-- 	<bean id="dataSourceOriginal" class="org.apache.commons.dbcp2.BasicDataSource" primary="true">
-	    <property name="driverClassName" value="${oracle.wallet.driverClassName}" />
-	    <property name="url">
-	        <value>
-	            ${oracle.wallet.url}${oracle.wallet.submodule.path}/${oracle.wallet.path}
-	        </value>
-	    </property>
+	4) S3Client: awsS3Config의 팩토리 메서드로 생성
+	<bean id="s3Client" factory-bean="awsS3Config" factory-method="buildS3Client"/>
 	
-	    <property name="username" value="${oracle.wallet.username}" />
-	    <property name="password" value="${oracle.wallet.password}" />
+	5) S3Uploader: S3Client와 설정값들로 생성
+	<bean id="s3Uploader" class="com.chacha.create.util.s3.S3Uploader">
+	    <constructor-arg ref="s3Client"/>
+	    <constructor-arg value="${aws.s3.bucket-name}"/>
+	    <constructor-arg value="10MB"/>
 	</bean> -->
-
-
-	<bean id="dataSource"
-		class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
-		<constructor-arg ref="dataSourceOriginal" />
-		<property name="logFormatter">
-			<bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
-				<!-- <property name="loggingType" value="MULTI_LINE"></property> -->
-				<property name="sqlPrefix" value="[ SQL문장 ] "></property>
-			</bean>
-		</property>
-	</bean>
-
-	<!-- sqlSession을 만들기 위한 환경 -->
-	<bean id="sqlSessionFactory"
-		class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="dataSource"></property>
-		<property name="configLocation"
-			value="classpath:mybatis/sqlMapConfig.xml" />
-		<property name="mapperLocations"
-			value="classpath:mybatis/mappers/**/*.xml" />
-	</bean>
-
-	<!-- Mapper의 SQL구문을 실행할 수 있다. SQL문은 session단위로 실행 -->
-	<bean id="sqlSession"
-		class="org.mybatis.spring.SqlSessionTemplate">
-		<constructor-arg ref="sqlSessionFactory"></constructor-arg>
-	</bean>
 </beans>
