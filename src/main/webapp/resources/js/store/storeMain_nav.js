@@ -11,7 +11,7 @@ function loadStoreInfo() {
     if (imgPath.startsWith("http://") || imgPath.startsWith("https://")) {
       return imgPath;
     }
-    return `${cpath}/resources/productImages/${imgPath}`;
+    return `${imgPath}`;
   }
 
   $.ajax({

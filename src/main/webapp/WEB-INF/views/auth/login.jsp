@@ -125,6 +125,7 @@ $(document).ready(function() {
                     success: function(legacyResponse, status, xhrr) {
                         if (xhrr.status === 200) {
                             console.log("Legacy 세션 저장 성공:", legacyResponse);
+                            
                         } else {
                             alert(legacyResponse?.message || 'Legacy 로그인 실패');
                         }

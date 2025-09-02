@@ -30,4 +30,7 @@ public interface PersonalProductMapper {
     	    @Param("productId") int productId,
     	    @Param("sellerId") int sellerId,
     	    @Param("storeId") int storeId);
+    
+    // 상품 정보 조회 (삭제 시 S3 이미지 URL 확인용)
+    PersonalProductDTO selectProductById(@Param("productId") int productId);
 }

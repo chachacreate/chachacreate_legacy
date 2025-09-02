@@ -18,7 +18,7 @@ function renderStoreInfo(store) {
   const storeInfo = store[0]; // 대표 스토어 하나만
 
   const html = `
-    <img src="${cpath}/resources/productImages/${storeInfo.logoImg}" alt="${storeInfo.storeName}">
+    <img src="${storeInfo.logoImg}" alt="${storeInfo.storeName}">
     <div class="store-intro">
       <h1 class="store-name">${storeInfo.storeName}</h1>
       <p class="store-desc">${storeInfo.storeDetail}</p>
@@ -45,7 +45,7 @@ function mainProduct() {
         const html = `
           <div class="swiper-slide" onclick="location.href='${cpath}/${storeUrl}/productdetail/${bs.productId}'">
             <div class="card">
-              <img class="store-img" src="${cpath}/resources/productImages/${bs.pimgUrl}" alt="${bs.productName}">
+              <img class="store-img" src="${bs.pimgUrl}" alt="${bs.productName}">
               <h3>${bs.productName}</h3>
               <div class="category-list">
                 <span class="category-tag">${bs.categoryName}</span>
@@ -106,7 +106,7 @@ function renderBestProduct(bestProduct) {
       <div class="swiper-slide" onclick="location.href='${cpath}/${storeUrl}/productdetail/${bf.productId}'">
         <div class="product-card">
           <div class="product-image-box">
-            <img class="product-img" src="${cpath}/resources/productImages/${bf.pimgUrl}" alt="${bf.productName}">
+            <img class="product-img" src="${bf.pimgUrl}" alt="${bf.productName}">
             <div class="product-icon">
               <a href="${cpath}/${storeUrl}/productdetail/${bf.productId}">
                 <span class="material-symbols-outlined">arrow_outward</span>

@@ -27,7 +27,7 @@
 			  <div class="profile-section">
 			    <!-- 왼쪽: 스토어 이미지 및 이름 -->
 			    <div class="profile-img">
-			      <img src="${cpath}/resources/productImages/${logoImg}" alt="스토어 로고" style="height: 80px" />
+			      <img src="/${logoImg}" alt="스토어 로고" style="height: 80px" />
 			    </div>
 				  <button type="button" id="photoChangeBtn" class="div3">사진 수정</button>
 				  <input type="file" id="fileInput" accept="image/*" style="display: none;" />
@@ -212,7 +212,7 @@ $('#fileInput').on('change', function (e) {
 	  // 이미지 파일일 때 처리 (기존 미리보기 등)
 	  const reader = new FileReader();
 	  reader.onload = function (event) {
-	    $('.profile-img').html(`<img src="${cpath}/resources/productImages/\${file.name}" style="max-width: 100%; max-height: 100%; object-fit: contain;">`);
+	    $('.profile-img').html(`<img src="/\${file.name}" style="max-width: 100%; max-height: 100%; object-fit: contain;">`);
 	  };
 	  reader.readAsDataURL(file);
 	});
@@ -296,7 +296,7 @@ $(document).ready(function () {
         const data = res.data;
 
         // 이미지 및 기본 정보 채우기
-        $("#profile-img").attr("src", "${cpath}/resources/productImages/" + data.logoImg);
+        $("#profile-img").attr("src", "/" + data.logoImg);
         $("#store-name").text(data.storeName);
         $("#store-detail").val(data.storeDetail);
 

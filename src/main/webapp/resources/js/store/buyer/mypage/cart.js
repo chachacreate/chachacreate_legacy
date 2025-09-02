@@ -21,7 +21,7 @@ $(function () {
     if (imgPath.includes("resources/productImages")) {
       return `${cpath}/${imgPath}`;
     }
-    return `${cpath}/resources/productImages/${imgPath}`;
+    return `/${imgPath}`;
   }
 
   // 개인 판매자의 경우 storeUrl이 없기 때문에

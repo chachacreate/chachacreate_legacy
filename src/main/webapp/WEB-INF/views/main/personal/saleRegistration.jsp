@@ -54,11 +54,11 @@
             <div class="slide-card">
               <div class="image-upload-wrapper">
                 <div class="img-placeholder" id="upload-placeholder1"></div>
-                <input type="file" id="fileInput1" accept="image/*" style="display: none;">
+                <input type="file" id="fileInput1" multiple="multiple" accept="image/*" style="display: none;">
                 <div class="img-placeholder" id="upload-placeholder2"></div>
-                <input type="file" id="fileInput2" accept="image/*" style="display: none;">
+                <input type="file" id="fileInput2" multiple="multiple" accept="image/*" style="display: none;">
                 <div class="img-placeholder" id="upload-placeholder3"></div>
-                <input type="file" id="fileInput3" accept="image/*" style="display: none;">
+                <input type="file" id="fileInput3" multiple="multiple" accept="image/*" style="display: none;">
               </div>
 
               <div class="product-info">
@@ -144,11 +144,11 @@
             <div class="slide-card">
               <div class="image-upload-wrapper">
                 <div class="img-placeholder" id="upload-placeholder4"></div>
-                <input type="file" id="fileInput4" accept="image/*" style="display: none;">
+                <input type="file" id="fileInput4" multiple="multiple" accept="image/*" style="display: none;">
                 <div class="img-placeholder" id="upload-placeholder5"></div>
-                <input type="file" id="fileInput5" accept="image/*" style="display: none;">
+                <input type="file" id="fileInput5" multiple="multiple" accept="image/*" style="display: none;">
                 <div class="img-placeholder" id="upload-placeholder6"></div>
-                <input type="file" id="fileInput6" accept="image/*" style="display: none;">
+                <input type="file" id="fileInput6" multiple="multiple" accept="image/*" style="display: none;">
               </div>
 
               <div class="product-info">
@@ -337,6 +337,8 @@ $(function() {
 //----------------------------기존 상품 데이터 가져오기------------------------------
 pimgUrl1 = null, pimgUrl2 = null, pimgUrl3 = null;
 pimgUrl4 = null, pimgUrl5 = null, pimgUrl6 = null;
+pimgFile1 = null, pimgFile2 = null, pimgFile3 = null;
+pimgFile4 = null, pimgFile5 = null, pimgFile6 = null;
 $(document).ready(function () {
     // 상품 데이터를 받아오는 AJAX 요청
     $.ajax({
@@ -375,15 +377,15 @@ $(document).ready(function () {
                   	}, 100); // 약간의 딜레이 필요 (select options가 완전히 갱신된 후)
                   	if (products[0].pimgUrl1){
                     	pimgUrl1 = `\${products[0].pimgUrl1}`;
-                    	$('#upload-placeholder1').html(`<img src="${cpath}/resources/productImages/\${products[0].pimgUrl1}" style="max-width: 100%; max-height: 100%; object-fit: contain; display: block;">`);
+                    	$('#upload-placeholder1').html(`<img src="\${products[0].pimgUrl1}" style="max-width: 100%; max-height: 100%; object-fit: contain; display: block;">`);
                   	}
                   	if (products[0].pimgUrl2){
                     	pimgUrl2 = `\${products[0].pimgUrl2}`;
-                    	$('#upload-placeholder2').html(`<img src="${cpath}/resources/productImages/\${products[0].pimgUrl2}" style="max-width: 100%; max-height: 100%; object-fit: contain; display: block;">`);
+                    	$('#upload-placeholder2').html(`<img src="\${products[0].pimgUrl2}" style="max-width: 100%; max-height: 100%; object-fit: contain; display: block;">`);
                   	}
                     if (products[0].pimgUrl3){
                     	pimgUrl3 = `\${products[0].pimgUrl3}`;
-                    	$('#upload-placeholder3').html(`<img src="${cpath}/resources/productImages/\${products[0].pimgUrl3}" style="max-width: 100%; max-height: 100%; object-fit: contain; display: block;">`);
+                    	$('#upload-placeholder3').html(`<img src="\${products[0].pimgUrl3}" style="max-width: 100%; max-height: 100%; object-fit: contain; display: block;">`);
                     }
                  	// 첫 번째 슬라이드 input/textarea 비활성화
                     $('#productName, #productDetail, #price, #stock, #typeCategory, #uCategory, #dCategory').prop('disabled', true);
@@ -423,15 +425,15 @@ $(document).ready(function () {
                 	}, 100); // 약간의 딜레이 필요 (select options가 완전히 갱신된 후)
                   	if (products[1].pimgUrl1){
                     	pimgUrl4 = `\${products[1].pimgUrl1}`;
-                    	$('#upload-placeholder4').html(`<img src="${cpath}/resources/productImages/\${products[1].pimgUrl1}" style="max-width: 100%; max-height: 100%; object-fit: contain; display: block;">`);
+                    	$('#upload-placeholder4').html(`<img src="\${products[1].pimgUrl1}" style="max-width: 100%; max-height: 100%; object-fit: contain; display: block;">`);
                   	}
                   	if (products[1].pimgUrl2){
                     	pimgUrl5 = `\${products[1].pimgUrl2}`;
-                    	$('#upload-placeholder5').html(`<img src="${cpath}/resources/productImages/\${products[1].pimgUrl2}" style="max-width: 100%; max-height: 100%; object-fit: contain; display: block;">`);
+                    	$('#upload-placeholder5').html(`<img src="\${products[1].pimgUrl2}" style="max-width: 100%; max-height: 100%; object-fit: contain; display: block;">`);
                   	}
                     if (products[1].pimgUrl3){
                    		pimgUrl6 = `\${products[1].pimgUrl3}`;
-                   		$('#upload-placeholder6').html(`<img src="${cpath}/resources/productImages/\${products[1].pimgUrl3}" style="max-width: 100%; max-height: 100%; object-fit: contain; display: block;">`);
+                   		$('#upload-placeholder6').html(`<img src="\${products[1].pimgUrl3}" style="max-width: 100%; max-height: 100%; object-fit: contain; display: block;">`);
                     }
                  	// 두 번째 슬라이드 input/textarea 비활성화
                     $('#productName2, #productDetail2, #price2, #stock2, #typeCategory2, #uCategory2, #dCategory2').prop('disabled', true);
@@ -456,12 +458,17 @@ $(document).ready(function () {
 
 // 각 이미지 업로드 이벤트 연결
 for (let i = 1; i <= 6; i++) {
-  $(`#upload-placeholder\${i}`).on('click', function () {
-    $(`#fileInput\${i}`).click();
+  const $placeholder = $(`#upload-placeholder\${i}`);
+  const $fileInput = $(`#fileInput\${i}`);
+
+  // 클릭하면 file input 열기
+  $placeholder.on('click', function () {
+    $fileInput.click();
   });
 
-  $(`#fileInput\${i}`).on('change', function (e) {
-    const file = e.target.files[0];
+  // 파일 선택 시
+  $fileInput.on('change', function (e) {
+    const file = this.files[0];
     if (!file) return;
 
     const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
@@ -470,7 +477,7 @@ for (let i = 1; i <= 6; i++) {
 
     if (!allowedExtensions.includes(extension)) {
       alert('jpg, jpeg, png, gif 형식의 이미지 파일만 업로드할 수 있습니다.');
-      $(this).val('');  // 파일 선택 초기화
+      $(this).val('');
       return;
     }
 
@@ -481,13 +488,27 @@ for (let i = 1; i <= 6; i++) {
     else if (i === 4) pimgUrl4 = file.name;
     else if (i === 5) pimgUrl5 = file.name;
     else if (i === 6) pimgUrl6 = file.name;
+    
+    // 파일 객체 저장
+    if (i === 1) pimgFile1 = file;
+    else if (i === 2) pimgFile2 = file;
+    else if (i === 3) pimgFile3 = file;
+    else if (i === 4) pimgFile4 = file;
+    else if (i === 5) pimgFile5 = file;
+    else if (i === 6) pimgFile6 = file;
 
-    // 이미지 미리보기 반영
-    $(`#upload-placeholder\${i}`).html(`<img src="${cpath}/resources/productImages/\${file.name}"
-    		style="max-width: 100%; max-height: 100%; object-fit: contain; display: block;">`
-    	);
+    // FileReader로 미리보기
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+      $placeholder.html(`
+        <img src="\${ev.target.result}" 
+             style="max-width: 100%; max-height: 100%; object-fit: contain; display: block;">
+      `);
+    };
+    reader.readAsDataURL(file);
   });
 }
+
 
 //-------------------상품등록-----------------------
 $('#submit-btn').click(function () {
@@ -535,24 +556,26 @@ $('#submit-btn').click(function () {
     return;
   }
 
-  const data = {
-    productName,
-    productDetail,
-    price: parseInt(price),
-    stock: parseInt(stock),
-    typeCategoryId,
-    ucategoryId,
-    dcategoryId,
-    pimgUrl1: pimgUrl1,
-    pimgUrl2: pimgUrl2,
-    pimgUrl3: pimgUrl3
-  };
+  const formData = new FormData();
+  formData.append('productName', productName);
+  formData.append('productDesc', productDetail);
+  formData.append('productPrice', parseInt(price));
+  formData.append('stock', parseInt(stock));
+  formData.append('typeCategoryId', typeCategoryId);
+  formData.append('ucategoryId', ucategoryId);
+  formData.append('dcategoryId', dcategoryId);
+  
+  // 파일 객체들을 FormData에 추가
+  if (pimgFile1) formData.append('image1', pimgFile1);
+  if (pimgFile2) formData.append('image2', pimgFile2);
+  if (pimgFile3) formData.append('image3', pimgFile3);
 
   $.ajax({
     url: '${cpath}/legacy/main/sell/sellregister',
     method: 'POST',
-    contentType: 'application/json',
-    data: JSON.stringify(data),
+    processData: false,
+    contentType: false,
+    data: formData,
     success: function (response) {
       if (response.status === 201) {
         alert('상품 등록이 완료되었습니다.');
@@ -624,25 +647,26 @@ $('#edit-btn').on('click', function() {
     	    return;
     	  }
 
-    	  const data = {
-    	    productId,
-    	    productName,
-    	    productDetail,
-    	    price: parseInt(price),
-    	    stock: parseInt(stock),
-    	    typeCategoryId,
-    	    ucategoryId,
-    	    dcategoryId,
-    	    pimgUrl1: pimgUrl1,
-    	    pimgUrl2: pimgUrl2,
-    	    pimgUrl3: pimgUrl3
-    	  };
-		console.log(data);
+    	  const formData = new FormData();
+    	  formData.append('productId', productId);
+    	  formData.append('productName', productName);
+    	  formData.append('productDesc', productDetail);
+    	  formData.append('productPrice', parseInt(price));
+    	  formData.append('stock', parseInt(stock));
+    	  formData.append('typeCategoryId', typeCategoryId);
+    	  formData.append('ucategoryId', ucategoryId);
+    	  formData.append('dcategoryId', dcategoryId);
+    	  
+    	  // 파일 객체들을 FormData에 추가
+    	  if (pimgFile1) formData.append('image1', pimgFile1);
+    	  if (pimgFile2) formData.append('image2', pimgFile2);
+    	  if (pimgFile3) formData.append('image3', pimgFile3);
         $.ajax({
             url: '${cpath}/legacy/main/sell/sellregister/update',
-            method: 'PUT',
-            contentType: 'application/json',
-            data: JSON.stringify(data),
+            method: 'POST',
+            processData: false,
+            contentType: false,
+            data: formData,
             success: function(response) {
                 alert('수정이 완료되었습니다.');
                 $('#productName, #productDetail, #price, #stock, #typeCategory, #uCategory, #dCategory').prop('disabled', true);
@@ -663,7 +687,7 @@ $('#edit-btn').on('click', function() {
     $.ajax({
       url: '${cpath}/legacy/main/sell/sellregister/delete',
       type: 'PUT',
-      contentType: 'application/json',
+      contentType: 'multipart/form-data',
       dataType: 'json',
       data: JSON.stringify({ productId: parseInt(productId) }),
       success: function (response) {
@@ -726,24 +750,26 @@ $('#submit-btn2').click(function () {
 	    return;
 	  }
 
-	  const data = {
-	    productName,
-	    productDetail,
-	    price: parseInt(price),
-	    stock: parseInt(stock),
-	    typeCategoryId,
-	    ucategoryId,
-	    dcategoryId,
-	    pimgUrl1: pimgUrl4,
-	    pimgUrl2: pimgUrl5,
-	    pimgUrl3: pimgUrl6
-	  };
+	  const formData = new FormData();
+	  formData.append('productName', productName);
+	  formData.append('productDesc', productDetail);
+	  formData.append('productPrice', parseInt(price));
+	  formData.append('stock', parseInt(stock));
+	  formData.append('typeCategoryId', typeCategoryId);
+	  formData.append('ucategoryId', ucategoryId);
+	  formData.append('dcategoryId', dcategoryId);
+	  
+	  // 파일 객체들을 FormData에 추가
+	  if (pimgFile1) formData.append('image1', pimgFile4);
+	  if (pimgFile2) formData.append('image2', pimgFile5);
+	  if (pimgFile3) formData.append('image3', pimgFile6);
 
 	  $.ajax({
 	    url: '${cpath}/legacy/main/sell/sellregister',
 	    method: 'POST',
-	    contentType: 'application/json',
-	    data: JSON.stringify(data),
+	    processData: false,
+	    contentType: false,
+	    data: formData,
 	    success: function (response) {
 	      if (response.status === 201) {
 	        alert('상품 등록이 완료되었습니다.');
@@ -815,25 +841,26 @@ $('#edit-btn2').on('click', function() {
  	    return;
  	  }
 
- 	  const data = {
- 	    productId,
- 	    productName,
- 	    productDetail,
- 	    price: parseInt(price),
- 	    stock: parseInt(stock),
- 	    typeCategoryId,
- 	    ucategoryId,
- 	    dcategoryId,
- 	    pimgUrl1: pimgUrl4,
- 	    pimgUrl2: pimgUrl5,
- 	    pimgUrl3: pimgUrl6
- 	  };
-		console.log(data);
+ 	  const formData = new FormData();
+ 	  formData.append('productId', productId);
+ 	  formData.append('productName', productName);
+ 	  formData.append('productDesc', productDetail);
+ 	  formData.append('productPrice', parseInt(price));
+ 	  formData.append('stock', parseInt(stock));
+ 	  formData.append('typeCategoryId', typeCategoryId);
+ 	  formData.append('ucategoryId', ucategoryId);
+ 	  formData.append('dcategoryId', dcategoryId);
+ 	  
+ 	  // 파일 객체들을 FormData에 추가
+ 	  if (pimgFile1) formData.append('image1', pimgFile1);
+ 	  if (pimgFile2) formData.append('image2', pimgFile2);
+ 	  if (pimgFile3) formData.append('image3', pimgFile3);
      $.ajax({
          url: '${cpath}/legacy/main/sell/sellregister/update',
-         method: 'PUT',
-         contentType: 'application/json',
-         data: JSON.stringify(data),
+         method: 'POST',
+         processData: false,
+         contentType: false,
+         data: formData,
          success: function(response) {
              alert('수정이 완료되었습니다.');
              $('#productName2, #productDetail2, #price2, #stock2, #typeCategory2, #uCategory2, #dCategory2').prop('disabled', true);
@@ -855,7 +882,7 @@ $('#delete-btn2').on('click', function () {
   $.ajax({
     url: '${cpath}/legacy/main/sell/sellregister/delete',
     type: 'PUT',
-    contentType: 'application/json',
+    contentType: 'multipart/form-data',
     dataType: 'json',
     data: JSON.stringify({ productId: parseInt(productId) }),
     success: function (response) {

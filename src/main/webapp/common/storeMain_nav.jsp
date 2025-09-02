@@ -17,7 +17,7 @@
 				<!-- ✅ 로고 클릭 시 메인으로 이동 -->
 				<a href="${cpath}/${storeUrl}" id="logoArear">
 				<!-- 동적으로 스토어 로고 삽입 -->
-				<img src="${cpath}/resources/productImages/${logoImg}" alt="스토어 로고" style="height: 80px"/>
+				<img src="${logoImg}" alt="스토어 로고" style="height: 80px"/>
 				</a>
 			</div>
 			<div id="nameArear">

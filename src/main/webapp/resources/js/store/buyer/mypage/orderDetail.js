@@ -50,7 +50,7 @@ $(document).ready(function () {
           const productItemHtml = `
             <div class="product-item">
               <div class="product-box" data-product-id="${item.productId}" data-store-url="${item.storeUrl || 'main'}">
-                <img src="${cpath}/resources/productImages/${item.pimgUrl}" class="product-image" />
+                <img src="${item.pimgUrl}" class="product-image" />
                 <div class="product-info">
                   <div class="store-name">${item.storeName || "뜨락상회"}</div>
                   <div class="product-name">${item.productName}</div>

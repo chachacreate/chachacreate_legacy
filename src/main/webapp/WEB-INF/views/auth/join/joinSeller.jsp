@@ -107,7 +107,7 @@
 			</section>
 
 			<!-- ✅ 나의 이력 등록 -->
-			<section class="section-box">
+<!-- 			<section class="section-box">
 				<div class="section-title">
 					<span class="check">✔</span> 나의 이력 등록하기
 				</div>
@@ -120,7 +120,7 @@
 						<div class="char-count">0/150</div>
 					</div>
 				</div>
-			</section>
+			</section> -->
 
 			<div class="button-wrapper">
 				<button type="button" class="btn-outline" onclick="history.back()">돌아가기</button>
@@ -136,7 +136,7 @@
 
 <script>
 	
-	$(document).ready(function () {
+/* 	$(document).ready(function () {
 		
 		//-----------------텍스트 길이 체크--------------		
 		$('.career-text').on('input', function() {
@@ -179,11 +179,11 @@
 			  // 이미지 파일일 때 처리 (기존 미리보기 등)
 			  const reader = new FileReader();
 			  reader.onload = function (event) {
-			    $('.upload-placeholder').html(`<img src="${cpath}/resources/productImages/\${file.name}" style="max-width: 100%; max-height: 100%; object-fit: contain;">`);
+			    $('.upload-placeholder').html(`<img src="/\${file.name}" style="max-width: 100%; max-height: 100%; object-fit: contain;">`);
 			  };
 			  reader.readAsDataURL(file);
 			});
-	});
+	}); */
 	const checkObj = {
 			"accountname": false
 		}

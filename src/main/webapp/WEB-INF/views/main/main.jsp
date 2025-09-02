@@ -147,6 +147,9 @@
   <!-- JS -->
   <script src="https://unpkg.com/swiper@9/swiper-bundle.min.js"></script>
   <script src="${pageContext.request.contextPath}/resources/js/main_store.js"></script>
+  <script>
+  console.log("legacy 세션 확인 : ${sessionScope.loginMember}");
+  </script>
   
 </body>
 </html>

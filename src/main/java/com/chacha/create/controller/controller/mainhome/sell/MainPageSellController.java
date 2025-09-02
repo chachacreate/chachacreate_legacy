@@ -34,6 +34,7 @@ public class MainPageSellController {
     public String personalSellHome(HttpSession session, Model model) {
     	try {
 	    	MemberEntity loginMember = (MemberEntity) session.getAttribute("loginMember");
+	    	log.info("session 확인용" + loginMember.toString());
 	    	model.addAttribute("sellerCheck",personalInfoService.selectForSellerByMemberId(loginMember));
     	}catch(Exception e){
     		model.addAttribute("sellerCheck",false);

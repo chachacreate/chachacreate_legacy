@@ -40,7 +40,7 @@
                 <tr>
                   <td>${item.reviewDate}</td>
                   <td>
-                    <img src="${cpath}/resources/productImages/${item.pimgUrl}" class="product-img" alt="상품이미지" />
+                    <img src="/${item.pimgUrl}" class="product-img" alt="상품이미지" />
                   </td>
                   <td>${item.productName}</td>
                   <td>${item.memberName}</td>

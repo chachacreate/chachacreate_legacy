@@ -410,7 +410,7 @@ function renderProductList(products) {
     const html = `
       <div class="product-card" onclick="location.href='${cpath}/${product.storeUrl}/productdetail/${product.productId}'">
         <div class="product-image">
-          <img class="product-img" src="${cpath}/resources/productImages/${product.pimgUrl}" alt="${product.productName}" />
+          <img class="product-img" src="${product.pimgUrl}" alt="${product.productName}" />
         </div>
         <div class="product-content">
           <h2 class="product-name">${product.productName}</h2>

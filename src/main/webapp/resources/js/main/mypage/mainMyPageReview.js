@@ -38,7 +38,7 @@ $(function () {
         reviews.forEach(review => {
           const row = `
             <tr data-product-id="${review.productId}" data-store-url="${review.storeUrl || 'main'}">
-              <td><img src="${cpath}/resources/productImages/${review.pimgUrl}" class="product-img" /></td>
+              <td><img src="${review.pimgUrl}" class="product-img" /></td>
               <td class="product-name">${review.productName}</td>
               <td>
                 <div class="review-wrapper">

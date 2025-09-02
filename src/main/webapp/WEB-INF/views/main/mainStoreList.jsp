@@ -222,7 +222,7 @@ function renderStores(page) {
     const card = `
       <div class="store-card" data-url="\${store.storeUrl}">
         <div class="store-image">
-          <img class="product-img" src="${cpath}/resources/productImages/\${store.logoImg}" alt="\${store.storeName}" />
+          <img class="product-img" src="\${store.logoImg}" alt="\${store.storeName}" />
         </div>
         <div class="store-content">
           <h2 class="store-name">\${store.storeName}</h2>

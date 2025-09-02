@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (imgPath.includes("resources/productImages")) {
       return `${cpath}/${imgPath}`;
     }
-    return `${cpath}/resources/productImages/${imgPath}`;
+    return `${imgPath}`;
   }
 
   $.ajax({

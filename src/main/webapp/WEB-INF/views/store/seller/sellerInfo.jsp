@@ -27,7 +27,7 @@
 			  <div class="profile-section">
 			    <!-- 왼쪽: 스토어 이미지 및 이름 -->
 			    <div class="profile-img">
-			      <img src="${cpath}/resources/productImages/${logoImg}" alt="스토어 로고" style="height: 80px" />
+			      <img src="/${logoImg}" alt="스토어 로고" style="height: 80px" />
 			    </div>
 			    <button type="button" class="div3">사진 수정</button>
 			    <div class="store-name">${storeName}</div>

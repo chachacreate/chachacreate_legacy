@@ -85,7 +85,7 @@
 
     <!-- 스토어 로고 출력 -->
 	<div class="store-logo">
-	  <img id="logoImg" src="${cpath}/resources/productImages/${logoImg}" alt="스토어 로고" style="height: 80px;" />
+	  <img id="logoImg" src="${logoImg}" alt="스토어 로고" style="height: 80px;" />
 	</div>
 
     <!-- ✅ 판매자 정보 -->
@@ -122,6 +122,7 @@
 	    method: 'GET',
 	    contentType: 'application/json',
 	    success: function (data) {
+	    	console.log(data);
 	      const storeInfo = data.data.storeInfoList[0];
 	      const sellerInfo = data.data.sellerInfoList[0];
 
