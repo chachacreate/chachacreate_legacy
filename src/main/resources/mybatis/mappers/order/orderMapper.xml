@@ -389,7 +389,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY od.order_detail_id ASC
 	</select>
     
-    <select id="selectOrderDetailByOrderId" resultType="com.chacha.create.common.dto.order.OrderDetailDTO">
+<!--     <select id="selectOrderDetailByOrderId" resultType="com.chacha.create.common.dto.order.OrderDetailDTO">
 	    SELECT 
 	        oi.order_id,
 	        oi.member_id,
@@ -409,6 +409,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    left outer JOIN card c ON oi.card_id = c.card_id
 	    WHERE oi.order_id = #{orderId}
 	    AND oi.member_id = #{memberId}
-	</select>
+	</select> -->
 
+    <select id="selectOrderDetailByOrderId" resultType="com.chacha.create.common.dto.order.OrderDetailDTO">
+	    SELECT 
+	        oi.order_id,
+	        oi.member_id,
+	        oi.order_date,
+	        oi.order_name,
+	        oi.order_phone,
+	        oi.order_status,
+	        c.card_num,
+	        c.card_company
+	    FROM order_info oi
+	    left outer JOIN card c ON oi.card_id = c.card_id
+	    WHERE oi.order_id = #{orderId}
+	    AND oi.member_id = #{memberId}
+	</select>
 </mapper>

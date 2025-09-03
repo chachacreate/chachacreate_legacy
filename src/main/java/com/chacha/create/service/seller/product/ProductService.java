@@ -58,12 +58,6 @@ public class ProductService {
 		List<ProductlistDTO> products = productDetailMapper.selectAllByStoreUrl(storeUrl);
 		
 		// 이미 Full URL이 저장되어 있으므로 변환 불필요
-		// for (ProductlistDTO product : products) {
-		//     if (product.getPimgUrl() != null && !product.getPimgUrl().isEmpty()) {
-		//         product.setPimgUrl(s3Uploader.getFullUrl(product.getPimgUrl()));
-		//     }
-		// }
-		
 		return products;
 	}
 
@@ -162,18 +156,6 @@ public class ProductService {
         ProductUpdateDTO product = productDetailMapper.updateProductDetail(storeUrl, productId);
         
         // 이미 Full URL이 저장되어 있으므로 변환 불필요
-        // if (product != null) {
-        //     if (product.getPimgUrl1() != null && !product.getPimgUrl1().isEmpty()) {
-        //         product.setPimgUrl1(s3Uploader.getFullUrl(product.getPimgUrl1()));
-        //     }
-        //     if (product.getPimgUrl2() != null && !product.getPimgUrl2().isEmpty()) {
-        //         product.setPimgUrl2(s3Uploader.getFullUrl(product.getPimgUrl2()));
-        //     }
-        //     if (product.getPimgUrl3() != null && !product.getPimgUrl3().isEmpty()) {
-        //         product.setPimgUrl3(s3Uploader.getFullUrl(product.getPimgUrl3()));
-        //     }
-        // }
-        
         return product;
     }
     
@@ -182,39 +164,45 @@ public class ProductService {
                                                  List<MultipartFile> images,
                                                  List<Integer> imageSeqs) {
 
+        // 기존 이미지 정보 조회
         List<PImgEntity> existingImages = pimgMapper.selectByProductId(dto.getProductId());
 
+        // 이미지 업데이트 처리
         for (int i = 0; i < images.size(); i++) {
             MultipartFile file = images.get(i);
             int seq = imageSeqs.get(i);
 
             if (file.isEmpty()) continue;
 
-            // 기존 이미지 S3에서 삭제 (원본 + 썸네일)
+            // 1. 기존 이미지 S3에서 삭제 (원본 + 썸네일) 및 DB에서 삭제
             existingImages.stream()
                 .filter(img -> img.getPimgSeq() == seq)
                 .findFirst()
                 .ifPresent(img -> {
                     deleteImageWithThumbnail(img.getPimgUrl());
                     pimgMapper.delete(img.getPimgId());
-                    log.info("기존 이미지 삭제 완료: {}", img.getPimgUrl());
+                    log.info("기존 이미지 삭제 완료 - S3 및 DB: pimgId={}, url={}", 
+                            img.getPimgId(), img.getPimgUrl());
                 });
 
             try {
-                // S3에 새 이미지 업로드하고 Full URL로 저장
+                // 2. S3에 새 이미지 업로드 
                 String s3Key = s3Uploader.uploadImage(file);
+                // 3. S3 키를 Full URL로 변환
                 String fullUrl = s3Uploader.getFullUrl(s3Key);
-                log.info("updateProductDetailWithImages : " + fullUrl);
-                
-                PImgEntity image = PImgEntity.builder()
+                log.info("새 이미지 S3 업로드 완료 - Key: {}, Full URL: {}", s3Key, fullUrl);
+
+                // 4. DB에 새 이미지 정보 삽입 (Full URL 저장)
+                PImgEntity newImage = PImgEntity.builder()
                     .productId(dto.getProductId())
                     .pimgUrl(fullUrl)  // Full URL 저장
                     .pimgEnum(ProductImageTypeEnum.THUMBNAIL)
                     .pimgSeq(seq)
                     .build();
-
-                productimgUpdate(image);
-                log.info("S3 이미지 업로드 성공: {}", fullUrl);
+                
+                int insertResult = productimgInsert(newImage);
+                log.info("새 이미지 DB 삽입 완료 - productId={}, seq={}, fullUrl={}, insertResult={}", 
+                        dto.getProductId(), seq, fullUrl, insertResult);
 
             } catch (Exception e) {
                 log.error("S3 이미지 업로드 실패: {}", file.getOriginalFilename(), e);
@@ -222,8 +210,10 @@ public class ProductService {
             }
         }
 
-        // 상품 정보 업데이트
+        // 5. 상품 정보 업데이트 (이미지 외 정보도 함께)
         int updated = productDetailMapper.updateProduct(dto);
+        log.info("상품 정보 업데이트 완료: productId={}, updateResult={}", dto.getProductId(), updated);
+        
         return updated > 0;
     }
 	
@@ -245,7 +235,7 @@ public class ProductService {
                 continue;
             }
 
-            // 3. S3에 이미지 업로드 + DB 등록
+            // 3. S3에 이미지 업로드 + DB 등록 (Full URL로 저장)
             int seq = 1;
             int imgInsertCount = 0;
 
@@ -253,10 +243,11 @@ public class ProductService {
                 if (file.isEmpty()) continue;
 
                 try {
-                    // S3에 이미지 업로드하고 Full URL로 저장
+                    // S3에 이미지 업로드
                     String s3Key = s3Uploader.uploadImage(file);
+                    // S3 키를 Full URL로 변환
                     String fullUrl = s3Uploader.getFullUrl(s3Key);
-                    log.info("registerMultipleProductsWithImages : " + fullUrl);
+                    log.info("이미지 업로드 완료 - Key: {}, Full URL: {}", s3Key, fullUrl);
 
                     PImgEntity image = PImgEntity.builder()
                             .productId(product.getProductId())
@@ -268,7 +259,7 @@ public class ProductService {
                     int result = productimgInsert(image);
                     if (result > 0) {
                         imgInsertCount++;
-                        log.info("✅ S3 이미지 업로드 및 DB 저장 성공: {}", fullUrl);
+                        log.info("✅ S3 이미지 업로드 및 DB Full URL 저장 성공: {}", fullUrl);
                     }
 
                 } catch (Exception e) {
@@ -297,15 +288,6 @@ public class ProductService {
         List<ProductEntity> products = productMapper.selectByStoreId(storeId);
         
         // 이미 Full URL이 저장되어 있으므로 변환 불필요
-        // for (ProductEntity product : products) {
-        //     List<PImgEntity> images = pimgMapper.selectByProductId(product.getProductId());
-        //     for (PImgEntity image : images) {
-        //         if (image.getPimgUrl() != null && !image.getPimgUrl().isEmpty()) {
-        //             image.setPimgUrl(s3Uploader.getFullUrl(image.getPimgUrl()));
-        //         }
-        //     }
-        // }
-        
         return products;
     }
 }

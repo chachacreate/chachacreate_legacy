@@ -12,14 +12,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.chacha.create.common.dto.error.ApiResponse;
 import com.chacha.create.common.dto.product.ProductUpdateDTO;
 import com.chacha.create.common.dto.product.ProductWithImagesDTO;
 import com.chacha.create.common.dto.product.ProductlistDTO;
+import com.chacha.create.common.entity.order.OrderInfoEntity;
 import com.chacha.create.common.entity.product.ProductEntity;
 import com.chacha.create.common.enums.error.ResponseCode;
+import com.chacha.create.common.exception.InvalidRequestException;
+import com.chacha.create.service.seller.order.OrderManagementService;
 import com.chacha.create.service.seller.product.ProductService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +37,9 @@ public class ProductRestController {
 
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private OrderManagementService omService;
 
 	// 상품 리스트 조회
 	@GetMapping(value = "/products", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -79,7 +88,7 @@ public class ProductRestController {
 	    }
 	}
 
-	@PostMapping("/productupdate/{productId}")
+	@GetMapping("/productupdate/{productId}")
 	public ResponseEntity<ApiResponse<ProductUpdateDTO>> getProductDetail(@PathVariable String storeUrl,
 			@PathVariable int productId) {
 		ProductUpdateDTO product = productService.getProductDetail(storeUrl, productId);
@@ -112,4 +121,35 @@ public class ProductRestController {
 		return ResponseEntity.badRequest().body(new ApiResponse<>(ResponseCode.BAD_REQUEST, "상품 수정 실패"));
 	}
 	*/
+	
+	// 판매자 페이지 상품 수정 기능 
+	@PostMapping("/productupdate/{productId}")
+	public ResponseEntity<?> updateProduct(
+	    @PathVariable String storeUrl,
+	    @PathVariable int productId,
+	    @RequestPart("dto") ProductUpdateDTO dto,
+	    @RequestPart(value = "images", required = false) List<MultipartFile> images,
+	    @RequestParam(value = "imageSeqs", required = false) List<Integer> imageSeqs
+	) {
+	    log.info("받은 productId: {}", dto.getProductId());
+
+	    // null 방어
+	    if (images == null) images = List.of();
+	    if (imageSeqs == null) imageSeqs = List.of();
+
+	    boolean success = productService.updateProductDetailWithImages(storeUrl, dto, images, imageSeqs);
+	    return success ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
+	}
+	
+	// 주문조회 중 환불요청을 완료로 업데이트
+	@PutMapping(value = "/management/order", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ApiResponse<Void>> updateOrderStatus(@RequestBody OrderInfoEntity orderInfoEntity) {
+	    int result = omService.updateForRefundStatus(orderInfoEntity);
+
+	    if (result <= 0) {
+	        throw new InvalidRequestException("주문 상태 수정 실패");
+	    }
+
+	    return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, "주문 상태 수정 성공"));
+	}
 }

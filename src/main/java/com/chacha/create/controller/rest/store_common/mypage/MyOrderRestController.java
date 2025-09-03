@@ -47,16 +47,15 @@ public class MyOrderRestController {
     }
 	
 	// 기본배송지 설정
-	@GetMapping("/order/addr")
-	public ResponseEntity<ApiResponse<AddrEntity>> getDefaultAddr(HttpSession session){
-		MemberEntity loginMember = (MemberEntity) session.getAttribute("loginMember");
-		AddrEntity addrEntity = myOrderService.baseAddr(loginMember);
-		log.info(addrEntity.toString());
-		if(addrEntity != null) {
-			return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, addrEntity));
-		}
-		return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, null));
-	}
+	/*
+	 * @GetMapping("/order/addr") public ResponseEntity<ApiResponse<AddrEntity>>
+	 * getDefaultAddr(HttpSession session){ MemberEntity loginMember =
+	 * (MemberEntity) session.getAttribute("loginMember"); AddrEntity addrEntity =
+	 * myOrderService.baseAddr(loginMember); log.info(addrEntity.toString());
+	 * if(addrEntity != null) { return ResponseEntity.ok(new
+	 * ApiResponse<>(ResponseCode.OK, addrEntity)); } return ResponseEntity.ok(new
+	 * ApiResponse<>(ResponseCode.OK, null)); }
+	 */
 	
 	// 회원 정보에서 배송지 수정(기본 배송지)
 	@PostMapping("/order/addr/update")
