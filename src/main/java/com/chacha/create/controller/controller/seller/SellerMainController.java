@@ -173,31 +173,6 @@ public class SellerMainController {
 	    return "store/seller/productSelect";
 	}
 	
-	// 판매자 페이지 대표 상품 체크 리스트 수정
-	@PutMapping(value = "/products", consumes = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public ResponseEntity<ApiResponse<Void>> updateFlagship(
-	        @PathVariable String storeUrl,
-	        @RequestBody List<ProductlistDTO> dtoList) {
-
-	    int result = productService.updateFlagship(storeUrl, dtoList);
-
-	    if (result > 0) {
-	        return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, "대표 상품 수정 성공"));
-	    }
-	    return ResponseEntity.badRequest().body(new ApiResponse<>(ResponseCode.BAD_REQUEST, "대표 상품 수정 실패"));
-	}
-	
-	// 판매자 페이지 상품 논리적 삭제 기능 구현
-	@DeleteMapping(value = "/products", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ApiResponse<Void>> deleteFlagshipBatch(@RequestBody List<ProductEntity> productList) {
-	    int result = productService.productDeleteByEntities(productList);
-	    if (result > 0) {
-	        return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, "상품 삭제 성공"));
-	    }
-	    return ResponseEntity.badRequest().body(new ApiResponse<>(ResponseCode.BAD_REQUEST, "상품 삭제 실패"));
-	}
-	
 	// 판매 상품 상세 보기
 	@GetMapping("/productdetail/{productId}")
     public String showProductDetailPage(@PathVariable String storeUrl,
@@ -247,25 +222,6 @@ public class SellerMainController {
 	    return "store/seller/productUpdate";
 	}
 	
-	// 판매자 페이지 상품 수정 기능 
-	@PostMapping("/productupdate/{productId}")
-	public ResponseEntity<?> updateProduct(
-	    @PathVariable String storeUrl,
-	    @PathVariable int productId,
-	    @RequestPart("dto") ProductUpdateDTO dto,
-	    @RequestPart(value = "images", required = false) List<MultipartFile> images,
-	    @RequestParam(value = "imageSeqs", required = false) List<Integer> imageSeqs
-	) {
-	    log.info("받은 productId: {}", dto.getProductId());
-
-	    // null 방어
-	    if (images == null) images = List.of();
-	    if (imageSeqs == null) imageSeqs = List.of();
-
-	    boolean success = productService.updateProductDetailWithImages(storeUrl, dto, images, imageSeqs);
-	    return success ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
-	}
-	
 	
 	// 판매 정산 관리
 	@GetMapping("/management/settlement")
@@ -313,19 +269,6 @@ public class SellerMainController {
 	        default: return "기타";
 	    }
 	}
-	
-	// 주문조회 중 환불요청을 완료로 업데이트
-	@PutMapping(value = "/management/order", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ApiResponse<Void>> updateOrderStatus(@RequestBody OrderInfoEntity orderInfoEntity) {
-	    int result = omService.updateForRefundStatus(orderInfoEntity);
-
-	    if (result <= 0) {
-	        throw new InvalidRequestException("주문 상태 수정 실패");
-	    }
-
-	    return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, "주문 상태 수정 성공"));
-	}
-
 	
 	// 판매 리뷰 관리
 	@GetMapping("/reviews")
