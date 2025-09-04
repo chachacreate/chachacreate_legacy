@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.chacha.create.common.dto.boot.BootAddressDTO;
 import com.chacha.create.common.dto.order.OrderDetailDTO;
 import com.chacha.create.common.dto.order.OrderListDTO;
 import com.chacha.create.common.dto.order.OrderRequestDTO;
@@ -20,6 +21,7 @@ import com.chacha.create.common.mapper.order.DeliveryMapper;
 import com.chacha.create.common.mapper.order.OrderDetailMapper;
 import com.chacha.create.common.mapper.order.OrderInfoMapper;
 import com.chacha.create.common.mapper.order.OrderMapper;
+import com.chacha.create.util.BootAPIUtil;
 import com.chacha.create.util.ServiceUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -35,6 +37,7 @@ public class MyOrderService {
     private final OrderInfoMapper orderInfoMapper;
     private final OrderDetailMapper orderDetailMapper;
 	private final DeliveryMapper deliveryMapper;
+	private final BootAPIUtil bootAPIUtil;
 	
 	
 	public Integer selectForOrderDetailId(int memberId, int productId) {
@@ -103,7 +106,14 @@ public class MyOrderService {
     	int memberId = member.getMemberId();
         // 주문 상세 조회
         OrderDetailDTO dto = orderMapper.selectOrderDetailByOrderId(orderId, memberId);
-
+        
+        BootAddressDTO bootAddressDTO = bootAPIUtil.getBootMemberAddressDataByMemberId(memberId);
+        if (bootAddressDTO != null) {
+        	dto.setPostNum(bootAddressDTO.getPostNum());
+        	dto.setAddressRoad(bootAddressDTO.getAddressRoad());
+        	dto.setAddressDetail(bootAddressDTO.getAddressDetail());
+        	dto.setAddressExtra(bootAddressDTO.getAddressExtra());
+        }
 		// 주문 상세 내 상품 목록 조회
 		List<OrderListDTO> orderlist = orderMapper.selectOrderListByOrderId(orderId, memberId);
 		dto.setOrderItems(orderlist);
