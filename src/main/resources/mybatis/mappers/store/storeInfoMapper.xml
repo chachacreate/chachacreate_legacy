@@ -6,7 +6,7 @@
 <mapper
 	namespace="com.chacha.create.common.mapper.store.StoreInfoMapper">
 	
-	<select id="selectStoreInfoByUrl" resultType="storeInfoManagementDTO">
+<!-- 	<select id="selectStoreInfoByUrl" resultType="storeInfoManagementDTO">
     SELECT
       s.LOGO_IMG AS logoImg,
       s.STORE_NAME AS storeName,
@@ -20,6 +20,19 @@
     FROM STORE s
     JOIN SELLER se ON s.SELLER_ID = se.SELLER_ID
     JOIN MEMBER m ON se.MEMBER_ID = m.MEMBER_ID
+    WHERE s.STORE_URL = #{storeUrl}
+  </select> -->
+  
+  	<select id="selectStoreInfoByUrl" resultType="storeInfoManagementDTO">
+    SELECT
+      s.LOGO_IMG AS logoImg,
+      s.STORE_NAME AS storeName,
+      s.STORE_DETAIL AS storeDetail,
+      se.ACCOUNT_BANK AS accountBank,
+      se.ACCOUNT AS account,
+      se.profile_info as profileInfo
+    FROM STORE s
+    JOIN SELLER se ON s.SELLER_ID = se.SELLER_ID
     WHERE s.STORE_URL = #{storeUrl}
   </select>
 </mapper>

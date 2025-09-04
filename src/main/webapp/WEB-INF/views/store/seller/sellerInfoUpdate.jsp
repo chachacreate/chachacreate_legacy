@@ -27,7 +27,7 @@
 			  <div class="profile-section">
 			    <!-- 왼쪽: 스토어 이미지 및 이름 -->
 			    <div class="profile-img">
-			      <img src="/${logoImg}" alt="스토어 로고" style="height: 80px" />
+			      <img src="${logoImg}" alt="스토어 로고" style="height: 80px" />
 			    </div>
 				  <button type="button" id="photoChangeBtn" class="div3">사진 수정</button>
 				  <input type="file" id="fileInput" accept="image/*" style="display: none;" />
@@ -149,13 +149,13 @@
     <div class="section-line"></div>
   </div>
 
-  <div class="frame-11522">
+<!--   <div class="frame-11522">
     <div class="frame-1153">
       <iconify-icon icon="mdi:image" width="40" height="40"/>
       <div class="div4">작품 사진</div>
     </div>
     <input type="file" id="fileInput" class="info-input" />
-  </div>
+  </div> -->
 
   <div class="frame-11522">
     <div class="frame-1153">
@@ -294,16 +294,15 @@ $(document).ready(function () {
     success: function (res) {
       if (res.status === 200) {
         const data = res.data;
-
         // 이미지 및 기본 정보 채우기
         $("#profile-img").attr("src", "/" + data.logoImg);
         $("#store-name").text(data.storeName);
-        $("#store-detail").val(data.storeDetail);
+        $("#store-detail").val(data.storeDetail|| "");
 
         // 판매자 정보
-        $("#member-name").val(data.memberName);
-        $("#member-email").val(data.memberEmail);
-        $("#member-phone").val(data.memberPhone);
+        $("#member-name").val(data.memberName || "");
+        $("#member-email").val(data.memberEmail || "");
+        $("#member-phone").val(data.memberPhone || "");
 
         // 계좌 정보
         const selectedBankCode = bankMap[data.accountBank];

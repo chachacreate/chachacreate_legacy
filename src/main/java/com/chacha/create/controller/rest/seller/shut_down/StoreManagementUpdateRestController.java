@@ -31,8 +31,9 @@ public class StoreManagementUpdateRestController {
 	private final StoreInfoManagementService storeInfoService;
     
 	@GetMapping("/management/sellerInfo")
-	public ResponseEntity<ApiResponse<StoreInfoManagementDTO>> getmyInfo(@PathVariable String storeUrl){
-		return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, storeInfoService.getStoreInfo(storeUrl)));
+	public ResponseEntity<ApiResponse<StoreInfoManagementDTO>> getmyInfo(@PathVariable String storeUrl, HttpSession session){
+		MemberEntity loginMember = (MemberEntity) session.getAttribute("loginMember");
+		return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, storeInfoService.getStoreInfo(storeUrl, loginMember)));
 	}
 	
     @PutMapping("/management/sellerInfo")
@@ -42,10 +43,6 @@ public class StoreManagementUpdateRestController {
             @RequestBody StoreManagerUpdateDTO smuDTO) {
 
         MemberEntity loginMember = (MemberEntity) session.getAttribute("loginMember");
-        if (loginMember == null) {
-            return ResponseEntity.status(ResponseCode.UNAUTHORIZED.getStatus())
-                    .body(new ApiResponse<>(ResponseCode.UNAUTHORIZED, ResponseCode.UNAUTHORIZED.getMessage()));
-        }
 
         int result = storeService.sellerInfoUpdate(loginMember, storeUrl, smuDTO);
 
