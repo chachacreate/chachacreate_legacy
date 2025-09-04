@@ -852,9 +852,9 @@ $('#edit-btn2').on('click', function() {
  	  formData.append('dcategoryId', dcategoryId);
  	  
  	  // 파일 객체들을 FormData에 추가
- 	  if (pimgFile1) formData.append('image1', pimgFile1);
- 	  if (pimgFile2) formData.append('image2', pimgFile2);
- 	  if (pimgFile3) formData.append('image3', pimgFile3);
+ 	  if (pimgFile1) formData.append('image1', pimgFile4);
+ 	  if (pimgFile2) formData.append('image2', pimgFile5);
+ 	  if (pimgFile3) formData.append('image3', pimgFile6);
      $.ajax({
          url: '${cpath}/legacy/main/sell/sellregister/update',
          method: 'POST',
