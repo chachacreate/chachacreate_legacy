@@ -8,93 +8,7 @@
   <link rel="stylesheet" href="${cpath}/resources/css/store/seller/productInsert.css" />
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
-  <script src="${cpath}/resources/js/seller/productInsert.js"></script>
-<script>
-  window.dCategoriesByU = {
-    <c:forEach var="entry" items="${dCategoriesByU}" varStatus="loop">
-      "${entry.key}": [
-        <c:forEach var="d" items="${entry.value}" varStatus="loop2">
-          { id: ${d.id}, name: "${d.name}" }<c:if test="${!loop2.last}">,</c:if>
-        </c:forEach>
-      ]<c:if test="${!loop.last}">,</c:if>
-    </c:forEach>
-  };
-
-  function sendProductDataToServer() {
-	  const productForms = document.querySelectorAll('.product-form-unit');
-	  const formData = new FormData();
-	  const dtoList = [];
-
-	  // 먼저 JSON으로 보낼 상품 정보만 따로 저장
-	  [...productForms].forEach((form, idx) => {
-	    const product = {
-	      productName: form.querySelector('input[name="productName"]').value.trim(),
-	      price: parseInt(form.querySelector('input[name="price"]').value, 10),
-	      productDetail: form.querySelector('textarea[name="description"]').value.trim(),
-	      typeCategoryId: form.querySelector('select[name="typeCategoryId"]').value,
-	      dcategoryId: form.querySelector('select[name="dcategoryId"]').value,
-	      stock: parseInt(form.querySelector('input[name="stock"]').value, 10),
-	      productDate: new Date().getTime(),
-	      saleCnt: 0,
-	      viewCnt: 0
-	    };
-
-	    dtoList.push({
-	      product: product,
-	      images: [] // 실제 파일은 별도로 formData에 추가
-	    });
-
-	    // 파일은 formData에 따로 추가
-	    const photoInputs = form.querySelectorAll('input[type="file"]');
-	    [...photoInputs].forEach((input) => {
-	      const file = input.files[0];
-	      if (file) {
-	        formData.append(`dtoList[\${idx}].images`, file);
-	      }
-	    });
-	  });
-
-	  // JSON을 Blob으로 변환하여 FormData에 추가
-	  const jsonBlob = new Blob([JSON.stringify(dtoList)], { type: 'application/json' });
-	  formData.append('dtoList', jsonBlob);
-
-	  // 디버깅용
-	  console.log("🚀 FormData 전송 내용:");
-	  for (let pair of formData.entries()) {
-	    console.log(pair[0], pair[1]);
-	  }
-
-	  $.ajax({
-	    url: `${cpath}/${storeUrl}/seller/productinsert`,
-	    type: "POST",
-	    data: formData,
-	    enctype: "multipart/form-data",
-	    processData: false,
-	    contentType: false,
-	    success: res => {
-	      console.log("서버 응답:", res);
-	      alert("상품 등록 성공!");
-	      location.href = `${cpath}/${storeUrl}/seller/products`;
-	    },
-	    error: err => {
-	      console.error("에러:", err);
-	      alert("상품 등록 실패");
-	    }
-	  });
-	}
-
-  // 폼 제출 시 수동 전송
-  document.addEventListener("DOMContentLoaded", function () {
-    const form = document.querySelector("form");
-    if (form) {
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
-        sendProductDataToServer();
-      });
-    }
-  });
-</script>
-
+    <script src="${cpath}/resources/js/seller/productInsert.js"></script>
 </head>
 
 <body>
@@ -113,7 +27,8 @@
                 </button>
               </div>
             </div>
-            <form method="post" enctype="multipart/form-data">
+            <!-- action 속성 추가로 기본 submit 방지 -->
+            <form method="post" enctype="multipart/form-data" action="javascript:void(0)">
               <div id="productFormsContainer">
                 <div class="product-form-unit">
                   <div class="form-body-row">
@@ -201,5 +116,115 @@
     </div>
     <div class="right-padding"></div>
   </div>
+  <script>
+  window.dCategoriesByU = {
+    <c:forEach var="entry" items="${dCategoriesByU}" varStatus="loop">
+      "${entry.key}": [
+        <c:forEach var="d" items="${entry.value}" varStatus="loop2">
+          { id: ${d.id}, name: "${d.name}" }<c:if test="${!loop2.last}">,</c:if>
+        </c:forEach>
+      ]<c:if test="${!loop.last}">,</c:if>
+    </c:forEach>
+  };
+
+  function sendProductDataToServer() {
+    console.log("sendProductDataToServer 함수 호출됨");
+    console.log("현재 페이지 URL:", window.location.href);
+    
+    const productForms = $('.product-form-unit');
+    const formData = new FormData();
+    const dtoList = [];
+
+    productForms.each(function(idx) {
+      const form = this;
+      const product = {
+        productName: $(form).find('input[name="productName"]').val().trim(),
+        price: parseInt($(form).find('input[name="price"]').val(), 10),
+        productDetail: $(form).find('textarea[name="description"]').val().trim(),
+        typeCategoryId: $(form).find('select[name="typeCategoryId"]').val(),
+        dcategoryId: $(form).find('select[name="dcategoryId"]').val(),
+        stock: parseInt($(form).find('input[name="stock"]').val(), 10),
+        productDate: new Date().getTime(),
+        saleCnt: 0,
+        viewCnt: 0
+      };
+
+      dtoList.push({
+        product: product,
+        images: []  // 실제 파일은 FormData에 별도로
+      });
+
+      // 각 상품의 파일들을 명확한 키로 추가
+      $(form).find('input[type="file"]').each(function(inputIdx) {
+        const file = this.files[0];
+        if (file) {
+          formData.append(`product${idx}_image${inputIdx}`, file);
+          console.log(`파일 추가: product${idx}_image${inputIdx}`, file.name);
+        }
+      });
+    });
+
+    // JSON 문자열로 추가
+    formData.append('dtoList', JSON.stringify(dtoList));
+    const finalUrl = '${cpath}' + `/legacy/${storeUrl}/seller/productinsert`;
+    console.log("실제 전송 URL:", finalUrl);
+    console.log("전송할 dtoList:", JSON.stringify(dtoList, null, 2));
+    
+    // FormData 내용 확인
+    console.log("FormData 내용:");
+    for (let pair of formData.entries()) {
+      console.log(pair[0], typeof pair[1] === 'object' ? (pair[1].name || 'Blob') : pair[1]);
+    }
+    
+    $.ajax({
+      url: finalUrl,
+      type: "POST",
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function(res) {
+        console.log("서버 응답 성공:", res);
+        alert("상품 등록 성공!");
+        location.href = '${cpath}' + `/${storeUrl}/seller/products`;
+      },
+      error: function(xhr, status, error) {
+        console.error("AJAX 에러 발생:");
+        console.error("Status:", status);
+        console.error("Error:", error);
+        console.error("Response Text:", xhr.responseText);
+        console.error("Response JSON:", xhr.responseJSON);
+        alert("상품 등록 실패: " + (xhr.responseJSON?.message || error));
+      }
+    });
+  }
+
+  // jQuery로 이벤트 처리 (외부 JS 파일 실행 후에 실행되도록)
+  $(document).ready(function() {
+    console.log("jQuery document ready");
+    
+    // 기존 submit 이벤트 제거 후 새로 등록
+    $("form").off("submit").on("submit", function(e) {
+      console.log("jQuery Form submit 이벤트 발생");
+      e.preventDefault();
+      e.stopPropagation();
+      
+      sendProductDataToServer();
+      return false;
+    });
+    
+    // 저장 버튼 클릭 이벤트도 추가
+    $('button[type="submit"]').off("click").on("click", function(e) {
+      console.log("jQuery Submit button click 이벤트 발생");
+      e.preventDefault();
+      e.stopPropagation();
+      
+      sendProductDataToServer();
+      return false;
+    });
+    
+    console.log("이벤트 리스너 등록 완료");
+  });
+</script>
+
 </body>
 </html>

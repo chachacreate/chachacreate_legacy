@@ -32,7 +32,7 @@ $(function () {
 
         // 기본 배송지 조회 API
         $.ajax({
-          url: `${cpath}/legacy/${storeUrl}/mypage/order/addr`,
+          url: `http://localhost:8888/api/info/memberAddress/${member.memberId}`,
           type: "GET",
           dataType: "json",
           success: function (addrRes) {

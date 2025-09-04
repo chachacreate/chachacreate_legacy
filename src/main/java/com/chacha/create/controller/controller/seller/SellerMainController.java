@@ -135,34 +135,6 @@ public class SellerMainController {
 
 	    return "store/seller/productInsert";
 	}
-	
-	// 판매자 페이지 상품 등록 기능
-	@PostMapping(value = "productinsert", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	@ResponseBody
-	public ResponseEntity<?> upload(
-	    @PathVariable String storeUrl,
-	    @RequestPart("dtoList") List<ProductWithImagesDTO> dtoList,
-	    MultipartHttpServletRequest request
-	) {
-	    for (int i = 0; i < dtoList.size(); i++) {
-	        List<MultipartFile> images = request.getFiles("dtoList[" + i + "].images");
-	        dtoList.get(i).setImages(images);
-	    }
-
-	    for (ProductWithImagesDTO dto : dtoList) {
-	        System.out.println("✔ product: " + dto.getProduct());
-	        System.out.println("✔ images: " + dto.getImages());
-	    }
-
-	    int successCount = productService.registerMultipleProductsWithImages(storeUrl, dtoList);
-	    if (successCount == dtoList.size()) {
-	        return ResponseEntity.ok("모든 상품 등록 성공");
-	    } else if (successCount > 0) {
-	        return ResponseEntity.ok(successCount + "개 등록 성공, 일부 실패");
-	    } else {
-	        return ResponseEntity.badRequest().body("등록 실패");
-	    }
-	}
 
 	// 판매자 페이지 상품 리스트 조회
 	@GetMapping("/products")
