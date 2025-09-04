@@ -1,4 +1,4 @@
-const BOOT_API   = `${springBootApiUrl}`;
+const BOOT_API = '${springBootApiUrl}';
 const accessTokenKey = 'accessToken';
 function setAccessToken(t){ localStorage.setItem(accessTokenKey, t); }
 function getAccessToken(){ return localStorage.getItem(accessTokenKey); }

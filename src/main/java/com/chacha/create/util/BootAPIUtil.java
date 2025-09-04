@@ -22,6 +22,23 @@ public class BootAPIUtil {
     private String bootApiUrl;
 
     /**
+     * 부트 서버에서 로그인 회원 정보 조회
+     */
+    public BootMemberDTO getBootMemberDataByMemberId(Integer memberId) {
+        String url = bootApiUrl + "/info/member/" + memberId;
+
+        ResponseEntity<ApiResponse<BootMemberDTO>> response =
+                restTemplate.exchange(url,
+                        HttpMethod.GET,
+                        null,
+                        new ParameterizedTypeReference<ApiResponse<BootMemberDTO>>() {}
+                );
+
+        log.debug("Boot API Response: {}", response);
+        return response.getBody() != null ? response.getBody().getData() : null;
+    }
+    
+    /**
      * 부트 서버에서 판매자 정보 조회
      */
     public BootMemberDTO getBootMemberDataBySellerId(Integer sellerId) {
@@ -41,7 +58,7 @@ public class BootAPIUtil {
      * 회원 주소 정보 조회 (memberId 기준)
      */
     public BootAddressDTO getBootMemberAddressDataByMemberId(Integer memberId) {
-        String url = bootApiUrl + "/info/memberAdress/" + memberId;
+        String url = bootApiUrl + "/info/memberAddress/" + memberId;
 
         ResponseEntity<ApiResponse<BootAddressDTO>> response =
                 restTemplate.exchange(url,
@@ -59,7 +76,7 @@ public class BootAPIUtil {
      * 회원 주소 정보 조회 (addressId 기준)
      */
     public BootAddressDTO getBootMemberAddressDataByAddressId(Integer addressId) {
-        String url = bootApiUrl + "/info/memberAdressByAddresId/" + addressId;
+        String url = bootApiUrl + "/info/memberAddressByAddressId/" + addressId;
 
         ResponseEntity<ApiResponse<BootAddressDTO>> response =
                 restTemplate.exchange(url,

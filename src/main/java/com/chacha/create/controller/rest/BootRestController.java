@@ -33,4 +33,10 @@ public class BootRestController {
 		log.info("boot에서 seller 조회");
 		return new ApiResponse<>(ResponseCode.OK,storemapper.selectForSellerDetail(storeUrl));
 	}
+	
+	@GetMapping("/info/store/id/{storeId}")
+	public ApiResponse<StoreEntity> getStoreDetailByStoreId(@PathVariable int storeId) {
+		log.info("boot에서 스토어 조회 by id");
+		return new ApiResponse<>(ResponseCode.OK, storemapper.selectByStoreId(storeId));
+	}
 }
