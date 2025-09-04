@@ -6,7 +6,6 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.chacha.create.common.entity.member.MemberEntity;
-import com.chacha.create.common.exception.NeedLoginException;
 import com.chacha.create.common.mapper.manage.ManageMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -20,16 +19,16 @@ public class PersonalSettlementService {
     private final ManageMapper manageMapper;
 
     public List<Map<String, Object>> sellManagement(MemberEntity loginMember) {
-        if(loginMember == null) {
-            throw new NeedLoginException("로그인이 필요합니다.");
-        }
+    	List<Map<String, Object>> manage = manageMapper.sellManagement(loginMember.getMemberId()); //이거 member 이름 넣어야함
+    	manage.stream().forEach(map -> {
+    		map.put("sellerName", loginMember.getMemberName());
+    		map.put("accountHolder", loginMember.getMemberName());
+    	});
+    	
         return manageMapper.sellManagement(loginMember.getMemberId());
     }
 
     public Map<String, List<Map<String, Object>>> daySellManagementByProduct(MemberEntity loginMember) {
-        if (loginMember == null) {
-            throw new NeedLoginException("로그인이 필요합니다.");
-        }
 
         List<Map<String, Object>> result = manageMapper.daySellManagementByProduct(loginMember.getMemberId());
         Map<String, List<Map<String, Object>>> grouped = new java.util.LinkedHashMap<>();

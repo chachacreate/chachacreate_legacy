@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -38,10 +37,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class LoginAuthorizationFilter implements Filter {
 
-	@Autowired
-	private SellerMapper sellerMapper;
-	@Autowired
-	private StoreMapper storeMapper;
+    private SellerMapper sellerMapper;
+    private StoreMapper storeMapper;
 	
 	// ConfigUtil Bean 저장용 필드 추가
 	private BootPathConfig configUtil;
@@ -54,24 +51,24 @@ public class LoginAuthorizationFilter implements Filter {
 	private static final ObjectMapper objectMapper = new ObjectMapper();
 
 	@Override
-	public void init(FilterConfig filterConfig) {
-		WebApplicationContext ctx = WebApplicationContextUtils
-				.getRequiredWebApplicationContext(filterConfig.getServletContext());
-		this.sellerMapper = ctx.getBean(SellerMapper.class);
-		this.storeMapper = ctx.getBean(StoreMapper.class);
-		
-		try {
-			// ConfigUtil Bean 조회 시도
-			this.configUtil = ctx.getBean(BootPathConfig.class);
-			log.debug("ConfigUtil Bean 조회 성공: {}", configUtil.getBootUrl());
-		} catch (Exception e) {
-			log.error("ConfigUtil Bean 조회 실패, 기본값 사용: {}", e.getMessage());
-			// ConfigUtil이 없을 경우 기본값으로 처리
-			this.configUtil = null;
-		}
-		
-		log.debug("LoginAuthorizationFilter 초기화 완료");
-	}
+    public void init(FilterConfig filterConfig) {
+        WebApplicationContext ctx = WebApplicationContextUtils
+                .getRequiredWebApplicationContext(filterConfig.getServletContext());
+        
+        // 모든 Bean을 여기서 수동으로 가져오기
+        this.sellerMapper = ctx.getBean(SellerMapper.class);
+        this.storeMapper = ctx.getBean(StoreMapper.class);
+        
+        try {
+            this.configUtil = ctx.getBean(BootPathConfig.class);
+            log.debug("BootPathConfig Bean 조회 성공: {}", configUtil.getBootUrl());
+        } catch (Exception e) {
+            log.error("BootPathConfig Bean 조회 실패, 기본값 사용: {}", e.getMessage());
+            this.configUtil = null;
+        }
+        
+        log.debug("LoginAuthorizationFilter 초기화 완료");
+    }
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
