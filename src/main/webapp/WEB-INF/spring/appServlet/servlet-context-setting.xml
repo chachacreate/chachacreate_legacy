@@ -14,9 +14,8 @@
 	<!-- @Component @Repository @Service : root-context.xml 에서 component-scan -->
 	<!-- <context:component-scan base-package="com.chacha.create.controller, com.chacha.create.util" /> -->
 <context:component-scan base-package="com.chacha.create.controller" />
-<context:component-scan base-package="com.chacha.create.util">
-    <context:exclude-filter type="assignable" expression="com.chacha.create.util.DataSourceConfig"/>
-</context:component-scan>
+<!--     <context:exclude-filter type="assignable" expression="com.chacha.create.util.DataSourceConfig"/>
+</context:component-scan> -->
 	<!-- @Controller에 요청을 보내기 위해 필요한 HandlerMapping과 HandlerAdapter를 Bean으로 
 		등록 -->
 	<mvc:annotation-driven />

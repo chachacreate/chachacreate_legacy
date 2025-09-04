@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 	
 	
 	<!-- Jasypt 암호화기 설정 -->
@@ -17,11 +19,12 @@
 		<property name="locations">
 			<list>
 				<value>classpath:git_submodule_chacha/application-db.properties</value>
-				<!-- <value>classpath:git_submodule_chacha/application-common.properties</value> -->
+				<value>classpath:git_submodule_chacha/application-common.properties</value>
 				<value>classpath:git_submodule_chacha/application-secrets.properties</value>
 			</list>
 		</property>
 		<property name="fileEncoding" value="UTF-8"/>
 		<property name="ignoreUnresolvablePlaceholders" value="false"/>
 	</bean>
+	<context:component-scan base-package="com.chacha.create.util" />
 </beans>
