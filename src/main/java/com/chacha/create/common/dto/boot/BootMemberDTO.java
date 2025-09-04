@@ -1,4 +1,4 @@
-package com.chacha.create.common.dto.store;
+package com.chacha.create.common.dto.boot;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
