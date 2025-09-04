@@ -3,12 +3,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined");
 
 /* Global */
-body {
-  font-family: 'Noto Sans KR', sans-serif;
-  background-color: #f7f6f2;
-  margin: 0;
-  padding: 0;
-}
+
 
 .container-1440 {
   max-width: 1440px;

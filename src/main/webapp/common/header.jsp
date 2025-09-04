@@ -15,7 +15,6 @@
 <!-- Boot JS -->
 <script src="${cpath}/resources/js/boot.js"></script>
 
-
 <!-- 1) Tailwind CDN 로드 전에 config 선언 -->
 <script>
   // 이미 window.tailwind가 있든 없든, 먼저 config를 박아둡니다.
@@ -41,139 +40,186 @@
 <!-- 2) 그 다음에 Tailwind 로드 -->
 <script src="https://cdn.tailwindcss.com"></script>
 
+<!-- 헤더 스타일 강제 적용 -->
+<style>
+  /* 브랜드 색상 강제 적용 */
+  .bg-brand-900 {
+    background-color: #2D4739 !important;
+  }
+  
+  /* 텍스트 색상 확실히 적용 */
+  .text-white {
+    color: white !important;
+  }
+  
+  /* 호버 효과 */
+  .hover\:underline:hover {
+    text-decoration: underline;
+  }
+  
+  .hover\:underline-offset-2:hover {
+    text-underline-offset: 2px;
+  }
+  
+  /* 검색바 스타일 */
+  .bg-white\/10 {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+  }
+  
+  .border-white\/20 {
+    border-color: rgba(255, 255, 255, 0.2) !important;
+  }
+  
+  .placeholder-white\/60::placeholder {
+    color: rgba(255, 255, 255, 0.6) !important;
+  }
+  
+  .focus\:bg-white\/20:focus {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+  }
+  
+  .focus\:border-white\/40:focus {
+    border-color: rgba(255, 255, 255, 0.4) !important;
+  }
+</style>
+
 <!-- 헤더 HTML -->
 <header class="w-full border-b border-gray-100 font-jua">
   <!-- 데스크톱 상단 바 -->
   <div class="hidden md:block w-full bg-brand-900 text-white">
-    <div class="mx-auto w-full max-w-[1920px] px-60 h-[50px] flex items-center justify-end">
+    <div class="mx-auto w-full max-w-[1920px] px-4 lg:px-16 xl:px-60 h-[50px] flex items-center justify-end">
       <nav class="flex items-center gap-4 text-[15px]">
         <!-- 로그인 전 -->
         <c:if test="${empty sessionScope.loginMember}">
-          <a href="${cpath}/auth/login" class="hover:underline hover:underline-offset-2">로그인</a>
-          <span aria-hidden="true">|</span>
-          <a href="${cpath}/auth/join/agree" class="hover:underline hover:underline-offset-2">회원가입</a>
+          <a href="${cpath}/auth/login" class="hover:underline hover:underline-offset-2 text-white">로그인</a>
+          <span aria-hidden="true" class="text-white">|</span>
+          <a href="${cpath}/auth/join/agree" class="hover:underline hover:underline-offset-2 text-white">회원가입</a>
         </c:if>
 
         <!-- 로그인 후 -->
         <c:if test="${not empty sessionScope.loginMember}">
-          <span class="whitespace-nowrap">
+          <span class="whitespace-nowrap text-white">
             <strong>${sessionScope.loginMember.memberName}</strong>님 반갑습니다!
           </span>
           <c:if test="${empty storeUrl}">
             <script>
               sessionStorage.removeItem("chatCreated");
             </script>
-            <a href="${cpath}/main/mypage/message" class="hover:underline hover:underline-offset-2 whitespace-nowrap">메시지</a>
+            <a href="${cpath}/main/mypage/message" class="hover:underline hover:underline-offset-2 whitespace-nowrap text-white">메시지</a>
           </c:if>
           <c:if test="${not empty storeUrl}">
             <c:if test="${loginMember.memberId == storeOwnerId}">
               <script>
                 sessionStorage.removeItem("chatCreated");
               </script>
-              <a href="${cpath}/${storeUrl}/mypage/message" class="hover:underline hover:underline-offset-2 whitespace-nowrap">메시지</a>
+              <a href="${cpath}/${storeUrl}/mypage/message" class="hover:underline hover:underline-offset-2 whitespace-nowrap text-white">메시지</a>
             </c:if>
             <c:if test="${loginMember.memberId != storeOwnerId}">
-              <a href="${cpath}/${storeUrl}/mypage/message?makeChat=true" class="hover:underline hover:underline-offset-2 whitespace-nowrap">${storeName}에 메시지 보내기</a>
+              <a href="${cpath}/${storeUrl}/mypage/message?makeChat=true" class="hover:underline hover:underline-offset-2 whitespace-nowrap text-white">${storeName}에 메시지 보내기</a>
             </c:if>
           </c:if>
-          <a href="javascript:void(0);" class="hover:underline hover:underline-offset-2 whitespace-nowrap" id="btn-logout">로그아웃</a>
+          <a href="javascript:void(0);" class="hover:underline hover:underline-offset-2 whitespace-nowrap text-white" id="btn-logout">로그아웃</a>
         </c:if>
       </nav>
     </div>
   </div>
 
-  <!-- 모바일 상단 바: 로고 | 검색바 | 메시지 | 햄버거 (React와 동일한 구조) -->
+  <!-- 모바일 상단 바: 로고 | 검색바 | 메시지 | 햄버거 -->
   <div class="md:hidden w-full bg-brand-900 text-white">
     <div class="mx-auto w-full max-w-[1920px] px-4 min-[1920px]:px-60 h-[50px] flex items-center gap-3">
-      <!-- 로고 (왼쪽) - 하얀 박스 제거 -->
-      <a href="${cpath}/main" class="flex items-center gap-2">
-        <!-- 로고 이미지나 텍스트로 교체하거나 완전히 제거 -->
+      <!-- 로고 (왼쪽) -->
+      <a href="${cpath}/main" class="flex items-center gap-2 flex-shrink-0">
         <img
-	    src="${cpath}/resources/images/logo/mainlogo_mob.png"
-	    alt="뜨락상회 로고"
-	    class="h-8 md:h-20 w-auto"
-	  />
+          src="${cpath}/resources/images/logo/mainlogo_mob.png"
+          alt="뜨락상회 로고"
+          class="h-8 w-auto"
+        />
       </a>
 
       <!-- 검색바 (중앙, flex-1로 공간 차지) -->
-      <div class="flex-1">
+      <div class="flex-1 min-w-0">
         <form action="${cpath}/main/search" method="get" class="w-full">
           <input 
             type="search" 
             name="q" 
             placeholder="검색어를 입력하세요"
-            class="w-full px-3 py-1.5 text-sm bg-white/10 border border-white/20 rounded-full text-white placeholder-white/60 focus:outline-none focus:bg-white/20 focus:border-white/40"
+            class="w-full px-3 py-1.5 text-sm bg-white bg-opacity-10 border border-white border-opacity-20 rounded-full text-white placeholder-white placeholder-opacity-60 focus:outline-none focus:bg-white focus:bg-opacity-20 focus:border-white focus:border-opacity-40"
+            style="background-color: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.2);"
           />
         </form>
       </div>
 
       <!-- 메시지 아이콘 (우측) -->
-      <c:if test="${not empty sessionScope.loginMember}">
-        <c:choose>
-          <c:when test="${empty storeUrl}">
-            <a href="${cpath}/main/mypage/message" aria-label="메시지" class="p-2 -mr-1">
-              <svg viewBox="0 0 24 24" class="h-6 w-6" fill="currentColor" aria-hidden="true">
-                <path d="M20 4H4c-1.1 0-2 .9-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6c0-1.1-.9-2-2-2Zm0 4-8 5L4 8V6l8 5 8-5v2Z" />
-              </svg>
-            </a>
-          </c:when>
-          <c:when test="${loginMember.memberId == storeOwnerId}">
-            <a href="${cpath}/${storeUrl}/mypage/message" aria-label="메시지" class="p-2 -mr-1">
-              <svg viewBox="0 0 24 24" class="h-6 w-6" fill="currentColor" aria-hidden="true">
-                <path d="M20 4H4c-1.1 0-2 .9-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6c0-1.1-.9-2-2-2Zm0 4-8 5L4 8V6l8 5 8-5v2Z" />
-              </svg>
-            </a>
-          </c:when>
-          <c:otherwise>
-            <a href="${cpath}/${storeUrl}/mypage/message?makeChat=true" aria-label="메시지" class="p-2 -mr-1">
-              <svg viewBox="0 0 24 24" class="h-6 w-6" fill="currentColor" aria-hidden="true">
-                <path d="M20 4H4c-1.1 0-2 .9-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6c0-1.1-.9-2-2-2Zm0 4-8 5L4 8V6l8 5 8-5v2Z" />
-              </svg>
-            </a>
-          </c:otherwise>
-        </c:choose>
-      </c:if>
-      <c:if test="${empty sessionScope.loginMember}">
-        <button onclick="alert('로그인이 필요합니다.'); window.location.href='${cpath}/auth/login';" aria-label="메시지" class="p-2 -mr-1">
-          <svg viewBox="0 0 24 24" class="h-6 w-6" fill="currentColor" aria-hidden="true">
-            <path d="M20 4H4c-1.1 0-2 .9-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6c0-1.1-.9-2-2-2Zm0 4-8 5L4 8V6l8 5 8-5v2Z" />
-          </svg>
-        </button>
-      </c:if>
+      <div class="flex-shrink-0">
+        <c:if test="${not empty sessionScope.loginMember}">
+          <c:choose>
+            <c:when test="${empty storeUrl}">
+              <a href="${cpath}/main/mypage/message" aria-label="메시지" class="p-2 -mr-1 text-white">
+                <svg viewBox="0 0 24 24" class="h-6 w-6" fill="currentColor" aria-hidden="true">
+                  <path d="M20 4H4c-1.1 0-2 .9-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6c0-1.1-.9-2-2-2Zm0 4-8 5L4 8V6l8 5 8-5v2Z" />
+                </svg>
+              </a>
+            </c:when>
+            <c:when test="${loginMember.memberId == storeOwnerId}">
+              <a href="${cpath}/${storeUrl}/mypage/message" aria-label="메시지" class="p-2 -mr-1 text-white">
+                <svg viewBox="0 0 24 24" class="h-6 w-6" fill="currentColor" aria-hidden="true">
+                  <path d="M20 4H4c-1.1 0-2 .9-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6c0-1.1-.9-2-2-2Zm0 4-8 5L4 8V6l8 5 8-5v2Z" />
+                </svg>
+              </a>
+            </c:when>
+            <c:otherwise>
+              <a href="${cpath}/${storeUrl}/mypage/message?makeChat=true" aria-label="메시지" class="p-2 -mr-1 text-white">
+                <svg viewBox="0 0 24 24" class="h-6 w-6" fill="currentColor" aria-hidden="true">
+                  <path d="M20 4H4c-1.1 0-2 .9-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6c0-1.1-.9-2-2-2Zm0 4-8 5L4 8V6l8 5 8-5v2Z" />
+                </svg>
+              </a>
+            </c:otherwise>
+          </c:choose>
+        </c:if>
+        <c:if test="${empty sessionScope.loginMember}">
+          <button onclick="alert('로그인이 필요합니다.'); window.location.href='${cpath}/auth/login';" aria-label="메시지" class="p-2 -mr-1 text-white">
+            <svg viewBox="0 0 24 24" class="h-6 w-6" fill="currentColor" aria-hidden="true">
+              <path d="M20 4H4c-1.1 0-2 .9-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6c0-1.1-.9-2-2-2Zm0 4-8 5L4 8V6l8 5 8-5v2Z" />
+            </svg>
+          </button>
+        </c:if>
+      </div>
 
       <!-- 햄버거 메뉴 (우측 끝) -->
-      <button
-        onclick="toggleMobileMenu()"
-        class="p-2"
-        aria-label="메뉴 열기"
-        id="mobile-menu-button"
-      >
-        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path id="menu-icon" d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z" />
-          <path id="close-icon" class="hidden" fill-rule="evenodd" d="M6.225 4.811a1 1 0 0 1 1.414 0L12 9.172l4.361-4.361a1 1 0 0 1 1.414 1.414L13.414 10.586l4.361 4.361a1 1 0 0 1-1.414 1.414L12 12l-4.361 4.361a1 1 0 0 1-1.414-1.414l4.361-4.361-4.361-4.361a1 1 0 0 1 0-1.414Z" clip-rule="evenodd" />
-        </svg>
-      </button>
+      <div class="flex-shrink-0">
+        <button
+          onclick="toggleMobileMenu()"
+          class="p-2 text-white"
+          aria-label="메뉴 열기"
+          id="mobile-menu-button"
+        >
+          <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path id="menu-icon" d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z" />
+            <path id="close-icon" class="hidden" fill-rule="evenodd" d="M6.225 4.811a1 1 0 0 1 1.414 0L12 9.172l4.361-4.361a1 1 0 0 1 1.414 1.414L13.414 10.586l4.361 4.361a1 1 0 0 1-1.414 1.414L12 12l-4.361 4.361a1 1 0 0 1-1.414-1.414l4.361-4.361-4.361-4.361a1 1 0 0 1 0-1.414Z" clip-rule="evenodd" />
+          </svg>
+        </button>
+      </div>
     </div>
 
-    <!-- 모바일 드롭다운 메뉴 (React와 동일한 스타일) -->
-    <div id="mobile-menu" class="hidden md:hidden border-t border-white/20 bg-brand-900 text-white">
+    <!-- 모바일 드롭다운 메뉴 -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-white border-opacity-20 bg-brand-900 text-white">
       <div class="mx-auto w-full max-w-[1920px] px-4 min-[1920px]:px-60 py-3 text-[15px] space-y-2">
         <!-- 로그인 전 -->
         <c:if test="${empty sessionScope.loginMember}">
-          <button onclick="window.location.href='${cpath}/auth/login'" class="block w-full text-left hover:underline hover:underline-offset-2">
+          <button onclick="window.location.href='${cpath}/auth/login'" class="block w-full text-left hover:underline hover:underline-offset-2 text-white">
             로그인
           </button>
-          <button onclick="window.location.href='${cpath}/auth/join/agree'" class="block w-full text-left hover:underline hover:underline-offset-2">
+          <button onclick="window.location.href='${cpath}/auth/join/agree'" class="block w-full text-left hover:underline hover:underline-offset-2 text-white">
             회원가입
           </button>
         </c:if>
 
         <!-- 로그인 후 -->
         <c:if test="${not empty sessionScope.loginMember}">
-          <div class="opacity-90">
+          <div class="opacity-90 text-white">
             <strong>${sessionScope.loginMember.memberName}</strong>님 반갑습니다!
           </div>
-          <button onclick="handleMobileLogout()" class="block w-full text-left hover:underline hover:underline-offset-2">
+          <button onclick="handleMobileLogout()" class="block w-full text-left hover:underline hover:underline-offset-2 text-white">
             로그아웃
           </button>
         </c:if>
