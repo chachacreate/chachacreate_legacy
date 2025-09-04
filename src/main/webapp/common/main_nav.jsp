@@ -35,8 +35,8 @@
 
 nav {
   font-family: 'Jua', sans-serif;
-  background-color: #ffffff;
-  border-bottom: 1px solid #ccc;
+ /*  background-color: #ffffff;
+  border-bottom: 1px solid #ccc; */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
   position: sticky;
   top: 0;

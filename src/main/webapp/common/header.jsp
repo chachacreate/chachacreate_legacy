@@ -4,112 +4,265 @@
 <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="cpath" value="${pageContext.servletContext.contextPath}" />
 
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-	<script src="${cpath}/resources/js/boot.js"></script>
-	
+<!-- Google Fonts - Jua -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
 
-<div class="header-wrapper">
-  <div class="header-inner">
-    <!-- 로그인 전 -->
-	<c:if test="${empty sessionScope.loginMember}">
-	    <div class="header-content" id="header-guest">
-		  <a href="${cpath}/auth/login" class="header-btn">로그인</a>
-		  <span class="divider">|</span>
-		  <a href="${cpath}/auth/join/agree" class="header-btn">회원가입</a>
-		</div>
-	</c:if>
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-    <!-- 로그인 후 -->
-    <c:if test="${not empty sessionScope.loginMember}">
-	    <div class="header-content" id="header-user">
-	      <span class="welcome-text"><span id="member-name">${sessionScope.loginMember.memberName}</span>님 반갑습니다!</span>
-	      <c:if test="${empty storeUrl}">
-	      	<script>
-		      	sessionStorage.removeItem("chatCreated");
-		      </script>
-	      	<a href="${cpath}/main/mypage/message" class="header-btn">메시지</a>
-	      </c:if>
-	      <c:if test="${not empty storeUrl}">
-		      <c:if test="${loginMember.memberId == storeOwnerId}">
-		      <script>
-		      	sessionStorage.removeItem("chatCreated");
-		      </script>
-		      	<a href="${cpath}/${storeUrl}/mypage/message" class="header-btn">메시지</a>
-		      </c:if>
-		      <c:if test="${loginMember.memberId != storeOwnerId}">
-	      			<a href="${cpath}/${storeUrl}/mypage/message?makeChat=true" class="header-btn">${storeName}에 메시지 보내기</a>
-	      	  </c:if>
-	      </c:if>
-	      <a href="javascript:void(0);" class="header-btn" id="btn-logout">로그아웃</a>
-	    </div>
-    </c:if>
-  </div>
-</div>
+<!-- Boot JS -->
+<script src="${cpath}/resources/js/boot.js"></script>
 
-<style>
 
-html, body {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-.header-wrapper {
-  width: 100%;
-  height: 50px;
-  background: #2D4739;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.header-inner {
-  width: 1920px;
-  padding: 0 240px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-.header-content {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.header-btn, .welcome-text, .divider {
-  color: #ffffff;
-  font-size: 16px;
-  text-decoration: none;
-  cursor: pointer;
-  font-family: 'Jua', sans-serif;
-}
-</style>
-
+<!-- 1) Tailwind CDN 로드 전에 config 선언 -->
 <script>
-$('#btn-logout').on('click', function() {
-	const BOOT_API = '${springBootApiUrl}';
-	console.log("로그아웃 버튼 클릭");
-    // 1) Spring Boot 로그아웃 호출 (accessToken 자동 포함)
-    $.ajax({
-        url: BOOT_API + '/auth/logout',
-        type: 'POST',
-        data: { email:"${sessionScope.loginMember.memberEmail}" },
-        xhrFields: { withCredentials: true },
-        success: function(resp){
-            console.log("Spring Boot 로그아웃 완료:", resp);
-            clearAccessToken(); // 토큰 제거
+  // 이미 window.tailwind가 있든 없든, 먼저 config를 박아둡니다.
+  window.tailwind = window.tailwind || {};
+  window.tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          jua: ['Jua', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         },
-        error: function(xhr, status, error){
-            console.warn("Spring Boot 로그아웃 실패:", error);
+        colors: {
+          'brand-900': '#2D4739',
         },
-        complete: function(){
-            // 2) 기존 JSP/Legacy 로그아웃 이동
-            alert('로그아웃 되었습니다.');
-            window.location.href = '${cpath}/auth/logout';
+        maxWidth: {
+          '1440': '1440px',
+          '1920': '1920px',
         }
-    });
-});
+      }
+    }
+  };
 </script>
 
+<!-- 2) 그 다음에 Tailwind 로드 -->
+<script src="https://cdn.tailwindcss.com"></script>
 
+<!-- 헤더 HTML -->
+<header class="w-full border-b border-gray-100 font-jua">
+  <!-- 데스크톱 상단 바 -->
+  <div class="hidden md:block w-full bg-brand-900 text-white">
+    <div class="mx-auto w-full max-w-[1920px] px-60 h-[50px] flex items-center justify-end">
+      <nav class="flex items-center gap-4 text-[15px]">
+        <!-- 로그인 전 -->
+        <c:if test="${empty sessionScope.loginMember}">
+          <a href="${cpath}/auth/login" class="hover:underline hover:underline-offset-2">로그인</a>
+          <span aria-hidden="true">|</span>
+          <a href="${cpath}/auth/join/agree" class="hover:underline hover:underline-offset-2">회원가입</a>
+        </c:if>
+
+        <!-- 로그인 후 -->
+        <c:if test="${not empty sessionScope.loginMember}">
+          <span class="whitespace-nowrap">
+            <strong>${sessionScope.loginMember.memberName}</strong>님 반갑습니다!
+          </span>
+          <c:if test="${empty storeUrl}">
+            <script>
+              sessionStorage.removeItem("chatCreated");
+            </script>
+            <a href="${cpath}/main/mypage/message" class="hover:underline hover:underline-offset-2 whitespace-nowrap">메시지</a>
+          </c:if>
+          <c:if test="${not empty storeUrl}">
+            <c:if test="${loginMember.memberId == storeOwnerId}">
+              <script>
+                sessionStorage.removeItem("chatCreated");
+              </script>
+              <a href="${cpath}/${storeUrl}/mypage/message" class="hover:underline hover:underline-offset-2 whitespace-nowrap">메시지</a>
+            </c:if>
+            <c:if test="${loginMember.memberId != storeOwnerId}">
+              <a href="${cpath}/${storeUrl}/mypage/message?makeChat=true" class="hover:underline hover:underline-offset-2 whitespace-nowrap">${storeName}에 메시지 보내기</a>
+            </c:if>
+          </c:if>
+          <a href="javascript:void(0);" class="hover:underline hover:underline-offset-2 whitespace-nowrap" id="btn-logout">로그아웃</a>
+        </c:if>
+      </nav>
+    </div>
+  </div>
+
+  <!-- 모바일 상단 바: 로고 | 검색바 | 메시지 | 햄버거 (React와 동일한 구조) -->
+  <div class="md:hidden w-full bg-brand-900 text-white">
+    <div class="mx-auto w-full max-w-[1920px] px-4 min-[1920px]:px-60 h-[50px] flex items-center gap-3">
+      <!-- 로고 (왼쪽) - 하얀 박스 제거 -->
+      <a href="${cpath}/main" class="flex items-center gap-2">
+        <!-- 로고 이미지나 텍스트로 교체하거나 완전히 제거 -->
+        <span class="text-white font-bold text-lg">로고</span>
+      </a>
+
+      <!-- 검색바 (중앙, flex-1로 공간 차지) -->
+      <div class="flex-1">
+        <form action="${cpath}/main/search" method="get" class="w-full">
+          <input 
+            type="search" 
+            name="q" 
+            placeholder="검색어를 입력하세요"
+            class="w-full px-3 py-1.5 text-sm bg-white/10 border border-white/20 rounded-full text-white placeholder-white/60 focus:outline-none focus:bg-white/20 focus:border-white/40"
+          />
+        </form>
+      </div>
+
+      <!-- 메시지 아이콘 (우측) -->
+      <c:if test="${not empty sessionScope.loginMember}">
+        <c:choose>
+          <c:when test="${empty storeUrl}">
+            <a href="${cpath}/main/mypage/message" aria-label="메시지" class="p-2 -mr-1">
+              <svg viewBox="0 0 24 24" class="h-6 w-6" fill="currentColor" aria-hidden="true">
+                <path d="M20 4H4c-1.1 0-2 .9-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6c0-1.1-.9-2-2-2Zm0 4-8 5L4 8V6l8 5 8-5v2Z" />
+              </svg>
+            </a>
+          </c:when>
+          <c:when test="${loginMember.memberId == storeOwnerId}">
+            <a href="${cpath}/${storeUrl}/mypage/message" aria-label="메시지" class="p-2 -mr-1">
+              <svg viewBox="0 0 24 24" class="h-6 w-6" fill="currentColor" aria-hidden="true">
+                <path d="M20 4H4c-1.1 0-2 .9-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6c0-1.1-.9-2-2-2Zm0 4-8 5L4 8V6l8 5 8-5v2Z" />
+              </svg>
+            </a>
+          </c:when>
+          <c:otherwise>
+            <a href="${cpath}/${storeUrl}/mypage/message?makeChat=true" aria-label="메시지" class="p-2 -mr-1">
+              <svg viewBox="0 0 24 24" class="h-6 w-6" fill="currentColor" aria-hidden="true">
+                <path d="M20 4H4c-1.1 0-2 .9-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6c0-1.1-.9-2-2-2Zm0 4-8 5L4 8V6l8 5 8-5v2Z" />
+              </svg>
+            </a>
+          </c:otherwise>
+        </c:choose>
+      </c:if>
+      <c:if test="${empty sessionScope.loginMember}">
+        <button onclick="alert('로그인이 필요합니다.'); window.location.href='${cpath}/auth/login';" aria-label="메시지" class="p-2 -mr-1">
+          <svg viewBox="0 0 24 24" class="h-6 w-6" fill="currentColor" aria-hidden="true">
+            <path d="M20 4H4c-1.1 0-2 .9-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6c0-1.1-.9-2-2-2Zm0 4-8 5L4 8V6l8 5 8-5v2Z" />
+          </svg>
+        </button>
+      </c:if>
+
+      <!-- 햄버거 메뉴 (우측 끝) -->
+      <button
+        onclick="toggleMobileMenu()"
+        class="p-2"
+        aria-label="메뉴 열기"
+        id="mobile-menu-button"
+      >
+        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path id="menu-icon" d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z" />
+          <path id="close-icon" class="hidden" fill-rule="evenodd" d="M6.225 4.811a1 1 0 0 1 1.414 0L12 9.172l4.361-4.361a1 1 0 0 1 1.414 1.414L13.414 10.586l4.361 4.361a1 1 0 0 1-1.414 1.414L12 12l-4.361 4.361a1 1 0 0 1-1.414-1.414l4.361-4.361-4.361-4.361a1 1 0 0 1 0-1.414Z" clip-rule="evenodd" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- 모바일 드롭다운 메뉴 (React와 동일한 스타일) -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-white/20 bg-brand-900 text-white">
+      <div class="mx-auto w-full max-w-[1920px] px-4 min-[1920px]:px-60 py-3 text-[15px] space-y-2">
+        <!-- 로그인 전 -->
+        <c:if test="${empty sessionScope.loginMember}">
+          <button onclick="window.location.href='${cpath}/auth/login'" class="block w-full text-left hover:underline hover:underline-offset-2">
+            로그인
+          </button>
+          <button onclick="window.location.href='${cpath}/auth/join/agree'" class="block w-full text-left hover:underline hover:underline-offset-2">
+            회원가입
+          </button>
+        </c:if>
+
+        <!-- 로그인 후 -->
+        <c:if test="${not empty sessionScope.loginMember}">
+          <div class="opacity-90">
+            <strong>${sessionScope.loginMember.memberName}</strong>님 반갑습니다!
+          </div>
+          <button onclick="handleMobileLogout()" class="block w-full text-left hover:underline hover:underline-offset-2">
+            로그아웃
+          </button>
+        </c:if>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- 헤더 JavaScript -->
+<script>
+// 전역 함수로 선언
+window.toggleMobileMenu = function() {
+  const menu = document.getElementById('mobile-menu');
+  const menuIcon = document.getElementById('menu-icon');
+  const closeIcon = document.getElementById('close-icon');
+  
+  if (menu && menuIcon && closeIcon) {
+    if (menu.classList.contains('hidden')) {
+      menu.classList.remove('hidden');
+      menuIcon.style.display = 'none';
+      closeIcon.style.display = 'block';
+    } else {
+      menu.classList.add('hidden');
+      menuIcon.style.display = 'block';
+      closeIcon.style.display = 'none';
+    }
+  }
+}
+
+window.closeMobileMenu = function() {
+  const menu = document.getElementById('mobile-menu');
+  const menuIcon = document.getElementById('menu-icon');
+  const closeIcon = document.getElementById('close-icon');
+  
+  if (menu && menuIcon && closeIcon) {
+    menu.classList.add('hidden');
+    menuIcon.style.display = 'block';
+    closeIcon.style.display = 'none';
+  }
+}
+
+window.handleMobileLogout = function() {
+  if (document.getElementById('btn-logout')) {
+    document.getElementById('btn-logout').click();
+  }
+  closeMobileMenu();
+}
+
+// 문서가 준비되면 실행
+$(document).ready(function() {
+  // 데스크톱 로그아웃
+  $('#btn-logout').on('click', function() {
+    const BOOT_API = '${springBootApiUrl}';
+    console.log("로그아웃 버튼 클릭");
+    
+    $.ajax({
+      url: BOOT_API + '/auth/logout',
+      type: 'POST',
+      data: { email:"${sessionScope.loginMember.memberEmail}" },
+      xhrFields: { withCredentials: true },
+      success: function(resp){
+        console.log("Spring Boot 로그아웃 완료:", resp);
+        if (typeof clearAccessToken === 'function') {
+          clearAccessToken();
+        }
+      },
+      error: function(xhr, status, error){
+        console.warn("Spring Boot 로그아웃 실패:", error);
+      },
+      complete: function(){
+        alert('로그아웃 되었습니다.');
+        window.location.href = '${cpath}/auth/logout';
+      }
+    });
+  });
+
+  // 화면 밖 클릭시 모바일 메뉴 닫기
+  document.addEventListener('click', function(event) {
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuButton = document.getElementById('mobile-menu-button');
+    
+    if (mobileMenu && !mobileMenu.contains(event.target) && 
+        !menuButton.contains(event.target) && 
+        !mobileMenu.classList.contains('hidden')) {
+      closeMobileMenu();
+    }
+  });
+
+  // 화면 크기 변경시 모바일 메뉴 닫기
+  window.addEventListener('resize', function() {
+    if (window.innerWidth >= 768) {
+      closeMobileMenu();
+    }
+  });
+});
+</script>
