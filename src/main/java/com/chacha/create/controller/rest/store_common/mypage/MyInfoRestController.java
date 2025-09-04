@@ -11,20 +11,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.chacha.create.common.dto.boot.BootMemberDTO;
 import com.chacha.create.common.dto.error.ApiResponse;
 import com.chacha.create.common.entity.member.MemberEntity;
 import com.chacha.create.common.enums.error.ResponseCode;
 import com.chacha.create.service.store_common.mypage.MyInfoService;
+import com.chacha.create.util.BootAPIUtil;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Slf4j
+@RequiredArgsConstructor
 @RequestMapping("/legacy/{storeUrl}/mypage")
 public class MyInfoRestController {
 
-    @Autowired
-    private MyInfoService myInfoService;
+    private final MyInfoService myInfoService;
+    private final BootAPIUtil bootAPIUtil;
     
 	// 회원 정보 불러오기
 	@GetMapping
@@ -34,7 +38,17 @@ public class MyInfoRestController {
 			return ResponseEntity.status(ResponseCode.UNAUTHORIZED.getStatus())
 					.body(new ApiResponse<>(ResponseCode.UNAUTHORIZED, null));
 		}
-		return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, member));
+		BootMemberDTO bootMember = bootAPIUtil.getBootMemberDataByMemberId(member.getMemberId());
+		MemberEntity responseMember = MemberEntity.builder()
+				.memberId(bootMember.getId().intValue())
+				.memberEmail(bootMember.getEmail())
+				.memberName(bootMember.getName())
+				.memberPhone(bootMember.getPhone())
+				.memberRegi(bootMember.getRegistrationNumber())
+				.memberPwd(bootMember.getPassword())
+				.build();
+		log.debug(responseMember.toString());
+		return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, responseMember));
 	}
 
     
