@@ -88,7 +88,11 @@
       <!-- 로고 (왼쪽) - 하얀 박스 제거 -->
       <a href="${cpath}/main" class="flex items-center gap-2">
         <!-- 로고 이미지나 텍스트로 교체하거나 완전히 제거 -->
-        <span class="text-white font-bold text-lg">로고</span>
+        <img
+	    src="${cpath}/resources/images/logo/mainlogo_mob.png"
+	    alt="뜨락상회 로고"
+	    class="h-8 md:h-20 w-auto"
+	  />
       </a>
 
       <!-- 검색바 (중앙, flex-1로 공간 차지) -->
