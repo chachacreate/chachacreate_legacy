@@ -74,7 +74,7 @@ public class MainPageSellController {
         return "main/personal/orderManage";
     }
 
-    // 개인 판매 정산 페이지 ( /main/personalsell/settlement )
+    // 개인 판매 정산 페이지 ( /main/personal/sell/settlement )
     @GetMapping("/management")
     public String settlementPage(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
     	MemberEntity loginMember = null;

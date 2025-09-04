@@ -35,7 +35,7 @@ public class StoreInfoService {
             Integer sellerId = sellerMapper
                     .selectMemberIdForSellerId(storeMapper.selectByStoreUrl(storeUrl).getSellerId());
 
-            BootMemberDTO memberData = bootAPIUtil.getBootSellerDataBySellerId(sellerId);
+            BootMemberDTO memberData = bootAPIUtil.getBootMemberDataBySellerId(sellerId);
 
             List<SellerInfoDTO> result = new ArrayList<>();
             if (memberData != null) {

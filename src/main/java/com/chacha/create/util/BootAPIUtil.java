@@ -24,7 +24,7 @@ public class BootAPIUtil {
     /**
      * 부트 서버에서 판매자 정보 조회
      */
-    public BootMemberDTO getBootSellerDataBySellerId(Integer sellerId) {
+    public BootMemberDTO getBootMemberDataBySellerId(Integer sellerId) {
         String url = bootApiUrl + "/info/seller/" + sellerId;
 
         ResponseEntity<ApiResponse<BootMemberDTO>> response =
