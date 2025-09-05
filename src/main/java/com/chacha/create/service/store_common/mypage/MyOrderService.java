@@ -143,14 +143,14 @@ public class MyOrderService {
         return status == OrderStatusEnum.ORDER_OK;
     }
 
-    // ORDER_OK일 때만 true 반환(환불 가능)
+    // SHIPPED거나 DELIVERED일 때만 true 반환(환불 가능)
     private boolean isRefundable(OrderStatusEnum status) {
-        return status == OrderStatusEnum.ORDER_OK;
+        return status == OrderStatusEnum.SHIPPED || status == OrderStatusEnum.DELIVERED;
     }
 
-    // ORDER_OK거나 CONFIRM일 경우에만 true 반환(리뷰 작성 가능)
+    // DELIVERED(배송 완료)일 경우에만 true 반환(리뷰 작성 가능)
     private boolean canWriteReview(OrderStatusEnum status) {
-        return status == OrderStatusEnum.ORDER_OK || status == OrderStatusEnum.CONFIRM;
+        return status == OrderStatusEnum.DELIVERED;
     }
     
     // 배송 상태 체크
