@@ -545,7 +545,7 @@
 	    		      name: memberName,
 	    		      phone: memberPhone,
 	    		      registrationNumber: memberRegi},
-   		      "addr":{
+   		      "memberAddress":{
    		    	postNum: postNum,
    		    	addressRoad: addressRoad,
    		    	addressDetail : addressDetail,
