@@ -173,6 +173,7 @@ $(function () {
 		    success: function (res) {
 		      if (res.status === 200) {
 		        alert("비밀번호가 성공적으로 수정되었습니다.");
+		        $('.password-current').val('');
 		        $('.password').val('');
 		        $('.password-ok').val('');
 		        checkObj.passwordValid = false;
