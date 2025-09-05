@@ -610,7 +610,6 @@
 	    	                          alert('Legacy 서버 오류: ' + (xhrr.responseText || error));
 	    	                      }
 	    	                  });
-
 	    	                  console.log('자동 로그인 성공');
 	    	              } else {
 	    	                  alert('자동 로그인 실패');
