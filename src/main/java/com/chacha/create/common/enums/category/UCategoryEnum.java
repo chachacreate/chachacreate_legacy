@@ -38,7 +38,7 @@ public enum UCategoryEnum {
     FASHION(1, "패션잡화"),
     INTERIOR(2, "인테리어 소품"),
     ACCESSORY(3, "악세서리"),
-    LIFESTYLE(4, "생활잡화"),
+    LIFESTYLE(4, "케이스/문구"),
     ETC(5, "기타");
 
     /** DB의 u_category_id와 매핑되는 고유 ID */
