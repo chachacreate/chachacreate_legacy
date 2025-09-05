@@ -1,18 +1,14 @@
 package com.chacha.create.controller.rest.seller.product;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,14 +28,10 @@ import com.chacha.create.common.dto.product.ProductWithImagesDTO;
 import com.chacha.create.common.dto.product.ProductlistDTO;
 import com.chacha.create.common.entity.order.OrderInfoEntity;
 import com.chacha.create.common.entity.product.ProductEntity;
-import com.chacha.create.common.enums.category.DCategoryEnum;
-import com.chacha.create.common.enums.category.TypeCategoryEnum;
-import com.chacha.create.common.enums.category.UCategoryEnum;
 import com.chacha.create.common.enums.error.ResponseCode;
 import com.chacha.create.common.exception.InvalidRequestException;
 import com.chacha.create.service.seller.order.OrderManagementService;
 import com.chacha.create.service.seller.product.ProductService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -221,28 +213,5 @@ public class ProductRestController {
 	    }
 
 	    return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, "주문 상태 수정 성공"));
-	}
-	
-	@GetMapping("/category")
-	public Map<String, Object> showProductInsertForm(@PathVariable String storeUrl, Model model) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("typeCategories", TypeCategoryEnum.values());
-		map.put("uCategories", UCategoryEnum.values());
-
-	    // ✅ dCategory를 uCategory 기준으로 그룹핑해서 Map에 담기
-	    Map<Integer, List<Map<String, Object>>> dCategoriesByU = Arrays.stream(DCategoryEnum.values())
-	    	    .collect(Collectors.groupingBy(
-	    	        d -> d.getUcategory().getId(),  // key: uCategoryId
-	    	        Collectors.mapping(d -> {
-	    	            Map<String, Object> map2 = new HashMap<>();
-	    	            map2.put("id", d.getId());
-	    	            map2.put("name", d.getName());
-	    	            return map2;
-	    	        }, Collectors.toList())
-	    	    ));
-
-	    map.put("dCategoriesByU", dCategoriesByU); // ✅ Map<Integer, List<id-name>> 형태
-
-	    return map;
 	}
 }
