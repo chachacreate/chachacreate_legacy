@@ -163,7 +163,7 @@ $(function () {
 		  };
 		
 		  $.ajax({
-		    url: `http://localhost:8888/api/mypage/changepwd`, // Boot API
+		    url: `/api/mypage/changepwd`, // Boot API
 		    type: "PATCH",
 		    contentType: "application/json; charset=UTF-8",
 		    headers: {
