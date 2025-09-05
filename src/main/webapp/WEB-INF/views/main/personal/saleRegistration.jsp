@@ -40,7 +40,7 @@
     <li>상세 설명</li>
   </ul>
 
-    <button class="open-store-btn">스토어 개설 신청</button>
+    <button class="open-store-btn" onclick="location.href='${cpath}/main/store/openform'">스토어 개설 신청</button>
   </div>
 
   <!-- ✅ Swiper 슬라이드 전체 -->
@@ -758,9 +758,9 @@ $('#submit-btn2').click(function () {
 	  formData.append('dcategoryId', dcategoryId);
 	  
 	  // 파일 객체들을 FormData에 추가
-	  if (pimgFile1) formData.append('image1', pimgFile4);
-	  if (pimgFile2) formData.append('image2', pimgFile5);
-	  if (pimgFile3) formData.append('image3', pimgFile6);
+	  if (pimgFile4) formData.append('image1', pimgFile4);
+	  if (pimgFile5) formData.append('image2', pimgFile5);
+	  if (pimgFile6) formData.append('image3', pimgFile6);
 
 	  $.ajax({
 	    url: '${cpath}/legacy/main/sell/sellregister',
@@ -850,9 +850,9 @@ $('#edit-btn2').on('click', function() {
  	  formData.append('dcategoryId', dcategoryId);
  	  
  	  // 파일 객체들을 FormData에 추가
- 	  if (pimgFile1) formData.append('image1', pimgFile4);
- 	  if (pimgFile2) formData.append('image2', pimgFile5);
- 	  if (pimgFile3) formData.append('image3', pimgFile6);
+ 	  if (pimgFile4) formData.append('image1', pimgFile4);
+ 	  if (pimgFile5) formData.append('image2', pimgFile5);
+ 	  if (pimgFile6) formData.append('image3', pimgFile6);
      $.ajax({
          url: '${cpath}/legacy/main/sell/sellregister/update',
          method: 'POST',
