@@ -53,14 +53,19 @@
             <label>이메일</label>
             <input type="email" class="email" disabled />
           </div>
+          
+                    <div class="form-group">
+            <label>현재 비밀번호</label>
+            <input type="password" class="password-current" placeholder="변경할 비밀번호 입력" />
+          </div>
 
           <div class="form-group">
-            <label>비밀번호</label>
+            <label>새 비밀번호</label>
             <input type="password" class="password" placeholder="변경할 비밀번호 입력" />
           </div>
 
           <div class="form-group">
-            <label>비밀번호 확인</label>
+            <label>새 비밀번호 확인</label>
             <input type="password" class="password-ok" placeholder="비밀번호 확인" />
           </div>
 
