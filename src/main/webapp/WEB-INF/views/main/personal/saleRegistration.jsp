@@ -40,7 +40,7 @@
     <li>상세 설명</li>
   </ul>
 
-    <button class="open-store-btn" onclick="location.href='${cpath}/main/store/openform'">스토어 개설 신청</button>
+    <button class="open-store-btn" onclick="location.href='${cpath}/main/store/description'">스토어 개설 신청</button>
   </div>
 
   <!-- ✅ Swiper 슬라이드 전체 -->
