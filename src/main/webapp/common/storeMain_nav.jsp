@@ -35,7 +35,7 @@
 				class="nav-item ${fn:contains(uri, '/main/notice') ? 'active' : ''}">
 				공지/소식 </a>
 			<c:if test="${loginMember.memberId == storeOwnerId}">
-				<a href="${cpath}/${storeUrl}/seller/main" class="nav-item">스토어 관리자 가기</a>
+				<a href="${cpath}/seller/${storeUrl}/main" class="nav-item">스토어 관리자 가기</a>
 			</c:if>
 			<a href="${cpath}/main" class="nav-item">메인 홈 가기</a> 
 		</div>
