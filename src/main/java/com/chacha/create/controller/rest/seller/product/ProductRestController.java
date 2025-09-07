@@ -76,13 +76,13 @@ public class ProductRestController {
 
 	// 상품 삭제 (논리 삭제)
 	@DeleteMapping(value = "/products", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<Void>> deleteFlagshipBatch(@RequestBody List<ProductEntity> productList) {
-        int result = productService.productDeleteByEntities(productList);
-        if (result > 0) {
-            return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, "상품 삭제 성공"));
-        }
-        return ResponseEntity.badRequest().body(new ApiResponse<>(ResponseCode.BAD_REQUEST, "상품 삭제 실패"));
-    }
+	public ResponseEntity<ApiResponse<Void>> toggleDeleteCheck(@RequestBody List<ProductEntity> productList) {
+	    int result = productService.updateDeleteCheckBatch(productList);
+	    if (result > 0) {
+	        return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, "delete_check 토글(복구/삭제) 완료"));
+	    }
+	    return ResponseEntity.badRequest().body(new ApiResponse<>(ResponseCode.BAD_REQUEST, "delete_check 토글 실패"));
+	}
 
 	// 상품 입력
 	@PostMapping(

@@ -129,35 +129,21 @@ public class ProductService {
 	}
 	
 	@Transactional(rollbackFor = Exception.class)
-	public int productDeleteByEntities(List<ProductEntity> productList) {
+	public int updateDeleteCheckBatch(List<ProductEntity> productList) {
 	    int result = 0;
-
 	    for (ProductEntity entity : productList) {
-	        // S3에서 이미지 파일 삭제 (원본 + 썸네일)
-	        List<PImgEntity> images = pimgMapper.selectByProductId(entity.getProductId());
-	        for (PImgEntity image : images) {
-	            if (image.getPimgUrl() != null && !image.getPimgUrl().isEmpty()) {
-	                deleteImageWithThumbnail(image.getPimgUrl());
-	            }
-	        }
-	        
-	        int updated = productDetailMapper.updateDeleteCheck(entity.getProductId());
-	        if (updated > 0) {
-	            log.info("상품 ID " + entity.getProductId() + " 논리 삭제 성공");
-	            result += updated;
-	        } else {
-	        	log.info("상품 ID " + entity.getProductId() + " 이미 삭제되었거나 존재하지 않음");
-	        }
+	        Integer dc = entity.getDeleteCheck();
+	        if (dc == null) continue; // 값 없으면 스킵
+
+	        java.util.Map<String,Object> param = new java.util.HashMap<>();
+	        param.put("productId", entity.getProductId());
+	        param.put("deleteCheck", dc); // 0=복구, 1=삭제
+	        int updated = productDetailMapper.updateDeleteCheckById(param);
+	        result += updated;
 	    }
 	    return result;
 	}
-	
-    public ProductUpdateDTO getProductDetail(String storeUrl, int productId) {
-        ProductUpdateDTO product = productDetailMapper.updateProductDetail(storeUrl, productId);
-        
-        // 이미 Full URL이 저장되어 있으므로 변환 불필요
-        return product;
-    }
+
     
     @Transactional
     public boolean updateProductDetailWithImages(String storeUrl, ProductUpdateDTO dto,
@@ -325,4 +311,9 @@ public class ProductService {
         // 이미 Full URL이 저장되어 있으므로 변환 불필요
         return products;
     }
+
+	public ProductUpdateDTO getProductDetail(String storeUrl, int productId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

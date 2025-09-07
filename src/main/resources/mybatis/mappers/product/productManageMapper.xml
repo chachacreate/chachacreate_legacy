@@ -91,37 +91,35 @@
 		p.product_id = #{productId}
 	</select>
 
-	<select id="selectAllByStoreUrl"
-		resultType="productlistDTO">
-		SELECT
-		p_img.p_img_url,
-		p.product_id,
-		p.product_name,
-		p.price,
-		p.stock,
-		t.type_category_name,
-		u.u_category_name,
-		d.d_category_name,
-		p.product_date,
-		p.last_modified_date,
-		p.flagship_check
-		FROM
-		product p
-		JOIN
-		p_img p_img ON p.product_id = p_img.product_id
-		JOIN
-		type_category t using (type_category_id)
-		JOIN
-		d_category d using (d_category_id)
-		JOIN
-		u_category u using (u_category_id)
-		JOIN
-		store s using (store_id)
-		WHERE
-		p_img.p_img_enum = 'THUMBNAIL'
-		AND p_img.p_img_seq = 1
-		AND p.delete_check = 0
-		AND s.store_url = #{storeUrl}
+	<select id="selectAllByStoreUrl" resultType="productlistDTO">
+	  SELECT
+	    p_img.p_img_url,
+	    p.product_id,
+	    p.product_name,
+	    p.price,
+	    p.stock,
+	    -- ✅ 중분류(여기서는 U 카테고리를 중분류로 사용)
+	    u.u_category_name   AS middle_category_name,
+	    -- 참고로 기존 컬럼도 유지
+	    t.type_category_name,
+	    u.u_category_name,
+	    d.d_category_name,
+	    p.product_date,
+	    p.last_modified_date,
+	    p.flagship_check,
+	    -- ✅ 삭제 여부 내려보냄
+	    p.delete_check      AS delete_check
+	  FROM product p
+	  JOIN p_img p_img ON p.product_id = p_img.product_id
+	  JOIN type_category t USING (type_category_id)
+	  JOIN d_category d USING (d_category_id)
+	  JOIN u_category u USING (u_category_id)
+	  JOIN store s USING (store_id)
+	  WHERE p_img.p_img_enum = 'THUMBNAIL'
+	    AND p_img.p_img_seq  = 1
+	    AND s.store_url = #{storeUrl}
+	  -- ✅ delete_check=0 먼저, 같은 값 내에서는 최신 등록일 내림차순
+	  ORDER BY p.delete_check ASC, p.product_date DESC
 	</select>
 
 	<update id="updateFlagship"
@@ -142,11 +140,12 @@
 		AND p.delete_check = 0
 	</select>
 
-	<update id="updateDeleteCheck" parameterType="int">
-		UPDATE product
-		SET delete_check = 1
-		WHERE product_id = #{productId}
-		AND delete_check = 0
+	<update id="updateDeleteCheckById" parameterType="map">
+	  UPDATE product
+	     SET delete_check = #{deleteCheck},
+	         flagship_check = CASE WHEN #{deleteCheck} = 1 THEN 0 ELSE flagship_check END,
+	         last_modified_date = SYSDATE
+	   WHERE product_id = #{productId}
 	</update>
 
 </mapper>
