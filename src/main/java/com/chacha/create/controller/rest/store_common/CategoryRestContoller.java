@@ -21,26 +21,39 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequestMapping("/legacy")
 public class CategoryRestContoller {
-	@GetMapping("/category")
-	public Map<String, Object> showProductInsertForm(Model model) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("typeCategories", TypeCategoryEnum.values());
-		map.put("uCategories", UCategoryEnum.values());
 
-	    // ✅ dCategory를 uCategory 기준으로 그룹핑해서 Map에 담기
-	    Map<Integer, List<Map<String, Object>>> dCategoriesByU = Arrays.stream(DCategoryEnum.values())
-	    	    .collect(Collectors.groupingBy(
-	    	        d -> d.getUcategory().getId(),  // key: uCategoryId
-	    	        Collectors.mapping(d -> {
-	    	            Map<String, Object> map2 = new HashMap<>();
-	    	            map2.put("id", d.getId());
-	    	            map2.put("name", d.getName());
-	    	            return map2;
-	    	        }, Collectors.toList())
-	    	    ));
+    @GetMapping("/category")
+    public Map<String, Object> showProductInsertForm(Model model) {
+        Map<String, Object> map = new HashMap<>();
 
-	    map.put("dCategoriesByU", dCategoriesByU); // ✅ Map<Integer, List<id-name>> 형태
+        // ✅ id/name 배열로 내려주기
+        map.put("typeCategories",
+            Arrays.stream(TypeCategoryEnum.values())
+                .map(t -> Map.of("id", t.getId(), "name", t.getName()))
+                .collect(Collectors.toList())
+        );
 
-	    return map;
-	}
+        map.put("uCategories",
+            Arrays.stream(UCategoryEnum.values())
+                .map(u -> Map.of("id", u.getId(), "name", u.getName()))
+                .collect(Collectors.toList())
+        );
+
+        // ✅ dCategory는 이미 id/name로 내려가고 있음
+        Map<Integer, List<Map<String, Object>>> dCategoriesByU =
+            Arrays.stream(DCategoryEnum.values())
+                .collect(Collectors.groupingBy(
+                    d -> d.getUcategory().getId(),
+                    Collectors.mapping(d -> {
+                        Map<String, Object> m2 = new HashMap<>();
+                        m2.put("id", d.getId());
+                        m2.put("name", d.getName());
+                        return m2;
+                    }, Collectors.toList())
+                ));
+
+        map.put("dCategoriesByU", dCategoriesByU);
+        return map;
+    }
 }
+

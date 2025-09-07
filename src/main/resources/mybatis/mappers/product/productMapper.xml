@@ -1,80 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chacha.create.common.mapper.product.ProductMapper">
 
-	<resultMap id="productResultMap" type="productEntity">
-		<id property="productId" column="product_id" />
-		<result property="storeId" column="store_id" />
-		<result property="typeCategoryId" column="type_category_id" />
-		<result property="dcategoryId" column="d_category_id" />
-		<result property="productName" column="product_name" />
-		<result property="price" column="price" />
-		<result property="productDetail" column="product_detail" />
-		<result property="stock" column="stock" />
-		<result property="productDate" column="product_date" />
-		<result property="lastModifiedDate" column="last_modified_date" />
-		<result property="saleCnt" column="sale_cnt" />
-		<result property="viewCnt" column="view_cnt" />
-		<result property="flagshipCheck" column="flagship_check" />
-	</resultMap>
+  <resultMap id="productResultMap" type="productEntity">
+    <id property="productId" column="product_id"/>
+    <result property="storeId" column="store_id"/>
+    <result property="typeCategoryId" column="type_category_id"/>
+    <result property="dcategoryId" column="d_category_id"/>
+    <result property="productName" column="product_name"/>
+    <result property="price" column="price"/>
+    <result property="productDetail" column="product_detail"/>
+    <result property="stock" column="stock"/>
+    <result property="productDate" column="product_date"/>
+    <result property="lastModifiedDate" column="last_modified_date"/>
+    <result property="saleCnt" column="sale_cnt"/>
+    <result property="viewCnt" column="view_cnt"/>
+    <result property="flagshipCheck" column="flagship_check"/>
+    <!-- delete_check를 쓰면 여기도 매핑 추가 -->
+  </resultMap>
 
-	<select id="selectAll" resultMap="productResultMap">
-		SELECT * FROM product
-	</select>
+  <select id="selectAll" resultMap="productResultMap">
+    SELECT * FROM product
+  </select>
 
-	<select id="selectByProductId" resultMap="productResultMap">
-		SELECT * FROM product WHERE product_id = #{productId}
-	</select>
+  <select id="selectByProductId" resultMap="productResultMap">
+    SELECT * FROM product WHERE product_id = #{productId}
+  </select>
 
-	<select id="selectByStoreId" resultMap="productResultMap">
-		SELECT * FROM product WHERE store_id = #{storeId}
-	</select>
+  <select id="selectByStoreId" resultMap="productResultMap">
+    SELECT * FROM product WHERE store_id = #{storeId}
+  </select>
 
-	<insert id="insert" parameterType="productEntity">
-	    <selectKey keyProperty="productId" resultType="int" order="BEFORE">
-	        SELECT seq_product_id.NEXTVAL FROM dual
-	    </selectKey>
-	    INSERT INTO product (
-	        product_id, store_id, type_category_id, d_category_id, product_name,
-	        price, product_detail, stock, product_date, last_modified_date,
-	        sale_cnt, view_cnt, flagship_check, delete_check
-	    ) VALUES (
-	        #{productId}, #{storeId}, #{typeCategoryId}, #{dcategoryId}, #{productName},
-	        #{price}, #{productDetail}, #{stock}, #{productDate},
-	        sysdate,
-	        0, 0, 0, 0
-	    )
+  <insert id="insert" parameterType="productEntity">
+  <selectKey keyProperty="productId" resultType="int" order="BEFORE">
+    SELECT seq_product_id.NEXTVAL FROM dual
+  </selectKey>
+  INSERT INTO product (
+    product_id, store_id, type_category_id, d_category_id, product_name,
+    price, product_detail, stock, product_date, last_modified_date,
+    sale_cnt, view_cnt, flagship_check, delete_check
+  ) VALUES (
+    #{productId}, #{storeId}, #{typeCategoryId}, #{dcategoryId}, #{productName},
+    #{price}, #{productDetail,jdbcType=CLOB},
+    #{stock},
+    NVL(#{productDate,jdbcType=TIMESTAMP}, SYSDATE),
+    SYSDATE, 0, 0, 0, 0
+  )
 	</insert>
 
-	<update id="update" parameterType="productEntity">
-		UPDATE product
-		SET store_id = #{storeId},
-		type_category_id = #{typeCategoryId},
-		d_category_id = #{dcategoryId},
-		product_name = #{productName},
-		price = #{price},
-		product_detail = #{productDetail},
-		stock = #{stock},
-		product_date = #{productDate},
-		last_modified_date = sysdate,
-		sale_cnt = #{saleCnt},
-		view_cnt = #{viewCnt}
-		flagship_check = #{flagshipCheck}
-		WHERE product_id = #{productId}
-	</update>
+  <update id="update" parameterType="productEntity">
+    UPDATE product
+    SET
+      store_id = #{storeId},
+      type_category_id = #{typeCategoryId},
+      d_category_id = #{dcategoryId},
+      product_name = #{productName},
+      price = #{price},
+      product_detail = #{productDetail,jdbcType=CLOB},
+      stock = #{stock},
+      -- product_date 는 생성일이므로 수정하지 않음
+      last_modified_date = SYSDATE,
+      sale_cnt = #{saleCnt},
+      view_cnt = #{viewCnt},
+      flagship_check = #{flagshipCheck}
+    WHERE product_id = #{productId}
+  </update>
 
-	<delete id="delete" parameterType="int">
-		DELETE FROM product WHERE product_id = #{productId}
-	</delete>
-	
-	<select id="selectForStoreIdByStoreUrl" resultType="int">
-    	SELECT store_id FROM store WHERE store_url = #{storeUrl}
-	</select>
-	
-	<select id="selectForStoreIdByProductId" resultType="int">
-		SELECT store_id FROM product WHERE product_id = #{productId}
-	</select>
+  <delete id="delete" parameterType="int">
+    DELETE FROM product WHERE product_id = #{productId}
+  </delete>
 
+  <select id="selectForStoreIdByStoreUrl" resultType="int">
+    SELECT store_id FROM store WHERE store_url = #{storeUrl}
+  </select>
+
+  <select id="selectForStoreIdByProductId" resultType="int">
+    SELECT store_id FROM product WHERE product_id = #{productId}
+  </select>
 </mapper>

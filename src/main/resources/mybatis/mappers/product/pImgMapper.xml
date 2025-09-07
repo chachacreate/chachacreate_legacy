@@ -24,10 +24,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT * FROM p_img WHERE product_id = #{productId}
     </select>
 
-    <insert id="insert" parameterType="pImgEntity">
-        INSERT INTO p_img (p_img_id, product_id, p_img_url, p_img_enum, p_img_seq)
-        VALUES (seq_p_img_id.NEXTVAL, #{productId}, #{pimgUrl}, #{pimgEnum}, #{pimgSeq})
-    </insert>
+	<insert id="insert" parameterType="pImgEntity">
+	  INSERT INTO p_img (p_img_id, product_id, p_img_url, p_img_enum, p_img_seq)
+	  VALUES (seq_p_img_id.NEXTVAL, #{productId}, #{pimgUrl}, #{pimgEnum,jdbcType=VARCHAR}, #{pimgSeq})
+	</insert>
 
     <update id="update" parameterType="pImgEntity">
         UPDATE p_img
