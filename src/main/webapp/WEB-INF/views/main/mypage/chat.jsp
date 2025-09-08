@@ -141,28 +141,54 @@ function loadChatRooms() {
             console.log('API Response:', response); // 디버깅을 위한 로그
             
             // ApiResponse 구조에서 실제 데이터 추출
-            const chatrooms = response.data || response;
+            const allChatrooms = response.data || response;
             
             const $list = $("#chat-room-list");
             $list.empty();
 
             // chatrooms가 배열인지 확인
-            if(!Array.isArray(chatrooms)) {
-                console.error('Expected array but got:', typeof chatrooms, chatrooms);
+            if(!Array.isArray(allChatrooms)) {
+                console.error('Expected array but got:', typeof allChatrooms, allChatrooms);
                 $list.append('<li class="no-chatrooms">채팅방 데이터 형식 오류</li>');
                 return;
             }
 
-            if(chatrooms.length === 0) {
+            // ✅ 필터링 로직: personal_내이름_상대방이름 패턴만 조회
+            const filteredChatrooms = allChatrooms.filter(room => {
+                
+                // 1. personal_로 시작하지 않으면 제외
+                if (!room.chatroomId || !room.chatroomId.startsWith('personal_')) {
+                    return false;
+                }
+                
+                // 2. personal_ 제거 후 이름 분석
+                const namesPart = room.chatroomId.substring('personal_'.length);
+                const names = namesPart.split('_');
+                
+                
+                // 3. 정확히 2개의 이름이 있어야 함
+                if (names.length !== 2) {
+                    console.log('제외: 이름 개수가 2개가 아님');
+                    return false;
+                }
+                
+                const [myName, partnerName] = names;
+                
+                // 4. 첫 번째 이름이 현재 사용자와 일치하는지 확인
+                const isMatch = myName === currentUser.name;
+                
+                return isMatch;
+            });
+
+            if(filteredChatrooms.length === 0) {
                 $list.append('<li class="no-chatrooms">채팅방이 없습니다.</li>');
                 return;
             }
 
-            chatrooms.forEach(room => {
+            filteredChatrooms.forEach(room => {
                 const partnerName = getPartnerName(room);
                 const lastMessage = room.lastMessage || '새 채팅방';
                 
-                // 백슬래시 제거하고 올바른 템플릿 리터럴 사용
                 const itemHtml = `
                     <li class="chat-room-item" data-room-id="\${room.chatroomId}">
                         <div class="chat-room-name">\${partnerName}</div>
@@ -178,12 +204,25 @@ function loadChatRooms() {
         }
     });
 }
-// 상대방 이름 추출 (나를 제외한 다른 사용자)
+//상대방 이름 추출 (나를 제외한 다른 사용자)
 function getPartnerName(room) {
-    console.log('Room object:', room); // 디버깅용
     
     if(room.chatroomId && room.chatroomId.startsWith('admin_')) {
         return '관리자';
+    }
+    
+    // personal_ 접두사가 있는 경우 ID에서 상대방 이름 추출
+    if(room.chatroomId && room.chatroomId.startsWith('personal_')) {
+        const namesPart = room.chatroomId.substring('personal_'.length);
+        const names = namesPart.split('_');
+        
+        if (names.length === 2) {
+            const [myName, partnerName] = names;
+            // 내 이름이 첫 번째에 있다면 두 번째가 상대방 이름
+            if (myName === currentUser.name) {
+                return partnerName;
+            }
+        }
     }
     
     // memberNames 배열에서 현재 사용자가 아닌 다른 사용자 찾기
