@@ -19,6 +19,9 @@
 *.tar.gz
 *.rar
 
+# === 배포 파일에 필요한 jar만 추가 ===
+!files/*.jar
+
 # === JVM 크래시 로그 ===
 hs_err_pid*
 replay_pid*
