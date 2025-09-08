@@ -5,6 +5,40 @@
 <c:set var="cpath" value="${pageContext.servletContext.contextPath}" />
 <c:set var="uri" value="${pageContext.request.requestURI}" />
 
+<!-- 디버깅용 - 실제 요청 경로 확인 -->
+<%-- <div style="position: fixed; top: 100px; left: 10px; background: red; color: white; padding: 10px; z-index: 9999; font-size: 12px; width: 400px;">
+    URI: ${uri}<br/>
+    ServletPath: ${servletPath}<br/>
+    RequestURL: ${requestURL}<br/>
+    Context Path: ${cpath}
+</div> --%>
+
+<!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts - Jua -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+
+  <script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          'jua': ['Jua', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        },
+        colors: {
+          'brand-900': '#2D4739',
+        },
+        maxWidth: {
+          '1440': '1440px',
+        }
+      }
+    }
+  }
+  </script>
+
 <aside class="sidebar">
   <ul>
     <li>
