@@ -5,7 +5,7 @@ MAINTAINER "chachacreate<kirk0221@naver.com>"
 # 기본 웹앱 제거
 RUN rm -rf /usr/local/tomcat/webapps/*
 
-# 환경변수 설정 (server.xml에서 사용)
+# 환경변수 설정 (외부 톰켓 서버에서 사용)
 ENV TZ=Asia/Seoul
 
 # 시간대 설정
@@ -14,8 +14,9 @@ RUN ln -snf /usr/share/zoneinfo/Asia/Seoul /etc/localtime && echo Asia/Seoul > /
 # WAR 파일 직접 배포
 ADD target/ROOT.war /usr/local/tomcat/webapps/ROOT.war
 
-# server.xml 복사
+# 외부 톰켓 서버 설정 복사
 ADD files/server.xml /usr/local/tomcat/conf/server.xml
+ADD files/context.xml /usr/local/tomcat/conf/server.xml
 
 # ojdbc11 복사
 ADD files/ojdbc11-21.9.0.0.jar /usr/local/tomcat/lib/
