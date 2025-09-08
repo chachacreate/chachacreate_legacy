@@ -86,6 +86,11 @@
 	        <param-value>true</param-value>
 	    </init-param>
 	</filter>
+
+	<filter-mapping>
+	    <filter-name>corsFilter</filter-name>
+	    <url-pattern>/*</url-pattern>
+	</filter-mapping>
 	
 	<!-- 로그인 필터 -->
 	<filter>
