@@ -13,7 +13,7 @@ $(document).ready(function () {
         url: `http://localhost:8888/api/info/memberAddress/${loginMember.memberId}`,
         type: 'GET',
         success: function (data) {
-        console.log(data);
+          console.log(data);
           if (data.status === 200) {
             const addr = data.data;
             $('#sample6_postcode').val(addr.postNum);
@@ -56,7 +56,7 @@ $(document).ready(function () {
     console.error("JSON 파싱 오류", e);
     return;
   }
-  
+
   const isFromCart = products.some(p => p.cartId !== undefined && p.cartId !== null);
 
   const $container = $('#productContainer');
@@ -104,13 +104,11 @@ $(document).ready(function () {
     </div>`);
 
   finalTotal = totalPrice;
-  if (productCount > 0) {
-    productName += " 외 " + productCount + "개의 상품";
-  }
+  // productTitle은 한 번만 만들자 (중복 누적 방지)
+  const productTitle = (productCount > 1) ? `${productName} 외 ${productCount}개의 상품` : productName;
 
   $('#finalTotal').text(`${finalTotal.toLocaleString()} 원`);
 
-  // 결제 버튼 클릭 시
   $('#pay-btn').click(function () {
     const detailAddress = $('#sample6_detailAddress').val().trim();
     if (detailAddress === "" || $('#sample6_postcode').val().trim() === "") {
@@ -119,38 +117,46 @@ $(document).ready(function () {
       return;
     }
 
-    if (productCount > 1) {
-      productName += " 외 " + productCount + "개의 상품";
-    }
-
     IMP.init("imp85735807");
     IMP.request_pay({
       pg: 'html5_inicis',
       pay_method: 'card',
       merchant_uid: 'merchant_' + new Date().getTime(),
-      name: productName,
+      name: productTitle,
       amount: parseInt(finalTotal),
       buyer_email: loginMember.memberEmail,
       buyer_name: loginMember.memberName,
     }, function (rsp) {
       if (rsp.success) {
+        // 체크박스 상태 확인
+        const useDefaultAddr = $('#addrCheck').is(':checked') || $('#checkAddrVal').val() === "1";
+
+        // 안전 체크: 기본주소 사용인데 addrId가 비어있다면 로딩 문제일 수 있음
+        if (useDefaultAddr && !$('#addrId').val()) {
+          alert('기본 배송지 로딩이 아직 완료되지 않았습니다. 잠시만 기다려 주세요.');
+          return;
+        }
+
+        // bootAddr 세팅 (기본주소 사용이면 null, 새 주소이면 값 세팅)
+        let bootAddr = null;
+        if (!useDefaultAddr) {
+          bootAddr = {
+            postNum: $('#sample6_postcode').val() || null,
+            addressRoad: $('#sample6_address').val() || null,
+            addressDetail: $('#sample6_detailAddress').val() || null,
+            addressExtra: $('#sample6_extraAddress').val() || null
+          };
+        }
+
+        // orderInfo, detailList 생성 (DTO 전에)
         const orderInfo = {
           memberId: loginMember.memberId,
           orderDate: new Date().toISOString().slice(0, 10),
           orderName: $('#receiverName').val(),
           orderPhone: $('#receiverPhone').val(),
-          addressId: $('#addrId').val() || null,
+          addressId: useDefaultAddr ? ($('#addrId').val() || null) : null,
           cardId: null,
           orderStatus: "ORDER_OK"
-        };
-
-        const addr = {
-          addressId: $('#addrId').val() || null,
-          postNum: $('#sample6_postcode').val(),
-          addressRoad: $('#sample6_address').val(),
-          addressDetail: $('#sample6_detailAddress').val(),
-          addressExtra: $('#sample6_extraAddress').val(),
-          addressCheck: $('#checkAddrVal').val()
         };
 
         const detailList = products.map(item => ({
@@ -159,15 +165,23 @@ $(document).ready(function () {
           orderCnt: item.productCnt,
           orderPrice: item.price * item.productCnt
         }));
-
-        if ($('#checkAddrVal').val() === "1") newAddr = true;
+        
+        if (useDefaultAddr) {
+		    // 기본 주소 쓰는 경우 → 기본 주소 ID 세팅
+		    orderInfo.addressId = defaultAddrId;  
+		} else {
+		    // 새 주소 쓰는 경우 → 서버에서 bootAddr insert 하도록 null
+		    orderInfo.addressId = null; 
+		}
 
         const orderRequestDTO = {
           orderInfo,
-          addr,
           detailList,
-          newAddr
+          bootAddr,            // 새 주소만 들어감 (기본주소면 null)
+          newAddr: !useDefaultAddr // 체크 안 하면 새 주소(true)
         };
+
+        console.log('DEBUG sending DTO:', orderRequestDTO);
 
         $.ajax({
           type: "POST",
@@ -178,16 +192,12 @@ $(document).ready(function () {
             if (response.status === 201) {
               const orderid = parseInt(response.data);
 
-              // 장바구니 상품일 경우에만 삭제 실행
+              // 장바구니 상품 삭제
               if (isFromCart) {
                 const cartIds = products.map(p => p.cartId).filter(id => id);
                 const deletePromises = cartIds.map(cartId =>
-                  $.ajax({
-                    url: `${cpath}/legacy/main/mypage/cart/delete/${cartId}`,
-                    type: 'DELETE'
-                  })
+                  $.ajax({ url: `${cpath}/legacy/main/mypage/cart/delete/${cartId}`, type: 'DELETE' })
                 );
-
                 Promise.all(deletePromises)
                   .then(() => {
                     alert("주문이 완료되었습니다. 주문번호 : " + orderid);
@@ -199,7 +209,6 @@ $(document).ready(function () {
                     location.href = `${cpath}/main/order/complete/${orderid}`;
                   });
               } else {
-                // 단일상품 주문일 경우
                 alert("주문이 완료되었습니다. 주문번호 : " + orderid);
                 sessionStorage.removeItem("orderItems");
                 location.href = `${cpath}/main/order/complete/${orderid}`;
@@ -216,7 +225,7 @@ $(document).ready(function () {
       }
     });
   });
-});
+}); // end document.ready
 
 function updateValue() {
   const check = document.getElementById("addrCheck").checked;

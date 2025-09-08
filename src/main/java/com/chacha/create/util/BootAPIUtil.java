@@ -147,4 +147,23 @@ public class BootAPIUtil {
         log.debug("getMemberAddressByAddressId Response: {}", data);
         return data;
     }
+    
+    // 회원 주소 정보 등록 (memberId로)
+    public BootAddressDTO insertBootMemberAddress(Integer memberId, BootAddressDTO newAddr) {
+        String url = bootApiUrl + "/info/memberAddress/" + memberId + "/insert";
+
+        HttpEntity<BootAddressDTO> requestEntity = new HttpEntity<>(newAddr);
+
+        ResponseEntity<ApiResponse<BootAddressDTO>> response = restTemplate.exchange(
+                url,
+                HttpMethod.POST,
+                requestEntity,
+                new ParameterizedTypeReference<ApiResponse<BootAddressDTO>>() {}
+        );
+
+        BootAddressDTO data = response.getBody() != null ? response.getBody().getData() : null;
+        log.debug("insertBootMemberAddress Response: {}", data);
+        return data;
+    }
+
 }
