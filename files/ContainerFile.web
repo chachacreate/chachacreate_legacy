@@ -20,4 +20,9 @@ ADD files/server.xml /usr/local/tomcat/conf/server.xml
 # ojdbc11 복사
 ADD files/ojdbc11-21.9.0.0.jar /usr/local/tomcat/lib/
 
+# DB보안 파일 복사
+ADD files/oraclepki-21.9.0.0.jar /usr/local/tomcat/lib/
+ADD files/osdt_cert-21.9.0.0.jar /usr/local/tomcat/lib/
+ADD files/osdt_core-21.9.0.0.jar /usr/local/tomcat/lib/
+
 EXPOSE 8080
