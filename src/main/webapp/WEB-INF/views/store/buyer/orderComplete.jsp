@@ -95,9 +95,17 @@
             $('#orderName').text(data.orderName);
             $('#orderPhone').text(data.orderPhone);
 
-            // 주소 한 줄 조합
-            const fullAddress = `\${data.postNum} \${data.addressRoad}, \${data.addressDetail} \${data.addressExtra}`;
-            $('#fullAddress').text(fullAddress);
+            // 주소 한 줄 조합을 위한 정보
+			const parts = [
+			    data.postNum || '',
+			    data.addressRoad || '',
+			    data.addressDetail || '',
+			    data.addressExtra || ''
+			];
+			
+			// 공백 제거 + null/false 무시
+			const fullAddress = parts.filter(part => part && part.toString().trim() !== '').join(' ');
+			$('#fullAddress').text(fullAddress);
 
             // 총 결제 금액
             $('#itemTotal').text(`\${data.totalAmount} 원`);
@@ -112,7 +120,7 @@
 
               const $item = $(`
                 <div class="order-grid order-item" data-product-id="\${item.productId}" data-store-url="\${item.storeUrl}">
-                  <img src="${pageContext.request.contextPath}/resources/productImages/\${item.pimgUrl}" alt="상품 이미지" class="product-image" />
+                  <img src="${item.pimgUrl}" alt="상품 이미지" class="product-image" />
                   <div class="productName">\${item.productName}</div>
                   <div class="orderCnt">\${item.orderCnt}</div>
                   <div class="orderPrice">\${itemTotal} 원</div>

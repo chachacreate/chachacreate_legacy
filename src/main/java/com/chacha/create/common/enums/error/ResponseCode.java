@@ -36,7 +36,13 @@ public enum ResponseCode {
     NOT_IMPLEMENTED(501, "구현되지 않은 기능입니다."),
     BAD_GATEWAY(502, "잘못된 게이트웨이입니다."),
     SERVICE_UNAVAILABLE(503, "서비스를 사용할 수 없습니다."),
-    GATEWAY_TIMEOUT(504, "게이트웨이 시간 초과입니다.");
+    GATEWAY_TIMEOUT(504, "게이트웨이 시간 초과입니다."),
+	
+	
+	// 주문 조회
+	ORDER_STATUS_OK(200, "상태별 조회가 완료되었습니다."),
+	ORDER_STATUS_FAIL(200, "상태 오류, 전체 조회로 대체됩니다."),
+	ORDER_NOT_STATUS(200, "주문 목록 전체 조회가 완료되었습니다.");
 
     private final int status;
     private final String message;

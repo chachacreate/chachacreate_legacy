@@ -100,6 +100,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    oi.order_date,
 		    oi.order_name,
 		    oi.order_status,
+		    oi.address_id,
 		
 		    od.order_detail_id,
 		    od.order_cnt,
@@ -109,12 +110,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    p.store_id,
 		    p.product_name,
 		    p.price,
-		
-		    a.address_id,
-		    a.post_num,
-		    a.address_road,
-		    a.address_detail,
-		    a.address_extra,
 		    
 		    c.card_id,
 		    c.card_num,
@@ -122,7 +117,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM order_info oi
 		JOIN order_detail od ON oi.order_id = od.order_id
 		JOIN product p ON od.product_id = p.product_id
-		JOIN addr a ON oi.address_id = a.address_id
 		left outer JOIN card c ON oi.card_id = c.card_id
 		JOIN store s ON p.store_id = s.store_id
 		WHERE s.store_url = #{storeUrl}
@@ -132,7 +126,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    WHEN 'REFUND' THEN 3
 		    WHEN 'REFUND_OK' THEN 4
 		    ELSE 5
-		END
+		END,
+    oi.order_date DESC
 	</select>
 
 	<select id="selectForRefundAll" resultMap="orderDTOResultMap" parameterType="String">
@@ -183,6 +178,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    oi.order_date,
 	    oi.order_name,
 	    oi.order_status,
+	    oi.address_id,
 	
 	    od.order_detail_id,
 	    od.order_cnt,
@@ -192,12 +188,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    p.store_id,
 	    p.product_name,
 	    p.price,
-	
-	    a.address_id,
-	    a.post_num,
-	    a.address_road,
-	    a.address_detail,
-	    a.address_extra,
 	    
 	    c.card_id,
 	    c.card_num,
@@ -205,11 +195,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	FROM order_info oi
 	JOIN order_detail od ON oi.order_id = od.order_id
 	JOIN product p ON od.product_id = p.product_id
-	JOIN addr a ON oi.address_id = a.address_id
 	left outer JOIN card c ON oi.card_id = c.card_id
 	JOIN store s ON p.store_id = s.store_id
 	WHERE s.store_url = #{storeUrl} 
 	AND oi.order_status = #{orderStatus}
+	ORDER BY oi.order_date DESC
 	</select>
 	
 	<select id="selectForPersonalAll" resultMap="orderDTOResultMap" parameterType="int">
@@ -414,6 +404,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectOrderDetailByOrderId" resultType="com.chacha.create.common.dto.order.OrderDetailDTO">
 	    SELECT 
 	        oi.order_id,
+	        oi.address_id,
 	        oi.member_id,
 	        oi.order_date,
 	        oi.order_name,

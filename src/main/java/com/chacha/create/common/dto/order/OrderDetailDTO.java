@@ -27,6 +27,7 @@ public class OrderDetailDTO {
     private OrderStatusEnum orderStatus;
 
     // 주소 정보
+    private Integer addressId;
     private String postNum;
     private String addressRoad;
     private String addressDetail;

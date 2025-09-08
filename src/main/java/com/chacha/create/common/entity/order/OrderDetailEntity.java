@@ -1,5 +1,7 @@
 package com.chacha.create.common.entity.order;
 
+import com.chacha.create.common.enums.order.OrderStatusEnum;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -50,4 +52,7 @@ public class OrderDetailEntity {
      * 주문 시점의 상품 가격 (단가 또는 총액)
      */
     private Integer orderPrice;
+    
+    // 주문 상태 추가
+    private OrderStatusEnum orderStatus;
 }

@@ -51,8 +51,9 @@ public class MyOrderService {
     	}
     	OrderInfoEntity order = request.getOrderInfo();
         List<OrderDetailEntity> detailList = request.getDetailList();
-        AddrEntity addr = request.getAddr();
-        boolean isNewAddr = request.isNewAddr();
+//        AddrEntity addr = request.getAddr();
+        BootAddressDTO addr = request.getBootAddr();
+        Boolean isNewAddr = request.getNewAddr();
 
         order.setMemberId(member.getMemberId());
         order.setOrderDate(new java.sql.Date(System.currentTimeMillis()));
@@ -60,13 +61,27 @@ public class MyOrderService {
         // 주소 입력
         if (isNewAddr) {
         	// isNewAddr = true일 경우 새 주소 입력
-            addr.setMemberId(member.getMemberId());
-            addrMapper.insert(addr);
-            order.setAddressId(addr.getAddressId());
-        } else {
-        	// 프론트에서 기본 주소의 주소ID를 넘겨줄 경우
-        	order.setAddressId(addr.getAddressId());
+        	// 새 주소 입력 시 Boot API로 저장 후 주소 ID 세팅
+            BootAddressDTO savedAddr = bootAPIUtil.insertBootMemberAddress(member.getMemberId(), addr);
+            order.setAddressId(savedAddr.getId().intValue());
+        }  else {
+            if (addr == null) {
+            	// 새 주소 입력하지 않았고 addr 객체도 없으면 기본 주소 조회
+                BootAddressDTO bootAddr = bootAPIUtil.getBootMemberAddressDataByMemberId(member.getMemberId());
+                if (bootAddr != null) {
+                    order.setAddressId(bootAddr.getId().intValue());
+                } else {
+                    throw new RuntimeException("기본 주소가 없습니다.");
+                }
+            } else {
+            	// 기존 주소가 있으면(기본 배송지 체크한 경우) 해당 주소 ID 사용
+                order.setAddressId(addr.getId().intValue());
+            }
         }
+        
+        log.debug("Order.addressId: {}", order.getAddressId());
+
+
 
         orderInfoMapper.insert(order);
 
@@ -84,6 +99,7 @@ public class MyOrderService {
 
         return order.getOrderId();
     }
+	
     public List<OrderListDTO> getOrderList(int memberId) {
         List<OrderListDTO> orderlist = orderMapper.selectOrderListByMemberId(memberId);
         check_deliveryStatus(orderlist);
@@ -106,8 +122,9 @@ public class MyOrderService {
     	int memberId = member.getMemberId();
         // 주문 상세 조회
         OrderDetailDTO dto = orderMapper.selectOrderDetailByOrderId(orderId, memberId);
+        int addressId = dto.getAddressId();
         
-        BootAddressDTO bootAddressDTO = bootAPIUtil.getBootMemberAddressDataByMemberId(memberId);
+        BootAddressDTO bootAddressDTO = bootAPIUtil.getBootMemberAddressDataByAddressId(addressId);
         if (bootAddressDTO != null) {
         	dto.setPostNum(bootAddressDTO.getPostNum());
         	dto.setAddressRoad(bootAddressDTO.getAddressRoad());
@@ -143,14 +160,14 @@ public class MyOrderService {
         return status == OrderStatusEnum.ORDER_OK;
     }
 
-    // ORDER_OK일 때만 true 반환(환불 가능)
+    // SHIPPED거나 DELIVERED일 때만 true 반환(환불 가능)
     private boolean isRefundable(OrderStatusEnum status) {
-        return status == OrderStatusEnum.ORDER_OK;
+        return status == OrderStatusEnum.SHIPPED || status == OrderStatusEnum.DELIVERED;
     }
 
-    // ORDER_OK거나 CONFIRM일 경우에만 true 반환(리뷰 작성 가능)
+    // DELIVERED(배송 완료)일 경우에만 true 반환(리뷰 작성 가능)
     private boolean canWriteReview(OrderStatusEnum status) {
-        return status == OrderStatusEnum.ORDER_OK || status == OrderStatusEnum.CONFIRM;
+        return status == OrderStatusEnum.DELIVERED;
     }
     
     // 배송 상태 체크

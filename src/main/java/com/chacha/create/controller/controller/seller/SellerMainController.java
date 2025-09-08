@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -61,7 +62,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@RequestMapping("/{storeUrl}/seller")
+@RequestMapping("/legacy/{storeUrl}/seller")
 @RequiredArgsConstructor
 public class SellerMainController {
 	
@@ -234,13 +235,47 @@ public class SellerMainController {
 	}
 	private String convertStatusLabel(OrderStatusEnum status) {
 	    switch (status) {
-	        case CONFIRM: return "주문완료";
-	        case REFUND: return "환불요청";
+	        case ORDER_OK: return "주문완료";
+	        case SHIPPED: return "발송완료";
+	        case DELIVERED: return "배송완료";
+	        case CANCEL_RQ: return "환불요청";
+	        case CANCEL_OK: return "환불완료";
+	        case REFUND_RQ: return "환불요청";
 	        case REFUND_OK: return "환불완료";
-	        case ORDER_OK: return "발송전";
 	        default: return "기타";
 	    }
 	}
+	
+	
+	
+	// 주문 목록 조회 (상태별 필터링 지원)
+	@ResponseBody
+	@GetMapping("/management/orders")
+	public ApiResponse<List<OrderDTO>> getOrders(@PathVariable String storeUrl,
+	                                             @RequestParam(value = "status", required = false) String status) {
+		log.info("판매자 주문 목록 조회 호출: storeUrl={}, status={}", storeUrl, status);
+	    List<OrderDTO> orders;
+
+	    if (status != null && !status.isBlank()) {
+	        try {
+	            OrderStatusEnum statusEnum = OrderStatusEnum.from(status);
+	            orders = omService.selectForOrderStatus(storeUrl, statusEnum);
+	            return new ApiResponse<>(ResponseCode.ORDER_STATUS_OK, orders);
+	        } catch (IllegalArgumentException e) {
+	            orders = omService.selectOrderAll(storeUrl);
+	            return new ApiResponse<>(ResponseCode.ORDER_STATUS_FAIL, "잘못된 status 값 → 전체 주문 조회", orders);
+	        }
+	    } else {
+	        orders = omService.selectOrderAll(storeUrl);
+//	        log.info("전체 orders 조회 결과: {}건", orders.size());
+	        return new ApiResponse<>(ResponseCode.ORDER_NOT_STATUS, orders);
+	    }
+	}
+
+
+	
+	
+	
 	
 	// 판매 리뷰 관리
 	@GetMapping("/reviews")

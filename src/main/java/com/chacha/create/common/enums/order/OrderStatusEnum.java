@@ -36,8 +36,11 @@ import lombok.Getter;
 public enum OrderStatusEnum {
 
     ORDER_OK("ORDER_OK", "주문완료"),
-    CONFIRM("CONFIRM", "발송전"),
-    REFUND("REFUND", "환불요청"),
+    SHIPPED("SHIPPED", "발송완료"),
+    DELIVERED("DELIVERED", "배송완료"),
+    CANCEL_RQ("CANCEL_RQ", "취소요청"),
+    CANCEL_OK("CANCEL_OK", "취소완료"),
+    REFUND_RQ("REFUND_RQ", "환불요청"),
     REFUND_OK("REFUND_OK", "환불완료");
 
     private final String code;   // DB에 저장하는 값
