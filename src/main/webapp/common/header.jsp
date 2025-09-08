@@ -115,7 +115,10 @@
               <a href="${cpath}/${storeUrl}/mypage/message" class="hover:underline hover:underline-offset-2 whitespace-nowrap text-white">메시지</a>
             </c:if>
             <c:if test="${loginMember.memberId != storeOwnerId}">
-              <a href="${cpath}/${storeUrl}/mypage/message?makeChat=true" class="hover:underline hover:underline-offset-2 whitespace-nowrap text-white">${storeName}에 메시지 보내기</a>
+              <!-- 기존 링크를 버튼으로 변경하고 채팅방 생성 함수 호출 -->
+              <button onclick="createStoreChatAndRedirect('${storeUrl}', '${storeName}')" class="hover:underline hover:underline-offset-2 whitespace-nowrap text-white bg-transparent border-0 cursor-pointer">
+                ${storeName}에 메시지 보내기
+              </button>
             </c:if>
           </c:if>
           <a href="javascript:void(0);" class="hover:underline hover:underline-offset-2 whitespace-nowrap text-white" id="btn-logout">로그아웃</a>
@@ -152,29 +155,30 @@
       <!-- 메시지 아이콘 (우측) -->
       <div class="flex-shrink-0">
         <c:if test="${not empty sessionScope.loginMember}">
-          <c:choose>
-            <c:when test="${empty storeUrl}">
-              <a href="${cpath}/main/mypage/message" aria-label="메시지" class="p-2 -mr-1 text-white">
-                <svg viewBox="0 0 24 24" class="h-6 w-6" fill="currentColor" aria-hidden="true">
-                  <path d="M20 4H4c-1.1 0-2 .9-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6c0-1.1-.9-2-2-2Zm0 4-8 5L4 8V6l8 5 8-5v2Z" />
-                </svg>
-              </a>
-            </c:when>
-            <c:when test="${loginMember.memberId == storeOwnerId}">
+          <c:if test="${empty storeUrl}">
+            <a href="${cpath}/main/mypage/message" aria-label="메시지" class="p-2 -mr-1 text-white">
+              <svg viewBox="0 0 24 24" class="h-6 w-6" fill="currentColor" aria-hidden="true">
+                <path d="M20 4H4c-1.1 0-2 .9-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6c0-1.1-.9-2-2-2Zm0 4-8 5L4 8V6l8 5 8-5v2Z" />
+              </svg>
+            </a>
+          </c:if>
+          <c:if test="${not empty storeUrl}">
+            <c:if test="${loginMember.memberId == storeOwnerId}">
               <a href="${cpath}/${storeUrl}/mypage/message" aria-label="메시지" class="p-2 -mr-1 text-white">
                 <svg viewBox="0 0 24 24" class="h-6 w-6" fill="currentColor" aria-hidden="true">
                   <path d="M20 4H4c-1.1 0-2 .9-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6c0-1.1-.9-2-2-2Zm0 4-8 5L4 8V6l8 5 8-5v2Z" />
                 </svg>
               </a>
-            </c:when>
-            <c:otherwise>
-              <a href="${cpath}/${storeUrl}/mypage/message?makeChat=true" aria-label="메시지" class="p-2 -mr-1 text-white">
+            </c:if>
+            <c:if test="${loginMember.memberId != storeOwnerId}">
+              <!-- 모바일에서도 채팅방 생성 함수 호출 -->
+              <button onclick="createStoreChatAndRedirect('${storeUrl}', '${storeName}')" aria-label="메시지" class="p-2 -mr-1 bg-transparent border-0 text-white">
                 <svg viewBox="0 0 24 24" class="h-6 w-6" fill="currentColor" aria-hidden="true">
                   <path d="M20 4H4c-1.1 0-2 .9-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6c0-1.1-.9-2-2-2Zm0 4-8 5L4 8V6l8 5 8-5v2Z" />
                 </svg>
-              </a>
-            </c:otherwise>
-          </c:choose>
+              </button>
+            </c:if>
+          </c:if>
         </c:if>
         <c:if test="${empty sessionScope.loginMember}">
           <button onclick="alert('로그인이 필요합니다.'); window.location.href='${cpath}/auth/login';" aria-label="메시지" class="p-2 -mr-1 text-white">
@@ -268,15 +272,52 @@ window.handleMobileLogout = function() {
   closeMobileMenu();
 }
 
+// 스토어 채팅방 생성 및 리다이렉트 함수
+window.createStoreChatAndRedirect = function(storeUrl, storeName) {
+  const buyerId = ${sessionScope.loginMember.memberId};
+  
+  if (!buyerId) {
+    alert('로그인이 필요합니다.');
+    window.location.href = '${cpath}/auth/login';
+    return;
+  }
+
+  // 로딩 표시 (선택사항)
+  console.log('채팅방 생성 중...');
+
+  $.ajax({
+    url: '${cpath}/api/chat/personal/' + storeUrl,
+    type: 'POST',
+    data: {
+      buyerId: buyerId
+    },
+    success: function(response) {
+      console.log('채팅방 생성 완료:', response);
+      // 채팅방이 생성되면 메시지 페이지로 이동
+      window.location.href = '${cpath}/' + storeUrl + '/mypage/message';
+    },
+    error: function(xhr, status, error) {
+      console.error('채팅방 생성 실패:', error);
+      
+      // 이미 채팅방이 존재하는 경우에도 메시지 페이지로 이동
+      if (xhr.status === 409 || xhr.status === 200) {
+        console.log('기존 채팅방 사용');
+        window.location.href = '${cpath}/' + storeUrl + '/mypage/message';
+      } else {
+        alert('채팅방 생성에 실패했습니다. 다시 시도해주세요.');
+      }
+    }
+  });
+}
+
 // 문서가 준비되면 실행
 $(document).ready(function() {
   // 데스크톱 로그아웃
   $('#btn-logout').on('click', function() {
-    const BOOT_API = '${springBootApiUrl}';
     console.log("로그아웃 버튼 클릭");
     
     $.ajax({
-      url: BOOT_API + '/auth/logout',
+      url: '/auth/logout',
       type: 'POST',
       data: { email:"${sessionScope.loginMember.memberEmail}" },
       xhrFields: { withCredentials: true },

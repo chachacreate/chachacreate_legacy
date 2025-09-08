@@ -19,8 +19,8 @@ import lombok.extern.slf4j.Slf4j;
  * @author
  */
 @Slf4j
-@Configuration
-@EnableWebSocket
+//@Configuration
+//@EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {
 
     /** WebSocket 핸드셰이크 인터셉터 (세션에서 로그인 정보 추출) */
