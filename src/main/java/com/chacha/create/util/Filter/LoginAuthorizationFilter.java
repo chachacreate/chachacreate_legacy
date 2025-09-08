@@ -5,9 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -42,10 +39,6 @@ public class LoginAuthorizationFilter implements Filter {
 	
 	// ConfigUtil Bean 저장용 필드 추가
 	private BootPathConfig configUtil;
-
-	// ✅ 로그인/권한 검사에서 제외할 URI 목록
-	private static final Set<String> WHITELIST = new HashSet<>(
-			Arrays.asList("/auth/", "/main/", "/chat/", "/legacy/", "/resources/"));
 
 	// ObjectMapper for JSON parsing
 	private static final ObjectMapper objectMapper = new ObjectMapper();
@@ -85,13 +78,107 @@ public class LoginAuthorizationFilter implements Filter {
 		log.debug("요청 URI: {}, 상대 URI: {}", uri, relativeUri);
 		log.debug("Authorization 헤더: {}", req.getHeader("Authorization"));
 		
-		// ✅ 화이트리스트 or /{storeUrl}/ 경로는 허용
-		if (isWhitelisted(relativeUri) || isPublicStoreUrl(relativeUri)) {
-			log.debug("화이트리스트 경로 - 인증 패스: {}", relativeUri);
+		// 1. 완전 화이트리스트 (인증 불필요)
+		if (isCompletelyWhitelisted(relativeUri)) {
+			log.debug("완전 화이트리스트 경로 - 인증 패스: {}", relativeUri);
 			chain.doFilter(request, response);
 			return;
 		}
+		
+		// 2. JWT/세션 인증 확인
+		MemberEntity loginMember = authenticate(req);
+		
+		// 3. 로그인 필요한 경로에서 미인증 시 리다이렉트
+		if (loginMember == null && requiresAuthentication(relativeUri)) {
+			log.debug("로그인이 필요합니다. URI: {}", relativeUri);
+			res.sendRedirect(req.getContextPath() + "/auth/login");
+			return;
+		}
+		
+		// 4. 권한 체크
+		if (loginMember != null && !hasPermission(loginMember, relativeUri)) {
+			log.warn("접근 권한 없음: memberId={}, URI={}", loginMember.getMemberId(), relativeUri);
+			res.sendError(ResponseCode.FORBIDDEN.getStatus(), "접근 권한이 없습니다.");
+			return;
+		}
+		
+		log.debug("=== 필터 통과, 다음 체인으로 진행 ===");
+		chain.doFilter(request, response);
+	}
 
+	// 완전히 인증이 불필요한 경로
+	private boolean isCompletelyWhitelisted(String uri) {
+		String[] publicPaths = {"/auth/", "/main/", "/chat/", "/legacy/", "/resources/"};
+		
+		for (String path : publicPaths) {
+			if (uri.startsWith(path)) {
+				// /main/mypage만 제외
+				if (path.equals("/main/") && uri.startsWith("/main/mypage")) {
+					log.debug("제외된 경로: /main/mypage");
+					return false;
+				}
+				return true;
+			}
+		}
+		
+		// 스토어 공개 경로 (/storeUrl, /storeUrl/products 등)
+		// /storeUrl/seller, /storeUrl/mypage는 제외
+		if (uri.matches("^/[^/]+(/[^/]*)?$") && !uri.matches("^/[^/]+/(seller|mypage)(/.*)?$")) {
+			log.debug("스토어 공개 경로 허용: {}", uri);
+			return true;
+		}
+		
+		return false;
+	}
+
+	// 인증이 필요한 경로인지 확인
+	private boolean requiresAuthentication(String uri) {
+		// mypage, seller, manager 경로는 인증 필요
+		boolean needsAuth = uri.contains("/mypage") || 
+						   uri.matches("^/[^/]+/seller(/.*)?$") || 
+						   uri.startsWith("/manager");
+		
+		if (needsAuth) {
+			log.debug("인증 필요 경로: {}", uri);
+		}
+		
+		return needsAuth;
+	}
+
+	// 권한 체크
+	private boolean hasPermission(MemberEntity member, String uri) {
+		// 관리자 경로
+		if (uri.startsWith("/manager")) {
+			boolean isAdminUser = isAdmin(member);
+			log.debug("관리자 권한 체크: memberId={}, isAdmin={}", member.getMemberId(), isAdminUser);
+			return isAdminUser;
+		}
+		
+		// 스토어 판매자 경로
+		if (uri.matches("^/[^/]+/seller(/.*)?$")) {
+			String[] parts = uri.split("/");
+			if (parts.length >= 2) {
+				String storeUrl = parts[1];
+				log.debug("스토어 판매자 권한 체크: storeUrl={}, memberId={}", storeUrl, member.getMemberId());
+				
+				StoreEntity store = storeMapper.selectByStoreUrl(storeUrl);
+				if (store == null) {
+					log.warn("존재하지 않는 스토어: {}", storeUrl);
+					return false;
+				}
+				
+				boolean isOwner = isStoreOwner(store, member.getMemberId());
+				log.debug("스토어 소유권 확인: storeUrl={}, isOwner={}", storeUrl, isOwner);
+				return isOwner;
+			}
+		}
+		
+		// 기본적으로 허용 (개인 mypage 등)
+		return true;
+	}
+
+	// JWT/세션 인증 처리
+	private MemberEntity authenticate(HttpServletRequest req) {
 		// JWT 토큰 확인 (우선순위)
 		String authorization = req.getHeader("Authorization");
 		MemberEntity loginMember = null;
@@ -99,78 +186,28 @@ public class LoginAuthorizationFilter implements Filter {
 		if (authorization != null && authorization.startsWith("Bearer ")) {
 			log.debug("JWT 토큰 발견, 검증 시도");
 			loginMember = validateTokenWithSpringBoot(authorization);
+			
+			if (loginMember != null) {
+				log.debug("JWT 토큰 검증 성공: memberId={}", loginMember.getMemberId());
+				return loginMember;
+			}
 		}
 		
 		// 세션 기반 로그인 확인 (fallback)
-		if (loginMember == null) {
-			log.debug("JWT 토큰 없음 또는 유효하지 않음, 세션 확인");
-			HttpSession session = req.getSession(false);
-			loginMember = (session != null) ? (MemberEntity) session.getAttribute("loginMember") : null;
-			
-			if (loginMember != null) {
-				log.debug("세션에서 로그인 회원 발견: {}", loginMember.getMemberId());
-			}
+		log.debug("JWT 토큰 없음 또는 유효하지 않음, 세션 확인");
+		HttpSession session = req.getSession(false);
+		loginMember = (session != null) ? (MemberEntity) session.getAttribute("loginMember") : null;
+		
+		if (loginMember != null) {
+			log.debug("세션에서 로그인 회원 발견: memberId={}", loginMember.getMemberId());
+		} else {
+			log.debug("인증된 사용자 없음");
 		}
 		
-		// 로그인 체크
-		if (loginMember == null) {
-			log.debug("로그인이 필요합니다. URI: {}", relativeUri);
-			res.sendRedirect(req.getContextPath() + "/auth/login");
-			return;
-		}
-
-		log.debug("인증된 사용자: 회원ID={}", loginMember.getMemberId());
-		Integer memberId = loginMember.getMemberId();
-
-		// /{storeUrl}/seller 하위 경로 - 해당 스토어 판매자만 접근
-		if (relativeUri.matches("^/[^/]+/seller(/.*)?$")) {
-			String[] parts = relativeUri.split("/");
-			if (parts.length >= 2) {
-				String storeUrl = parts[1];
-				log.debug("스토어 접근 권한 확인: storeUrl={}, memberId={}", storeUrl, memberId);
-				
-				StoreEntity store = storeMapper.selectByStoreUrl(storeUrl);
-				if (store == null || !isStoreOwner(store, memberId)) {
-					log.warn("스토어 접근 권한 없음: storeUrl={}, memberId={}", storeUrl, memberId);
-					res.sendRedirect(req.getContextPath() + "/" + storeUrl);
-					return;
-				}
-				log.debug("스토어 접근 권한 확인됨: storeUrl={}", storeUrl);
-			}
-		}
-
-		// /manager 경로 - 관리자만 접근
-		else if (relativeUri.startsWith("/manager")) {
-			if (!isAdmin(loginMember)) {
-				log.warn("관리자 권한 없음: memberId={}, role={}", 
-					loginMember.getMemberId(), loginMember.getMemberRole());
-				res.sendError(ResponseCode.FORBIDDEN.getStatus(), "관리자만 접근 가능합니다.");
-				return;
-			}
-			log.debug("관리자 접근 권한 확인됨: memberId={}", loginMember.getMemberId());
-		}
-
-		log.debug("=== 필터 통과, 다음 체인으로 진행 ===");
-		chain.doFilter(request, response);
+		return loginMember;
 	}
 
-	// ✅ 정적 자원 및 일반 화이트리스트 경로
-	private boolean isWhitelisted(String uri) {
-		for (String path : WHITELIST) {
-			if (uri.startsWith(path) && !uri.startsWith(path + "mypage")) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	// ✅ /{storeUrl}/ (예: /nike/) 패턴만 허용
-	private boolean isPublicStoreUrl(String uri) {
-		// ex) /nike/ 또는 /kakao
-		return uri.matches("^/[^/]+/?$");
-	}
-
-	// ✅ 스토어 주인인 경우에만 허용
+	// 스토어 주인인 경우에만 허용
 	private boolean isStoreOwner(StoreEntity store, Integer memberId) {
 		SellerEntity seller = sellerMapper.selectBySellerId(store.getSellerId());
 		return seller != null && seller.getMemberId().equals(memberId);
