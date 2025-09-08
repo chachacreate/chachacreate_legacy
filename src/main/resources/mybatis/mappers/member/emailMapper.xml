@@ -3,23 +3,25 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chacha.create.common.mapper.member.EmailMapper">
-
-	  <update id="updateAuthKey">
-      UPDATE  "AUTH_KEY" SET
-      CODE = #{authKey},
-      CREATE_TIME = sysdate
-      WHERE EMAIL = #{email}
-   </update>
+    <update id="updateAuthKey" parameterType="map">
+        MERGE INTO AUTH_KEY t1
+        USING (SELECT #{email} as email, #{authKey} as code FROM dual) t2
+        ON (t1.EMAIL = t2.email)
+        WHEN MATCHED THEN
+            UPDATE SET CODE = t2.code, CREATE_TIME = sysdate
+        WHEN NOT MATCHED THEN
+            INSERT (AUTH_KEY_NO, EMAIL, CODE, CREATE_TIME)
+            VALUES (SEQ_AUTH_KEY_NO.NEXTVAL, t2.email, t2.code, sysdate)
+    </update>
    
-   <insert id="insertAuthKey">
-   INSERT INTO "AUTH_KEY" (AUTH_KEY_NO, CODE, EMAIL, CREATE_TIME)
-   VALUES (SEQ_AUTH_KEY_NO.NEXTVAL, #{authKey}, #{email}, SYSDATE)
-	</insert>
+    <insert id="insertAuthKey">
+        INSERT INTO "AUTH_KEY" (AUTH_KEY_NO, CODE, EMAIL, CREATE_TIME)
+        VALUES (SEQ_AUTH_KEY_NO.NEXTVAL, #{authKey}, #{email}, SYSDATE)
+    </insert>
    
-   <select id="checkAuthKey" resultType="int">
-      SELECT COUNT(*) FROM "AUTH_KEY"
-      WHERE EMAIL = #{email}
-      AND CODE = #{inputKey}
-   </select>
-
+    <select id="checkAuthKey" resultType="int">
+        SELECT COUNT(*) FROM "AUTH_KEY"
+        WHERE EMAIL = #{email}
+        AND CODE = #{inputKey}
+    </select>
 </mapper>

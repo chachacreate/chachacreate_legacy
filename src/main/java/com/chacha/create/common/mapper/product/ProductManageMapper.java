@@ -1,6 +1,7 @@
 package com.chacha.create.common.mapper.product;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -22,4 +23,6 @@ public interface ProductManageMapper {
 	List<ProductlistDTO> selectAllByStoreUrl(String storeUrl);
 	int updateFlagship(ProductlistDTO productlistDTO);
 	int updateDeleteCheck(int productId);
+
+	int updateDeleteCheckById(Map<String, Object> param);
 }

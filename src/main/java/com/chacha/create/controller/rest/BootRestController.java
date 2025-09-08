@@ -34,9 +34,11 @@ public class BootRestController {
 		return new ApiResponse<>(ResponseCode.OK,storemapper.selectForSellerDetail(storeUrl));
 	}
 	
-	@GetMapping("/info/store/id/{storeId}")
-	public ApiResponse<StoreEntity> getStoreDetailByStoreId(@PathVariable int storeId) {
-		log.info("boot에서 스토어 조회 by id");
-		return new ApiResponse<>(ResponseCode.OK, storemapper.selectByStoreId(storeId));
-	}
+	@GetMapping(value = "/info/store/id/{storeId}", produces = "application/json")
+    public ApiResponse<StoreEntity> getStoreDetailById(@PathVariable Long storeId) {
+        log.info("boot에서 스토어 조회 - by id: {}", storeId);
+        // StoreMapper 시그니처가 int라면 변환 필요
+        int id = Math.toIntExact(storeId);
+        return new ApiResponse<>(ResponseCode.OK, storemapper.selectByStoreId(id));
+    }
 }

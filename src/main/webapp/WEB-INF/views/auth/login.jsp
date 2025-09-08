@@ -76,8 +76,7 @@
 	<!-- login.jsp 내부에 script 추가 -->
 	<script>
 $(document).ready(function() {
-	
-	const BOOT_API = '${springBootApiUrl}'; // properties 주입
+	const BOOT_API = '${springBootApiUrl}';
 	const contextpath = '${cpath}';
   // 페이지 로드 시 로컬스토리지에 저장된 아이디 있으면 자동 입력
   const savedEmail = localStorage.getItem('rememberedEmail');

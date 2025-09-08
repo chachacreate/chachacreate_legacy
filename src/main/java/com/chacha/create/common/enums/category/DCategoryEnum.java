@@ -35,36 +35,33 @@ import lombok.Getter;
 public enum DCategoryEnum {
 
     // 패션잡화
-    TOP(1, "상의", UCategoryEnum.FASHION),
-    BOTTOM(2, "하의", UCategoryEnum.FASHION),
-    BAG(3, "가방", UCategoryEnum.FASHION),
-    WALLET(4, "지갑", UCategoryEnum.FASHION),
-    FASHION_ETC(5, "기타(목도리, 모자, 벨트 등)", UCategoryEnum.FASHION),
+    TOP(1, "티셔츠/니트/셔츠", UCategoryEnum.FASHION),
+    HANBOK(2, "생활한복", UCategoryEnum.FASHION),
+    BAG(3, "가방/파우치", UCategoryEnum.FASHION),
+    SHOES(4, "여성신발/수제화", UCategoryEnum.FASHION),
+    FASHION_ETC(5, "패션잡화 기타", UCategoryEnum.FASHION),
 
     // 인테리어 소품
-    DIFFUSER(6, "디퓨저, 캔들", UCategoryEnum.INTERIOR),
-    MOOD_LIGHT(7, "무드등", UCategoryEnum.INTERIOR),
-    FLOWER_PLANT(8, "꽃, 식물", UCategoryEnum.INTERIOR),
-    FURNITURE(9, "가구", UCategoryEnum.INTERIOR),
+    FABRIC(6, "패브릭", UCategoryEnum.INTERIOR),
+    FLOWER_PLANT(7, "꽃/식물", UCategoryEnum.INTERIOR),
+    LIGHT(8, "조명", UCategoryEnum.INTERIOR),
+    INTERIOR_ETC(9, "인테리어 소품 기타", UCategoryEnum.INTERIOR),
 
     // 악세서리
     RING(10, "반지", UCategoryEnum.ACCESSORY),
     BRACELET(11, "팔찌", UCategoryEnum.ACCESSORY),
-    NECKLACE(12, "목걸이", UCategoryEnum.ACCESSORY),
-    KEYRING(13, "키링", UCategoryEnum.ACCESSORY),
+    EARRING(12, "귀걸이", UCategoryEnum.ACCESSORY),
+    ACCESSORY_ETC(13, "악세서리 기타", UCategoryEnum.ACCESSORY),
 
-    // 생활잡화
-    SOAP(14, "비누", UCategoryEnum.LIFESTYLE),
-    DISH(15, "그릇", UCategoryEnum.LIFESTYLE),
-    TABLEWARE(16, "식기류", UCategoryEnum.LIFESTYLE),
-    CUP(17, "컵", UCategoryEnum.LIFESTYLE),
-    CASE(18, "케이스", UCategoryEnum.LIFESTYLE),
+    // 케이스/문구
+    CASE(14, "폰케이스", UCategoryEnum.LIFESTYLE),
+    NOTE_PEN(15, "노트/필기도구", UCategoryEnum.LIFESTYLE),
+    DOLL_TOY(16, "인형/장난감", UCategoryEnum.LIFESTYLE),
+    CAR(17, "주차번호/차량스티커", UCategoryEnum.LIFESTYLE),
+    LIFESTYLE_ETC(18, "케이스/문구 기타", UCategoryEnum.LIFESTYLE),
 
     // 기타
-    PERFUME(19, "향수", UCategoryEnum.ETC),
-    DOLL(20, "인형", UCategoryEnum.ETC),
-    PET(21, "반려동물", UCategoryEnum.ETC),
-    STATIONERY(22, "문구", UCategoryEnum.ETC);
+    ETC_ETC(19, "기타", UCategoryEnum.ETC);
 
     /** 하위 카테고리 고유 ID (d_category 테이블의 기본 키) */
     private final int id;

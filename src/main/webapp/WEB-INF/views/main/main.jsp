@@ -268,4 +268,14 @@
   <script src="${pageContext.request.contextPath}/resources/js/main_store.js"></script>
   
 </body>
+<script>
+// 자동 로그인 토큰 설정
+<c:if test="${autoLogin}">
+    const accessToken = "${accessToken}";
+    if (accessToken && accessToken !== "null") {
+        localStorage.setItem('accessToken', accessToken);
+        console.log('소셜 로그인 토큰 설정 완료');
+    }
+</c:if>
+</script>
 </html>

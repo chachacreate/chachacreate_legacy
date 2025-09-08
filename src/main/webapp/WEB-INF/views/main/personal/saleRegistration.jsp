@@ -40,7 +40,7 @@
     <li>상세 설명</li>
   </ul>
 
-    <button class="open-store-btn">스토어 개설 신청</button>
+    <button class="open-store-btn" onclick="location.href='${cpath}/main/store/description'">스토어 개설 신청</button>
   </div>
 
   <!-- ✅ Swiper 슬라이드 전체 -->
@@ -108,7 +108,7 @@
 			      <option value="FASHION">패션잡화</option>
 				  <option value="INTERIOR">인테리어 소품</option>
 				  <option value="ACCESSORY">악세서리</option>
-				  <option value="LIFESTYLE">생활잡화</option>
+				  <option value="LIFESTYLE">케이스/문구</option>
 				  <option value="ETC">기타</option>
 			    </select>
 			    <select id="dCategory" name="dCategory" class="category-select">
@@ -198,7 +198,7 @@
 			      <option value="FASHION">패션잡화</option>
 				  <option value="INTERIOR">인테리어 소품</option>
 				  <option value="ACCESSORY">악세서리</option>
-				  <option value="LIFESTYLE">생활잡화</option>
+				  <option value="LIFESTYLE">케이스/문구</option>
 				  <option value="ETC">기타</option>
 			    </select>
 			    <select id="dCategory2" name="dCategory" class="category-select">
@@ -258,40 +258,38 @@ const swiper = new Swiper('.mySwiper', {
 
 //----------------카테고리----------------------
 $(function() {
-  const dCategoryOptions = {
-    FASHION: [
-      { value: "TOP", text: "상의" },
-      { value: "BOTTOM", text: "하의" },
-      { value: "BAG", text: "가방" },
-      { value: "WALLET", text: "지갑" },
-      { value: "FASHION_ETC", text: "기타(목도리, 모자, 벨트 등)" }
-    ],
-    INTERIOR: [
-      { value: "DIFFUSER", text: "디퓨저, 캔들" },
-      { value: "MOOD_LIGHT", text: "무드등" },
-      { value: "FLOWER_PLANT", text: "꽃, 식물" },
-      { value: "FURNITURE", text: "가구" }
-    ],
-    ACCESSORY: [
-      { value: "RING", text: "반지" },
-      { value: "BRACELET", text: "팔찌" },
-      { value: "NECKLACE", text: "목걸이" },
-      { value: "KEYRING", text: "키링" }
-    ],
-    LIFESTYLE: [
-      { value: "SOAP", text: "비누" },
-      { value: "DISH", text: "그릇" },
-      { value: "TABLEWARE", text: "식기류" },
-      { value: "CUP", text: "컵" },
-      { value: "CASE", text: "케이스" }
-    ],
-    ETC: [
-      { value: "PERFUME", text: "향수" },
-      { value: "DOLL", text: "인형" },
-      { value: "PET", text: "반려동물" },
-      { value: "STATIONERY", text: "문구" }
-    ]
-  };
+	const dCategoryOptions = {
+			  FASHION: [
+			    { value: "TOP", text: "티셔츠/니트/셔츠" },
+			    { value: "HANBOK", text: "생활한복" },
+			    { value: "BAG", text: "가방/파우치" },
+			    { value: "SHOES", text: "여성신발/수제화" },
+			    { value: "FASHION_ETC", text: "패션잡화 기타" }
+			  ],
+			  INTERIOR: [
+			    { value: "FABRIC", text: "패브릭" },
+			    { value: "FLOWER_PLANT", text: "꽃/식물" },
+			    { value: "LIGHT", text: "조명" },
+			    { value: "INTERIOR_ETC", text: "인테리어 소품 기타" }
+			  ],
+			  ACCESSORY: [
+			    { value: "RING", text: "반지" },
+			    { value: "BRACELET", text: "팔찌" },
+			    { value: "EARRING", text: "귀걸이" },
+			    { value: "ACCESSORY_ETC", text: "악세서리 기타" }
+			  ],
+			  LIFESTYLE: [
+			    { value: "CASE", text: "폰케이스" },
+			    { value: "NOTE_PEN", text: "노트/필기도구" },
+			    { value: "DOLL_TOY", text: "인형/장난감" },
+			    { value: "CAR", text: "주차번호/차량스티커" },
+			    { value: "LIFESTYLE_ETC", text: "케이스/문구 기타" }
+			  ],
+			  ETC: [
+			    { value: "ETC_ETC", text: "기타" }
+			  ]
+			};
+
 
   $('#uCategory').on('change', function() {
     const selected = $(this).val();
@@ -760,9 +758,9 @@ $('#submit-btn2').click(function () {
 	  formData.append('dcategoryId', dcategoryId);
 	  
 	  // 파일 객체들을 FormData에 추가
-	  if (pimgFile1) formData.append('image1', pimgFile4);
-	  if (pimgFile2) formData.append('image2', pimgFile5);
-	  if (pimgFile3) formData.append('image3', pimgFile6);
+	  if (pimgFile4) formData.append('image1', pimgFile4);
+	  if (pimgFile5) formData.append('image2', pimgFile5);
+	  if (pimgFile6) formData.append('image3', pimgFile6);
 
 	  $.ajax({
 	    url: '${cpath}/legacy/main/sell/sellregister',
@@ -852,9 +850,9 @@ $('#edit-btn2').on('click', function() {
  	  formData.append('dcategoryId', dcategoryId);
  	  
  	  // 파일 객체들을 FormData에 추가
- 	  if (pimgFile1) formData.append('image1', pimgFile1);
- 	  if (pimgFile2) formData.append('image2', pimgFile2);
- 	  if (pimgFile3) formData.append('image3', pimgFile3);
+ 	  if (pimgFile4) formData.append('image1', pimgFile4);
+ 	  if (pimgFile5) formData.append('image2', pimgFile5);
+ 	  if (pimgFile6) formData.append('image3', pimgFile6);
      $.ajax({
          url: '${cpath}/legacy/main/sell/sellregister/update',
          method: 'POST',

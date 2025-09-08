@@ -1,9 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt"  uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions"%> 
-<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn"   uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="c"    uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="cpath" value="${pageContext.servletContext.contextPath}" />
-<c:set var="uri" value="${pageContext.request.requestURI}" />
+<c:set var="uri"   value="${pageContext.request.requestURI}" />
+
 <script src="${cpath}/resources/js/store/storeMain_nav.js"></script>
 
 <!-- Google Fonts - Jua -->
@@ -17,13 +18,14 @@
          transition-[background-color,backdrop-filter,box-shadow] duration-200
          data-[scrolled=true]:bg-white/70 data-[scrolled=true]:backdrop-blur
          data-[scrolled=true]:shadow data-[scrolled=true]:supports-[backdrop-filter]:bg-white/50"
+  aria-label="스토어 상단 내비게이션"
 >
   <div class="mx-auto w-full max-w-[1920px] px-4 md:px-6 xl:px-20 2xl:px-[240px]">
     <div class="flex items-center justify-between h-16 md:h-20">
-      
+
       <!-- 로고 & 스토어명 -->
       <div class="flex items-center gap-3 md:gap-6 min-w-0">
-        <a href="${cpath}/${storeUrl}" class="flex-shrink-0 hover:opacity-90">
+        <a href="${cpath}/${storeUrl}" class="flex-shrink-0 hover:opacity-90" aria-label="스토어 홈">
           <img src="${logoImg}" alt="스토어 로고" class="h-12 md:h-16 w-auto object-contain" />
         </a>
         <div class="min-w-0">
@@ -51,7 +53,7 @@
                        ${fn:contains(uri, '/info') ? 'w-full' : 'w-0 group-hover:w-full'}"></span>
         </a>
 
-        <button onclick="alert('준비중입니다!')"
+        <button type="button" onclick="alert('준비중입니다!')"
                 class="group relative text-[#2D4739] hover:text-[#1b2e23] text-base xl:text-lg pb-1">
           클래스
           <span class="pointer-events-none absolute left-0 bottom-0 h-[2px] rounded bg-[#2D4739] transition-all duration-200
@@ -83,7 +85,8 @@
         </a>
 
         <c:if test="${loginMember.memberId == storeOwnerId}">
-          <a href="${cpath}/${storeUrl}/seller/main"
+          <!-- ✅ 관리자 라우팅: /seller/${storeUrl}/main 로 통일 -->
+          <a href="${cpath}/seller/${storeUrl}/main"
              class="group relative text-[#2D4739] hover:text-[#1b2e23] text-base xl:text-lg pb-1">
             스토어 관리
             <span class="pointer-events-none absolute left-0 bottom-0 h-[2px] rounded bg-[#2D4739] transition-all duration-200
@@ -101,6 +104,7 @@
 
       <!-- 모바일/태블릿 햄버거 메뉴 -->
       <button
+        type="button"
         onclick="toggleStoreMenu()"
         class="lg:hidden p-2 text-[#2D4739] hover:text-[#1b2e23]"
         aria-label="메뉴 열기"
@@ -128,7 +132,7 @@
           스토어 정보
         </a>
 
-        <button onclick="alert('준비중입니다!')"
+        <button type="button" onclick="alert('준비중입니다!')"
                 class="w-full text-left px-3 py-2 text-base text-[#2D4739] hover:text-[#1b2e23] hover:bg-gray-50 rounded">
           클래스
         </button>
@@ -152,7 +156,7 @@
         </a>
 
         <c:if test="${loginMember.memberId == storeOwnerId}">
-          <a href="${cpath}/${storeUrl}/seller/main"
+          <a href="${cpath}/seller/${storeUrl}/main"
              class="block px-3 py-2 text-base text-[#2D4739] hover:text-[#1b2e23] hover:bg-gray-50 rounded">
             스토어 관리
           </a>
@@ -245,7 +249,7 @@ window.toggleStoreMenu = function() {
   const menu = document.getElementById('store-mobile-menu');
   const menuIcon = document.getElementById('store-menu-icon');
   const closeIcon = document.getElementById('store-close-icon');
-  
+
   if (menu && menuIcon && closeIcon) {
     if (menu.classList.contains('hidden')) {
       menu.classList.remove('hidden');
@@ -263,7 +267,7 @@ window.closeStoreMenu = function() {
   const menu = document.getElementById('store-mobile-menu');
   const menuIcon = document.getElementById('store-menu-icon');
   const closeIcon = document.getElementById('store-close-icon');
-  
+
   if (menu && menuIcon && closeIcon) {
     menu.classList.add('hidden');
     menuIcon.style.display = 'block';
@@ -277,9 +281,9 @@ document.addEventListener('DOMContentLoaded', function() {
   document.addEventListener('click', function(event) {
     const mobileMenu = document.getElementById('store-mobile-menu');
     const menuButton = document.getElementById('store-menu-button');
-    
-    if (mobileMenu && !mobileMenu.contains(event.target) && 
-        !menuButton.contains(event.target) && 
+
+    if (mobileMenu && !mobileMenu.contains(event.target) &&
+        !menuButton.contains(event.target) &&
         !mobileMenu.classList.contains('hidden')) {
       closeStoreMenu();
     }

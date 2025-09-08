@@ -53,14 +53,19 @@
             <label>이메일</label>
             <input type="email" class="email" disabled />
           </div>
+          
+                    <div class="form-group">
+            <label>현재 비밀번호</label>
+            <input type="password" class="password-current" placeholder="변경할 비밀번호 입력" />
+          </div>
 
           <div class="form-group">
-            <label>비밀번호</label>
+            <label>새 비밀번호</label>
             <input type="password" class="password" placeholder="변경할 비밀번호 입력" />
           </div>
 
           <div class="form-group">
-            <label>비밀번호 확인</label>
+            <label>새 비밀번호 확인</label>
             <input type="password" class="password-ok" placeholder="비밀번호 확인" />
           </div>
 
@@ -155,7 +160,7 @@
 
             <!-- ✅ 나의 이력 등록 -->
             <section class="section-box">
-              <div class="section-title">
+              <!-- <div class="section-title">
                 <span class="check">✔</span> 나의 이력 등록하기
               </div>
               <p class="section-desc">판매자님의 작품 사진을 등록해주세요.</p>
@@ -163,7 +168,7 @@
               <div class="career-wrapper">
                 <div class="career-box">
                   <div class="upload-placeholder" id="previewBox">+</div>
-                  <input type="file" id="fileInput" accept="image/*" style="display: none;" />
+                  <input type="file" id="fileInput" accept="image/*" style="display: none;" /> -->
                   <textarea class="career-text" placeholder="이력 설명"></textarea>
                   <div class="char-count">0/150</div>
                 </div>

@@ -10,7 +10,7 @@ $(document).ready(function () {
   $('#addrCheck').on('click', function () {
     if ($(this).is(':checked')) {
       $.ajax({
-        url: `http://localhost:8888/api/info/memberAdress/${loginMember.memberId}`,
+        url: `http://localhost:8888/api/info/memberAddress/${loginMember.memberId}`,
         type: 'GET',
         success: function (data) {
         console.log(data);

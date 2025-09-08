@@ -32,7 +32,7 @@ $(function () {
 
         // 기본 배송지 조회 API
         $.ajax({
-          url: `${cpath}/legacy/${storeUrl}/mypage/order/addr`,
+          url: `http://localhost:8888/api/info/memberAddress/${member.memberId}`,
           type: "GET",
           dataType: "json",
           success: function (addrRes) {
@@ -141,42 +141,53 @@ $(function () {
 	    $('.address-extra').val() !== originalAddrData.addressExtra
 	  );
 	
-	  // 비밀번호 수정이 있는 경우만 처리
-	  if (isPasswordChanged) {
-	    if (!checkObj.passwordValid) {
-	      alert("비밀번호는 8자 이상이며 영문, 숫자, 특수문자를 포함해야 합니다.");
-	      $('.password').focus();
-	      return;
-	    }
-	    if (!checkObj.passwordMatch) {
-	      alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-	      $('.password-ok').focus();
-	      return;
-	    }
-	
-	    const memberPwd = { memberPwd: pwd };
-	
-	    $.ajax({
-	      url: `${cpath}/legacy/${storeUrl}/mypage/update/password`,
-	      type: "POST",
-	      contentType: "application/json; charset=UTF-8",
-	      data: JSON.stringify(memberPwd),
-	      success: function (res) {
-	        if (res.status === 200) {
-	          alert("비밀번호가 성공적으로 수정되었습니다.");
-	          $('.password').val('');
-	          $('.password-ok').val('');
-	          checkObj.passwordValid = false;
-	          checkObj.passwordMatch = false;
-	        } else {
-	          alert("비밀번호 수정 실패: " + res.message);
-	        }
-	      },
-	      error: function (xhr) {
-	        alert("비밀번호 수정 중 오류가 발생했습니다: " + xhr.responseText);
-	      }
-	    });
-	  }
+	  // 비밀번호 수정이 있는 경우만 처리(Boot API)
+		if (isPasswordChanged) {
+		  if (!checkObj.passwordValid) {
+		    alert("비밀번호는 8자 이상이며 영문, 숫자, 특수문자를 포함해야 합니다.");
+		    $('.password').focus();
+		    return;
+		  }
+		  if (!checkObj.passwordMatch) {
+		    alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+		    $('.password-ok').focus();
+		    return;
+		  }
+		
+		  const jwtToken = localStorage.getItem("accessToken"); // 로그인 시 저장된 JWT
+		
+		  const requestData = {
+		    currentPassword: $('.password-current').val(),
+		    newPassword: $('.password').val(),
+		    newPasswordConfirm: $('.password-ok').val()
+		  };
+		
+		  $.ajax({
+		    url: `/api/mypage/changepwd`, // Boot API
+		    type: "PATCH",
+		    contentType: "application/json; charset=UTF-8",
+		    headers: {
+		      "Authorization": "Bearer " + jwtToken
+		    },
+		    data: JSON.stringify(requestData),
+		    success: function (res) {
+		      if (res.status === 200) {
+		        alert("비밀번호가 성공적으로 수정되었습니다.");
+		        $('.password-current').val('');
+		        $('.password').val('');
+		        $('.password-ok').val('');
+		        checkObj.passwordValid = false;
+		        checkObj.passwordMatch = false;
+		      } else {
+		        alert("비밀번호 수정 실패: " + res.message);
+		      }
+		    },
+		    error: function (xhr) {
+		      alert("비밀번호 수정 중 오류가 발생했습니다: " + xhr.responseText);
+		    }
+		  });
+		}
+
 	
 	  // 주소 수정이 있는 경우만 처리
 	  if (isAddressChanged) {

@@ -545,7 +545,7 @@
 	    		      name: memberName,
 	    		      phone: memberPhone,
 	    		      registrationNumber: memberRegi},
-   		      "addr":{
+   		      "memberAddress":{
    		    	postNum: postNum,
    		    	addressRoad: addressRoad,
    		    	addressDetail : addressDetail,
@@ -574,6 +574,52 @@
 	    	  success: function(response, textStatus, xhr) {
 	    	    if (xhr.status === 201 || response?.status === 201) {
 	    	      alert($('#memberName').val()+'님 회원가입을 축하합니다');
+	    	      const logindata = {
+	    	    		    "email": memberEmail,
+	    	    		    "password": memberPwd
+	    	    		}
+	    	      $.ajax({
+	    	          url: BOOT_API + '/auth/login',
+	    	          type: 'POST',
+	    	          contentType: 'application/json',
+	    	          data: JSON.stringify(logindata),
+	    	          xhrFields: { withCredentials: true }, // 쿠키 포함
+	    	          success: function(loginResponse, textStatus, xhr) {
+	    	              if (xhr.status === 200 && loginResponse?.status === 200) {
+	    	                  localStorage.setItem('accessToken', loginResponse.data.accessToken);
+
+	    	                  // Legacy 서버에도 세션 저장
+	    	                  $.ajax({
+	    	                      url: '/legacy/auth/loginSuccess',
+	    	                      type: "POST",
+	    	                      contentType: 'application/json',
+	    	                      data: JSON.stringify({ 
+	    	                      	memberId:loginResponse.data.login.id,
+	    	                      	memberEmail:loginResponse.data.login.email,
+	    	                      	memberName:loginResponse.data.login.name,
+	    	                      }),
+	    	                      success: function(legacyResponse, status, xhrr) {
+	    	                          if (xhrr.status === 200) {
+	    	                              console.log("Legacy 세션 저장 성공:", legacyResponse);
+	    	                              
+	    	                          } else {
+	    	                              alert(legacyResponse?.message || 'Legacy 로그인 실패');
+	    	                          }
+	    	                      },
+	    	                      error: function(xhrr, status, error) {
+	    	                          alert('Legacy 서버 오류: ' + (xhrr.responseText || error));
+	    	                      }
+	    	                  });
+	    	                  console.log('자동 로그인 성공');
+	    	              } else {
+	    	                  alert('자동 로그인 실패');
+	    	              }
+	    	          },
+	    	          error: function(xhr, status, error) {
+	    	              alert('서버 오류: ' + (xhr.responseText || error));
+	    	          }
+	    	      });
+
 	    	      if (userType === 'buyer') {
 	    	    	  window.location.href = contextPath + '/auth/join/complete';
 	    	    	} else if (userType === 'seller') {

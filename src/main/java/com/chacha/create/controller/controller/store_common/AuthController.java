@@ -6,6 +6,7 @@ import java.net.URISyntaxException;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,34 +16,30 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.chacha.create.common.dto.boot.BootTokenDTO;
 import com.chacha.create.common.dto.login.KakaoClientDTO;
 import com.chacha.create.common.dto.login.NaverClientDTO;
 import com.chacha.create.common.entity.member.MemberEntity;
 import com.chacha.create.service.store_common.header.auth.KakaoService;
 import com.chacha.create.service.store_common.header.auth.LoginService;
 import com.chacha.create.service.store_common.header.auth.NaverService;
+import com.chacha.create.util.BootAPIUtil;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
 @RequestMapping("/auth")
+@RequiredArgsConstructor
 public class AuthController {
-	
-	@Autowired
-	private KakaoClientDTO kakaoClientDTO;
-	
-	@Autowired
-	private NaverClientDTO naverClientDTO;
-	
-	@Autowired
-	private KakaoService kakaoService;
 
-	@Autowired
-	private NaverService naverService;
-	
-	@Autowired
-	private LoginService loginService;
+	private final KakaoClientDTO kakaoClientDTO;
+	private final NaverClientDTO naverClientDTO;
+	private final KakaoService kakaoService;
+	private final NaverService naverService;
+	private final LoginService loginService;
+	private final BootAPIUtil bootAPIUtil;
     
 	@GetMapping("/login")
 	public String login(@RequestParam(value = "redirect", required = false) String redirect,
@@ -182,14 +179,13 @@ public class AuthController {
 
 	
 	@GetMapping("/kakao")
-	public String kakao(@RequestParam("code") String code, HttpSession session, Model model) throws IOException {
+	public String kakao(@RequestParam("code") String code, HttpSession session, Model model, HttpServletResponse response) throws IOException {
 	    String accessToken = kakaoService.getAccessTokenFromKakao(code);
 	    Map<String, Object> userInfo = kakaoService.getUserInfo(accessToken);
 
 	    String email = (String) userInfo.get("email");
-	    MemberEntity memberEntity = loginService.socialLogin(email);
-
-	    if (memberEntity == null) {
+	    BootTokenDTO bootTokenDTO = bootAPIUtil.socialLogin(email, response);
+	    if (bootTokenDTO == null) {
 	        session.setAttribute("kakaoemail", email);
 
 	        // redirectAfterLogin 값 보존
@@ -200,6 +196,13 @@ public class AuthController {
 
 	        return "redirect:/auth/join/agree";
 	    }
+	    
+	    MemberEntity memberEntity = MemberEntity.builder()
+	    		.memberId(bootTokenDTO.getLogin().getId().intValue())
+	    		.memberEmail(bootTokenDTO.getLogin().getEmail())
+	    		.memberName(bootTokenDTO.getLogin().getName())
+	    		.memberPhone(bootTokenDTO.getLogin().getPhone())
+	    		.build();
 
 	    session.setAttribute("loginMember", memberEntity);
 	    log.info("email = {}", email);
@@ -207,19 +210,19 @@ public class AuthController {
 
 	    String redirectUrl = (String) session.getAttribute("redirectAfterLogin");
 	    session.removeAttribute("redirectAfterLogin");
-
-	    return "redirect:" + (redirectUrl != null ? redirectUrl : "/main");
+        model.addAttribute("accessToken", bootTokenDTO.getAccessToken());
+	    model.addAttribute("autoLogin", true);
+	    return "main/main";
 	}
 
 	@GetMapping("/naver")
-	public String naver(@RequestParam("code") String code, HttpSession session, Model model) throws IOException {
+	public String naver(@RequestParam("code") String code, HttpSession session, Model model, HttpServletResponse response) throws IOException {
 	    String accessToken = naverService.getAccessTokenFromNaver(code, "test");
 	    Map<String, Object> userInfo = naverService.getUserInfoFromNaver(accessToken);
 
 	    String email = (String) userInfo.get("email");
-	    MemberEntity memberEntity = loginService.socialLogin(email);
-
-	    if (memberEntity == null) {
+	    BootTokenDTO bootTokenDTO = bootAPIUtil.socialLogin(email, response);
+	    if (bootTokenDTO == null) {
 	        session.setAttribute("naverInfo", userInfo);
 
 	        // redirectAfterLogin 값 보존
@@ -231,14 +234,22 @@ public class AuthController {
 	        return "redirect:/auth/join/agree";
 	    }
 
+	    MemberEntity memberEntity = MemberEntity.builder()
+	    		.memberId(bootTokenDTO.getLogin().getId().intValue())
+	    		.memberEmail(bootTokenDTO.getLogin().getEmail())
+	    		.memberName(bootTokenDTO.getLogin().getName())
+	    		.memberPhone(bootTokenDTO.getLogin().getPhone())
+	    		.build();
+
 	    session.setAttribute("loginMember", memberEntity);
 	    log.info("email = {}", email);
 	    log.info("accessToken = {}", accessToken);
 
 	    String redirectUrl = (String) session.getAttribute("redirectAfterLogin");
 	    session.removeAttribute("redirectAfterLogin");
-
-	    return "redirect:" + (redirectUrl != null ? redirectUrl : "/main");
+        model.addAttribute("accessToken", bootTokenDTO.getAccessToken());
+	    model.addAttribute("autoLogin", true);
+	    return "main/main";
 	}
 
 }

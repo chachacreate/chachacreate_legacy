@@ -30,5 +30,7 @@ public class ProductlistDTO {
 	private Date productDate;
 	private Date lastModifiedDate;
 	private Integer flagshipCheck;
+	private Integer deleteCheck;
+	private String  middleCategoryName;
 }
 
