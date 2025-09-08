@@ -17,4 +17,7 @@ ADD target/ROOT.war /usr/local/tomcat/webapps/ROOT.war
 # server.xml 복사
 ADD files/server.xml /usr/local/tomcat/conf/server.xml
 
+# ojdbc11 복사
+ADD files/ojdbc11-21.9.0.0.jar /usr/local/tomcat/lib/
+
 EXPOSE 8080
