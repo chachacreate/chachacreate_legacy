@@ -4,9 +4,42 @@
 <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="cpath" value="${pageContext.servletContext.contextPath}" />
 <c:set var="uri" value="${pageContext.request.requestURI}" />
+<c:set var="servletPath" value="${pageContext.request.servletPath}" />
+<c:set var="requestURL" value="${pageContext.request.requestURL}" />
 
-<!-- ✅ Google Fonts: Jua -->
-<link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet" />
+<!-- 디버깅용 - 실제 요청 경로 확인 -->
+<%-- <div style="position: fixed; top: 100px; left: 10px; background: red; color: white; padding: 10px; z-index: 9999; font-size: 12px; width: 400px;">
+    URI: ${uri}<br/>
+    ServletPath: ${servletPath}<br/>
+    RequestURL: ${requestURL}<br/>
+    Context Path: ${cpath}
+</div> --%>
+
+<!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts - Jua -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+
+  <script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          'jua': ['Jua', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        },
+        colors: {
+          'brand-900': '#2D4739',
+        },
+        maxWidth: {
+          '1440': '1440px',
+        }
+      }
+    }
+  }
+  </script>
 
 <!-- 상단 네브 (스크롤 시 반투명/블러) -->
 <nav
@@ -31,28 +64,28 @@
         <!-- 전체상품 -->
         <a href="${cpath}/main/products"
            class="group relative flex-1 md:flex-none text-center md:text-left text-[#2D4739] hover:text-[#1b2e23] text-[14px] md:text-[18px] py-2 md:py-0 md:pb-1
-                  ${fn:contains(uri, '/main/products') ? 'font-bold' : ''}">
+                  ${fn:contains(uri, 'mainAllProducts.jsp') ? 'font-bold' : ''}">
           전체상품
           <span class="pointer-events-none absolute left-0 md:bottom-[5px] bottom-[2px] h-[2px] rounded bg-[#2D4739] transition-all duration-200
-                       ${fn:contains(uri, '/main/products') ? 'w-full' : 'w-0 group-hover:w-full'}"></span>
+                       ${fn:contains(uri, 'mainAllProducts.jsp') ? '' : 'w-0 group-hover:w-full'}"></span>
         </a>
 
         <!-- 스토어 -->
         <a href="${cpath}/main/store/stores"
            class="group relative flex-1 md:flex-none text-center md:text-left text-[#2D4739] hover:text-[#1b2e23] text-[14px] md:text-[18px] py-2 md:py-0 md:pb-1
-                  ${fn:contains(uri, '/main/store') ? 'font-bold' : ''}">
+                  ${fn:contains(uri, 'mainStoreList.jsp') ? 'font-bold' : ''}">
           스토어
           <span class="pointer-events-none absolute left-0 md:bottom-[5px] bottom-[2px] h-[2px] rounded bg-[#2D4739] transition-all duration-200
-                       ${fn:contains(uri, '/main/store') ? 'w-full' : 'w-0 group-hover:w-full'}"></span>
+                       ${fn:contains(uri, 'mainStoreList.jsp') ? '' : 'w-0 group-hover:w-full'}"></span>
         </a>
 
         <!-- 개인판매 -->
         <a href="${cpath}/main/sell/sellguide"
            class="group relative flex-1 md:flex-none text-center md:text-left text-[#2D4739] hover:text-[#1b2e23] text-[14px] md:text-[18px] py-2 md:py-0 md:pb-1
-                  ${fn:contains(uri, '/main/sell') ? 'font-bold' : ''}">
+                  ${fn:contains(uri, 'personalSellInfo.jsp') ? 'font-bold' : ''}">
           개인판매
           <span class="pointer-events-none absolute left-0 md:bottom-[5px] bottom-[2px] h-[2px] rounded bg-[#2D4739] transition-all duration-200
-                       ${fn:contains(uri, '/main/sell') ? 'w-full' : 'w-0 group-hover:w-full'}"></span>
+                       ${fn:contains(uri, 'personalSellInfo.jsp') ? '' : 'w-0 group-hover:w-full'}"></span>
         </a>
 
         <!-- 클래스 -->
@@ -61,25 +94,25 @@
                   ${fn:contains(uri, '/main/classes') ? 'font-bold' : ''}">
           클래스
           <span class="pointer-events-none absolute left-0 md:bottom-[5px] bottom-[2px] h-[2px] rounded bg-[#2D4739] transition-all duration-200
-                       ${fn:contains(uri, '/main/classes') ? 'w-full' : 'w-0 group-hover:w-full'}"></span>
+                       ${fn:contains(uri, '/main/classes') ? '' : 'w-0 group-hover:w-full'}"></span>
         </a>
 
         <!-- 마이페이지 (장바구니 제외 매칭) -->
         <a href="${cpath}/main/mypage"
            class="group relative hidden md:inline-flex text-[#2D4739] hover:text-[#1b2e23] text-[18px] md:pb-1
-                  ${fn:contains(uri, '/main/mypage') and not fn:contains(uri, '/main/mypage/cart') ? 'font-bold' : ''}">
+                  ${fn:contains(uri, 'mainMyPage.jsp') ? 'font-bold' : ''}">
           마이페이지
           <span class="pointer-events-none absolute left-0 md:bottom-[5px] bottom-[2px] h-[2px] rounded bg-[#2D4739] transition-all duration-200
-                       ${fn:contains(uri, '/main/mypage') and not fn:contains(uri, '/main/mypage/cart') ? 'w-full' : 'w-0 group-hover:w-full'}"></span>
+                       ${fn:contains(uri, 'mainMyPage.jsp') ? '' : 'w-0 group-hover:w-full'}"></span>
         </a>
 
         <!-- 장바구니 -->
         <a href="${cpath}/main/mypage/cart"
            class="group relative hidden md:inline-flex text-[#2D4739] hover:text-[#1b2e23] text-[18px] md:pb-1
-                  ${fn:contains(uri, '/main/mypage/cart') ? 'font-bold' : ''}">
+                  ${fn:contains(uri, 'cart.jsp') ? 'font-bold' : ''}">
           장바구니
           <span class="pointer-events-none absolute left-0 md:bottom-[5px] bottom-[2px] h-[2px] rounded bg-[#2D4739] transition-all duration-200
-                       ${fn:contains(uri, '/main/mypage/cart') ? 'w-full' : 'w-0 group-hover:w-full'}"></span>
+                       ${fn:contains(uri, 'cart.jsp') ? '' : 'w-0 group-hover:w-full'}"></span>
         </a>
       </div>
     </div>

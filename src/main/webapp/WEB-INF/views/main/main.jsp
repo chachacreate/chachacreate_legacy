@@ -43,6 +43,95 @@
   </script>
 
   <script src="${cpath}/resources/js/main/mainHome.js"></script>  
+  
+  <style>
+  /* ✅ 공통: 가로세로 1:1(정사각)로 통일 + 가운데 크롭 */
+.product-image-box {           /* bestProduct()의 래퍼 */
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #f8fafc;
+}
+.product-image-box > .product-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;           /* 꽉 채우고 넘치는 부분 크롭 */
+  object-position: center;
+}
+
+/* ✅ mainProduct() 카드 이미지도 정사각 통일 */
+.card .store-img {
+  width: 100%;
+  aspect-ratio: 1 / 1;         /* 높이 자동 계산 */
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 12px;
+  background: #f8fafc;
+}
+
+/* ================================
+   Preview 카드 통일 스타일
+   (JS/마크업 변경 없이 작동)
+   ================================ */
+
+/* 카드 박스: 동일한 패딩/테두리/라운드/그림자/호버 */
+#preview-grid .preview-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 100%;
+  padding: 12px;
+/*   border: 1px solid #e5e7eb;          /* gray-200 */ */
+  border-radius: 12px;
+  background: #ffffff;
+/*   box-shadow: 0 1px 2px rgba(0,0,0,.04); */
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+  cursor: pointer;
+}
+#preview-grid .preview-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,.08);
+  border-color: #d1d5db;               /* gray-300 */
+}
+
+/* 이미지: 비율(정사각) 고정 + 가운데 크롭 + 동일 라운드 */
+#preview-grid .preview-card .new-product-img {
+  width: 100%;
+  aspect-ratio: 1 / 1;                 /* 세로/가로 통일 */
+  object-fit: cover;                    /* 꽉 채우고 넘친 부분 크롭 */
+  object-position: center;
+  border-radius: 10px;
+  background: #f8fafc;                 /* 로딩 전 배경 */
+  display: block;
+}
+
+/* 상품명: 두 줄 클램프(길어도 높이 일정) */
+#preview-grid .preview-card .product-name {
+  margin-top: 6px;
+  font-size: 14px;
+  line-height: 1.35;
+  color: #111827;                       /* gray-900 */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;                /* 2줄 */
+  overflow: hidden;
+  min-height: calc(1.35em * 2);         /* 줄수 고정으로 카드 높이 안정화 */
+}
+
+/* 가격: 굵게 + 간격 통일 */
+#preview-grid .preview-card .product-price {
+  margin-top: 2px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* Grid 아이템 높이 통일 (기본 stretch이나 안전하게 보강) */
+#preview-grid { align-items: stretch; }
+  
+  </style>
 
 </head>
 <body class="bg-white font-jua">
@@ -162,7 +251,7 @@
         <h2 class="text-xl md:text-2xl lg:text-3xl font-bold text-gray-800">금주 신상품</h2>
         <a href="${cpath}/main/products" class="text-blue-600 hover:text-blue-700 font-medium transition-colors duration-300 text-sm md:text-base">전체보기</a>
       </div>
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4 lg:gap-6" id="preview-grid">
+      <div class="grid grid-cols-2 sm:grid-cols-5 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4 lg:gap-6" id="preview-grid">
         <!-- 신상품 정보가 들어갈 공간 -->
       </div>
     </section>
