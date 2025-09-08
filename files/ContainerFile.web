@@ -1,0 +1,20 @@
+FROM docker.io/library/tomcat:9.0.102-jdk11
+
+MAINTAINER "chachacreate<kirk0221@naver.com>"
+
+# 기본 웹앱 제거
+RUN rm -rf /usr/local/tomcat/webapps/*
+
+# 환경변수 설정 (server.xml에서 사용)
+ENV TZ=Asia/Seoul
+
+# 시간대 설정
+RUN ln -snf /usr/share/zoneinfo/Asia/Seoul /etc/localtime && echo Asia/Seoul > /etc/timezone
+
+# WAR 파일 직접 배포
+ADD target/ROOT.war /usr/local/tomcat/webapps/ROOT.war
+
+# server.xml 복사
+ADD files/server.xml /usr/local/tomcat/conf/server.xml
+
+EXPOSE 8080
