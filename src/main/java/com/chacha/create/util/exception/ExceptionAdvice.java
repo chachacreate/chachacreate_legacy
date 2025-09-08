@@ -20,13 +20,14 @@ import lombok.extern.slf4j.Slf4j;
 @ControllerAdvice
 public class ExceptionAdvice {
 
-	@Autowired
-	BootPathConfig bootpath;
-
-	@ModelAttribute("springBootApiUrl")
-	public String addApiUrls(Model model) {
-		return bootpath.getBootUrl();
-	}
+//// Nginx 환경에서는 필요 없음
+//	@Autowired
+//	BootPathConfig bootpath;
+//
+//	@ModelAttribute("springBootApiUrl")
+//	public String addApiUrls(Model model) {
+//		return bootpath.getBootUrl();
+//	}
 
 	// 404 에러 처리
 	@ExceptionHandler(NoHandlerFoundException.class)
