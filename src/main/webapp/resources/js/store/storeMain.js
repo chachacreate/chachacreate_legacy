@@ -43,7 +43,7 @@ function mainProduct() {
       	const desc = bs.productDetail.length > 20 ? bs.productDetail.slice(0,50) + '...' : bs.productDetail;
       
         const html = `
-          <div class="swiper-slide" onclick="location.href='${cpath}/${storeUrl}/productdetail/${bs.productId}'">
+          <div class="swiper-slide" onclick="location.href='${cpath}/${storeUrl}/products/${bs.productId}'">
             <div class="card">
               <img class="store-img" src="${bs.pimgUrl}" alt="${bs.productName}">
               <h3>${bs.productName}</h3>
@@ -103,12 +103,12 @@ function renderBestProduct(bestProduct) {
   bestProduct.forEach(bf => {
     const priceText = bf.price ? Number(bf.price).toLocaleString() + "원" : "가격 정보 없음";
     html += `
-      <div class="swiper-slide" onclick="location.href='${cpath}/${storeUrl}/productdetail/${bf.productId}'">
+      <div class="swiper-slide" onclick="location.href='${cpath}/${storeUrl}/products/${bf.productId}'">
         <div class="product-card">
           <div class="product-image-box">
             <img class="product-img" src="${bf.pimgUrl}" alt="${bf.productName}">
             <div class="product-icon">
-              <a href="${cpath}/${storeUrl}/productdetail/${bf.productId}">
+              <a href="${cpath}/${storeUrl}/products/${bf.productId}">
                 <span class="material-symbols-outlined">arrow_outward</span>
               </a>
             </div>

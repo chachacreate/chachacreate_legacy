@@ -315,7 +315,7 @@ function renderProductList(products) {
     const priceText = product.price ? Number(product.price).toLocaleString() + "원" : "가격 정보 없음";
 
     wrapper.innerHTML += `
-      <div class="product-card" onclick="location.href='${cpath}/${storeUrl}/productdetail/${product.productId}'">
+      <div class="product-card" onclick="location.href='${cpath}/${storeUrl}/products/${product.productId}'">
         <div class="product-image">
           <img class="product-img" src="${product.pimgUrl}" alt="${product.productName}" />
         </div>
