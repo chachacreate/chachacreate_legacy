@@ -254,7 +254,7 @@ $(function () {
     const $item = $(this).closest('.cart-item');
     const productId = $item.data('product-id');
     const storeUrl = $item.data('store-url') || 'main';
-    window.location.href = `${cpath}/${storeUrl}/productdetail/${productId}`;
+    window.location.href = `${cpath}/${storeUrl}/products/${productId}`;
   });
 
   // 스토어 이름 클릭 시 해당 스토어 페이지 이동

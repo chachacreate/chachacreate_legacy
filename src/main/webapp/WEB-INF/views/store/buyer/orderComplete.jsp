@@ -134,7 +134,7 @@
               const $item = $(this).closest('.order-item');
               const productId = $item.data('product-id');
               const storeUrl = $item.data('store-url') || 'main';
-              window.location.href = `${pageContext.request.contextPath}/\${storeUrl}/productdetail/\${productId}`;
+              window.location.href = `${pageContext.request.contextPath}/\${storeUrl}/products/\${productId}`;
             });
 
           } else {

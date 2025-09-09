@@ -65,12 +65,12 @@ function renderBestProduct(bestProduct) {
       ? Number(bf.price).toLocaleString() + "원"  : "가격 정보 없음";
 
     html += `
-      <div class="swiper-slide" onclick="location.href='${cpath}/main/productdetail/${bf.productId}'">
+      <div class="swiper-slide" onclick="location.href='${cpath}/main/products/${bf.productId}'">
         <div class="product-card">   
           <div class="product-image-box">
             <img class="product-img" src="${bf.pimgUrl}" alt="${bf.productName}">
             <div class="product-icon">
-              <a href="${cpath}/main/productdetail/${bf.productId}">
+              <a href="${cpath}/main/products/${bf.productId}">
                 <span class="material-symbols-outlined">arrow_outward</span>
               </a>
             </div>
@@ -111,7 +111,7 @@ function renderNewProduct(newProduct) {
       : "가격 정보 없음";
 
     html += `
-      <div class="preview-card" onclick="location.href='${cpath}/${nf.storeUrl}/productdetail/${nf.productId}'">
+      <div class="preview-card" onclick="location.href='${cpath}/${nf.storeUrl}/products/${nf.productId}'">
         <img class="new-product-img" src="${nf.pimgUrl}" alt="${nf.productName}">
         <p class="product-name">${nf.productName}</p>
         <p class="product-price">${priceText}</p>

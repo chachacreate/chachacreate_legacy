@@ -116,7 +116,7 @@ $(document).ready(function () {
     }
 
     const productId = $(this).data("product-id");
-    const detailUrl = `${cpath}/${storeUrl}/productdetail/${productId}`;
+    const detailUrl = `${cpath}/${storeUrl}/products/${productId}`;
 
     window.location.href = detailUrl;
   });

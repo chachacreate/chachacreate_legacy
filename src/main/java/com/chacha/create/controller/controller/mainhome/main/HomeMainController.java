@@ -30,7 +30,7 @@ public class HomeMainController {
     }
     
 	// 상세페이지
-	@GetMapping("/productdetail/{productId}")
+	@GetMapping("/products/{productId}")
 	public String showProductdetail() {
 		return "store/productDetail";
 	}

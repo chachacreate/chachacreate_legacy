@@ -8,7 +8,7 @@ $(function () {
 	  const storeUrl = $row.data('store-url') || 'main';
 	
 	  if (productId) {
-	    window.location.href = `${cpath}/${storeUrl}/productdetail/${productId}`;
+	    window.location.href = `${cpath}/${storeUrl}/products/${productId}`;
 	  } else {
 	    alert("상품 정보를 찾을 수 없습니다.");
 	  }
