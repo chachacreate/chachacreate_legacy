@@ -564,10 +564,9 @@
 	    // 버튼이 active 된 것의 값을 찾음
 	    const selectedType = document.querySelector('.type-button.active');
 	    const userType = selectedType?.dataset.type;
-	    const BOOT_API = '${springBootApiUrl}';
 	    // AJAX POST 요청
 	    $.ajax({
-	    	  url: BOOT_API + '/auth/join',
+	    	  url: '/api/auth/join',
 	    	  type: 'POST',
 	    	  contentType: 'application/json',
 	    	  data: JSON.stringify(data),
@@ -579,7 +578,7 @@
 	    	    		    "password": memberPwd
 	    	    		}
 	    	      $.ajax({
-	    	          url: BOOT_API + '/auth/login',
+	    	          url: '/api/auth/login',
 	    	          type: 'POST',
 	    	          contentType: 'application/json',
 	    	          data: JSON.stringify(logindata),
