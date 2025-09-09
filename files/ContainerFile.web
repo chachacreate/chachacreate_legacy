@@ -53,6 +53,6 @@ RUN echo '#!/bin/bash' > /usr/local/tomcat/bin/start.sh && \
     echo 'exec /usr/local/tomcat/bin/catalina.sh run' >> /usr/local/tomcat/bin/start.sh && \
     chmod +x /usr/local/tomcat/bin/start.sh
 
-EXPOSE 9999
+EXPOSE 8080
 
 CMD ["/usr/local/tomcat/bin/start.sh"]
