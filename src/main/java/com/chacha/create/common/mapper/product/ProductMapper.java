@@ -3,7 +3,11 @@ package com.chacha.create.common.mapper.product;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
+import com.chacha.create.common.dto.product.ProductDailySettlementDTO;
+import com.chacha.create.common.dto.product.ProductlistDTO;
+import com.chacha.create.common.dto.product.StoreProductSettlementDTO;
 import com.chacha.create.common.entity.product.ProductEntity;
 
 /**
@@ -65,4 +69,25 @@ public interface ProductMapper {
 	
 	// for 자신의 상품인지 검증
 	int selectForStoreIdByProductId(int productId);
+	
+	// 드롭다운용: 스토어 URL 기준으로 상품ID/명/대표이미지 목록 조회 
+    List<ProductlistDTO> selectListForDropdownByStoreUrl(String storeUrl);
+    
+    /**
+     * 상품 일별 결제 금액 합계 조회
+     *
+     * @param productId  상품 ID (필수)
+     * @param startDate  시작일(YYYY-MM-DD) - null 가능
+     * @param endDate    종료일(YYYY-MM-DD) - null 가능
+     * @param status     주문상태(기본 ORDER_OK). null/빈문자면 ORDER_OK로 대체
+     */
+    List<ProductDailySettlementDTO.DailyEntry> selectProductDailyAmounts(
+            @Param("productId") Integer productId
+    );
+    
+    /** 스토어 전체 상품 정산 조회 */
+    List<StoreProductSettlementDTO> selectStoreProductSettlements(
+            @Param("storeUrl") String storeUrl
+    );
+
 }

@@ -21,6 +21,23 @@
     <!-- delete_check를 쓰면 여기도 매핑 추가 -->
   </resultMap>
 
+	<resultMap id="DailyEntryMap"
+		type="com.chacha.create.common.dto.product.ProductDailySettlementDTO$DailyEntry">
+		<result column="date" property="date" />
+		<result column="amount" property="amount" />
+	</resultMap>
+
+    <resultMap id="StoreProductSettlementMap"
+               type="com.chacha.create.common.dto.product.StoreProductSettlementDTO">
+        <result column="settlement_date" property="settlementDate"/>
+        <result column="amount" property="amount"/>
+        <result column="account" property="account"/>
+        <result column="bank" property="bank"/>
+        <result column="update_at" property="updateAt"/>
+    </resultMap>
+	
+  
+
   <select id="selectAll" resultMap="productResultMap">
     SELECT * FROM product
   </select>
@@ -79,4 +96,72 @@
   <select id="selectForStoreIdByProductId" resultType="int">
     SELECT store_id FROM product WHERE product_id = #{productId}
   </select>
+
+	<select id="selectListForDropdownByStoreUrl"
+		parameterType="string"
+		resultType="com.chacha.create.common.dto.product.ProductlistDTO">
+
+		SELECT
+		p.product_id AS productId,
+		p.product_name AS
+		productName,
+		i.p_img_url AS pimgUrl
+		FROM store s
+		JOIN product p
+		ON
+		p.store_id = s.store_id
+		LEFT JOIN p_img i
+		ON i.product_id = p.product_id
+		AND i.p_img_seq = 1
+		WHERE s.store_url = #{storeUrl}
+		AND
+		NVL(p.delete_check, 0) = 0
+		ORDER BY p.last_modified_date DESC
+	</select>
+
+<select id="selectProductDailyAmounts"
+        parameterType="int"
+        resultMap="DailyEntryMap">
+
+  SELECT
+    TO_CHAR(TRUNC(o.order_date), 'YYYY-MM-DD') AS "date",
+    NVL(SUM(od.order_cnt * od.order_price), 0)  AS "amount"
+  FROM order_detail od
+  JOIN order_info o ON o.order_id = od.order_id
+  WHERE od.product_id = #{productId}
+    AND o.order_status = 'ORDER_OK'
+  GROUP BY TRUNC(o.order_date)
+  ORDER BY "date" ASC
+</select>
+
+<!-- 스토어 전체 상품 정산 내역 조회 -->
+<select id="selectStoreProductSettlements" parameterType="string"
+        resultMap="StoreProductSettlementMap">
+
+    SELECT
+        TO_CHAR(ADD_MONTHS(TRUNC(oi.order_date, 'MM'), 1), 'YYYY-MM-DD') AS settlement_date,
+        NVL(SUM(od.order_cnt * od.order_price), 0) AS amount,
+        se.account AS account,
+        se.account_bank AS accountBank,
+        TO_CHAR(MAX(p.last_modified_date), 'YYYY-MM-DD HH24:MI:SS') AS update_at
+    FROM store s
+             JOIN product p ON p.store_id = s.store_id
+             JOIN order_detail od ON od.product_id = p.product_id
+             JOIN order_info oi ON oi.order_id = od.order_id
+             JOIN seller se ON se.seller_id = s.seller_id
+    WHERE s.store_url = #{storeUrl}
+      AND oi.order_status = 'ORDER_OK'
+      AND NVL(p.delete_check, 0) = 0
+    GROUP BY ADD_MONTHS(TRUNC(oi.order_date, 'MM'), 1),
+             se.account,
+             se.account_bank
+    ORDER BY settlement_date ASC
+
+
+</select>
+
+
+
+
+	
 </mapper>
