@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/" reloadable="true">
+  <Resource name="jdbc/myoracle"
+            auth="Container"
+            type="javax.sql.DataSource"
+            driverClassName="oracle.jdbc.OracleDriver"
+            url="jdbc:oracle:thin:@${DB_SERVICE_NAME}?TNS_ADMIN=${TNS_ADMIN}"
+            username="${DB_USERNAME}"
+            password="${DB_PASSWORD}"
+            maxTotal="20"
+            maxIdle="10"
+            minIdle="5"
+            initialSize="5"/>
+</Context>
