@@ -5,7 +5,10 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.chacha.create.common.dto.product.ProductDailySettlementDTO;
+import com.chacha.create.common.dto.product.StoreProductSettlementDTO;
 import com.chacha.create.common.mapper.manage.ManageMapper;
+import com.chacha.create.common.mapper.product.ProductMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -14,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 public class SettlementManagementService {
 	
 	private final ManageMapper manageMapper;
+	private final ProductMapper productMapper;
 	
 	public List<Map<String, Object>> sellerSettlementManagement(String storeUrl){
 		return manageMapper.sellerSettlementManagement(storeUrl);
@@ -36,4 +40,26 @@ public class SettlementManagementService {
         }
         return grouped;
 	}
+	
+	/**
+     * 특정 상품의 일별 정산 데이터 조회
+     */
+	public ProductDailySettlementDTO getProductDailySettlement(Integer productId) {
+	    // 이제 DailyEntry 리스트를 반환받음
+	    List<ProductDailySettlementDTO.DailyEntry> rows =
+	            productMapper.selectProductDailyAmounts(productId);
+
+	    return ProductDailySettlementDTO.builder()
+	            .productId(productId)
+	            .daily(rows)
+	            .build();
+	}
+	
+	/** 스토어 전체 상품 정산 */
+    public List<StoreProductSettlementDTO> getStoreProductSettlements(String storeUrl) {
+        return productMapper.selectStoreProductSettlements(storeUrl);
+    }
+
+
+
 }
