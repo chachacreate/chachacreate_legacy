@@ -27,8 +27,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="saleCnt" column="sale_cnt" />
 		<result property="viewCnt" column="view_cnt" />
 		<result property="logoImg" column="logo_img" />
-		<result property="storeDetail" column="store_name" />
-		<result property="storeName" column="store_detail" />
+		<result property="storeDetail" column="store_detail" />
+		<result property="storeName" column="store_name" />
 		
 		<!-- 조인 필드 -->
 		<result property="typeCategoryName" column="type_category_name"/>
@@ -56,7 +56,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         resultMap="homeProductResultMap"
         parameterType="map">
     
-	    SELECT p.*, ca.type_category_name, dc.d_category_name, uc.u_category_name, img.p_img_url, st.store_url
+	    SELECT p.*, ca.type_category_name, dc.d_category_name, uc.u_category_name, img.p_img_url, st.store_url, st.store_name
 	    FROM product p
 	    LEFT JOIN type_category ca ON p.type_category_id = ca.type_category_id
 	    LEFT JOIN d_category dc ON p.d_category_id = dc.d_category_id
@@ -127,11 +127,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 사용자가 상품이름으로 검색했을때  -->
 	<select id="selectByProductName" resultMap="homeProductResultMap" parameterType="map">
-		SELECT p.*, ca.type_category_name, dc.d_category_name, uc.u_category_name, img.p_img_url
+		SELECT p.*, ca.type_category_name, dc.d_category_name, uc.u_category_name, img.p_img_url, st.store_name
 			FROM product p
 			LEFT JOIN type_category ca ON p.type_category_id = ca.type_category_id
 			LEFT JOIN d_category dc ON p.d_category_id = dc.d_category_id
 			LEFT JOIN u_category uc ON dc.u_category_id = uc.u_category_id
+			LEFT JOIN store st ON p.store_id = st.store_id
 			LEFT JOIN (
 						SELECT product_id, p_img_url
 						FROM (
@@ -150,11 +151,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  SELECT * FROM (
 	    SELECT
 	      p.product_id, p.product_name, p.price, p.sale_cnt,
-	      ca.type_category_name, dc.d_category_name, uc.u_category_name, img.p_img_url
+	      ca.type_category_name, dc.d_category_name, uc.u_category_name, img.p_img_url, st.store_name
 	    FROM product p
 	    LEFT JOIN type_category ca ON p.type_category_id = ca.type_category_id
 	    LEFT JOIN d_category dc ON p.d_category_id = dc.d_category_id
 	    LEFT JOIN u_category uc ON dc.u_category_id = uc.u_category_id
+	    LEFT JOIN store st ON p.store_id = st.store_id
 	    LEFT JOIN (
 	      SELECT product_id, p_img_url
 	      FROM (
