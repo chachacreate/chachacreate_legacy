@@ -1,10 +1,15 @@
 package com.chacha.create.service.mainhome.store;
 
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.chacha.create.common.dto.boot.BootTokenDTO;
 import com.chacha.create.common.entity.member.MemberEntity;
 import com.chacha.create.common.entity.member.SellerEntity;
 import com.chacha.create.common.entity.store.StoreEntity;
@@ -12,6 +17,7 @@ import com.chacha.create.common.exception.InvalidRequestException;
 import com.chacha.create.common.exception.NeedLoginException;
 import com.chacha.create.common.mapper.member.SellerMapper;
 import com.chacha.create.common.mapper.store.StoreMapper;
+import com.chacha.create.util.BootAPIUtil;
 import com.chacha.create.util.s3.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,17 +29,19 @@ public class StoreService {
     
     private final StoreMapper storeMapper;
     private final SellerMapper sellerMapper;
+    private final BootAPIUtil bootAPIUtil;
     
     @Autowired
     private S3Uploader s3Uploader;
     
     @Transactional(rollbackFor = Exception.class)
-    public int storeUpdate(StoreEntity storeEntity, MemberEntity memberEntity, MultipartFile logoImg, boolean firstChk) {
+    public String storeUpdate(StoreEntity storeEntity, MemberEntity memberEntity, MultipartFile logoImg, boolean firstChk, HttpServletResponse response) {
         if(memberEntity == null) {
             throw new NeedLoginException("로그인이 필요합니다.");
         }
         
         SellerEntity sellerEntity = sellerMapper.selectByMemberId(memberEntity.getMemberId());
+        BootTokenDTO token = bootAPIUtil.upgradePersonalSellerToSeller(sellerEntity.getMemberId(), response);
         
         // storeUrl 형식 검증: 영문/숫자/언더바만 허용, 길이 3~20
         if (storeEntity.getStoreUrl() == null || !storeEntity.getStoreUrl().matches("^[a-zA-Z0-9_]{3,20}$")) {
@@ -76,8 +84,8 @@ public class StoreService {
         }
         
         sellerMapper.updateBypersonalCheck(sellerId, 0);
-        
-        return storeMapper.update(storeEntity);
+        storeMapper.update(storeEntity);
+        return token.getAccessToken();
     }
     
     // 기존 메서드들은 그대로 유지

@@ -165,7 +165,6 @@
 		    // JSP EL을 이용해 sessionScope.kakaoemail 값을 JS 변수에 할당
 		    var kakaoEmail = "${sessionScope.kakaoemail}";
 		    var naverInfo = "${sessionScope.naverInfo}";
-
 		    if (kakaoEmail) {
 		      // checkObj가 있으면 true로 설정 (checkObj가 전역객체라고 가정)
 		      if (typeof checkObj === "object") {
