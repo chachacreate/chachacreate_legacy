@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.chacha.create.common.dto.product.ProductDailySettlementDTO;
+import com.chacha.create.common.dto.product.ProductSalesResponseDTO;
 import com.chacha.create.common.dto.product.ProductlistDTO;
 import com.chacha.create.common.dto.product.StoreProductSettlementDTO;
 import com.chacha.create.common.entity.product.ProductEntity;
@@ -89,5 +90,8 @@ public interface ProductMapper {
     List<StoreProductSettlementDTO> selectStoreProductSettlements(
             @Param("storeUrl") String storeUrl
     );
+    
+    // 상품 매출 조회
+    List<ProductSalesResponseDTO> findDailyProductSalesByStore(@Param("storeUrl") String storeUrl);
 
 }

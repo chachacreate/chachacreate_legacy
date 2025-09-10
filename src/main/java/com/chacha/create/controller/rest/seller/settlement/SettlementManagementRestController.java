@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.chacha.create.common.dto.error.ApiResponse;
 import com.chacha.create.common.dto.product.ProductDailySettlementDTO;
+import com.chacha.create.common.dto.product.ProductSalesResponseDTO;
 import com.chacha.create.common.dto.product.ProductlistDTO;
 import com.chacha.create.common.dto.product.StoreProductSettlementDTO;
 import com.chacha.create.common.enums.error.ResponseCode;
@@ -79,6 +80,20 @@ public class SettlementManagementRestController {
 				return new ApiResponse<>(ResponseCode.OK,list);
 		
 	}
+	
+	 /**
+     * 특정 스토어의 상품 일별 매출 조회
+     * @param storeURL
+     * @return 매출 리스트 (날짜별 금액)
+     */
+	@GetMapping("/{storeUrl}/sales")
+	 public ApiResponse<List<ProductSalesResponseDTO>> getDailyProductSales(
+	            @PathVariable("storeUrl") String storeUrl
+	    ) {
+	        log.info("[LegacyProductSalesController] 상품 매출 조회 요청");
+	        List<ProductSalesResponseDTO> sales = ssmService.getDailyProductSalesByStore(storeUrl);
+	        return new ApiResponse<>(ResponseCode.OK, sales);
+	    }
 
 
 }
