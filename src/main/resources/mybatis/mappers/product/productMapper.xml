@@ -156,9 +156,35 @@
              se.account,
              se.account_bank
     ORDER BY settlement_date ASC
-
-
 </select>
+
+ <!-- 
+        상품 매출 조회
+        - order_info(order_date, order_status)
+        - order_detail(order_cnt, order_price)
+        - product(store_id)
+        조건:
+          * store_id = #{storeId}
+          * order_status = 'ORDER_OK'
+        결과:
+          * ymd = 주문 발생일 (YYYY-MM-DD)
+          * amt = 해당 일자의 총 매출 (수량 * 가격)
+    -->
+    <select id="findDailyProductSalesByStore"
+            parameterType="String"
+            resultType="com.chacha.create.common.dto.product.ProductSalesResponseDTO">
+        SELECT
+            TO_CHAR(oi.order_date, 'YYYY-MM-DD') AS ymd,
+            NVL(SUM(od.order_cnt * od.order_price), 0) AS amt
+        FROM order_info oi
+                 JOIN order_detail od ON oi.order_id = od.order_id
+                 JOIN product p ON od.product_id = p.product_id
+                 JOIN store s ON s.store_id = p.store_id
+        WHERE s.store_url = #{storeUrl}
+          AND oi.order_status = 'ORDER_OK'
+        GROUP BY TO_CHAR(oi.order_date, 'YYYY-MM-DD')
+        ORDER BY ymd ASC
+    </select>
 
 
 

@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.chacha.create.common.dto.product.ProductDailySettlementDTO;
+import com.chacha.create.common.dto.product.ProductSalesResponseDTO;
 import com.chacha.create.common.dto.product.StoreProductSettlementDTO;
 import com.chacha.create.common.mapper.manage.ManageMapper;
 import com.chacha.create.common.mapper.product.ProductMapper;
@@ -60,6 +61,10 @@ public class SettlementManagementService {
         return productMapper.selectStoreProductSettlements(storeUrl);
     }
 
+    // 판매자 상품 매출 조회
+    public List<ProductSalesResponseDTO> getDailyProductSalesByStore(String storeUrl) {
+        return productMapper.findDailyProductSalesByStore(storeUrl);
+    }
 
 
 }
