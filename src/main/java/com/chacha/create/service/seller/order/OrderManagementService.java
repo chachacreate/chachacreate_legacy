@@ -73,6 +73,14 @@ public class OrderManagementService {
 	    return orders;
 	}
 	
+	public boolean updateOrderStatus(int orderId, OrderStatusEnum toStatus) {
+        OrderInfoEntity entity = new OrderInfoEntity();
+        entity.setOrderId(orderId);
+        entity.setOrderStatus(toStatus);
+        int affected = orderInfoMapper.updateForOrderStatus(entity);
+        return affected > 0;
+    }
+	
 	@Transactional(rollbackFor = Exception.class)
 	public int updateForRefundStatus(OrderInfoEntity orderInfoEntity) {
 		orderInfoEntity.setOrderStatus(OrderStatusEnum.REFUND_OK);
