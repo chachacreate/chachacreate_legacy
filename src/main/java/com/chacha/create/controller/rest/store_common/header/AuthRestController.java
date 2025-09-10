@@ -3,6 +3,7 @@ package com.chacha.create.controller.rest.store_common.header;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.MediaType;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.chacha.create.common.dto.boot.BootTokenDTO;
 import com.chacha.create.common.dto.error.ApiResponse;
 import com.chacha.create.common.dto.member.RegisterDTO;
 import com.chacha.create.common.entity.member.AddrEntity;
@@ -64,11 +66,12 @@ public class AuthRestController {
     }
 
     @PostMapping(value = "/join/seller", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<Integer>> seller(HttpSession session, @RequestBody SellerEntity sellerEntity) {
+    public ResponseEntity<ApiResponse<String>> seller(HttpServletResponse response, HttpSession session, @RequestBody SellerEntity sellerEntity) {
         MemberEntity member = (MemberEntity) session.getAttribute("loginMember");
-        int result = registerService.sellerinsert(sellerEntity, member);
+        BootTokenDTO token = registerService.sellerinsert(sellerEntity, member, response);
+        String accessToken = token.getAccessToken();
         return ResponseEntity.status(ResponseCode.CREATED.getStatus())
-                             .body(new ApiResponse<>(ResponseCode.CREATED, result));
+                             .body(new ApiResponse<>(ResponseCode.CREATED, accessToken));
     }
     
     @PostMapping("/loginSuccess")

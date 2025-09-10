@@ -165,5 +165,67 @@ public class BootAPIUtil {
         log.debug("insertBootMemberAddress Response: {}", data);
         return data;
     }
+    
+    // 회원 권한 업데이트 + 새 토큰 발급 (쿠키 포함)
+    public BootTokenDTO updateMemberRoleWithToken(Long memberId, String memberRole, HttpServletResponse legacyResponse) {
+        String url = bootApiUrl + "/auth/role/" + memberId + "/" + memberRole;
+        
+        try {
+            log.info("회원 권한 업데이트 및 토큰 재발급 요청 - memberId: {}, role: {}", memberId, memberRole);
+            
+            ResponseEntity<ApiResponse<BootTokenDTO>> response =
+                    restTemplate.exchange(url,
+                            HttpMethod.PATCH,
+                            null,
+                            new ParameterizedTypeReference<ApiResponse<BootTokenDTO>>() {}
+                    );
+
+            // Boot 서버에서 받은 쿠키를 Legacy 응답에 복사
+            List<String> setCookieHeaders = response.getHeaders().get("Set-Cookie");
+            if (setCookieHeaders != null) {
+                for (String cookie : setCookieHeaders) {
+                    legacyResponse.addHeader("Set-Cookie", cookie);
+                    log.debug("쿠키 전달: {}", cookie);
+                }
+            }
+
+            BootTokenDTO data = response.getBody() != null ? response.getBody().getData() : null;
+            log.info("회원 권한 업데이트 및 토큰 재발급 완료 - memberId: {}, role: {}", memberId, memberRole);
+            return data;
+            
+        } catch (Exception e) {
+            log.error("회원 권한 업데이트 및 토큰 재발급 실패 - memberId: {}, role: {}, 오류: {}", 
+                    memberId, memberRole, e.getMessage());
+            throw new RuntimeException("회원 권한 업데이트 및 토큰 재발급 중 오류가 발생했습니다.", e);
+        }
+    }
+    
+    /**
+     * 회원을 판매자로 권한 변경 + 토큰 재발급
+     */
+    public BootTokenDTO upgradePersonalSellerToSeller(Integer memberId, HttpServletResponse legacyResponse) {
+        return updateMemberRoleWithToken(memberId.longValue(), "SELLER", legacyResponse);
+    }
+    
+    /**
+     * 회원을 개인 판매자로 권한 변경 + 토큰 재발급
+     */
+    public BootTokenDTO upgradeMemberToPersonalSeller(Integer memberId, HttpServletResponse legacyResponse) {
+        return updateMemberRoleWithToken(memberId.longValue(), "PERSONAL_SELLER", legacyResponse);
+    }
+    
+    /**
+     * 회원을 관리자로 권한 변경 + 토큰 재발급
+     */
+    public BootTokenDTO upgradeMemberToAdmin(Integer memberId, HttpServletResponse legacyResponse) {
+        return updateMemberRoleWithToken(memberId.longValue(), "ADMIN", legacyResponse);
+    }
+    
+    /**
+     * 회원을 일반 사용자로 권한 변경 + 토큰 재발급
+     */
+    public BootTokenDTO downgradeMemberToUser(Integer memberId, HttpServletResponse legacyResponse) {
+        return updateMemberRoleWithToken(memberId.longValue(), "USER", legacyResponse);
+    }
 
 }

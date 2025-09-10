@@ -139,6 +139,7 @@ public class AuthController {
 	@GetMapping("/join/seller")
 	public String loginInfo(HttpSession session) {
 		session.removeAttribute("kakaoemail");
+		session.removeAttribute("naverInfo");
 		return "auth/join/joinSeller";
 	}
 	
@@ -186,14 +187,13 @@ public class AuthController {
 	    String email = (String) userInfo.get("email");
 	    BootTokenDTO bootTokenDTO = bootAPIUtil.socialLogin(email, response);
 	    if (bootTokenDTO == null) {
-	        session.setAttribute("kakaoemail", email);
 
 	        // redirectAfterLogin 값 보존
 	        Object redirect = session.getAttribute("redirectAfterLogin");
 	        if (redirect != null) {
 	            session.setAttribute("pendingRedirectAfterJoin", redirect);
 	        }
-
+	        session.setAttribute("kakaoemail", email);
 	        return "redirect:/auth/join/agree";
 	    }
 	    
@@ -223,14 +223,14 @@ public class AuthController {
 	    String email = (String) userInfo.get("email");
 	    BootTokenDTO bootTokenDTO = bootAPIUtil.socialLogin(email, response);
 	    if (bootTokenDTO == null) {
-	        session.setAttribute("naverInfo", userInfo);
 
 	        // redirectAfterLogin 값 보존
 	        Object redirect = session.getAttribute("redirectAfterLogin");
 	        if (redirect != null) {
 	            session.setAttribute("pendingRedirectAfterJoin", redirect);
 	        }
-
+	        
+	        session.setAttribute("naverInfo", userInfo);
 	        return "redirect:/auth/join/agree";
 	    }
 
