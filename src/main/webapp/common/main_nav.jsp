@@ -71,7 +71,7 @@
         </a>
 
         <!-- 스토어 -->
-        <a href="${cpath}/main/store/stores"
+        <a href="${cpath}/main/stores"
            class="group relative flex-1 md:flex-none text-center md:text-left text-[#2D4739] hover:text-[#1b2e23] text-[14px] md:text-[18px] py-2 md:py-0 md:pb-1
                   ${fn:contains(uri, 'mainStoreList.jsp') ? 'font-bold' : ''}">
           스토어
