@@ -239,6 +239,7 @@
 			contentType: false,
 			success: function (response) {
 				alert('스토어 신청이 완료되었습니다.');
+				localStorage.setItem('accessToken', res.data.accessToken);
 				location.href = '${cpath}/' + storeUrl;
 			},
 			error: function (xhr) {

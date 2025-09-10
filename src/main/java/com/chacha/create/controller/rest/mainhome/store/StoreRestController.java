@@ -1,6 +1,8 @@
 package com.chacha.create.controller.rest.mainhome.store;
 
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,11 +34,12 @@ public class StoreRestController {
     }
     
     @PostMapping(value = "/openform", consumes = "multipart/form-data", produces = "application/json")
-    public ResponseEntity<ApiResponse<Integer>> storeCreate(
+    public ResponseEntity<ApiResponse<String>> storeCreate(
             @RequestParam("storeName") String storeName,
             @RequestParam("storeUrl") String storeUrl,
             @RequestParam("storeDetail") String storeDetail,
             @RequestParam("logoImg") MultipartFile logoImg,
+            HttpServletResponse response,
             HttpSession session) {
         
         MemberEntity memberEntity = (MemberEntity) session.getAttribute("loginMember");
@@ -50,8 +53,8 @@ public class StoreRestController {
         
         log.info("입력받은 스토어 정보: {}", storeEntity);
         
-        int result = storeService.storeUpdate(storeEntity, memberEntity, logoImg, true);
-        return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, result));
+        String accessToken = storeService.storeUpdate(storeEntity, memberEntity, logoImg, true, response);
+        return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, accessToken));
     }
     
     @GetMapping("/checkurl")
