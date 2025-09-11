@@ -5,6 +5,24 @@
 
 <mapper
 	namespace="com.chacha.create.common.mapper.product.ProductManageMapper">
+	
+	<select id="selectProductWithThumbnail"
+	        parameterType="int"
+	        resultType="productDetailDTO">
+	    SELECT
+	        p.*,
+	        (
+				SELECT pi.p_img_url
+				  FROM p_img pi
+				 WHERE pi.product_id = p.product_id
+				   AND pi.p_img_enum = 'THUMBNAIL'
+				   AND pi.p_img_seq  = 1
+				   AND ROWNUM = 1
+	        ) AS thumbnail_url
+	    FROM product p
+	    WHERE p.product_id = #{productId}
+	      AND p.delete_check = 0
+	</select>
 
 	<select id="updateProductDetail"
 		resultType="productUpdateDTO">
