@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.chacha.create.common.dto.error.ApiResponse;
+import com.chacha.create.common.dto.product.ProductDetailDTO;
 import com.chacha.create.common.entity.member.SellerEntity;
 import com.chacha.create.common.entity.product.ProductEntity;
 import com.chacha.create.common.entity.store.StoreEntity;
 import com.chacha.create.common.enums.error.ResponseCode;
+import com.chacha.create.common.mapper.product.ProductManageMapper;
 import com.chacha.create.common.mapper.product.ProductMapper;
 import com.chacha.create.common.mapper.store.StoreMapper;
 
@@ -25,7 +27,7 @@ public class BootRestController {
 	StoreMapper storemapper;
 	
 	@Autowired
-	ProductMapper productMapper;
+	ProductManageMapper productManageMapper;
 	
 	@GetMapping("/info/store/{storeUrl}")
 	public ApiResponse<StoreEntity> getStoreDetailByName(@PathVariable String storeUrl) {
@@ -48,8 +50,10 @@ public class BootRestController {
     }
 	
 	@GetMapping("info/product/{productId}")
-	public ApiResponse<ProductEntity> getProductDetailById(@PathVariable int productId) {
+	public ApiResponse<ProductDetailDTO> getProductDetailById(@PathVariable int productId) {
 		log.info("boot에서 상품 조회");
-		return new ApiResponse<>(ResponseCode.OK, productMapper.selectByProductId(productId));
+		return new ApiResponse<>(ResponseCode.OK, productManageMapper.selectProductWithThumbnail(productId));
 	}
+	
+	
 }

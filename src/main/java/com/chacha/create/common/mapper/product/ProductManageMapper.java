@@ -25,4 +25,6 @@ public interface ProductManageMapper {
 	int updateDeleteCheck(int productId);
 
 	int updateDeleteCheckById(Map<String, Object> param);
+	
+	ProductDetailDTO selectProductWithThumbnail(int productId);
 }

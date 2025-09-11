@@ -42,4 +42,7 @@ public class ProductDetailDTO {
     
     // TypeCategoryEntity
     private String typeCategoryName;
+    
+    // PImgEntity
+    private String thumbnailUrl;
 }
