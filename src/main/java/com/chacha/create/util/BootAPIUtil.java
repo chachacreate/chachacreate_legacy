@@ -228,4 +228,10 @@ public class BootAPIUtil {
         return updateMemberRoleWithToken(memberId.longValue(), "USER", legacyResponse);
     }
 
+    /**
+     * 회원을 개인 판매자로 권한 변경 + 토큰 재발급
+     */
+    public BootTokenDTO downgradeMemberToPersonalSeller(Integer memberId, HttpServletResponse legacyResponse) {
+        return updateMemberRoleWithToken(memberId.longValue(), "USER", legacyResponse);
+    }
 }
