@@ -78,6 +78,7 @@
 		SELECT
 		p.*,
 		s.store_name,
+		s.store_url,
 		t.type_category_name,
 		d.d_category_name,
 		u.u_category_name

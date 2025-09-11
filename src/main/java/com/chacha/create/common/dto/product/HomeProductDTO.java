@@ -30,6 +30,7 @@ public class HomeProductDTO {
     private Date lastModifiedDate;
     private Integer flagshipCheck;
     private String logoImg;
+    private String storeUrl;
     private String storeName;
     private String storeDetail;
     

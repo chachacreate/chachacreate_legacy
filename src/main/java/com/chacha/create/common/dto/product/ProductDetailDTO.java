@@ -31,6 +31,7 @@ public class ProductDetailDTO {
     
     // StoreEntity
     private String storeName;
+    private String storeUrl;
     
     // DCategoryEntity
     private UCategoryEnum uCategoryId;
