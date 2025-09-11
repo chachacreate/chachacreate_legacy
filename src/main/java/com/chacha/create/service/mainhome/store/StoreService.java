@@ -116,4 +116,9 @@ public class StoreService {
         log.info("로그인 사용자의 상품 개수 : " + productCount);
         return productCount < 2;
     }
+
+	public void click(int storeId) {
+		storeMapper.updateClick(storeId);
+		
+	}
 }

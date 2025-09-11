@@ -4,19 +4,23 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.chacha.create.common.dto.error.ApiResponse;
 import com.chacha.create.common.entity.member.MemberEntity;
 import com.chacha.create.common.entity.store.StoreEntity;
 import com.chacha.create.common.enums.error.ResponseCode;
 import com.chacha.create.service.mainhome.store.StoreService;
+
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -61,5 +65,13 @@ public class StoreRestController {
     public ResponseEntity<Boolean> checkStoreUrlDuplicate(@RequestParam String storeUrl) {
         boolean exists = storeService.existsByStoreUrl(storeUrl);
         return ResponseEntity.ok(!exists);  // true: 사용 가능, false: 중복
+    }
+    
+    @GetMapping("/click/{storeId}")
+    public ResponseEntity<ApiResponse<String>> clickStore(
+    		@PathVariable int storeId
+    		){
+    	storeService.click(storeId);
+    	return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, "성공"));
     }
 }
