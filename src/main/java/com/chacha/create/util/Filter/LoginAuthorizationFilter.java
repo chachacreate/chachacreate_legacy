@@ -117,6 +117,15 @@ public class LoginAuthorizationFilter implements Filter {
 					log.debug("제외된 경로: /main/mypage");
 					return false;
 				}
+				// /legacy/main/sell/* 처리
+	            if (path.equals("/legacy/") && uri.startsWith("/legacy/main/sell/")) {
+	                if (uri.equals("/legacy/main/sell/info")) {
+	                    log.debug("허용된 경로: {}", uri);
+	                    return true; // info만 허용
+	                }
+	                log.debug("차단된 legacy sell 경로: {}", uri);
+	                return false; // 나머지 sell/*는 차단
+	            }
 				return true;
 			}
 		}
@@ -153,7 +162,12 @@ public class LoginAuthorizationFilter implements Filter {
 			log.debug("관리자 권한 체크: memberId={}, isAdmin={}", member.getMemberId(), isAdminUser);
 			return isAdminUser;
 		}
-		
+		if (uri.startsWith("/legacy/main/sell/")) {
+			if (sellerMapper.selectByMemberId(member.getMemberId()).getPersonalCheck() == 1) {
+				return true;
+			}
+			return false;
+		}
 		// 스토어 판매자 경로
 		if (uri.matches("^/[^/]+/seller(/.*)?$")) {
 			String[] parts = uri.split("/");
