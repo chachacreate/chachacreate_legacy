@@ -78,6 +78,11 @@ public class LoginAuthorizationFilter implements Filter {
 		log.debug("요청 URI: {}, 상대 URI: {}", uri, relativeUri);
 		log.debug("Authorization 헤더: {}", req.getHeader("Authorization"));
 		
+		if (req.getRequestURI().equals("/")) {
+            res.sendRedirect(req.getContextPath() + "/main");
+            return;
+        }
+		
 		// 1. 완전 화이트리스트 (인증 불필요)
 		if (isCompletelyWhitelisted(relativeUri)) {
 			log.debug("완전 화이트리스트 경로 - 인증 패스: {}", relativeUri);
