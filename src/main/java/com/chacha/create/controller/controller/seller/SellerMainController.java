@@ -348,45 +348,4 @@ public class SellerMainController {
 		return "store/seller/storeClose";
 	}
 	
-	// 폐업 처리 로직
-	@PostMapping("/close")
-	public String handleShutdown(@PathVariable String storeUrl,
-	                             @RequestParam("email") String email,
-	                             @RequestParam("password") String password,
-	                             HttpSession session,
-	                             Model model) {
-		setStoreNavInfo(storeUrl, model);
-	    MemberEntity loginMember = (MemberEntity) session.getAttribute("loginMember");
-
-	    // 로그인된 사용자와 입력 정보 비교
-	    if (loginMember == null || !loginMember.getMemberEmail().equals(email)) {
-	        model.addAttribute("errorMessage", "이메일이 일치하지 않습니다.");
-	        model.addAttribute("storeUrl", storeUrl);
-	        return "store/seller/storeClose";
-	    }
-
-	    try {
-	        MemberEntity validatedMember = loginService.login(email, password);
-
-	        if (!validatedMember.equals(loginMember)) {
-	            model.addAttribute("errorMessage", "비밀번호가 일치하지 않습니다.");
-	            return "store/seller/storeClose";
-	        }
-
-	        int result = shutdownService.shutdown(storeUrl);
-	        if (result > 0) {
-	            return "redirect:/main"; // 메인 페이지로 이동 (세션 유지)
-	        } else {
-	            model.addAttribute("errorMessage", "폐업 처리에 실패했습니다.");
-	        }
-	    } catch (LoginFailException e) {
-	        model.addAttribute("errorMessage", "비밀번호가 일치하지 않습니다.");
-	        return "store/seller/storeClose";
-	    } catch (IllegalStateException e) {
-	        model.addAttribute("errorMessage", e.getMessage());
-	    }
-
-	    return "store/seller/storeClose";
-	}
-	
 }
