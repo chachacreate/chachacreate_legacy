@@ -266,6 +266,7 @@
 		            data: JSON.stringify(sellerData),
 		            success: function(res) {
 		                alert('판매자 정보가 성공적으로 등록되었습니다.');
+		                localStorage.removeItem('accessToken')
 		                localStorage.setItem('accessToken', res.data.accessToken);
 		                window.location.href = '${cpath}/auth/join/complete';
 		            },

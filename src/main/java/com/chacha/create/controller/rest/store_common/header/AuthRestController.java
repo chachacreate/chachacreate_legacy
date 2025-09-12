@@ -68,10 +68,9 @@ public class AuthRestController {
     @PostMapping(value = "/join/seller", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<String>> seller(HttpServletResponse response, HttpSession session, @RequestBody SellerEntity sellerEntity) {
         MemberEntity member = (MemberEntity) session.getAttribute("loginMember");
-        BootTokenDTO token = registerService.sellerinsert(sellerEntity, member, response);
-        String accessToken = token.getAccessToken();
+        String accessToken = registerService.sellerinsert(sellerEntity, member, response);
         return ResponseEntity.status(ResponseCode.CREATED.getStatus())
-                             .body(new ApiResponse<>(ResponseCode.CREATED, ResponseCode.CREATED.getMessage(), accessToken));
+                             .body(new ApiResponse<>(ResponseCode.CREATED, "성공", accessToken));
     }
     
     @PostMapping("/loginSuccess")

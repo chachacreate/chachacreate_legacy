@@ -87,7 +87,7 @@ public class RegisterService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public BootTokenDTO sellerinsert(SellerEntity sellerEntity, MemberEntity memberEntity, HttpServletResponse response) {
+    public String sellerinsert(SellerEntity sellerEntity, MemberEntity memberEntity, HttpServletResponse response) {
     	sellerEntity.setMemberId(memberEntity.getMemberId());
     	sellerEntity.setPersonalCheck(1);
     	int inserted = sellerMapper.insert(sellerEntity); // insert 후 sellerId가 sellerEntity에 세팅됨
@@ -101,6 +101,6 @@ public class RegisterService {
                 .build();
         log.info(storeEntity.toString());
         storeMapper.insert(storeEntity);
-    	return token;
+    	return token.getAccessToken();
     }
 }
