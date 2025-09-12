@@ -12,6 +12,7 @@ import com.chacha.create.common.enums.category.DCategoryEnum;
 import com.chacha.create.common.enums.category.TypeCategoryEnum;
 import com.chacha.create.common.enums.category.UCategoryEnum;
 import com.chacha.create.common.mapper.product.MainPageMapper;
+import com.chacha.create.common.mapper.product.ProductMapper;
 import com.chacha.create.common.mapper.store.StoreIdCheckMapper;
 import com.chacha.create.util.ServiceUtil;
 
@@ -25,6 +26,7 @@ public class MainService {
 
     private final MainPageMapper mainPageMapper;
     private final StoreIdCheckMapper idCheckMapper;
+    private final ProductMapper productMapper;
 
     /** 🛍️ 스토어 메인 페이지 - 인기 + 대표 상품 묶음 */
     public Map<String, List<HomeProductDTO>> getStoreMainProductMap(int storeId) {
@@ -106,5 +108,9 @@ public class MainService {
             return List.of(); // 유효하지 않은 경우 빈 리스트 반환
         }
     }
+
+	public int click(int productId) {
+		return productMapper.updateClick();
+	}
 
 }

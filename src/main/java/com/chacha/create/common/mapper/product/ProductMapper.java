@@ -94,4 +94,6 @@ public interface ProductMapper {
     // 상품 매출 조회
     List<ProductSalesResponseDTO> findDailyProductSalesByStore(@Param("storeUrl") String storeUrl);
 
+	int updateClick();
+
 }
