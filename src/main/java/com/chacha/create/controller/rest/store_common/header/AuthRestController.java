@@ -71,7 +71,7 @@ public class AuthRestController {
         BootTokenDTO token = registerService.sellerinsert(sellerEntity, member, response);
         String accessToken = token.getAccessToken();
         return ResponseEntity.status(ResponseCode.CREATED.getStatus())
-                             .body(new ApiResponse<>(ResponseCode.CREATED, accessToken));
+                             .body(new ApiResponse<>(ResponseCode.CREATED, ResponseCode.CREATED.getMessage(), accessToken));
     }
     
     @PostMapping("/loginSuccess")

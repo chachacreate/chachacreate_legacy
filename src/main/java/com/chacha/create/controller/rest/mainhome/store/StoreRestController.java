@@ -58,7 +58,7 @@ public class StoreRestController {
         log.info("입력받은 스토어 정보: {}", storeEntity);
         
         String accessToken = storeService.storeUpdate(storeEntity, memberEntity, logoImg, true, response);
-        return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, accessToken));
+        return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, "성공", accessToken));
     }
     
     @GetMapping("/checkurl")
