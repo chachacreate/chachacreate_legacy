@@ -85,6 +85,10 @@ public class StoreService {
         
         sellerMapper.updateBypersonalCheck(sellerId, 0);
         storeMapper.update(storeEntity);
+        log.info(token.toString());
+        if(token.getAccessToken() == null || token.getAccessToken() == "") {
+        	throw new InvalidRequestException("토큰 발급이 안되었습니다.");
+        }
         return token.getAccessToken();
     }
     
