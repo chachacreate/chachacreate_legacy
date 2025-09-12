@@ -330,6 +330,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT
 		    oi.order_id,
 		    oi.order_date,
+		    oi.order_status,
 		    p.product_id,
 		    p.product_name,
 		    p.product_detail,
@@ -337,8 +338,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    s.store_name,
 		    img.p_img_url,
 		    od.order_cnt,
-		    od.order_price,
-		    d.delivery_check
+		    od.order_price
 		FROM order_info oi
 		JOIN order_detail od ON oi.order_id = od.order_id
 		JOIN product p ON od.product_id = p.product_id
@@ -347,7 +347,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    SELECT * FROM p_img
 		    WHERE p_img_enum = 'THUMBNAIL' AND p_img_seq = 1
 		) img ON p.product_id = img.product_id
-		LEFT JOIN delivery d ON oi.order_id = d.order_id
 		WHERE oi.member_id = #{memberId}
 		ORDER BY oi.order_date DESC, oi.order_id DESC, od.order_detail_id ASC
 

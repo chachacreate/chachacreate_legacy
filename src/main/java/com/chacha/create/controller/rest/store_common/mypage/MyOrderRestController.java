@@ -2,6 +2,7 @@ package com.chacha.create.controller.rest.store_common.mypage;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,17 +61,21 @@ public class MyOrderRestController {
 	// 회원 정보에서 배송지 수정(기본 배송지)
 	@PostMapping("/order/addr/update")
 	public ResponseEntity<ApiResponse<String>> updateDefaultAddr(
-	        @RequestBody AddrEntity newAddr, HttpSession session) {
+	        @RequestBody AddrEntity newAddr) {
 
-	    MemberEntity member = (MemberEntity) session.getAttribute("loginMember");
-	    if (member == null) {
-	        return ResponseEntity.status(ResponseCode.UNAUTHORIZED.getStatus())
-	                             .body(new ApiResponse<>(ResponseCode.UNAUTHORIZED, null));
-	    }
-
-	    newAddr.setMemberId(member.getMemberId()); 
+//		 MemberEntity member = (MemberEntity) request.getAttribute("loginMember");
+//		    if (member == null) {
+//		        return ResponseEntity.status(ResponseCode.UNAUTHORIZED.getStatus())
+//		                             .body(new ApiResponse<>(ResponseCode.UNAUTHORIZED, null));
+//		    }
+//
+//	    newAddr.setMemberId(member.getMemberId()); 
+		
+		newAddr.setMemberId(1);
 
 	    int result = myOrderService.updateBaseAddr(newAddr);
+	    log.info(newAddr.getPostNum());
+	    log.info(newAddr.getAddressCheck().toString());
 	    log.info("updateBaseAddr 결과: {}", result);
 	    if (result > 0) {
 	        return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, "배송지 수정 완료"));
