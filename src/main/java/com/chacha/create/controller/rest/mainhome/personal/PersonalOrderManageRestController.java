@@ -33,6 +33,7 @@ public class PersonalOrderManageRestController {
     @GetMapping("/order/management")
     public ResponseEntity<ApiResponse<List<OrderDTO>>> orderManagement(HttpSession session) {
         MemberEntity memberEntity = (MemberEntity) session.getAttribute("loginMember");
+        log.info("loginMember={}", memberEntity);
         List<OrderDTO> orders = orderManageService.selectOrderAll(memberEntity);
         return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, orders));
     }
@@ -52,13 +53,14 @@ public class PersonalOrderManageRestController {
     }
 
     @PutMapping("/orderstatus")
-    public ResponseEntity<ApiResponse<Integer>> updateOrderStatus(@RequestBody OrderInfoEntity orderInfoEntity) {
-        int result = orderManageService.updateForRefundStatus(orderInfoEntity);
-        if (result > 0) {
-            return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, result));
-        } else {
-            return ResponseEntity.status(ResponseCode.BAD_REQUEST.getStatus())
-                    .body(new ApiResponse<>(ResponseCode.BAD_REQUEST, 0));
+    public ResponseEntity<ApiResponse<Integer>> updateOrderStatus(@RequestBody OrderInfoEntity body) {
+        if (body.getOrderId() == 0 || body.getOrderStatus() == null) {
+            return ResponseEntity
+              .status(ResponseCode.BAD_REQUEST.getStatus())
+              .body(new ApiResponse<>(ResponseCode.BAD_REQUEST, 0));
         }
+        int result = orderManageService.updateForOrderStatus(body.getOrderId(), body.getOrderStatus());
+        return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, result));
     }
+
 }
