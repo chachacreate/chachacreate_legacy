@@ -102,7 +102,7 @@ public class MyOrderService {
 	
     public List<OrderListDTO> getOrderList(int memberId) {
         List<OrderListDTO> orderlist = orderMapper.selectOrderListByMemberId(memberId);
-        check_deliveryStatus(orderlist);
+//        check_deliveryStatus(orderlist);
         return orderlist;
     }
     
@@ -136,7 +136,7 @@ public class MyOrderService {
 		dto.setOrderItems(orderlist);
 
 		// 배송 상태 체크
-		check_deliveryStatus(orderlist);
+//		check_deliveryStatus(orderlist);
 
         // 총 금액 계산 (상품 가격 총합)
 		int total = 0;
@@ -171,23 +171,23 @@ public class MyOrderService {
     }
     
     // 배송 상태 체크
-    private void check_deliveryStatus(List<OrderListDTO> orderlist) {
-		for (OrderListDTO dto : orderlist) {
-			Integer check = dto.getDeliveryCheck();
-
-			switch (check) {
-			case 0:
-				dto.setDeliveryStatus("배송 전");
-				break;
-			case 1:
-				dto.setDeliveryStatus("배송 중");
-				break;
-			case 2:
-				dto.setDeliveryStatus("배송 완료");
-				break;
-			default:
-				dto.setDeliveryStatus("정보 없음");
-			}
-		}
-    }
+//    private void check_deliveryStatus(List<OrderListDTO> orderlist) {
+//		for (OrderListDTO dto : orderlist) {
+//			Integer check = dto.getDeliveryCheck();
+//
+//			switch (check) {
+//			case 0:
+//				dto.setDeliveryStatus("배송 전");
+//				break;
+//			case 1:
+//				dto.setDeliveryStatus("배송 중");
+//				break;
+//			case 2:
+//				dto.setDeliveryStatus("배송 완료");
+//				break;
+//			default:
+//				dto.setDeliveryStatus("정보 없음");
+//			}
+//		}
+//    }
 }

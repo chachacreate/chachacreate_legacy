@@ -2,6 +2,8 @@ package com.chacha.create.common.dto.order;
 
 import java.sql.Date;
 
+import com.chacha.create.common.enums.order.OrderStatusEnum;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +23,7 @@ public class OrderListDTO {
 	// OrderInfoEntity
 	private int orderId;
 	private Date orderDate;
+	private OrderStatusEnum orderStatus;
     
     // ProductEntity
 	private int productId;
@@ -34,9 +37,9 @@ public class OrderListDTO {
     private Integer orderCnt;
     private Integer orderPrice;
     
-    // DeliveryEntity
-    private Integer deliveryCheck;
-    
-    // 배송 상태 문자열로 표현
-    private String deliveryStatus;
+//    // DeliveryEntity
+//    private Integer deliveryCheck;
+//    
+//    // 배송 상태 문자열로 표현
+//    private String deliveryStatus;
 }
