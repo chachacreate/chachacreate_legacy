@@ -175,7 +175,7 @@ public class BootAPIUtil {
             
             ResponseEntity<ApiResponse<BootTokenDTO>> response =
                     restTemplate.exchange(url,
-                            HttpMethod.PATCH,
+                            HttpMethod.POST,
                             null,
                             new ParameterizedTypeReference<ApiResponse<BootTokenDTO>>() {}
                     );
