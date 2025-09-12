@@ -38,7 +38,7 @@ function renderBestStore(bestStore) {
 
   bestStore.forEach((bs) => {
     html += `
-      <div class="swiper-slide" onclick="location.href='${cpath}/${bs.storeUrl}'">
+      <div class="swiper-slide" onclick="clickStore('${bs.storeId}', '${bs.storeUrl}')">
         <div class="card">
           <img class="store-img" src="${bs.logoImg}" alt="${bs.storeName}">
           <h3>${bs.storeName}</h3>
@@ -52,6 +52,20 @@ function renderBestStore(bestStore) {
   });
 
   storeArea.innerHTML = html;
+}
+
+// 스토어 클릭 시: GET 요청 + 페이지 이동
+function clickStore(storeId, storeUrl) {
+  $.ajax({
+    url: `${cpath}/legacy/main/store/click/${storeId}`,
+    method: "GET",
+    success: function () {
+      window.location.href = `${cpath}/${storeUrl}`;
+    },
+    error: function () {
+      window.location.href = `${cpath}/${storeUrl}`;
+    }
+  });
 }
 
 // 인기 상품 렌더링

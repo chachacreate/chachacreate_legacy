@@ -5,6 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.chacha.create.common.mapper.product.MainPageMapper">
 	
 	<resultMap id="homeResultMap" type="homeDTO">
+		<id property="storeId" column="store_id" />
 		<result property="storeName" column="store_name" />
 		<result property="storeUrl" column="store_url" />
 		<result property="logoImg" column="logo_img" />
