@@ -110,7 +110,7 @@ public class MainService {
     }
 
 	public int click(int productId) {
-		return productMapper.updateClick();
+		return productMapper.updateClick(productId);
 	}
 
 }
