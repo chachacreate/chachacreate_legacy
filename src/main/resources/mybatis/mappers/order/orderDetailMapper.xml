@@ -40,6 +40,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             order_price = #{orderPrice}
         WHERE order_detail_id = #{orderDetailId}
     </update>
+    
+    <!-- Boot에서 보내는 주문 상태 업데이트 요청 처리용 -->
+    <update id="updateStatus" parameterType="orderDetailEntity">
+    	UPDATE order_detail
+    	SET order_status = #{orderStatus}
+    	WHERE order_detail_id = #{orderDetailId}
+    </update>
 
     <delete id="delete" parameterType="int">
         DELETE FROM order_detail WHERE order_detail_id = #{orderDetailId}
