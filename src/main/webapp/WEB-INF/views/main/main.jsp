@@ -203,7 +203,7 @@
               <div class="flex-1">
                 <h4 class="text-sm sm:text-base lg:text-lg font-bold text-gray-800 mb-1 md:mb-2">핸드메이드 클래스 🧵</h4>
                 <p class="text-xs sm:text-sm text-red-500 font-medium mb-2 md:mb-4">키트 무료!</p>
-                <a href="#" class="inline-block bg-gray-800 hover:bg-gray-900 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-lg text-xs md:text-sm font-medium transition-colors duration-300" onclick="alert('준비중입니다!')">신청하기</a>
+                <a href="/main/classes" class="inline-block bg-gray-800 hover:bg-gray-900 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-lg text-xs md:text-sm font-medium transition-colors duration-300">신청하기</a>
               </div>
               <div class="hidden lg:block flex-shrink-0 ml-4">
                 <img class="w-16 h-16 object-cover rounded-lg" src="${cpath}/resources/images/main/main_small_banner2.png" alt="클래스 배너">

@@ -79,14 +79,14 @@ function renderBestProduct(bestProduct) {
       ? Number(bf.price).toLocaleString() + "원"  : "가격 정보 없음";
 
     html += `
-      <div class="swiper-slide" onclick="location.href='${cpath}/main/products/${bf.productId}'">
+      <div class="swiper-slide" onclick="clickProduct('${bf.productId}')">
         <div class="product-card">   
           <div class="product-image-box">
             <img class="product-img" src="${bf.pimgUrl}" alt="${bf.productName}">
             <div class="product-icon">
-              <a href="${cpath}/main/products/${bf.productId}">
+              <div onclick="clickProduct('${bf.productId}')">
                 <span class="material-symbols-outlined">arrow_outward</span>
-              </a>
+              </div>
             </div>
           </div>
           <div class="product-content">
@@ -104,6 +104,20 @@ function renderBestProduct(bestProduct) {
   });
 
   bestProductArea.innerHTML = html;
+}
+
+// 상품 클릭 시: GET 요청 + 페이지 이동
+function clickProduct(productId) {
+  $.ajax({
+    url: `${cpath}/legacy/click/${productId}`,
+    method: "GET",
+    success: function () {
+      window.location.href = `${cpath}/main/products/${productId}`;
+    },
+    error: function () {
+      window.location.href = `${cpath}/main/products/${productId}`;
+    }
+  });
 }
 
 
@@ -125,7 +139,7 @@ function renderNewProduct(newProduct) {
       : "가격 정보 없음";
 
     html += `
-      <div class="preview-card" onclick="location.href='${cpath}/${nf.storeUrl}/products/${nf.productId}'">
+      <div class="preview-card" onclick="clickProductWithStoreUrl('${nf.productId}', '${nf.storeUrl}')">
         <img class="new-product-img" src="${nf.pimgUrl}" alt="${nf.productName}">
         <p class="product-name">${nf.productName}</p>
         <p class="product-price">${priceText}</p>
@@ -136,6 +150,19 @@ function renderNewProduct(newProduct) {
   newProductArea.innerHTML = html;
 }
 
+// 상품 클릭 시: GET 요청 + 스토어 페이지 이동
+function clickProductWithStoreUrl(productId, storeUrl) {
+  $.ajax({
+    url: `${cpath}/legacy/click/${productId}`,
+    method: "GET",
+    success: function () {
+      window.location.href = `${cpath}/${storeUrl}/products/${productId}`;
+    },
+    error: function () {
+      window.location.href = `${cpath}/${storeUrl}/products/${productId}`;
+    }
+  });
+}
 
 // 금주의 인기 스토어 1위
 function renderTopStore(store){
@@ -145,7 +172,7 @@ function renderTopStore(store){
 				<div class="text-area" >
 				<h4>${store.categoryName} '${store.storeName}'</h4>
 			      <p class="discount">${store.storeDetail}</p>
-			      <a href="${cpath}/${store.storeUrl}" class="side-banner-btn">바로가기</a>
+			      <div onclick="clickStore('${store.storeId}', '${store.storeUrl}')" class="side-banner-btn">바로가기</div>
 			    </div>
 			    <div class="image-area">
 			      <img src="${store.logoImg}"
