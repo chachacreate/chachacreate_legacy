@@ -368,7 +368,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		img.p_img_url,
 		od.order_cnt,
 		od.order_price,
-		d.delivery_check
+		od.order_status
 		FROM
 		order_info oi
 		JOIN order_detail od ON oi.order_id = od.order_id
@@ -383,8 +383,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		p_img_seq = 1
 		) img ON p.product_id =
 		img.product_id
-		LEFT JOIN delivery d
-		ON oi.order_id = d.order_id
 		WHERE
 		oi.member_id = #{memberId}
 		ORDER BY
