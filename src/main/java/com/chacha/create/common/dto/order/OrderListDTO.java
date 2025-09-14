@@ -23,6 +23,9 @@ public class OrderListDTO {
 	// OrderInfoEntity
 	private int orderId;
 	private Date orderDate;
+	
+	// OrderDetailEntity
+	private int orderDetailId;
 	private OrderStatusEnum orderStatus;
     
     // ProductEntity
