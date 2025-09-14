@@ -43,8 +43,7 @@ public class MyCartRestController {
 
     // 장바구니 상품 정보 추가
     @PostMapping
-    public ResponseEntity<ApiResponse<CartViewDTO>> addCartItem(@RequestBody CartEntity cart,
-    																										HttpSession session) {
+    public ResponseEntity<ApiResponse<CartViewDTO>> addCartItem(@RequestBody CartEntity cart, HttpSession session) {
     	MemberEntity loginMember = (MemberEntity) session.getAttribute("loginMember");
         if (loginMember == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -72,8 +71,13 @@ public class MyCartRestController {
 
     // 장바구니 전체 삭제
     @DeleteMapping("/deleteAll")
-    public ResponseEntity<ApiResponse<String>> deleteAll(@RequestParam int memberId) {
-    	myCartService.deleteByMemberId(memberId);
+    public ResponseEntity<ApiResponse<String>> deleteAll(HttpSession session) {
+    	MemberEntity loginMember = (MemberEntity) session.getAttribute("loginMember");
+        if (loginMember == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                                 			  .body(new ApiResponse<>(ResponseCode.UNAUTHORIZED, null));
+        }
+    	myCartService.deleteByMemberId(loginMember.getMemberId());
         return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, "장바구니 전체 삭제 완료"));
     }
 }
