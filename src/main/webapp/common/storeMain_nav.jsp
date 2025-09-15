@@ -7,8 +7,31 @@
 
 <script src="${cpath}/resources/js/store/storeMain_nav.js"></script>
 
-<!-- Google Fonts - Jua -->
-<link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet" />
+<!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts - Jua -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+  
+    <script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          'jua': ['Jua', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        },
+        colors: {
+          'brand-900': '#2D4739',
+        },
+        maxWidth: {
+          '1440': '1440px',
+        }
+      }
+    }
+  }
+  </script>
 
 <!-- 스토어 상단 네비게이션 (스크롤 시 반투명/블러) -->
 <nav
@@ -53,12 +76,13 @@
                        ${fn:contains(uri, '/info') ? 'w-full' : 'w-0 group-hover:w-full'}"></span>
         </a>
 
-        <button type="button" onclick="alert('준비중입니다!')"
-                class="group relative text-[#2D4739] hover:text-[#1b2e23] text-base xl:text-lg pb-1">
+        <a href="${cpath}/${storeUrl}/classes"
+                class="group relative text-[#2D4739] hover:text-[#1b2e23] text-base xl:text-lg pb-1
+                  ${fn:contains(uri, '/notices') ? 'font-bold' : ''}">
           클래스
           <span class="pointer-events-none absolute left-0 bottom-0 h-[2px] rounded bg-[#2D4739] transition-all duration-200
-                       w-0 group-hover:w-full"></span>
-        </button>
+                       ${fn:contains(uri, '/classes') ? 'w-full' : 'w-0 group-hover:w-full'}"></span>
+        </a>
 
         <a href="${cpath}/${storeUrl}/notices"
            class="group relative text-[#2D4739] hover:text-[#1b2e23] text-base xl:text-lg pb-1
@@ -96,7 +120,7 @@
 
         <a href="${cpath}/main"
            class="group relative text-[#2D4739] hover:text-[#1b2e23] text-base xl:text-lg pb-1">
-          메인 홈
+          메인 홈 
           <span class="pointer-events-none absolute left-0 bottom-0 h-[2px] rounded bg-[#2D4739] transition-all duration-200
                        w-0 group-hover:w-full"></span>
         </a>
@@ -129,13 +153,14 @@
         <a href="${cpath}/${storeUrl}/info"
            class="block px-3 py-2 text-base text-[#2D4739] hover:text-[#1b2e23] hover:bg-gray-50 rounded
                   ${fn:contains(uri, '/info') ? 'font-bold bg-gray-50' : ''}">
-          스토어 정보
+          스토어 정보 !!!!
         </a>
 
-        <button type="button" onclick="alert('준비중입니다!')"
-                class="w-full text-left px-3 py-2 text-base text-[#2D4739] hover:text-[#1b2e23] hover:bg-gray-50 rounded">
+        <a href="${cpath}/${storeUrl}/classes"
+                class="block px-3 py-2 text-base text-[#2D4739] hover:text-[#1b2e23] hover:bg-gray-50 rounded
+                  ${fn:contains(uri, '/classes') ? 'font-bold bg-gray-50' : ''}">
           클래스
-        </button>
+        </a>
 
         <a href="${cpath}/${storeUrl}/notices"
            class="block px-3 py-2 text-base text-[#2D4739] hover:text-[#1b2e23] hover:bg-gray-50 rounded

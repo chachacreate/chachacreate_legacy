@@ -16,23 +16,21 @@
   
   <!-- 추가 스토어 전용 Tailwind 설정 -->
   <script>
-    // 헤더의 Tailwind 설정을 확장 (덮어쓰지 않고)
-    if (window.tailwind && window.tailwind.config) {
-      window.tailwind.config.theme.extend = {
-        ...window.tailwind.config.theme.extend,
-        colors: {
-          ...window.tailwind.config.theme.extend.colors,
-          'store-highlight': '#2D4739',
-          'store-notice': '#7A241F',
-          'store-desc': '#4B5563',
-          'store-hero-bg': '#F3F0E8',
-        },
+  tailwind.config = {
+    theme: {
+      extend: {
         fontFamily: {
-          ...window.tailwind.config.theme.extend.fontFamily,
-          'store': ['Noto Sans KR', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+          'jua': ['Jua', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        },
+        colors: {
+          'brand-900': '#2D4739',
+        },
+        maxWidth: {
+          '1440': '1440px',
         }
-      };
+      }
     }
+  }
   </script>
   
   <script src="${cpath}/resources/js/store/storeMain.js"></script>
@@ -42,28 +40,6 @@
   
   <!-- 커스텀 스타일 -->
   <style>
-   /* Tailwind 커스텀 색상 강제 적용 --------------------------------나중에 지워야함 */
-    .bg-store-hero-bg {
-      background-color: #F3F0E8 !important;
-    }
-    
-    .bg-store-highlight {
-      background-color: #2D4739 !important;
-    }
-    
-    .text-store-highlight {
-      color: #2D4739 !important;
-    }
-    
-    .text-store-notice {
-      color: #7A241F !important;
-    }
-    
-    .text-store-desc {
-      color: #4B5563 !important;
-    }
-    /* Tailwind 커스텀 색상 강제 적용 --------------------------------나중에 지워야함 */
-    
     /* 헤더 색상 강제 적용 (브랜드 색상이 제대로 로드되지 않을 경우 대비) */
     .bg-brand-900 {
       background-color: #2D4739 !important;
@@ -135,33 +111,95 @@
       letter-spacing: 0.025em;
     }
     
-    /* ✅ 공통: 가로세로 1:1(정사각)로 통일 + 가운데 크롭 */
-.product-image-box {           /* bestProduct()의 래퍼 */
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
-  border-radius: 12px;
-  background: #f8fafc;
-}
-.product-image-box > .product-img {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;           /* 꽉 채우고 넘치는 부분 크롭 */
-  object-position: center;
-}
+    /* 이미지 깨짐 방지 및 일관된 디자인 */
+    .product-image-box {
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      border-radius: 12px;
+      background: #f8fafc;
+      position: relative;
+    }
+    
+    .product-image-box > .product-img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center;
+      transition: transform 0.3s ease;
+    }
+    
+    .product-image-box:hover > .product-img {
+      transform: scale(1.05);
+    }
 
-/* ✅ mainProduct() 카드 이미지도 정사각 통일 */
-.card .store-img {
-  width: 100%;
-  aspect-ratio: 1 / 1;         /* 높이 자동 계산 */
-  display: block;
-  object-fit: cover;
-  object-position: center;
-  border-radius: 12px;
-  background: #f8fafc;
-}
+    /* ---------- 수정: 스토어 로고 이미지 고정 컨테이너 + 이미지 채우기 ---------- */
+    /* 기존 min-width/min-height 제거하고, 컨테이너 기준 100% 채우기 */
+    #store-logo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transition: opacity 0.3s ease;
+      background: #f8fafc;
+      display: block;
+    }
+
+    /* 메인 제품 카드 이미지 */
+    .card .store-img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      display: block;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 12px;
+      background: #f8fafc;
+      transition: transform 0.3s ease;
+    }
     
+    .card:hover .store-img {
+      transform: scale(1.05);
+    }
+
+    /* 이미지 로딩 상태 */
+    .image-loading {
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: loading 1.5s infinite;
+    }
     
+    @keyframes loading {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* 이미지 에러 상태 */
+    .image-error {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f8fafc;
+      color: #6b7280;
+      font-size: 12px;
+      text-align: center;
+    }
+    
+    .image-error::before {
+      content: "📷";
+      display: block;
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+    
+    /* Lazy loading을 위한 스타일 */
+    .lazy-image {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .lazy-image.loaded {
+      opacity: 1;
+    }
   </style>
 </head>
 <body class="bg-white font-store text-gray-900">
@@ -181,13 +219,21 @@
           <div class="-mt-[88px] sm:-mt-[100px]">
             <div class="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8 shadow-sm">
               <div id="store-banner" class="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
-                <!-- 스토어 로고 -->
-                <img 
-                  id="store-logo" 
-                  src="" 
-                  alt="스토어 로고" 
-                  class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl object-cover border border-gray-200 flex-shrink-0"
-                />
+                <!-- 스토어 로고 (수정: 고정 정사각형 컨테이너) -->
+                <div class="relative w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden border border-gray-200 bg-[#f8fafc] flex-shrink-0">
+                  <img 
+  id="store-logo" 
+  src="" 
+  alt="스토어 로고" 
+  class="lazy-image w-full h-full object-cover object-center"
+  style="width: 100% !important; height: 100% !important; object-fit: cover !important;"
+  loading="lazy"
+  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+/>
+                  <div class="absolute inset-0 rounded-xl image-error" style="display: none;">
+                    이미지 없음
+                  </div>
+                </div>
                 
                 <!-- 스토어 정보 -->
                 <div class="flex-1 min-w-0">
@@ -335,5 +381,57 @@
   <!-- JS -->
   <script src="https://unpkg.com/swiper@9/swiper-bundle.min.js"></script>
   <script src="${pageContext.request.contextPath}/resources/js/main_store.js"></script>
+  
+  <!-- 이미지 로딩 및 에러 처리 스크립트 -->
+  <script>
+    // 이미지 로딩 개선 함수
+    function handleImageLoad(img) {
+      img.classList.add('loaded');
+    }
+    
+    function handleImageError(img) {
+      img.style.display = 'none';
+      const errorDiv = img.nextElementSibling;
+      if (errorDiv && errorDiv.classList.contains('image-error')) {
+        errorDiv.style.display = 'flex';
+      }
+    }
+    
+    // 페이지 로드 후 이미지 처리
+    document.addEventListener('DOMContentLoaded', function() {
+      // 모든 이미지에 로딩 처리 추가
+      const images = document.querySelectorAll('img');
+      images.forEach(img => {
+        // 이미 로드된 이미지 처리
+        if (img.complete && img.naturalHeight !== 0) {
+          handleImageLoad(img);
+        } else {
+          // 로딩 중인 이미지 처리
+          img.addEventListener('load', () => handleImageLoad(img));
+          img.addEventListener('error', () => handleImageError(img));
+        }
+      });
+    });
+    
+    // 동적으로 추가되는 이미지 처리를 위한 MutationObserver
+    const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        mutation.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) { // Element node
+            const images = node.tagName === 'IMG' ? [node] : node.querySelectorAll('img');
+            images.forEach(img => {
+              img.addEventListener('load', () => handleImageLoad(img));
+              img.addEventListener('error', () => handleImageError(img));
+            });
+          }
+        });
+      });
+    });
+    
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+  </script>
 </body>
 </html>
