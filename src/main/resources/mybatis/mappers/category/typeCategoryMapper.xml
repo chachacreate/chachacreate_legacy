@@ -32,5 +32,39 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="delete" parameterType="int">
 		DELETE FROM type_category WHERE type_category_id = #{typeCategoryId}
 	</delete>
+	
+	<!-- up/down 카테고리 포함 -->
+	<select id="selectTopStoreCategories" parameterType="int" resultType="map">
+    WITH up_ranked AS (
+        SELECT uc.u_category_name,
+               ROW_NUMBER() OVER (ORDER BY COUNT(*) DESC) AS rn
+        FROM product p
+        JOIN d_category dc ON p.d_category_id = dc.d_category_id
+        JOIN u_category uc ON dc.u_category_id = uc.u_category_id
+        WHERE p.store_id = #{storeId}
+        GROUP BY uc.u_category_name
+    ),
+    down_ranked AS (
+        SELECT dc.d_category_name,
+               ROW_NUMBER() OVER (ORDER BY COUNT(*) DESC) AS rn
+        FROM product p
+        JOIN d_category dc ON p.d_category_id = dc.d_category_id
+        WHERE p.store_id = #{storeId}
+        GROUP BY dc.d_category_name
+    ),
+    type_ranked AS (
+        SELECT tc.type_category_name,
+               ROW_NUMBER() OVER (ORDER BY COUNT(*) DESC) AS rn
+        FROM product p
+        JOIN type_category tc ON p.type_category_id = tc.type_category_id
+        WHERE p.store_id = #{storeId}
+        GROUP BY tc.type_category_name
+    )
+    SELECT (SELECT u_category_name   FROM up_ranked   WHERE rn = 1) AS up_category,
+           (SELECT d_category_name   FROM down_ranked WHERE rn = 1) AS down_category,
+           (SELECT type_category_name FROM type_ranked WHERE rn = 1) AS type_category
+    FROM dual
+</select>
+	
 
 </mapper>
