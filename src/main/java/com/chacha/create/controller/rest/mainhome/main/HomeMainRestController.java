@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.chacha.create.common.dto.error.ApiResponse;
 import com.chacha.create.common.dto.product.HomeProductDTO;
+import com.chacha.create.common.dto.store.StoreCategoryDTO;
 import com.chacha.create.common.enums.error.ResponseCode;
 import com.chacha.create.service.store_common.MainService;
 
@@ -54,6 +55,12 @@ public class HomeMainRestController {
     		){
     	mainService.click(productId);
     	return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, "성공"));
+    }
+    
+    @GetMapping("/main/{storeId}/categories")
+    public ResponseEntity<ApiResponse<StoreCategoryDTO>> getStoreCategories(@PathVariable int storeId) {
+    	StoreCategoryDTO result = mainService.getStoreCategories(storeId);
+    	return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, result));
     }
 		
 }
