@@ -12,19 +12,30 @@ $(() => {
   storeNotices();
 });
 
-//스토어 소개 렌더링
+// ✅ 스토어 소개 렌더링 - 수정된 버전
 function renderStoreInfo(store) {
-  const storeInfoArea = document.getElementById("store-banner");
   const storeInfo = store[0]; // 대표 스토어 하나만
 
-  const html = `
-    <img src="${storeInfo.logoImg}" alt="${storeInfo.storeName}">
-    <div class="store-intro">
-      <h1 class="store-name">${storeInfo.storeName}</h1>
-      <p class="store-desc">${storeInfo.storeDetail}</p>
-    </div>
-  `;
-  storeInfoArea.innerHTML = html;
+  // 각 요소를 개별적으로 업데이트
+  const logoImg = document.getElementById("store-logo");
+  const storeTitle = document.getElementById("store-title");
+  const storeDescription = document.getElementById("store-description");
+
+  // 로고 이미지 설정
+  if (logoImg) {
+    logoImg.src = storeInfo.logoImg;
+    logoImg.alt = storeInfo.storeName;
+  }
+
+  // 스토어 제목 설정
+  if (storeTitle) {
+    storeTitle.textContent = storeInfo.storeName;
+  }
+
+  // 스토어 설명 설정
+  if (storeDescription) {
+    storeDescription.textContent = storeInfo.storeDetail;
+  }
 }
 
 //대표 상품 조회 및 Swiper 초기화
