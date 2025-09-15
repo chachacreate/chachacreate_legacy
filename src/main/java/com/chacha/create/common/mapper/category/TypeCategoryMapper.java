@@ -1,9 +1,11 @@
 package com.chacha.create.common.mapper.category;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.chacha.create.common.dto.store.StoreCategoryDTO;
 import com.chacha.create.common.entity.category.TypeCategoryEntity;
 
 /**
@@ -50,4 +52,7 @@ public interface TypeCategoryMapper {
      * @return 삭제된 행의 수
      */
     int delete(int typeCategoryId);
+    
+    // 스토어 상품 중 가장 많은 category 이름 가져오기
+    Map<String, Object> selectTopStoreCategories(int storeId);
 }

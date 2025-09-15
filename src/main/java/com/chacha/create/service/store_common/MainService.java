@@ -8,9 +8,13 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.chacha.create.common.dto.product.HomeProductDTO;
+import com.chacha.create.common.dto.store.StoreCategoryDTO;
 import com.chacha.create.common.enums.category.DCategoryEnum;
 import com.chacha.create.common.enums.category.TypeCategoryEnum;
 import com.chacha.create.common.enums.category.UCategoryEnum;
+import com.chacha.create.common.mapper.category.DCategoryMapper;
+import com.chacha.create.common.mapper.category.TypeCategoryMapper;
+import com.chacha.create.common.mapper.category.UCategoryMapper;
 import com.chacha.create.common.mapper.product.MainPageMapper;
 import com.chacha.create.common.mapper.product.ProductMapper;
 import com.chacha.create.common.mapper.store.StoreIdCheckMapper;
@@ -27,6 +31,9 @@ public class MainService {
     private final MainPageMapper mainPageMapper;
     private final StoreIdCheckMapper idCheckMapper;
     private final ProductMapper productMapper;
+    private final UCategoryMapper uCategoryMapper;
+    private final DCategoryMapper dCategoryMapper;
+    private final TypeCategoryMapper typeCategoryMapper;
 
     /** 🛍️ 스토어 메인 페이지 - 인기 + 대표 상품 묶음 */
     public Map<String, List<HomeProductDTO>> getStoreMainProductMap(int storeId) {
@@ -111,6 +118,19 @@ public class MainService {
 
 	public int click(int productId) {
 		return productMapper.updateClick(productId);
+	}
+	
+	public StoreCategoryDTO getStoreCategories(int storeId) {
+		Map<String, Object> topCategories = typeCategoryMapper.selectTopStoreCategories(storeId);
+		String up   = (String) topCategories.get("UP_CATEGORY");
+		String down = (String) topCategories.get("DOWN_CATEGORY");
+		String type = (String) topCategories.get("TYPE_CATEGORY");
+		
+        return StoreCategoryDTO.builder()
+                .uCategory(up)
+                .dCategory(down)
+                .typeCategory(type)
+                .build();
 	}
 
 }
