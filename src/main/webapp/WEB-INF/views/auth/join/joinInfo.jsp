@@ -600,6 +600,12 @@
 	    	                          if (xhrr.status === 200) {
 	    	                              console.log("Legacy 세션 저장 성공:", legacyResponse);
 	    	                              
+	    	                              if (userType === 'buyer') {
+	    	            	    	    	  window.location.href = contextPath + '/auth/join/complete';
+	    	            	    	    	} else if (userType === 'seller') {
+	    	            	    	    	  window.location.href = contextPath + '/auth/join/seller';
+	    	            	    	    	}
+	    	                              
 	    	                          } else {
 	    	                              alert(legacyResponse?.message || 'Legacy 로그인 실패');
 	    	                          }
@@ -617,12 +623,6 @@
 	    	              alert('서버 오류: ' + (xhr.responseText || error));
 	    	          }
 	    	      });
-
-	    	      if (userType === 'buyer') {
-	    	    	  window.location.href = contextPath + '/auth/join/complete';
-	    	    	} else if (userType === 'seller') {
-	    	    	  window.location.href = contextPath + '/auth/join/seller';
-	    	    	}
 	    	    } else {
 	    	      // API 응답 형식은 맞지만 실패한 경우
 	    	      alert('회원가입 실패: ' + (response?.message || '알 수 없는 오류'));
