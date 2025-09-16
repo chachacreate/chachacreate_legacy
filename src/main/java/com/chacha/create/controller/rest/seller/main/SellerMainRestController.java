@@ -14,15 +14,27 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.chacha.create.common.dto.error.ApiResponse;
 import com.chacha.create.common.dto.order.OrderSumDTO;
+import com.chacha.create.common.dto.store.StoreInfoDTO;
 import com.chacha.create.common.enums.error.ResponseCode;
+import com.chacha.create.service.buyer.detail.ReviewService;
+import com.chacha.create.service.buyer.storeinfo.StoreInfoService;
 import com.chacha.create.service.seller.main.SellerMainService;
+import com.chacha.create.service.seller.order.OrderManagementService;
+import com.chacha.create.service.seller.product.ProductService;
+import com.chacha.create.service.seller.shut_down.ShutDownService;
+import com.chacha.create.service.store_common.header.auth.LoginService;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
+@Slf4j
 @RequestMapping("/legacy/{storeUrl}/seller")
+@RequiredArgsConstructor
 public class SellerMainRestController {
  
-	@Autowired
-	SellerMainService sell;
+	private final SellerMainService sell;
+	private final StoreInfoService storeinfo;
 
 	@GetMapping(value = "main", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ApiResponse<Map<String, List<?>>>> sellermain(@PathVariable String storeUrl) {
@@ -38,5 +50,17 @@ public class SellerMainRestController {
 		result.put("orderSumList", orderSumList);
 
 		return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, "판매자 메인 데이터 조회 성공", result));
+	}
+	
+	@GetMapping
+	public ApiResponse<Map<String, Object>> storeNavInfo(@PathVariable String storeUrl){
+		Map<String, Object> storeInfo = new HashMap<String, Object>();
+		StoreInfoDTO dbStoreInfo = storeinfo.selectForThisStoreInfo(storeUrl);
+		log.info(dbStoreInfo.toString());
+		storeInfo.put("storeUrl",storeUrl);
+		storeInfo.put("logoImg", dbStoreInfo.getLogoImg());
+		storeInfo.put("storeOwnerId", dbStoreInfo.getMemberId());
+		storeInfo.put("storeName", dbStoreInfo.getStoreName());
+		return new ApiResponse<Map<String, Object>>(ResponseCode.OK, "판매자 기본 정보 조회 완료", storeInfo);
 	}
 }
