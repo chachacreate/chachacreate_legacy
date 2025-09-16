@@ -39,6 +39,9 @@ public class StoreService {
         if(memberEntity == null) {
             throw new NeedLoginException("로그인이 필요합니다.");
         }
+        if(!checkProductCount(memberEntity)) {
+        	throw new InvalidRequestException("상품을 2개 등록해야합니다.");
+        }
         
         SellerEntity sellerEntity = sellerMapper.selectByMemberId(memberEntity.getMemberId());
         BootTokenDTO token = bootAPIUtil.upgradePersonalSellerToSeller(sellerEntity.getMemberId(), response);
@@ -113,7 +116,7 @@ public class StoreService {
     public boolean checkProductCount(MemberEntity loginMember) {
         Integer productCount = storeMapper.selectForCountProductByMemberId(loginMember.getMemberId());
         
-        if(productCount == null) {
+        if(productCount == null || productCount == 0) {
             return false;
         }
         
