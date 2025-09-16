@@ -193,7 +193,7 @@
               <div class="w-1.5 h-1.5 bg-white rounded-full absolute top-12 right-8 animate-pulse delay-200"></div>
             </div>
             <div class="relative z-10">
-              <div class="text-white text-xs sm:text-sm font-medium mb-2 md:mb-4">금주의 인기 스토어 ✨</div>
+              <div class="text-white text-xs sm:text-sm font-medium">금주의 인기 스토어 ✨</div>
               <div id="topStore" class="text-white text-xs sm:text-sm"></div>
             </div>
           </div>

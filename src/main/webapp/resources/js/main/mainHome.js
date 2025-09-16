@@ -169,16 +169,22 @@ function renderTopStore(store){
 	topStoreArea = document.getElementById("topStore");
 	
 	let html =`
-				<div class="text-area" >
-				<h4>${store.categoryName} '${store.storeName}'</h4>
-			      <p class="discount">${store.storeDetail}</p>
-			      <div onclick="clickStore('${store.storeId}', '${store.storeUrl}')" class="side-banner-btn">바로가기</div>
-			    </div>
-			    <div class="image-area">
+				<div class="image-area" onclick="clickStore('${store.storeId}', '${store.storeUrl}')">
 			      <img src="${store.logoImg}"
-			      style="height: 120px;"
+			      style="height: 80px;"
 			       alt="${store.storeName}">
 			    </div>	
+				<div class="text-area" >
+				<h4>${store.categoryName} '${store.storeName}'</h4>
+			          <p style="
+					      display: -webkit-box;
+					      -webkit-line-clamp: 1;
+					      -webkit-box-orient: vertical;
+					      overflow: hidden;
+					      text-overflow: ellipsis;
+					      margin: 0;
+					    ">${store.storeDetail}</p>
+			    </div>
 	`;
 	topStoreArea.innerHTML = html;
 };
