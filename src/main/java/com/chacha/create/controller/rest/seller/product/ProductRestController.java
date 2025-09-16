@@ -1,13 +1,8 @@
 package com.chacha.create.controller.rest.seller.product;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -37,7 +32,6 @@ import com.chacha.create.common.exception.InvalidRequestException;
 import com.chacha.create.service.seller.order.OrderManagementService;
 import com.chacha.create.service.seller.product.ProductService;
 import com.chacha.create.util.s3.S3Uploader;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -172,7 +166,7 @@ public class ProductRestController {
 		}
 
     
-	@GetMapping("/productupdate/{productId}")
+	@GetMapping("/products/{productId}")
 	public ResponseEntity<ApiResponse<ProductUpdateDTO>> getProductDetail(@PathVariable String storeUrl,
 			@PathVariable int productId) {
 		ProductUpdateDTO product = productService.getProductDetail(storeUrl, productId);
