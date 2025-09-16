@@ -79,7 +79,7 @@ function renderBestProduct(bestProduct) {
       ? Number(bf.price).toLocaleString() + "원"  : "가격 정보 없음";
 
     html += `
-      <div class="swiper-slide" onclick="clickProduct('${bf.productId}')">
+      <div class="swiper-slide" onclick="clickProduct('${bf.productId}', '${bf.storeUrl || 'main'}')">
         <div class="product-card">   
           <div class="product-image-box">
             <img class="product-img" src="${bf.pimgUrl}" alt="${bf.productName}">
@@ -107,15 +107,15 @@ function renderBestProduct(bestProduct) {
 }
 
 // 상품 클릭 시: GET 요청 + 페이지 이동
-function clickProduct(productId) {
+function clickProduct(productId, storeUrl) {
   $.ajax({
     url: `${cpath}/legacy/click/${productId}`,
     method: "GET",
     success: function () {
-      window.location.href = `${cpath}/main/products/${productId}`;
+      window.location.href = `${cpath}/${storeUrl}/products/${productId}`;
     },
     error: function () {
-      window.location.href = `${cpath}/main/products/${productId}`;
+      window.location.href = `${cpath}/${storeUrl}/products/${productId}`;
     }
   });
 }
