@@ -18,7 +18,11 @@ function renderStoreInfo(store) {
   const storeInfo = store[0]; // 대표 스토어 하나만
 
   const html = `
-    <img src="${storeInfo.logoImg}" alt="${storeInfo.storeName}">
+    <img 
+      src="${storeInfo.logoImg}" 
+      alt="${storeInfo.storeName}" 
+      style="max-width:200px; max-height:200px; width:auto; height:auto; object-fit:contain;"
+    >
     <div class="store-intro">
       <h1 class="store-name">${storeInfo.storeName}</h1>
       <p class="store-desc">${storeInfo.storeDetail}</p>
