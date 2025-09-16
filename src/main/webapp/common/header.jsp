@@ -12,9 +12,6 @@
 <!-- jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-<!-- Boot JS -->
-<script src="${cpath}/resources/js/boot.js"></script>
-
 <!-- 1) Tailwind CDN 로드 전에 config 선언 -->
 <script>
   // 이미 window.tailwind가 있든 없든, 먼저 config를 박아둡니다.
