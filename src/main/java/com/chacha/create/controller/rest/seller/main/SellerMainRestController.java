@@ -23,6 +23,7 @@ import com.chacha.create.service.seller.order.OrderManagementService;
 import com.chacha.create.service.seller.product.ProductService;
 import com.chacha.create.service.seller.shut_down.ShutDownService;
 import com.chacha.create.service.store_common.header.auth.LoginService;
+import com.chacha.create.util.s3.S3Uploader;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +36,7 @@ public class SellerMainRestController {
  
 	private final SellerMainService sell;
 	private final StoreInfoService storeinfo;
+	private final S3Uploader s3Uploader;
 
 	@GetMapping(value = "main", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ApiResponse<Map<String, List<?>>>> sellermain(@PathVariable String storeUrl) {
@@ -56,11 +58,11 @@ public class SellerMainRestController {
 	public ApiResponse<Map<String, Object>> storeNavInfo(@PathVariable String storeUrl){
 		Map<String, Object> storeInfo = new HashMap<String, Object>();
 		StoreInfoDTO dbStoreInfo = storeinfo.selectForThisStoreInfo(storeUrl);
-		log.info(dbStoreInfo.toString());
 		storeInfo.put("storeUrl",storeUrl);
-		storeInfo.put("logoImg", dbStoreInfo.getLogoImg());
+		storeInfo.put("logoImg", s3Uploader.getThumbnailUrlByFullUrl(dbStoreInfo.getLogoImg()));
 		storeInfo.put("storeOwnerId", dbStoreInfo.getMemberId());
 		storeInfo.put("storeName", dbStoreInfo.getStoreName());
+		log.info(storeInfo.toString());
 		return new ApiResponse<Map<String, Object>>(ResponseCode.OK, "판매자 기본 정보 조회 완료", storeInfo);
 	}
 }

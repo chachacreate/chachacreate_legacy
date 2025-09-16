@@ -18,25 +18,26 @@ import com.chacha.create.common.dto.store.StoreInfoDTO;
 import com.chacha.create.common.entity.store.StoreEntity;
 import com.chacha.create.service.buyer.storeinfo.StoreInfoService;
 import com.chacha.create.service.mainhome.store.StoreService;
+import com.chacha.create.util.s3.S3Uploader;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
 @RequestMapping("/{storeUrl}")
+@RequiredArgsConstructor
 public class StoreMainController {
 	
-	@Autowired
-	private StoreInfoService storeinfo;
-	
-	@Autowired
-	private StoreService storeService;
+	private final StoreInfoService storeinfo;
+	private final StoreService storeService;
+	private final S3Uploader s3Uploader;
 	
 	public void setStoreNavInfo(String storeUrl, Model model) {
 		StoreInfoDTO storeInfo = storeinfo.selectForThisStoreInfo(storeUrl);
 		log.info(storeInfo.toString());
 		model.addAttribute("storeUrl",storeUrl);
-		model.addAttribute("logoImg", storeInfo.getLogoImg());
+		model.addAttribute("logoImg", s3Uploader.getThumbnailUrlByFullUrl(storeInfo.getLogoImg()));
 		model.addAttribute("storeOwnerId", storeInfo.getMemberId());
 		model.addAttribute("storeName", storeInfo.getStoreName());
 	}
