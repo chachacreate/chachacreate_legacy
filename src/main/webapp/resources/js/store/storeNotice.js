@@ -1,8 +1,8 @@
 // ================================
 //  전역 설정
 // ================================
-let cpath = "";
-let storeUrl = "";
+//let cpath = "";
+//let storeUrl = "";
 const NOTICES_PER_PAGE = 10;      // 공지사항은 한 페이지에 10개씩 표시
 let allNotices = [];              // 전체 공지사항 데이터를 저장하는 배열
 let currentPage = 1;              // 현재 페이지 번호
@@ -12,11 +12,15 @@ let currentPage = 1;              // 현재 페이지 번호
 // ================================
 $(document).ready(() => {
   // <input type="hidden">에서 경로 값 추출
-  cpath = document.getElementById("cpath").value || "";
-  storeUrl = document.getElementById("storeUrl").value || "";
-
+  //cpath = document.getElementById("cpath").value || "";
+  //storeUrl = document.getElementById("storeUrl").value || "";
   // 필수 값 유효성 검사
-  if (!cpath || !storeUrl) return;
+  //if (!cpath || !storeUrl) return;
+
+  if (!contextPath || !storeUrl) {
+    console.error("contextPath 또는 storeUrl 값이 없습니다.");
+    return;
+  }
 
   // 공지사항 데이터 Ajax로 조회 시작
   fetchNotices();
@@ -27,7 +31,7 @@ $(document).ready(() => {
 // ================================
 function fetchNotices() {
   $.ajax({
-    url: `${cpath}/legacy/${storeUrl}/seller/management/noticeselect`,
+    url: `${contextPath}/${storeUrl}/seller/management/noticeselect`,
     dataType: "json",
     success: result => {
       if (!result || !Array.isArray(result.data)) return;
