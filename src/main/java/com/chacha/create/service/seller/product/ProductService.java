@@ -312,8 +312,38 @@ public class ProductService {
         return products;
     }
 
-	public ProductUpdateDTO getProductDetail(String storeUrl, int productId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public ProductUpdateDTO getProductDetail(String storeUrl, int productId) {
+        int storeId = productMapper.selectForStoreIdByStoreUrl(storeUrl);
+        ProductEntity product = productMapper.selectByProductId(productId);
+
+        // 이미지 조회 (썸네일 + 설명)
+        List<PImgEntity> images = pimgMapper.selectByProductId(productId);
+        List<String> thumbnails = new ArrayList<>();
+        List<String> descriptions = new ArrayList<>();
+        for (PImgEntity img : images) {
+            if (img.getPimgEnum() == ProductImageTypeEnum.THUMBNAIL) {
+                thumbnails.add(img.getPimgUrl());
+            } else if (img.getPimgEnum() == ProductImageTypeEnum.DESCRIPTION) {
+                descriptions.add(img.getPimgUrl());
+            }
+        }
+
+        // DTO에 담아 반환
+        ProductUpdateDTO dto = new ProductUpdateDTO();
+        dto.setProductId(product.getProductId());
+        dto.setProductName(product.getProductName());
+        dto.setPrice(product.getPrice());
+        dto.setProductDetail(product.getProductDetail());
+        dto.setStock(product.getStock());
+        dto.setPimgUrl1(thumbnails.get(0));
+        dto.setPimgUrl2(thumbnails.get(1));
+        dto.setPimgUrl3(thumbnails.get(2));
+        dto.setDcategoryId(product.getDcategoryId().getId());
+        dto.setDcategoryName(product.getDcategoryId().getName());
+        dto.setTypeCategoryId(product.getTypeCategoryId().getId());
+        dto.setTypeCategoryName(product.getTypeCategoryId().getName());
+
+        return dto;
+    }
+
 }
