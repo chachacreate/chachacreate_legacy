@@ -60,5 +60,28 @@ public class OrderManagementRestController {
 
         return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, "주문 상태 수정 성공"));
     }
+    
+	// 주문 목록 조회 (상태별 필터링 지원)
+	@GetMapping("/management/orders")
+	public ApiResponse<List<OrderDTO>> getOrders(@PathVariable String storeUrl,
+	                                             @RequestParam(value = "status", required = false) String status) {
+		log.info("판매자 주문 목록 조회 호출: storeUrl={}, status={}", storeUrl, status);
+	    List<OrderDTO> orders;
+
+	    if (status != null && !status.isBlank()) {
+	        try {
+	            OrderStatusEnum statusEnum = OrderStatusEnum.from(status);
+	            orders = orderManagementService.selectForOrderStatus(storeUrl, statusEnum);
+	            return new ApiResponse<>(ResponseCode.ORDER_STATUS_OK, orders);
+	        } catch (IllegalArgumentException e) {
+	            orders = orderManagementService.selectOrderAll(storeUrl);
+	            return new ApiResponse<>(ResponseCode.ORDER_STATUS_FAIL, "잘못된 status 값 → 전체 주문 조회", orders);
+	        }
+	    } else {
+	        orders = orderManagementService.selectOrderAll(storeUrl);
+//	        log.info("전체 orders 조회 결과: {}건", orders.size());
+	        return new ApiResponse<>(ResponseCode.ORDER_NOT_STATUS, orders);
+	    }
+	}
 	
 }
