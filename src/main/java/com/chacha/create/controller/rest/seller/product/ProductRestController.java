@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -22,12 +23,14 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.chacha.create.common.dto.error.ApiResponse;
+import com.chacha.create.common.dto.order.UpdateOrderStatusRequestDTO;
 import com.chacha.create.common.dto.product.ProductUpdateDTO;
 import com.chacha.create.common.dto.product.ProductWithImagesDTO;
 import com.chacha.create.common.dto.product.ProductlistDTO;
 import com.chacha.create.common.entity.order.OrderInfoEntity;
 import com.chacha.create.common.entity.product.ProductEntity;
 import com.chacha.create.common.enums.error.ResponseCode;
+import com.chacha.create.common.enums.order.OrderStatusEnum;
 import com.chacha.create.common.exception.InvalidRequestException;
 import com.chacha.create.service.seller.order.OrderManagementService;
 import com.chacha.create.service.seller.product.ProductService;
@@ -230,4 +233,32 @@ public class ProductRestController {
 
 	    return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, "주문 상태 수정 성공"));
 	}
+	
+	 @PatchMapping(value = "/management/orders/{orderId}/status", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	    public ApiResponse<Void> patchOrderStatus(@PathVariable("storeUrl") String storeUrl,
+	                                              @PathVariable("orderId") Integer orderId,
+	                                              @RequestBody UpdateOrderStatusRequestDTO request) {
+	        log.info("주문 상태 변경 호출: storeUrl={}, orderId={}, toStatus={}", storeUrl, orderId, request.getToStatus());
+
+	        if (orderId == null || request == null || request.getToStatus() == null || request.getToStatus().isBlank()) {
+	            return new ApiResponse<>(ResponseCode.BAD_REQUEST, "orderId 또는 toStatus가 없습니다.");
+	        }
+
+	        final OrderStatusEnum toEnum;
+	        try {
+	            // 클라이언트는 Enum 코드(영문)를 보냄
+	            toEnum = OrderStatusEnum.valueOf(request.getToStatus().trim());
+	        } catch (IllegalArgumentException ex) {
+	            return new ApiResponse<>(ResponseCode.BAD_REQUEST, "유효하지 않은 상태 코드입니다: " + request.getToStatus());
+	        }
+
+	        boolean updated = omService.updateOrderStatus(orderId.intValue(), toEnum);
+	        if (updated) {
+	            return new ApiResponse<>(ResponseCode.OK, "주문 상태 변경 성공");
+	        } else {
+	            return new ApiResponse<>(ResponseCode.NOT_FOUND, "해당 주문을 찾을 수 없거나 변경 실패");
+	        }
+	    }
+	
+	
 }
