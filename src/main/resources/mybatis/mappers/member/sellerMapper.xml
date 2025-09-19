@@ -80,5 +80,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectMemberIdForSellerId" resultType="int">
 		SELECT member_id FROM seller WHERE seller_id = #{sellerId}
 	</select>
+	
+	  <!-- sellerId로 판매자 프로필 텍스트 조회 -->
+  <select id="selectProfileInfoBySellerId" parameterType="int" resultType="string">
+    SELECT profile_info
+    FROM seller
+    WHERE seller_id = #{sellerId}
+  </select>
 
 </mapper>

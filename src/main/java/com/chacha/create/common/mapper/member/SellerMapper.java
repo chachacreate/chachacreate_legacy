@@ -65,7 +65,22 @@ public interface SellerMapper {
     
     int updateBypersonalCheck(@Param("sellerId") int sellerId, @Param("personalCheck") int personalCheck);
 
-	// for 자신의 상품인지 검증
-    int selectMemberIdForSellerId(int sellerId);
+    /**
+     * 주어진 판매자 ID(sellerId)에 매핑된 회원 ID(memberId)를 조회합니다.
+     *
+     * @param sellerId 판매자 ID
+     * @return 해당 판매자의 회원 ID
+     */
+    int selectMemberIdForSellerId(@Param("sellerId") int sellerId);
+
+    // seller_id로 profile_info 조회
+    /**
+     * 판매자 프로필 정보(profile_info)를 조회합니다.
+     *
+     * @param sellerId 판매자 ID
+     * @return 프로필 소개 문자열(없으면 null)
+     */
+    String selectProfileInfoBySellerId(@Param("sellerId") int sellerId);
+
     
 }

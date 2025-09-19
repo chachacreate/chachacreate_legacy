@@ -32,28 +32,38 @@ public class StoreInfoService {
 
     public List<SellerInfoDTO> selectBySellerInfo(String storeUrl){
         try {
-            Integer sellerId = sellerMapper
-                    .selectMemberIdForSellerId(storeMapper.selectByStoreUrl(storeUrl).getSellerId());
+            // 1) storeUrl -> sellerId
+            Integer sellerId = storeMapper.selectByStoreUrl(storeUrl).getSellerId();
+            log.info("sellerId: {}", sellerId);
 
-            BootMemberDTO memberData = bootAPIUtil.getBootMemberDataBySellerId(sellerId);
+            // 2) sellerId -> memberId
+            Integer memberId = sellerMapper.selectMemberIdForSellerId(sellerId);
+            log.info("memberId: {}", memberId);
 
-            List<SellerInfoDTO> result = new ArrayList<>();
-            if (memberData != null) {
-                SellerInfoDTO temp = SellerInfoDTO.builder()
-                        .sellerName(memberData.getName())
-                        .sellerEmail(memberData.getEmail())
-                        .sellerPhone(memberData.getPhone())
-                        .build();
-                log.info(temp.toString());
-                result.add(temp);
+            BootMemberDTO memberData = bootAPIUtil.getBootMemberDataByMemberId(memberId);
+
+            String legacyProfile = sellerMapper.selectProfileInfoBySellerId(sellerId);
+
+            if (memberData == null) {
+                log.warn("No Boot memberData. sellerId={}, memberId={}", sellerId, memberId);
+                return List.of();
             }
-            return result;
+
+            SellerInfoDTO dto = SellerInfoDTO.builder()
+                    .sellerName(memberData.getName())
+                    .sellerEmail(memberData.getEmail())
+                    .sellerPhone(memberData.getPhone())
+                    .sellerProfile(legacyProfile)
+                    .build();
+            log.info("SellerInfoDTO={}", dto);
+            return List.of(dto);
 
         } catch (Exception e) {
             log.error("API 호출 실패: ", e);
-            return null;
+            return List.of(); 
         }
     }
+
 
     public StoreInfoDTO selectForThisStoreInfo(String storeUrl) {
         return storeMapper.selectForThisStoreInfo(storeUrl);
