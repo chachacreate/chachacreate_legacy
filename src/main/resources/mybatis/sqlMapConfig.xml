@@ -70,6 +70,7 @@
        <typeAlias type="com.chacha.create.common.dto.order.OrderDTO" alias="orderDTO" />
 
        <typeAlias type="com.chacha.create.common.dto.store.StoreInfoDTO" alias="storeInfoDTO" />
+       <typeAlias type="com.chacha.create.common.dto.product.AISummaryDTO" alias="aiSummaryDTO" />
    </typeAliases>
    
    <!-- Enum과 DB 매핑 -->

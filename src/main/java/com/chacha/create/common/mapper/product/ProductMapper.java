@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.chacha.create.common.dto.product.AISummaryDTO;
 import com.chacha.create.common.dto.product.ProductDailySettlementDTO;
 import com.chacha.create.common.dto.product.ProductSalesResponseDTO;
 import com.chacha.create.common.dto.product.ProductlistDTO;
@@ -95,5 +96,7 @@ public interface ProductMapper {
     List<ProductSalesResponseDTO> findDailyProductSalesByStore(@Param("storeUrl") String storeUrl);
 
 	int updateClick(int productId);
+	
+	AISummaryDTO findForCategoryPriceSummaryByCategoryName(String categoryName);
 
 }

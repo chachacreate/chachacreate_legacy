@@ -1,0 +1,23 @@
+package com.chacha.create.common.dto.product;
+
+import java.math.BigDecimal;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class AISummaryDTO {
+	BigDecimal avgPrice;
+	BigDecimal minPrice;
+	BigDecimal maxPrice;
+	BigDecimal medianPrice;
+	BigDecimal q1Price;
+	BigDecimal q3Price;
+	Integer productCount;
+	BigDecimal priceStddev;
+}
