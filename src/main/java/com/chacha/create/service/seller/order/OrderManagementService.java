@@ -9,8 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.chacha.create.common.dto.boot.BootAddressDTO;
 import com.chacha.create.common.dto.order.OrderDTO;
+import com.chacha.create.common.entity.order.OrderDetailEntity;
 import com.chacha.create.common.entity.order.OrderInfoEntity;
 import com.chacha.create.common.enums.order.OrderStatusEnum;
+import com.chacha.create.common.mapper.order.OrderDetailMapper;
 import com.chacha.create.common.mapper.order.OrderInfoMapper;
 import com.chacha.create.common.mapper.order.OrderMapper;
 import com.chacha.create.util.BootAPIUtil;
@@ -25,12 +27,35 @@ public class OrderManagementService {
 
 	private final OrderMapper orderMapper;
 	private final OrderInfoMapper orderInfoMapper;
+	private final OrderDetailMapper orderDetailMapper;
 	private final BootAPIUtil bootAPIUtil;
 
 	
-	public List<OrderDTO> selectOrderAll(String storeUrl) {
-	    List<OrderDTO> orders = orderMapper.selectAll(storeUrl);
+	public List<OrderDTO> selectForOrderStatus(String storeUrl, OrderStatusEnum orderStatus, int offset, int size) {
+	    Map<String, Object> paramMap = new HashMap<>();
+	    paramMap.put("storeUrl", storeUrl);
+	    paramMap.put("orderStatus", orderStatus);
+	    paramMap.put("offset", offset);
+	    paramMap.put("size", size);
 
+	    List<OrderDTO> orders = orderMapper.selectForOrderStatus(paramMap);
+	    fillAddress(orders);
+	    return orders;
+	}
+
+	public List<OrderDTO> selectOrderAll(String storeUrl, int offset, int size) {
+	    Map<String, Object> paramMap = new HashMap<>();
+	    paramMap.put("storeUrl", storeUrl);
+	    paramMap.put("offset", offset);
+	    paramMap.put("size", size);
+
+	    List<OrderDTO> orders = orderMapper.selectAll(paramMap);
+	    fillAddress(orders);
+	    return orders;
+	}
+
+	// 공통 주소 채우기 메서드
+	private void fillAddress(List<OrderDTO> orders) {
 	    for (OrderDTO dto : orders) {
 	        int addressId = dto.getAddressId();
 	        BootAddressDTO addr = bootAPIUtil.getBootMemberAddressDataByAddressId(addressId);
@@ -41,43 +66,19 @@ public class OrderManagementService {
 	            dto.setAddressExtra(addr.getAddressExtra());
 	        }
 	    }
-
-	    return orders;
 	}
+
 	
 	public List<OrderDTO> selectRefundAll(String storeUrl){
 		return orderMapper.selectForRefundAll(storeUrl);
 	}
 	
-	public List<OrderDTO> selectForOrderStatus(String storeUrl, OrderStatusEnum orderStatus){
-	    Map<String, Object> paramMap = new HashMap<>();
-	    paramMap.put("storeUrl", storeUrl);
-	    paramMap.put("orderStatus", orderStatus);
-
-	    // 1️. DB에서 주문/상품/카드 데이터만 가져오기
-	    List<OrderDTO> orders = orderMapper.selectForOrderStatus(paramMap);
-
-	    // 2️. 각 주문 DTO에 bootAPI 주소 채우기
-	    for (OrderDTO dto : orders) {
-	        int addressId = dto.getAddressId();
-	        BootAddressDTO addr = bootAPIUtil.getBootMemberAddressDataByAddressId(addressId);
-
-	        if (addr != null) {
-	            dto.setPostNum(addr.getPostNum());
-	            dto.setAddressRoad(addr.getAddressRoad());
-	            dto.setAddressDetail(addr.getAddressDetail());
-	            dto.setAddressExtra(addr.getAddressExtra());
-	        }
-	    }
-
-	    return orders;
-	}
-	
-	public boolean updateOrderStatus(int orderId, OrderStatusEnum toStatus) {
-        OrderInfoEntity entity = new OrderInfoEntity();
-        entity.setOrderId(orderId);
-        entity.setOrderStatus(toStatus);
-        int affected = orderInfoMapper.updateForOrderStatus(entity);
+	// 주문 상태 변경(주문 상세 기준)
+	public boolean updateOrderStatus(int orderDetailId, OrderStatusEnum toStatus) {
+//        OrderInfoEntity entity = new OrderInfoEntity();
+//        entity.setOrderId(orderId);
+//        entity.setOrderStatus(toStatus);
+        int affected = orderDetailMapper.updateStatus(orderDetailId, toStatus);
         return affected > 0;
     }
 	
