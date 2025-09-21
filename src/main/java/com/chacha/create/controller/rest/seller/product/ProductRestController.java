@@ -234,13 +234,13 @@ public class ProductRestController {
 	    return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, "주문 상태 수정 성공"));
 	}
 	
-	 @PatchMapping(value = "/management/orders/{orderId}/status", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	 @PatchMapping(value = "/management/orders/{orderDetailId}/status", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	    public ApiResponse<Void> patchOrderStatus(@PathVariable("storeUrl") String storeUrl,
-	                                              @PathVariable("orderId") Integer orderId,
+	                                              @PathVariable("orderDetailId") Integer orderDetailId,
 	                                              @RequestBody UpdateOrderStatusRequestDTO request) {
-	        log.info("주문 상태 변경 호출: storeUrl={}, orderId={}, toStatus={}", storeUrl, orderId, request.getToStatus());
+	        log.info("주문 상태 변경 호출: storeUrl={}, orderId={}, toStatus={}", storeUrl, orderDetailId, request.getToStatus());
 
-	        if (orderId == null || request == null || request.getToStatus() == null || request.getToStatus().isBlank()) {
+	        if (orderDetailId == null || request == null || request.getToStatus() == null || request.getToStatus().isBlank()) {
 	            return new ApiResponse<>(ResponseCode.BAD_REQUEST, "orderId 또는 toStatus가 없습니다.");
 	        }
 
@@ -252,7 +252,7 @@ public class ProductRestController {
 	            return new ApiResponse<>(ResponseCode.BAD_REQUEST, "유효하지 않은 상태 코드입니다: " + request.getToStatus());
 	        }
 
-	        boolean updated = omService.updateOrderStatus(orderId.intValue(), toEnum);
+	        boolean updated = omService.updateOrderStatus(orderDetailId.intValue(), toEnum);
 	        if (updated) {
 	            return new ApiResponse<>(ResponseCode.OK, "주문 상태 변경 성공");
 	        } else {

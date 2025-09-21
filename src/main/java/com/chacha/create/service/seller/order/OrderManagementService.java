@@ -9,8 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.chacha.create.common.dto.boot.BootAddressDTO;
 import com.chacha.create.common.dto.order.OrderDTO;
+import com.chacha.create.common.entity.order.OrderDetailEntity;
 import com.chacha.create.common.entity.order.OrderInfoEntity;
 import com.chacha.create.common.enums.order.OrderStatusEnum;
+import com.chacha.create.common.mapper.order.OrderDetailMapper;
 import com.chacha.create.common.mapper.order.OrderInfoMapper;
 import com.chacha.create.common.mapper.order.OrderMapper;
 import com.chacha.create.util.BootAPIUtil;
@@ -25,6 +27,7 @@ public class OrderManagementService {
 
 	private final OrderMapper orderMapper;
 	private final OrderInfoMapper orderInfoMapper;
+	private final OrderDetailMapper orderDetailMapper;
 	private final BootAPIUtil bootAPIUtil;
 
 	
@@ -70,11 +73,12 @@ public class OrderManagementService {
 		return orderMapper.selectForRefundAll(storeUrl);
 	}
 	
-	public boolean updateOrderStatus(int orderId, OrderStatusEnum toStatus) {
-        OrderInfoEntity entity = new OrderInfoEntity();
-        entity.setOrderId(orderId);
-        entity.setOrderStatus(toStatus);
-        int affected = orderInfoMapper.updateForOrderStatus(entity);
+	// 주문 상태 변경(주문 상세 기준)
+	public boolean updateOrderStatus(int orderDetailId, OrderStatusEnum toStatus) {
+//        OrderInfoEntity entity = new OrderInfoEntity();
+//        entity.setOrderId(orderId);
+//        entity.setOrderStatus(toStatus);
+        int affected = orderDetailMapper.updateStatus(orderDetailId, toStatus);
         return affected > 0;
     }
 	
