@@ -46,4 +46,6 @@ public class OrderDTO {
     
     private String orderStatusLabel; // "발송전" 등 상태 표시용
     private String addressFull;      // 전체 주소 조합용
+    
+    private Integer totalCount; // 전체 및 상태별 주문 수(페이지네이션용)
 }

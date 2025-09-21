@@ -28,40 +28,34 @@ public class OrderManagementService {
 	private final BootAPIUtil bootAPIUtil;
 
 	
-	public List<OrderDTO> selectOrderAll(String storeUrl) {
-	    List<OrderDTO> orders = orderMapper.selectAll(storeUrl);
-
-	    for (OrderDTO dto : orders) {
-	        int addressId = dto.getAddressId();
-	        BootAddressDTO addr = bootAPIUtil.getBootMemberAddressDataByAddressId(addressId);
-	        if (addr != null) {
-	            dto.setPostNum(addr.getPostNum());
-	            dto.setAddressRoad(addr.getAddressRoad());
-	            dto.setAddressDetail(addr.getAddressDetail());
-	            dto.setAddressExtra(addr.getAddressExtra());
-	        }
-	    }
-
-	    return orders;
-	}
-	
-	public List<OrderDTO> selectRefundAll(String storeUrl){
-		return orderMapper.selectForRefundAll(storeUrl);
-	}
-	
-	public List<OrderDTO> selectForOrderStatus(String storeUrl, OrderStatusEnum orderStatus){
+	public List<OrderDTO> selectForOrderStatus(String storeUrl, OrderStatusEnum orderStatus, int offset, int size) {
 	    Map<String, Object> paramMap = new HashMap<>();
 	    paramMap.put("storeUrl", storeUrl);
 	    paramMap.put("orderStatus", orderStatus);
+	    paramMap.put("offset", offset);
+	    paramMap.put("size", size);
 
-	    // 1️. DB에서 주문/상품/카드 데이터만 가져오기
 	    List<OrderDTO> orders = orderMapper.selectForOrderStatus(paramMap);
+	    fillAddress(orders);
+	    return orders;
+	}
 
-	    // 2️. 각 주문 DTO에 bootAPI 주소 채우기
+	public List<OrderDTO> selectOrderAll(String storeUrl, int offset, int size) {
+	    Map<String, Object> paramMap = new HashMap<>();
+	    paramMap.put("storeUrl", storeUrl);
+	    paramMap.put("offset", offset);
+	    paramMap.put("size", size);
+
+	    List<OrderDTO> orders = orderMapper.selectAll(paramMap);
+	    fillAddress(orders);
+	    return orders;
+	}
+
+	// 공통 주소 채우기 메서드
+	private void fillAddress(List<OrderDTO> orders) {
 	    for (OrderDTO dto : orders) {
 	        int addressId = dto.getAddressId();
 	        BootAddressDTO addr = bootAPIUtil.getBootMemberAddressDataByAddressId(addressId);
-
 	        if (addr != null) {
 	            dto.setPostNum(addr.getPostNum());
 	            dto.setAddressRoad(addr.getAddressRoad());
@@ -69,8 +63,11 @@ public class OrderManagementService {
 	            dto.setAddressExtra(addr.getAddressExtra());
 	        }
 	    }
+	}
 
-	    return orders;
+	
+	public List<OrderDTO> selectRefundAll(String storeUrl){
+		return orderMapper.selectForRefundAll(storeUrl);
 	}
 	
 	public boolean updateOrderStatus(int orderId, OrderStatusEnum toStatus) {
