@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.chacha.create.common.dto.product.ProductImageDTO;
 import com.chacha.create.common.dto.product.ProductUpdateDTO;
 import com.chacha.create.common.dto.product.ProductWithImagesDTO;
 import com.chacha.create.common.dto.product.ProductlistDTO;
@@ -148,7 +149,7 @@ public class ProductService {
     @Transactional
     public boolean updateProductDetailWithImages(String storeUrl, ProductUpdateDTO dto,
                                                  List<MultipartFile> images,
-                                                 List<Integer> imageSeqs) {
+                                                 List<Integer> imageIds) {
 
         // 기존 이미지 정보 조회
         List<PImgEntity> existingImages = pimgMapper.selectByProductId(dto.getProductId());
@@ -156,7 +157,7 @@ public class ProductService {
         // 이미지 업데이트 처리
         for (int i = 0; i < images.size(); i++) {
             MultipartFile file = images.get(i);
-            int seq = imageSeqs.get(i);
+            int seq = imageIds.get(i);
 
             if (file.isEmpty()) continue;
 
@@ -318,14 +319,14 @@ public class ProductService {
 
         // 이미지 조회 (썸네일 + 설명)
         List<PImgEntity> images = pimgMapper.selectByProductId(productId);
-        List<String> thumbnails = new ArrayList<>();
-        List<String> descriptions = new ArrayList<>();
+
+        List<ProductImageDTO> imageDTOs = new ArrayList<>();
+
         for (PImgEntity img : images) {
-            if (img.getPimgEnum() == ProductImageTypeEnum.THUMBNAIL) {
-                thumbnails.add(img.getPimgUrl());
-            } else if (img.getPimgEnum() == ProductImageTypeEnum.DESCRIPTION) {
-                descriptions.add(img.getPimgUrl());
-            }
+            ProductImageDTO imgDto = new ProductImageDTO();
+            imgDto.setId(img.getPimgId());
+            imgDto.setUrl(img.getPimgUrl());
+            imageDTOs.add(imgDto);
         }
 
         // DTO에 담아 반환
@@ -335,13 +336,12 @@ public class ProductService {
         dto.setPrice(product.getPrice());
         dto.setProductDetail(product.getProductDetail());
         dto.setStock(product.getStock());
-        dto.setPimgUrl1(thumbnails.get(0));
-        dto.setPimgUrl2(thumbnails.get(1));
-        dto.setPimgUrl3(thumbnails.get(2));
         dto.setDcategoryId(product.getDcategoryId().getId());
         dto.setDcategoryName(product.getDcategoryId().getName());
         dto.setTypeCategoryId(product.getTypeCategoryId().getId());
         dto.setTypeCategoryName(product.getTypeCategoryId().getName());
+        
+        dto.setImages(imageDTOs);
 
         return dto;
     }
