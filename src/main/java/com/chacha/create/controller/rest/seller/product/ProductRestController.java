@@ -210,15 +210,15 @@ public class ProductRestController {
 	    @PathVariable int productId,
 	    @RequestPart("dto") ProductUpdateDTO dto,
 	    @RequestPart(value = "images", required = false) List<MultipartFile> images,
-	    @RequestParam(value = "imageSeqs", required = false) List<Integer> imageSeqs
+	    @RequestParam(value = "imageIds", required = false) List<Integer> imageIds
 	) {
 	    log.info("받은 productId: {}", dto.getProductId());
 
 	    // null 방어
 	    if (images == null) images = List.of();
-	    if (imageSeqs == null) imageSeqs = List.of();
+	    if (imageIds == null) imageIds = List.of();
 
-	    boolean success = productService.updateProductDetailWithImages(storeUrl, dto, images, imageSeqs);
+	    boolean success = productService.updateProductDetailWithImages(storeUrl, dto, images, imageIds);
 	    return success ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
 	}
 	
