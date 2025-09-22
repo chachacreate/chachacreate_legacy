@@ -17,13 +17,22 @@
   <!-- ✅ 네비게이션 -->
   <jsp:include page="/common/storeMain_nav.jsp" />
 
-  <!-- ✅ 공지사항 JS (외부에서 로딩) -->
-  <script src="${cpath}/resources/js/store/storeNotice.js"></script>
+<!-- JSP에서 contextPath와 storeUrl을 JS 변수로 전달 -->
+<script>
+  const contextPath = '${not empty pageContext.servletContext.contextPath ? pageContext.servletContext.contextPath : "/legacy"}';
+  const storeUrl = '${storeUrl}';
+</script>
+
+<!-- JS 파일 로딩 -->
+<script src="${contextPath}/resources/js/store/storeNotice.js"></script>
+
 </head>
 
 <body>
+  <%-- 
   <input type="hidden" id="cpath" value="${cpath}">
-  <input type="hidden" id="storeUrl" value="${storeUrl}">
+  <input type="hidden" id="storeUrl" value="${storeUrl}"> 
+  --%>
 
 <div class="wrapper">
   <main class="notice-container">

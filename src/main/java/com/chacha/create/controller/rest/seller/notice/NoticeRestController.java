@@ -1,3 +1,4 @@
+// src/main/java/com/chacha/create/controller/rest/seller/notice/NoticeRestController.java
 package com.chacha.create.controller.rest.seller.notice;
 
 import java.util.List;
@@ -7,14 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.chacha.create.common.dto.error.ApiResponse;
 import com.chacha.create.common.entity.member.MemberEntity;
@@ -32,97 +26,120 @@ public class NoticeRestController {
 
     @Autowired
     private NoticeService noticeService;
-    
+
     @Autowired
     private MainService mainService;
 
     private MemberEntity getLoginMember(HttpSession session) {
         return (MemberEntity) session.getAttribute("loginMember");
     }
-    
+
+    /** 🔹 공지 목록: 로그인 요구 제거 + storeUrl 스코프 강제 */
     @GetMapping(value = "/notices", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<List<NoticeEntity>>> noticelist(@PathVariable String storeUrl, HttpSession session) {
-        MemberEntity member = getLoginMember(session);
-        if (member == null) {
-            return ResponseEntity.status(ResponseCode.UNAUTHORIZED.getStatus())
-                    .body(new ApiResponse<>(ResponseCode.UNAUTHORIZED, "로그인이 필요합니다."));
+    public ResponseEntity<ApiResponse<List<NoticeEntity>>> list(@PathVariable String storeUrl) {
+        int storeId = mainService.storeIdCheck(storeUrl);
+        if (storeId <= 0) {
+            return ResponseEntity.status(ResponseCode.NOT_FOUND.getStatus())
+                    .body(new ApiResponse<>(ResponseCode.NOT_FOUND, "존재하지 않는 스토어"));
         }
-        List<NoticeEntity> list = noticeService.selectForNoticeAll();
+        List<NoticeEntity> list = noticeService.selectByStoreId(storeId); // ✅ 스토어별 조회
         return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, "공지사항 목록 조회 성공", list));
     }
 
+    /** 🔹 공지 상세: 로그인 요구 제거 + 소유 스토어 검증(선택) */
     @GetMapping(value = "/noticedetail/{noticeId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<NoticeEntity>> noticedetail(@PathVariable String storeUrl, @PathVariable int noticeId, HttpSession session) {
-        MemberEntity member = getLoginMember(session);
-        if (member == null) {
-            return ResponseEntity.status(ResponseCode.UNAUTHORIZED.getStatus())
-                    .body(new ApiResponse<>(ResponseCode.UNAUTHORIZED, "로그인이 필요합니다."));
+    public ResponseEntity<ApiResponse<NoticeEntity>> detail(@PathVariable String storeUrl,
+                                                            @PathVariable int noticeId) {
+        int storeId = mainService.storeIdCheck(storeUrl);
+        if (storeId <= 0) {
+            return ResponseEntity.status(ResponseCode.NOT_FOUND.getStatus())
+                    .body(new ApiResponse<>(ResponseCode.NOT_FOUND, "존재하지 않는 스토어"));
         }
         NoticeEntity notice = noticeService.selectByNoticeId(noticeId);
-        if (notice == null) {
+        if (notice == null || notice.getStoreId() != storeId) { // ✅ 다른 스토어 공지 차단
             return ResponseEntity.status(ResponseCode.NOT_FOUND.getStatus())
                     .body(new ApiResponse<>(ResponseCode.NOT_FOUND, "해당 공지사항을 찾을 수 없습니다."));
         }
         return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, "공지사항 조회 성공", notice));
     }
 
-    @PostMapping(value = "/noticeinsert", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<Void>> insertNotice(@PathVariable String storeUrl, @RequestBody NoticeEntity noticeEntity, HttpSession session) {
+    /** 🔹 공지 등록: CUD는 로그인 유지 */
+    @PostMapping(value = "/noticeinsert", consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_FORM_URLENCODED_VALUE }, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ApiResponse<Void>> insert(@PathVariable String storeUrl,
+                                                    @RequestBody(required = false) NoticeEntity bodyJson,
+                                                    HttpSession session) {
         MemberEntity member = getLoginMember(session);
         if (member == null) {
             return ResponseEntity.status(ResponseCode.UNAUTHORIZED.getStatus())
                     .body(new ApiResponse<>(ResponseCode.UNAUTHORIZED, "로그인이 필요합니다."));
         }
 
-        int result = noticeService.insertNotice(noticeEntity, storeUrl);
+        // JSON/Form 모두 대응
+        NoticeEntity notice = bodyJson != null ? bodyJson : new NoticeEntity();
+        int storeId = mainService.storeIdCheck(storeUrl);
+        notice.setStoreId(storeId); // ✅ 스토어 강제 세팅
+
+        int result = noticeService.insertNotice(notice, storeUrl);
         if (result > 0) {
             return ResponseEntity.status(ResponseCode.CREATED.getStatus())
                     .body(new ApiResponse<>(ResponseCode.CREATED, "공지사항 등록 성공"));
-        } else {
-            return ResponseEntity.badRequest()
-                    .body(new ApiResponse<>(ResponseCode.BAD_REQUEST, "공지사항 등록 실패"));
         }
+        return ResponseEntity.badRequest().body(new ApiResponse<>(ResponseCode.BAD_REQUEST, "공지사항 등록 실패"));
     }
 
-    @PutMapping(value = "/noticeupdate", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<Void>> updateNotice(@PathVariable String storeUrl, @RequestBody NoticeEntity noticeEntity, HttpSession session) {
+    /** 🔹 공지 수정 */
+    @PutMapping(value = "/noticeupdate", consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_FORM_URLENCODED_VALUE }, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ApiResponse<Void>> update(@PathVariable String storeUrl,
+                                                    @RequestBody(required = false) NoticeEntity bodyJson,
+                                                    HttpSession session) {
         MemberEntity member = getLoginMember(session);
         if (member == null) {
             return ResponseEntity.status(ResponseCode.UNAUTHORIZED.getStatus())
                     .body(new ApiResponse<>(ResponseCode.UNAUTHORIZED, "로그인이 필요합니다."));
         }
 
-        int result = noticeService.updateNotice(noticeEntity, storeUrl);
+        NoticeEntity notice = bodyJson != null ? bodyJson : new NoticeEntity();
+        int storeId = mainService.storeIdCheck(storeUrl);
+        notice.setStoreId(storeId); // ✅ 스토어 강제 세팅
+
+        int result = noticeService.updateNotice(notice, storeUrl);
         if (result > 0) {
             return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, "공지사항 수정 성공"));
-        } else {
-            return ResponseEntity.badRequest()
-                    .body(new ApiResponse<>(ResponseCode.BAD_REQUEST, "공지사항 수정 실패"));
         }
+        return ResponseEntity.badRequest().body(new ApiResponse<>(ResponseCode.BAD_REQUEST, "공지사항 수정 실패"));
     }
 
+    /** 🔹 공지 삭제 */
     @DeleteMapping(value = "/noticedelete/{noticeId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<Void>> deleteNotice(@PathVariable String storeUrl, @PathVariable int noticeId, HttpSession session) {
+    public ResponseEntity<ApiResponse<Void>> delete(@PathVariable String storeUrl,
+                                                    @PathVariable int noticeId,
+                                                    HttpSession session) {
         MemberEntity member = getLoginMember(session);
         if (member == null) {
             return ResponseEntity.status(ResponseCode.UNAUTHORIZED.getStatus())
                     .body(new ApiResponse<>(ResponseCode.UNAUTHORIZED, "로그인이 필요합니다."));
+        }
+
+        int storeId = mainService.storeIdCheck(storeUrl);
+        NoticeEntity notice = noticeService.selectByNoticeId(noticeId);
+        if (notice == null || notice.getStoreId() != storeId) {
+            return ResponseEntity.status(ResponseCode.NOT_FOUND.getStatus())
+                    .body(new ApiResponse<>(ResponseCode.NOT_FOUND, "공지 없음 혹은 다른 스토어 소속"));
         }
 
         int result = noticeService.deleteNotice(noticeId);
         if (result > 0) {
             return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, "공지사항 삭제 성공"));
-        } else {
-            return ResponseEntity.status(ResponseCode.NOT_FOUND.getStatus())
-                    .body(new ApiResponse<>(ResponseCode.NOT_FOUND, "공지사항 삭제 실패 또는 존재하지 않음"));
         }
+        return ResponseEntity.status(ResponseCode.NOT_FOUND.getStatus())
+                .body(new ApiResponse<>(ResponseCode.NOT_FOUND, "공지사항 삭제 실패 또는 존재하지 않음"));
     }
-    
-    // 특정 스토의 공지사항 조회 
-    @GetMapping("/noticeselect")
-    public ResponseEntity<ApiResponse<List<NoticeEntity>>> selectByStoreId(@PathVariable String storeUrl){
-    			int storeId = mainService.storeIdCheck(storeUrl);
-    			List<NoticeEntity> result = noticeService.selectByStoreId(storeId);
-    		return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, result));
+
+    /** 🔹 (선택) 스토어 공지 전용 엔드포인트 */
+    @GetMapping(value = "/noticeselect", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ApiResponse<List<NoticeEntity>>> selectByStore(@PathVariable String storeUrl) {
+        int storeId = mainService.storeIdCheck(storeUrl);
+        List<NoticeEntity> result = noticeService.selectByStoreId(storeId);
+        return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, result));
     }
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chacha.create.common.mapper.order.InventoryAdjustmentMapper">
+
+  <!-- 주문 상세 집계: 상태 필터 없이 ORDER_ID 기준 -->
+  <select id="selectOrderItems"
+          parameterType="long"
+          resultType="com.chacha.create.common.dto.order.inventory.OrderItemsRow">
+    SELECT
+      od.PRODUCT_ID     AS productId,
+      SUM(od.ORDER_CNT) AS quantity
+    FROM ORDER_DETAIL od
+    WHERE od.ORDER_ID = #{orderId}
+    GROUP BY od.PRODUCT_ID
+  </select>
+
+  <!-- 재고 차감: 동시성 안전 (STOCK >= qty 조건으로 음수 방지) -->
+  <update id="decreaseStockIfEnough">
+    UPDATE PRODUCT
+       SET STOCK    = STOCK - #{quantity},
+           SALE_CNT = NVL(SALE_CNT, 0) + #{quantity}
+     WHERE PRODUCT_ID = #{productId}
+       AND STOCK      >= #{quantity}
+  </update>
+
+  
+</mapper>

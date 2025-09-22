@@ -27,10 +27,14 @@
     }
 
     .store-logo img {
-      width: 180px;
-      height: 180px;
+      display: block;
+      margin: 0 auto;
+      max-width:120px;
+      max-height:120px;
+      width:auto;
+      height:auto;
       border-radius: 16px;
-      object-fit: cover;
+      object-fit:contain;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
@@ -85,7 +89,7 @@
 
     <!-- 스토어 로고 출력 -->
 	<div class="store-logo">
-	  <img id="logoImg" src="${logoImg}" alt="스토어 로고" style="height: 80px;" />
+	  <img id="logoImg" src="${logoImg}" alt="스토어 로고" />
 	</div>
 
     <!-- ✅ 판매자 정보 -->

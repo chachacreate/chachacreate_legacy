@@ -18,25 +18,26 @@ import com.chacha.create.common.dto.store.StoreInfoDTO;
 import com.chacha.create.common.entity.store.StoreEntity;
 import com.chacha.create.service.buyer.storeinfo.StoreInfoService;
 import com.chacha.create.service.mainhome.store.StoreService;
+import com.chacha.create.util.s3.S3Uploader;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
 @RequestMapping("/{storeUrl}")
+@RequiredArgsConstructor
 public class StoreMainController {
 	
-	@Autowired
-	private StoreInfoService storeinfo;
-	
-	@Autowired
-	private StoreService storeService;
+	private final StoreInfoService storeinfo;
+	private final StoreService storeService;
+	private final S3Uploader s3Uploader;
 	
 	public void setStoreNavInfo(String storeUrl, Model model) {
 		StoreInfoDTO storeInfo = storeinfo.selectForThisStoreInfo(storeUrl);
 		log.info(storeInfo.toString());
 		model.addAttribute("storeUrl",storeUrl);
-		model.addAttribute("logoImg", storeInfo.getLogoImg());
+		model.addAttribute("logoImg", s3Uploader.getThumbnailUrlByFullUrl(storeInfo.getLogoImg()));
 		model.addAttribute("storeOwnerId", storeInfo.getMemberId());
 		model.addAttribute("storeName", storeInfo.getStoreName());
 	}
@@ -54,30 +55,13 @@ public class StoreMainController {
 		return "store/storeMain";
 	}
 	
-	// 구매자 마이페이지(구매자)
-	@GetMapping("/mypage")
-	public String ShowMypage(@PathVariable String storeUrl, Model model) {
-		   if (!"main".equals(storeUrl)) {
-		        setStoreNavInfo(storeUrl, model);
-		    }
-		    model.addAttribute("storeUrl", storeUrl); // 항상 추가!
-		    return "main/mypage/mainMyPage";
-		}
-	
 	// 상세페이지
 	@GetMapping("/productdetail/{productId}")
 	public String ShowProductdetail(@PathVariable String storeUrl, Model model) {
 		setStoreNavInfo(storeUrl, model);
 		return "store/productDetail";
 	}
-	
-	// 장바구니 페이지
-	@GetMapping("/mypage/cart")
-	public String ShowCart(@PathVariable String storeUrl, Model model) {
-		setStoreNavInfo(storeUrl, model);
-		return "store/buyer/mypage/cart";
-	}
-	
+
 	// 결제 페이지
 	@GetMapping("/order")
 	public String ShowOrder(@PathVariable String storeUrl, Model model) {
@@ -90,21 +74,6 @@ public class StoreMainController {
 	public String ShowOrderComplete(@PathVariable String storeUrl, Model model) {
 		setStoreNavInfo(storeUrl, model);
 		return "store/buyer/orderComplete";
-	}
-	
-	// 주문 내역 페이지
-	@GetMapping("/mypage/orders")
-	public String ShowMyOrders(@PathVariable String storeUrl, Model model) {
-		setStoreNavInfo(storeUrl, model);
-		return "main/mypage/mainMyPageOrderList";
-	}
-	
-	
-	// 주문 상세 페이지
-	@GetMapping("/mypage/orderdetail/{orderId}")
-	public String ShowOrderDetail(@PathVariable String storeUrl, Model model) {
-		setStoreNavInfo(storeUrl, model);
-		return "store/buyer/mypage/orderDetail";
 	}
 	
 	// 전체 상품
@@ -120,24 +89,7 @@ public class StoreMainController {
 		setStoreNavInfo(storeUrl, model);
 		return "store/chat";
 	}
-	
-	// 작성한 리뷰 확인
-	@GetMapping("/mypage/myreview")
-	public String ShowMyReview(@PathVariable String storeUrl,
-	                           @RequestParam(required = false) Integer productId,
-	                           Model model) {
-	    setStoreNavInfo(storeUrl, model);
-	    model.addAttribute("productId", productId); // 필요 시만 사용
-	    return "main/mypage/mainMyPageReview";
-	}
 
-	//메시지 확인
-    @GetMapping("/mypage/message")
-    public String showMessagePage(@PathVariable String storeUrl, Model model) {
-		setStoreNavInfo(storeUrl, model);
-    	return "main/mypage/chat";
-    }
-	
 	// 스토어 소개/판매자 정보
 	//{storeUrl}/info
 	@GetMapping("/info")

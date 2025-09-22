@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.chacha.create.common.dto.product.HomeDTO;
 import com.chacha.create.common.dto.product.HomeProductDTO;
 import com.chacha.create.common.dto.store.StoreCategoryDTO;
 import com.chacha.create.common.enums.category.DCategoryEnum;
@@ -19,6 +20,7 @@ import com.chacha.create.common.mapper.product.MainPageMapper;
 import com.chacha.create.common.mapper.product.ProductMapper;
 import com.chacha.create.common.mapper.store.StoreIdCheckMapper;
 import com.chacha.create.util.ServiceUtil;
+import com.chacha.create.util.s3.S3Uploader;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +36,8 @@ public class MainService {
     private final UCategoryMapper uCategoryMapper;
     private final DCategoryMapper dCategoryMapper;
     private final TypeCategoryMapper typeCategoryMapper;
-
+    private final S3Uploader s3Uploader;
+    
     /** 🛍️ 스토어 메인 페이지 - 인기 + 대표 상품 묶음 */
     public Map<String, List<HomeProductDTO>> getStoreMainProductMap(int storeId) {
         return Map.of(
@@ -45,8 +48,10 @@ public class MainService {
 
     /** 🏠 메인 홈 - 인기 스토어 + 인기 상품 + 신상품 */
     public Map<String, Object> getHomeMainProductMap() {
+    	List<HomeDTO> bestStore = mainPageMapper.selectForBestStore();
+    	bestStore.forEach(s->s.setLogoImg(s3Uploader.getThumbnailUrlByFullUrl(s.getLogoImg())));
         return Map.of(
-            "bestStore", mainPageMapper.selectForBestStore(),
+            "bestStore", bestStore,
             "bestProduct", mainPageMapper.selectForBestProduct(null),
             "newProduct", mainPageMapper.selectForNewProduct()
         );

@@ -123,7 +123,7 @@
 			</section> -->
 
 			<div class="button-wrapper">
-				<button type="button" class="btn-outline" onclick="history.back()">돌아가기</button>
+				<button type="button" class="btn-outline" onclick="location.href='${cpath}/main'">돌아가기</button>
 				<button type="submit" class="btn-primary">등록하기</button>
 			</div>
 		</form>
@@ -135,7 +135,21 @@
     </div>
 
 <script>
-	
+$(document).ready(function() {
+    // 뒤로가기 방지 및 리다이렉트
+    function preventBack() {
+        window.history.forward();
+        setTimeout(function() {
+            window.location.href = '${cpath}/main';
+        }, 100);
+    }
+    
+    // 브라우저 뒤로가기 감지
+    window.addEventListener('popstate', preventBack);
+    
+    // 페이지 로드 시 히스토리 조작
+    window.history.pushState(null, null, window.location.href);
+});
 /* 	$(document).ready(function () {
 		
 		//-----------------텍스트 길이 체크--------------		

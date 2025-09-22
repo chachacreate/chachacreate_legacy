@@ -16,13 +16,17 @@ import com.chacha.create.common.dto.member.SellerInfoDTO;
 import com.chacha.create.common.entity.store.StoreEntity;
 import com.chacha.create.common.enums.error.ResponseCode;
 import com.chacha.create.service.buyer.storeinfo.StoreInfoService;
+import com.chacha.create.util.s3.S3Uploader;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/legacy/{storeUrl}")
+@RequiredArgsConstructor
 public class StoreInfoRestController {
 
-    @Autowired
-    private StoreInfoService storeinfo;
+    private final StoreInfoService storeinfo;
+    private final S3Uploader s3Uploader;
 
     @GetMapping("/info")
     public ResponseEntity<ApiResponse<Map<String, List<?>>>> storeinfo(@PathVariable String storeUrl) {
@@ -30,7 +34,7 @@ public class StoreInfoRestController {
 
         List<StoreEntity> storeInfoList = storeinfo.selectByStoreInfo(storeUrl);
         List<SellerInfoDTO> sellerInfoList = storeinfo.selectBySellerInfo(storeUrl);
-
+        storeInfoList.forEach(si->si.setLogoImg(s3Uploader.getThumbnailUrlByFullUrl(si.getLogoImg())));
         result.put("storeInfoList", storeInfoList);
         result.put("sellerInfoList", sellerInfoList);
 
