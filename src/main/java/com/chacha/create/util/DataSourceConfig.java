@@ -5,8 +5,6 @@ import com.chacha.create.util.s3.AwsS3Properties;
 import com.chacha.create.util.s3.S3Uploader;
 import com.zaxxer.hikari.HikariDataSource;
 import io.github.cdimascio.dotenv.Dotenv;
-import net.sf.log4jdbc.Log4jdbcProxyDataSource;
-import net.sf.log4jdbc.tools.Log4JdbcCustomFormatter;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -86,8 +84,8 @@ public class DataSourceConfig {
         return value;
     }
 
-    @Bean(name = "customHikariDataSource")
-    public DataSource customHikariDataSource() throws IOException {
+    @Bean(name = "dataSource")
+    public DataSource dataSource() throws IOException {
         String walletUrl = getProperty("oracle.wallet.url");
         String username = getProperty("oracle.wallet.username");
         String password = getProperty("oracle.wallet.password");
@@ -128,19 +126,7 @@ public class DataSourceConfig {
 
     @Bean(name = "jdbcTemplate")
     public JdbcTemplate jdbcTemplate() throws IOException {
-        return new JdbcTemplate(customHikariDataSource());
-    }
-
-    @Bean(name = "dataSource")
-    public DataSource dataSource() throws IOException {
-        Log4jdbcProxyDataSource proxyDataSource = new Log4jdbcProxyDataSource(customHikariDataSource());
-        
-        Log4JdbcCustomFormatter formatter = new Log4JdbcCustomFormatter();
-        formatter.setSqlPrefix("[ SQL문장 ] ");
-        
-        proxyDataSource.setLogFormatter(formatter);
-        
-        return proxyDataSource;
+        return new JdbcTemplate(dataSource());
     }
 
     @Bean(name = "sqlSessionFactory")
