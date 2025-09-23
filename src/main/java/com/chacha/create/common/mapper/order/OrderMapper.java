@@ -15,13 +15,13 @@ import com.chacha.create.common.enums.order.OrderStatusEnum;
 
 @Mapper
 public interface OrderMapper {
-	List<OrderDTO> selectAll(String storeUrl);
+	List<OrderDTO> selectAll(Map<String, Object> paramMap);
 	List<OrderDTO> selectForRefundAll(String storeUrl);
-	List<OrderDTO> selectForOrderStatus(Map<String, Object> param);
+	List<OrderDTO> selectForOrderStatus(Map<String, Object> paramMap);
 	
 	List<OrderDTO> selectForPersonalAll(int memberId);
 	List<OrderDTO> selectForPersonalRefundAll(int memberId);
-	List<OrderDTO> selectForPersonalOrderStatus(Map<String, Object> param);
+	List<OrderDTO> selectForPersonalOrderStatus(Map<String, Object> paramMap);
 	
 	List<Map<String,Object>> selectByStatus(String  storeUrl);
 	List<OrderSumDTO> selectByDayOrderSum(String  storeUrl);

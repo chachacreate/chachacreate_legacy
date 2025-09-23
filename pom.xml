@@ -12,7 +12,7 @@
 		<java-version>1.11</java-version>
 		<org.springframework-version>5.3.30</org.springframework-version>
 		<org.aspectj-version>1.9.19</org.aspectj-version>
-		<org.slf4j-version>1.7.36</org.slf4j-version>
+		<org.slf4j-version>2.0.16</org.slf4j-version>
 	</properties>
 
 	<!-- dependency가 꼬였을 때 C:\Users\fzaca\.m2\repository에서 파일 전부 삭제 후 Maven 
@@ -171,9 +171,9 @@
 
 		<!-- SQL문 log남기기 위해 사용 -->
 		<dependency>
-			<groupId>org.lazyluke</groupId>
-			<artifactId>log4jdbc-remix</artifactId>
-			<version>0.2.7</version>
+		    <groupId>org.bgee.log4jdbc-log4j2</groupId>
+		    <artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
+		    <version>1.16</version>
 		</dependency>
 
 		<!-- Mybatis -->
@@ -220,12 +220,6 @@
 		    <artifactId>osdt_cert</artifactId>
 		    <version>21.9.0.0</version>
 		</dependency>
-		
-<!-- 		<dependency>
-	        <groupId>com.oracle.database.jdbc</groupId>
-	        <artifactId>ojdbc8</artifactId>
-	        <version>21.9.0.0</version>
-    	</dependency> -->
     	
     	<dependency>
 		    <groupId>com.zaxxer</groupId>
@@ -294,46 +288,38 @@
 		</dependency>
 
 		<!-- Logging -->
+	    <!-- Log4j 2 Core -->
+	    <dependency>
+	        <groupId>org.apache.logging.log4j</groupId>
+	        <artifactId>log4j-core</artifactId>
+	        <version>2.24.3</version>
+	    </dependency>
+	    
+	    <!-- Log4j 2 API -->
+	    <dependency>
+	        <groupId>org.apache.logging.log4j</groupId>
+	        <artifactId>log4j-api</artifactId>
+	        <version>2.24.3</version>
+	    </dependency>
+	    
+	    <!-- SLF4J와 Log4j 2 연결 -->
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-slf4j2-impl</artifactId>
+		    <version>2.24.3</version>
+		</dependency>
+	    
+	    <!-- Commons Logging을 Log4j 2로 브릿지 -->
+	    <dependency>
+	        <groupId>org.apache.logging.log4j</groupId>
+	        <artifactId>log4j-jcl</artifactId>
+	        <version>2.24.3</version>
+	    </dependency>
+	    <!-- SLF4J API -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>${org.slf4j-version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
-			<version>${org.slf4j-version}</version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>${org.slf4j-version}</version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.15</version>
-			<exclusions>
-				<exclusion>
-					<groupId>javax.mail</groupId>
-					<artifactId>mail</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.jms</groupId>
-					<artifactId>jms</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.sun.jdmk</groupId>
-					<artifactId>jmxtools</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.sun.jmx</groupId>
-					<artifactId>jmxri</artifactId>
-				</exclusion>
-			</exclusions>
-			<scope>runtime</scope>
 		</dependency>
 
 		<!-- @Inject -->

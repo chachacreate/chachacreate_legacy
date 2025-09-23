@@ -35,6 +35,18 @@
         <result column="bank" property="bank"/>
         <result column="update_at" property="updateAt"/>
     </resultMap>
+    
+    <resultMap id="AISummaryResultMap" type="aiSummaryDTO">
+	    <result property="avg_price" column="avgPrice"/>
+	    <result property="min_price" column="minPrice"/>
+	    <result property="max_price" column="maxPrice"/>
+	    <result property="median_price" column="medianPrice"/>
+	    <result property="q1_price" column="q1Price"/>
+	    <result property="q3_price" column="q3Price"/>
+	    <result property="product_count" column="productCount"/>
+	    <result property="price_stddev" column="priceStddev"/>
+	</resultMap>
+    
 	
   
 
@@ -192,6 +204,23 @@
 	    SET view_cnt = view_cnt + 1
 	    WHERE product_id = #{productId}
 	</update>
+	
+	<select id="findForCategoryPriceSummaryByCategoryName" parameterType="String" resultMap="AISummaryResultMap">
+        SELECT 
+            AVG(p.price) as avg_price,
+            MIN(p.price) as min_price,
+            MAX(p.price) as max_price,
+            PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY p.price) as median_price,
+            PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY p.price) as q1_price,
+            PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY p.price) as q3_price,
+            COUNT(*) as product_count,
+            STDDEV(p.price) as price_stddev
+        FROM product p 
+        JOIN d_category dc ON p.d_category_id = dc.d_category_id 
+        WHERE dc.d_category_name = #{categoryName}
+        AND p.delete_check = 0
+        AND p.price > 0
+	</select>
 
 	
 </mapper>

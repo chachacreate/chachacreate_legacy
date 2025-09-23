@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <!-- 콘솔 출력 (기존 console appender와 동일한 패턴) -->
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%-5p: %c - %m%n"/>
+        </Console>
+    </Appenders>
+    
+    <Loggers>
+        <!-- Application Loggers -->
+        <Logger name="com.chacha.create" level="info" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        
+        <!-- MyBatis SQL 로깅 -->
+        <Logger name="com.chacha.create.common.mapper" level="DEBUG" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        
+        <!-- 3rdparty Loggers -->
+        <Logger name="org.springframework.core" level="info" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        
+        <Logger name="org.springframework.beans" level="info" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        
+        <Logger name="org.springframework.context" level="info" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        
+        <Logger name="org.springframework.web" level="info" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        
+        <!-- Root Logger -->
+        <Root level="warn">
+            <AppenderRef ref="console"/>
+        </Root>
+    </Loggers>
+</Configuration>

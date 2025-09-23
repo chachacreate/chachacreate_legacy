@@ -34,6 +34,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="cardId" column="card_id" />
 		<result property="cardNum" column="card_num" />
 		<result property="cardCompany" column="card_company" />
+		
+		<result property="totalCount" column="total_count" />
 	</resultMap>
 
 	<select id="selectForOrderDetailId" resultType="int"
@@ -62,11 +64,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="selectByStatus" resultType="map"
 		parameterType="string">
-		SELECT order_info.order_status, COUNT(*) cnt
+		SELECT order_detail.order_status, COUNT(*) cnt
 		FROM
-		order_info
-		JOIN order_detail ON order_info.order_id =
-		order_detail.order_id
+		order_detail
+		JOIN order_info ON order_detail.order_id =
+		order_info.order_id
 		JOIN
 		product ON order_detail.product_id =
 		product.product_id
@@ -74,7 +76,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		product.store_id = store.store_id
 		WHERE
 		store.store_Url = #{storeUrl}
-		GROUP BY order_info.order_status
+		GROUP BY order_detail.order_status
 	</select>
 
 	<select id="selectByDayOrderSum" resultType="orderSumDTO"
@@ -108,51 +110,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		outer join order_info oi on(od.order_id = oi.order_id)
 		where
 		s.store_url = #{StoreUrl}
-	</select>
-
-	<select id="selectAll" resultMap="orderDTOResultMap"
-		parameterType="String">
-		SELECT
-		oi.order_id,
-		oi.member_id,
-		oi.order_date,
-		oi.order_name,
-		oi.order_status,
-		oi.address_id,
-
-		od.order_detail_id,
-		od.order_cnt,
-		od.order_price,
-
-		p.product_id,
-		p.store_id,
-		p.product_name,
-		p.price,
-
-		c.card_id,
-		c.card_num,
-		c.card_company
-		FROM order_info oi
-		JOIN
-		order_detail od ON oi.order_id = od.order_id
-		JOIN product p ON
-		od.product_id = p.product_id
-		left outer JOIN card c
-		ON oi.card_id =
-		c.card_id
-		JOIN store s ON p.store_id = s.store_id
-		WHERE
-		s.store_url =
-		#{storeUrl}
-		ORDER BY CASE oi.order_status
-		WHEN 'ORDER_OK' THEN 1
-		WHEN
-		'CONFIRM' THEN 2
-		WHEN 'REFUND' THEN 3
-		WHEN 'REFUND_OK' THEN 4
-		ELSE 5
-		END,
-		oi.order_date DESC
 	</select>
 
 	<select id="selectForRefundAll" resultMap="orderDTOResultMap"
@@ -201,43 +158,90 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ELSE 3
 		END
 	</select>
-
-	<select id="selectForOrderStatus" resultMap="orderDTOResultMap"
-		parameterType="map">
-		SELECT
-		oi.order_id,
-		oi.member_id,
-		oi.order_date,
-		oi.order_name,
-		oi.order_status,
-		oi.address_id,
-
-		od.order_detail_id,
-		od.order_cnt,
-		od.order_price,
-
-		p.product_id,
-		p.store_id,
-		p.product_name,
-		p.price,
-
-		c.card_id,
-		c.card_num,
-		c.card_company
-		FROM order_info oi
-		JOIN
-		order_detail od ON oi.order_id = od.order_id
-		JOIN product p ON
-		od.product_id = p.product_id
-		left outer JOIN card c ON oi.card_id =
-		c.card_id
-		JOIN store s ON p.store_id = s.store_id
-		WHERE s.store_url =
-		#{storeUrl}
-		AND oi.order_status = #{orderStatus}
-		ORDER BY oi.order_date
-		DESC
+	
+	<select id="selectAll" resultMap="orderDTOResultMap" parameterType="map">
+	    SELECT inner_q.*, cnt.total_count
+	    FROM (
+	        SELECT 
+	            oi.order_id,
+	            oi.member_id,
+	            oi.order_date,
+	            oi.order_name,
+	            oi.address_id,
+	            od.order_status,
+	            od.order_detail_id,
+	            od.order_cnt,
+	            od.order_price,
+	            p.product_id,
+	            p.store_id,
+	            p.product_name,
+	            p.price,
+	            c.card_id,
+	            c.card_num,
+	            c.card_company,
+	            ROW_NUMBER() OVER (ORDER BY oi.order_date DESC) AS rn
+	        FROM order_info oi
+	        JOIN order_detail od ON oi.order_id = od.order_id
+	        JOIN product p ON od.product_id = p.product_id
+	        LEFT JOIN card c ON oi.card_id = c.card_id
+	        JOIN store s ON p.store_id = s.store_id
+	        WHERE s.store_url = #{storeUrl}
+	    ) inner_q
+	    CROSS JOIN (
+	        SELECT COUNT(*) AS total_count
+	        FROM order_info oi
+	        JOIN order_detail od ON oi.order_id = od.order_id
+	        JOIN product p ON od.product_id = p.product_id
+	        JOIN store s ON p.store_id = s.store_id
+	        WHERE s.store_url = #{storeUrl}
+	    ) cnt
+	    WHERE rn BETWEEN #{offset} + 1 AND #{offset} + #{size}
 	</select>
+
+	
+
+	<select id="selectForOrderStatus" resultMap="orderDTOResultMap" parameterType="map">
+	    SELECT inner_q.*, cnt.total_count
+	    FROM (
+	        SELECT 
+	            oi.order_id,
+	            oi.member_id,
+	            oi.order_date,
+	            oi.order_name,
+	            oi.address_id,
+	            od.order_status,
+	            od.order_detail_id,
+	            od.order_cnt,
+	            od.order_price,
+	            p.product_id,
+	            p.store_id,
+	            p.product_name,
+	            p.price,
+	            c.card_id,
+	            c.card_num,
+	            c.card_company,
+	            ROW_NUMBER() OVER (ORDER BY oi.order_date DESC) AS rn
+	        FROM order_info oi
+	        JOIN order_detail od ON oi.order_id = od.order_id
+	        JOIN product p ON od.product_id = p.product_id
+	        LEFT JOIN card c ON oi.card_id = c.card_id
+	        JOIN store s ON p.store_id = s.store_id
+	        WHERE s.store_url = #{storeUrl}
+	          AND od.order_status = #{orderStatus}
+	    ) inner_q
+	    CROSS JOIN (
+	        SELECT COUNT(*) AS total_count
+	        FROM order_info oi
+	        JOIN order_detail od ON oi.order_id = od.order_id
+	        JOIN product p ON od.product_id = p.product_id
+	        JOIN store s ON p.store_id = s.store_id
+	        WHERE s.store_url = #{storeUrl}
+	          AND od.order_status = #{orderStatus}
+	    ) cnt
+	    WHERE rn BETWEEN #{offset} + 1 AND #{offset} + #{size}
+	</select>
+
+
 
 	<!-- 전체 조회 -->
 	<!-- 개인판매자: 전체 주문 -->
