@@ -39,7 +39,7 @@ public class StoreService {
         if(memberEntity == null) {
             throw new NeedLoginException("로그인이 필요합니다.");
         }
-        if(!checkProductCount(memberEntity)) {
+        if(checkProductCount(memberEntity)) {
         	throw new InvalidRequestException("상품을 2개 등록해야합니다.");
         }
         
