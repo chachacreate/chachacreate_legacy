@@ -137,7 +137,7 @@
 
   SELECT
     TO_CHAR(TRUNC(o.order_date), 'YYYY-MM-DD') AS "date",
-    NVL(SUM(od.order_cnt * od.order_price), 0)  AS "amount"
+    NVL(SUM(od.order_price), 0)  AS "amount"
   FROM order_detail od
   JOIN order_info o ON o.order_id = od.order_id
   WHERE od.product_id = #{productId}
