@@ -25,7 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		s.account AS accountNumber,
 		s.account_bank AS accountBank,
 		m.member_name AS accountHolder,
-		SUM(od.order_cnt * od.order_price) AS adjustmentAmount,
+		SUM(od.order_price) AS adjustmentAmount,
 		'정산 예정' AS
 		adjustmentStatus,
 		TO_CHAR(ADD_MONTHS(TRUNC(oi.order_date, 'MM'), 1),
@@ -57,7 +57,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		s.account_bank AS accountBank,
 		m.member_name AS
 		accountHolder,
-		SUM(od.order_cnt * od.order_price) AS
+		SUM(od.order_price) AS
 		adjustmentAmount,
 		'정산 예정' AS adjustmentStatus,
 		TO_CHAR(ADD_MONTHS(TRUNC(oi.order_date,
