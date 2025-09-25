@@ -14,7 +14,7 @@
         </Logger>
         
         <!-- MyBatis SQL 로깅 -->
-        <Logger name="com.chacha.create.common.mapper" level="DEBUG" additivity="false">
+        <Logger name="com.chacha.create.common.mapper" level="info" additivity="false">
             <AppenderRef ref="console"/>
         </Logger>
         
