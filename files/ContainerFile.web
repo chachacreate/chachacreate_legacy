@@ -6,7 +6,11 @@ MAINTAINER "chachacreate<kirk0221@naver.com>"
 RUN rm -rf /usr/local/tomcat/webapps/*
 
 # envsubst 설치 (env를 사용하여 template에 적용하기 위해, gettext 패키지에 포함)
-RUN apt-get update && apt-get install -y gettext-base && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y --no-install-recommends \
+        gettext-base \
+    && rm -rf /var/lib/apt/lists/*
 
 # 환경변수 설정
 ENV TZ=Asia/Seoul
