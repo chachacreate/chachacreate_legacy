@@ -208,7 +208,7 @@ form {
   cursor: pointer;
 }
 
-.component_login {
+.component_login, .link-text {
   border: none;
   background-color: #2a3e34;
   border-radius: 5px;
@@ -241,14 +241,9 @@ a {
 }
 
 .link-text {
-  color: var(--color-text-subtle, #464c53);
-  text-align: left;
-  font-family: var(--body-medium-font-family, "PretendardGov-Regular", sans-serif);
-  font-size: var(--body-medium-font-size, 17px);
-  line-height: var(--body-medium-line-height, 150%);
-  font-weight: var(--body-medium-font-weight, 400);
-  position: relative;
-}
+  color: #676F58;
+  background-color: #CFD3C4;
+} 
 
 .social-divider {
   display: flex;
@@ -257,6 +252,7 @@ a {
   gap: 24px;
   width: 100%;
   padding: 10px 0;
+  padding-top: 30px;
 }
 
 .line {

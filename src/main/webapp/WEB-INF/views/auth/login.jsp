@@ -47,8 +47,7 @@
 						<div class="login-button-group">
 							<button type="submit" class="component_login">로그인</button>
 							<div class="login-bottom-links">
-								<div class="link-text">비밀번호를 잊으셨나요?</div>
-								<a href="${cpath}/auth/join/agree" class="link-text">회원가입</a>
+								<button href="${cpath}/auth/join/agree" class="link-text">회원가입</button>
 							</div>
 						</div>
 					</div>
