@@ -33,7 +33,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	        SELECT * FROM p_img
 	        WHERE p_img_enum = 'THUMBNAIL' AND p_img_seq = 1
 	    ) img ON p.product_id = img.product_id
-	    WHERE c.member_id = #{memberId}
+	    WHERE c.member_id = #{memberId} AND p.delete_check = 0
 	</select>
 	
 	<!-- 상품별로 조회 -->
