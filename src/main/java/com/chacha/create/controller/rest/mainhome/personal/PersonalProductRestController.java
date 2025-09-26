@@ -102,6 +102,9 @@ public class PersonalProductRestController {
 			@RequestParam(value = "image1", required = false) MultipartFile image1,
 			@RequestParam(value = "image2", required = false) MultipartFile image2,
 			@RequestParam(value = "image3", required = false) MultipartFile image3,
+	        @RequestParam(value = "deleteImage1", required = false, defaultValue = "false") boolean deleteImage1,
+	        @RequestParam(value = "deleteImage2", required = false, defaultValue = "false") boolean deleteImage2,
+	        @RequestParam(value = "deleteImage3", required = false, defaultValue = "false") boolean deleteImage3,
 			HttpSession session) {
 		
 		MemberEntity loginMember = (MemberEntity) session.getAttribute("loginMember");
@@ -117,6 +120,9 @@ public class PersonalProductRestController {
 				.typeCategoryId(TypeCategoryEnum.valueOf(typeCategoryId))
 				.ucategoryId(UCategoryEnum.valueOf(ucategoryId))
 				.dcategoryId(DCategoryEnum.valueOf(dcategoryId))
+	            .deleteImage1(deleteImage1)
+	            .deleteImage2(deleteImage2)
+	            .deleteImage3(deleteImage3)
 				.build();
 
 		int result = personalProductService.updateMainProductWithImages(dto, loginMember, image1, image2, image3);

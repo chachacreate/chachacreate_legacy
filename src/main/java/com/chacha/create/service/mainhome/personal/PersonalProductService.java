@@ -186,6 +186,10 @@ public class PersonalProductService {
                 String fullUrl = s3Uploader.getFullUrl(s3Key);
                 dto.setPimgUrl1(fullUrl);
                 log.info("새 S3 이미지1 업로드 성공: {}", fullUrl);
+            } else if (dto.isDeleteImage1() && existingProduct != null) {
+                deleteS3Images(existingProduct.getPimgUrl1());
+                dto.setPimgUrl1(null);
+                personalProductMapper.deleteProductImage(dto.getProductId(), 1);
             }
             
             // 이미지 2 처리
@@ -197,6 +201,10 @@ public class PersonalProductService {
                 String fullUrl = s3Uploader.getFullUrl(s3Key);
                 dto.setPimgUrl2(fullUrl);
                 log.info("새 S3 이미지2 업로드 성공: {}", fullUrl);
+            } else if (dto.isDeleteImage2() && existingProduct != null) {
+                deleteS3Images(existingProduct.getPimgUrl2());
+                dto.setPimgUrl2(null);
+                personalProductMapper.deleteProductImage(dto.getProductId(), 2);
             }
             
             // 이미지 3 처리
@@ -208,6 +216,10 @@ public class PersonalProductService {
                 String fullUrl = s3Uploader.getFullUrl(s3Key);
                 dto.setPimgUrl3(fullUrl);
                 log.info("새 S3 이미지3 업로드 성공: {}", fullUrl);
+            } else if (dto.isDeleteImage3() && existingProduct != null) {
+                deleteS3Images(existingProduct.getPimgUrl3());
+                dto.setPimgUrl3(null);
+                personalProductMapper.deleteProductImage(dto.getProductId(), 3);
             }
             
         } catch (Exception e) {
@@ -220,7 +232,7 @@ public class PersonalProductService {
         
         // 이미지 URL 업데이트 (새로 업로드한 이미지만)
         int result2 = 0;
-        if(dto.getPimgUrl1() != null) {
+        if (dto.getPimgUrl1() != null) {
             result2 += personalProductMapper.updateMainProductImage(dto.getProductId(), 1, dto.getPimgUrl1());
         }
         if(dto.getPimgUrl2() != null) {

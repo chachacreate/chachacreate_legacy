@@ -38,4 +38,8 @@ public class PersonalProductDTO {
 	private String typeCategoryName;
 	private String dcategoryName;
 	private String ucategoryName;
+	
+	private boolean deleteImage1;
+	private boolean deleteImage2;
+	private boolean deleteImage3;
 }
