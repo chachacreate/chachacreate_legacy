@@ -84,7 +84,11 @@
 		      src.p_img_url
 		    )
 	</update>
-
+	
+	<delete id="deleteProductImage" parameterType="map">
+	    DELETE FROM p_img
+	    WHERE product_id = #{productId} AND p_img_seq = #{seq} AND p_img_enum = 'THUMBNAIL'
+	</delete>
 	
 	<select id="selectForSellerAndStoreByMemberId" resultType="map" parameterType="int">
 	    SELECT
