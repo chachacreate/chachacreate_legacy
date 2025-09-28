@@ -4,145 +4,595 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<title>회원가입_회원정보입력</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원가입_회원정보입력</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  
+  <!-- Pretendard 폰트 (CDN 연결) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css" />
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              primary: '#2d4739',
+              light: '#3d5749',
+              lighter: '#5d7769',
+              lightest: '#e8ede9'
+            }
+          },
+          fontFamily: {
+            'pretendard': ['Pretendard Variable', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    body {
+      font-family: 'Pretendard Variable', sans-serif;
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    }
+    
+    /* 타이머 애니메이션 */
+    .timer-active {
+      animation: pulse 1s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
 
-<!-- Pretendard 폰트 (CDN 연결) -->
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css" />
-	
-  <link rel="stylesheet" type="text/css" href="${cpath}/resources/css/auth/join/joinInfo.css">
- <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script
-	src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    /* 향상된 카드 스타일 */
+    .form-group {
+      background: white;
+      border: 2px solid #f1f5f9;
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 20px;
+      box-shadow: 
+        0 4px 6px -1px rgba(0, 0, 0, 0.05),
+        0 2px 4px -1px rgba(0, 0, 0, 0.03);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .form-group:hover {
+      box-shadow: 
+        0 10px 15px -3px rgba(0, 0, 0, 0.08),
+        0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      border-color: #e2e8f0;
+      transform: translateY(-1px);
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 16px;
+      font-size: 15px;
+      letter-spacing: -0.025em;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 16px 20px;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      font-size: 15px;
+      transition: all 0.3s ease;
+      background: #fafbfc;
+      box-shadow: 
+        inset 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #2d4739;
+      background: white;
+      box-shadow: 
+        0 0 0 4px rgba(45, 71, 57, 0.08),
+        inset 0 1px 2px rgba(0, 0, 0, 0.05);
+      transform: translateY(-1px);
+    }
+
+    .form-group input:hover:not(:focus) {
+      border-color: #9ca3af;
+      background: white;
+    }
+
+    .input-with-button {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .input-with-button input {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .input-with-button button {
+      background: linear-gradient(135deg, #2d4739 0%, #3d5749 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 16px 24px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+      box-shadow: 
+        0 4px 6px -1px rgba(45, 71, 57, 0.2),
+        0 2px 4px -1px rgba(45, 71, 57, 0.1);
+    }
+
+    .input-with-button button:hover {
+      background: linear-gradient(135deg, #3d5749 0%, #4d6759 100%);
+      box-shadow: 
+        0 6px 10px -1px rgba(45, 71, 57, 0.25),
+        0 4px 6px -1px rgba(45, 71, 57, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .input-with-button button:active {
+      transform: translateY(0px);
+      box-shadow: 
+        0 2px 4px -1px rgba(45, 71, 57, 0.2);
+    }
+    
+    /* 비밀번호 유효성 검사 */
+  
+.password-message {
+  display: block;
+  margin-top: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.password-message.invalid {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.05);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.password-message.valid {
+  color: #22c55e;
+  background: rgba(34, 197, 94, 0.05);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+/* 비밀번호 입력 필드 상태별 스타일 */
+.form-group input.password-invalid {
+  border-color: #ef4444 !important;
+  background: rgba(239, 68, 68, 0.03) !important;
+}
+
+.form-group input.password-valid {
+  border-color: #22c55e !important;
+  background: rgba(34, 197, 94, 0.03) !important;
+}
+    
+    /* 우편번호 찾기 버튼 특별 스타일 */
+    #postcodeBtn {
+      background: linear-gradient(135deg, #2d4739 0%, #3d5749 100%);
+      color: white;
+      border: 2px solid transparent;
+      border-radius: 12px;
+      padding: 16px 24px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+      box-shadow: 
+        0 4px 6px -1px rgba(45, 71, 57, 0.2),
+        0 2px 4px -1px rgba(45, 71, 57, 0.1);
+    }
+
+    #postcodeBtn:hover {
+      background: linear-gradient(135deg, #3d5749 0%, #4d6759 100%);
+      color: white;
+      box-shadow: 
+        0 6px 10px -1px rgba(45, 71, 57, 0.25),
+        0 4px 6px -1px rgba(45, 71, 57, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .signUp-input-area {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .signUp-input-area input {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .signUp-input-area button {
+      background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 16px 24px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+      box-shadow: 
+        0 4px 6px -1px rgba(107, 114, 128, 0.2),
+        0 2px 4px -1px rgba(107, 114, 128, 0.1);
+    }
+
+    .signUp-input-area button:hover {
+      background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
+      box-shadow: 
+        0 6px 10px -1px rgba(107, 114, 128, 0.25),
+        0 4px 6px -1px rgba(107, 114, 128, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .rrn-box {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 8px;
+      background: #f8fafc;
+      border-radius: 12px;
+      border: 2px solid #f1f5f9;
+    }
+
+    .rrn-box input {
+      flex: 1;
+      margin: 0;
+      background: white;
+    }
+
+    .rrn-box span {
+      font-size: 20px;
+      font-weight: bold;
+      color: #6b7280;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .type-desc {
+      background: linear-gradient(135deg, #e8ede9 0%, #f0f4f1 100%);
+      padding: 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      color: #4b5563;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      border: 2px solid rgba(45, 71, 57, 0.1);
+      box-shadow: 
+        inset 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    .user-types {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .type-button {
+      padding: 20px;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      background: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      box-shadow: 
+        0 2px 4px -1px rgba(0, 0, 0, 0.05);
+    }
+
+    .type-button.active {
+      border-color: #2d4739;
+      background: linear-gradient(135deg, #2d4739 0%, #3d5749 100%);
+      color: white;
+      box-shadow: 
+        0 4px 6px -1px rgba(45, 71, 57, 0.2),
+        0 2px 4px -1px rgba(45, 71, 57, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .type-button:hover:not(.active) {
+      border-color: #2d4739;
+      color: #2d4739;
+      background: #f8fafc;
+      box-shadow: 
+        0 4px 6px -1px rgba(0, 0, 0, 0.08);
+      transform: translateY(-1px);
+    }
+
+    .form-buttons {
+      display: flex;
+      gap: 16px;
+      margin-top: 40px;
+    }
+
+    .form-buttons button {
+      flex: 1;
+      padding: 20px;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      font-size: 16px;
+      letter-spacing: -0.025em;
+    }
+
+    .form-buttons .cancel {
+      background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+      color: #6b7280;
+      border: 2px solid #e5e7eb;
+      box-shadow: 
+        0 2px 4px -1px rgba(0, 0, 0, 0.05);
+    }
+
+    .form-buttons .cancel:hover {
+      background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+      color: #374151;
+      box-shadow: 
+        0 4px 6px -1px rgba(0, 0, 0, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .form-buttons .submit {
+      background: linear-gradient(135deg, #2d4739 0%, #3d5749 100%);
+      color: white;
+      box-shadow: 
+        0 4px 6px -1px rgba(45, 71, 57, 0.2),
+        0 2px 4px -1px rgba(45, 71, 57, 0.1);
+    }
+
+    .form-buttons .submit:hover {
+      background: linear-gradient(135deg, #3d5749 0%, #4d6759 100%);
+      box-shadow: 
+        0 6px 10px -1px rgba(45, 71, 57, 0.25),
+        0 4px 6px -1px rgba(45, 71, 57, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .signUp-message {
+      display: block;
+      margin-top: 12px;
+      font-size: 13px;
+      color: #ef4444;
+      font-weight: 500;
+      padding: 8px 12px;
+      border-radius: 8px;
+      background: rgba(239, 68, 68, 0.05);
+    }
+
+    .signUp-message.confirm {
+      color: #22c55e;
+      background: rgba(34, 197, 94, 0.05);
+    }
+
+    /* 메인 컨테이너 향상 */
+    .max-w-4xl {
+      box-shadow: 
+        0 20px 25px -5px rgba(0, 0, 0, 0.05),
+        0 10px 10px -5px rgba(0, 0, 0, 0.02);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    /* 헤더 향상 */
+    .bg-brand-primary {
+      background: linear-gradient(135deg, #2d4739 0%, #3d5749 100%);
+      position: relative;
+    }
+
+    .bg-brand-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><defs><pattern id="grain" width="100" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="%23ffffff" opacity="0.05"/><circle cx="30" cy="5" r="0.5" fill="%23ffffff" opacity="0.03"/><circle cx="70" cy="15" r="0.8" fill="%23ffffff" opacity="0.04"/></pattern></defs><rect width="100" height="20" fill="url(%23grain)"/></svg>');
+      opacity: 0.1;
+    }
+
+    /* 반응형 조정 */
+    @media (max-width: 640px) {
+      .input-with-button,
+      .signUp-input-area {
+        flex-direction: column;
+      }
+
+      .input-with-button input,
+      .signUp-input-area input {
+        min-width: auto;
+      }
+
+      .user-types {
+        grid-template-columns: 1fr;
+      }
+
+      .form-buttons {
+        flex-direction: column;
+      }
+
+      .rrn-box {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+      }
+
+      .rrn-box span {
+        text-align: center;
+      }
+
+      .form-group {
+        padding: 20px;
+        margin-bottom: 16px;
+      }
+    }
+
+    /* 포커스 시 레이블 강조 */
+    .form-group:focus-within label {
+      color: #2d4739;
+      transform: scale(1.02);
+      transition: all 0.2s ease;
+    }
+
+    /* 입력 상태별 시각 피드백 - 제거됨 */
+  </style>
 </head>
-<body>
-  <div class="container">
-
-    <!-- 상단 배너 -->
-    <div class="header-banner">
-      <div class="header-content">
-        <div class="logo-title-wrapper">
-          <img class="logo" src="${cpath}/resources/images/logo.png" />
-          <div class="page-title">회원가입하기</div>
+<body class="bg-gray-50 min-h-screen font-pretendard">
+  <!-- 컨테이너 -->
+  <div class="max-w-4xl mx-auto bg-white shadow-sm">
+    
+    <!-- 상단 헤더 -->
+    <div class="bg-brand-primary text-white py-6 px-4 sm:px-8">
+      <div class="flex items-center justify-between relative z-10">
+        <h1 class="text-xl sm:text-2xl font-bold">회원가입하기</h1>
+        <div class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+          <span class="text-sm font-medium">2</span>
         </div>
-        <img class="header-illustration" src="${cpath}/resources/images/illustration.png" />
       </div>
     </div>
 
     <!-- 메인 컨텐츠 -->
-    <div class="main-wrapper">
-      <!-- 가입 단계 -->
-      <div class="step-indicator">
-  <div class="step">
-    <div class="step-circle">01</div>
-    <div class="step-label">약관동의</div>
-  </div>
-  <img class="arrow" src="${cpath}/resources/images/arrow-right.svg" />
-  <div class="step current">
-    <div class="step-circle">02</div>
-    <div class="step-label">회원정보입력</div>
-  </div>
-  <img class="arrow" src="${cpath}/resources/images/arrow-right.svg" />
-  <div class="step">
-    <div class="step-circle">03</div>
-    <div class="step-label">완료</div>
-  </div>
-  <img class="arrow" src="${cpath}/resources/images/arrow-right.svg" />
-  <div class="step">
-    <div class="step-circle">04</div>
-    <div class="step-label">판매자정보입력</div>
-  </div>
-</div>
+    <div class="p-4 sm:p-8">
+      
+      <!-- 진행 단계 표시 -->
+      <div class="mb-8">
+        <div class="flex items-center justify-between relative">
+          <!-- 진행바 배경 -->
+          <div class="absolute top-4 left-0 w-full h-1 bg-gray-200 rounded-full"></div>
+          <div class="absolute top-4 left-0 w-2/4 h-1 bg-brand-primary rounded-full"></div>
+          
+          <!-- 단계들 -->
+          <div class="flex flex-col items-center relative z-10 bg-white px-2">
+            <div class="w-8 h-8 bg-brand-primary text-white rounded-full flex items-center justify-center text-sm font-medium mb-2">01</div>
+            <span class="text-xs sm:text-sm text-brand-primary">약관동의</span>
+          </div>
+          
+          <div class="flex flex-col items-center relative z-10 bg-white px-2">
+            <div class="w-8 h-8 bg-brand-primary text-white rounded-full flex items-center justify-center text-sm font-medium mb-2">02</div>
+            <span class="text-xs sm:text-sm font-medium text-brand-primary">회원정보입력</span>
+          </div>
+          
+          <div class="flex flex-col items-center relative z-10 bg-white px-2">
+            <div class="w-8 h-8 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center text-sm font-medium mb-2">03</div>
+            <span class="text-xs sm:text-sm text-gray-500">완료</span>
+          </div>
+          
+          <div class="flex flex-col items-center relative z-10 bg-white px-2">
+            <div class="w-8 h-8 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center text-sm font-medium mb-2">04</div>
+            <span class="text-xs sm:text-sm text-gray-500">판매자정보입력</span>
+          </div>
+        </div>
+      </div>
 
       <!-- 회원가입 입력 폼 -->
-			<div class="register-wrapper">
-				<h2 class="title">회원님의 정보를 입력해주세요</h2>
+      <div class="register-wrapper max-w-2xl mx-auto">
+        <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-8 text-center">회원님의 정보를 입력해주세요</h2>
 
-				<form id="joinForm">
-					<div class="form-group">
-						<label>* 아이디(이메일)</label>
-						<div class="input-with-button">
-							<input type="text" name="memberEmail" id="memberEmail"
-								placeholder="아이디(이메일)" maxlength="30" autocomplete="off">
-							<button type="button" id="sendAuthKeyBtn">이메일인증</button>
-						</div>
-						<!-- 인증번호 입력 -->
-						<label for="emailCheck"> <span class="required">*</span>
-							인증번호
-						</label>
-						<div class="signUp-input-area">
-							<input type="text" name="authKey" id="authKey"
-								placeholder="인증번호 입력" maxlength="6" autocomplete="off">
+        <form id="joinForm">
+          <div class="form-group">
+            <label>* 아이디(이메일)</label>
+            <div class="input-with-button">
+              <input type="text" name="memberEmail" id="memberEmail"
+                placeholder="아이디(이메일)" maxlength="30" autocomplete="off">
+              <button type="button" id="sendAuthKeyBtn">이메일인증</button>
+            </div>
+            <!-- 인증번호 입력 -->
+            <label for="emailCheck"> <span class="required">*</span>
+              인증번호
+            </label>
+            <div class="signUp-input-area">
+              <input type="text" name="authKey" id="authKey"
+                placeholder="인증번호 입력" maxlength="6" autocomplete="off">
+              <button id="checkAuthKeyBtn" type="button">인증하기</button>
+            </div>
+            <span class="signUp-message" id="authKeyMessage"></span>
+          </div>
 
-							<button id="checkAuthKeyBtn" type="button">인증하기</button>
-						</div>
-						<span class="signUp-message" id="authKeyMessage"></span>
-						<!-- 인증번호가 일치하지 않습니다 -->
-					</div>
+          <div class="form-group">
+  <label>* 비밀번호(영문/숫자/특수문자 포함 8자 이상)</label> 
+  <input type="password" id="passwordInput" placeholder="내용을 입력하세요" required>
+  <span class="password-message" id="passwordMessage" style="display: none;"></span>
+</div>
 
+<div class="form-group">
+  <label>* 비밀번호 확인</label> 
+  <input type="password" id="passwordInputChk" placeholder="내용을 입력하세요" required>
+  <span class="password-message" id="passwordCheckMessage" style="display: none;"></span>
+</div>
 
-					<div class="form-group">
-						<label>* 비밀번호(영문/숫자/특수문자 포함 8자 이상)</label> <input type="password" id="passwordInput"
-							placeholder="내용을 입력하세요" required>
-					</div>
+          <div class="form-group">
+            <label>* 사용자 이름</label> 
+            <input id="memberName" type="text" placeholder="내용을 입력하세요">
+          </div>
 
-					<div class="form-group">
-						<label>* 비밀번호 확인</label> <input type="password" id="passwordInputChk"
-							placeholder="내용을 입력하세요" required>
-					</div>
+          <div class="form-group">
+            <label>* 휴대전화번호(01#-####-####)</label> 
+            <input id="memberPhone" type="text" placeholder="내용을 입력하세요">
+          </div>
 
-					<div class="form-group">
-						<label>사용자 이름</label> <input id="memberName" type="text" placeholder="내용을 입력하세요">
-					</div>
+          <div class="form-group">
+            <label>* 주민등록번호</label>
+            <div class="rrn-box">
+              <input id="jumin-prefix" type="text" maxlength="6" placeholder="앞 6자리"> 
+              <span>-</span>
+              <input id="jumin-suffix" type="password" maxlength="7" placeholder="뒤 7자리">
+            </div>
+          </div>
 
-					<div class="form-group">
-						<label>휴대전화번호(01#-####-####)</label> <input id="memberPhone" type="text" placeholder="내용을 입력하세요">
-					</div>
+          <div class="form-group">
+            <label>* 주소 입력</label>
+            <div class="input-with-button">
+              <input type="button" id="postcodeBtn" value="우편번호 찾기">
+            </div>
+            <div style="margin-top: 16px; display: flex; gap: 16px; flex-wrap: wrap;">
+              <input type="text" id="sample6_postcode" placeholder="우편번호" readonly="readonly" style="flex: 1; min-width: 120px;">
+              <input type="text" id="sample6_address" placeholder="주소" readonly="readonly" style="flex: 2; min-width: 200px;">
+            </div>
+            <div style="margin-top: 16px;">
+              <input type="text" id="sample6_detailAddress" placeholder="상세주소">
+              <input type="hidden" id="sample6_extraAddress" placeholder="참고항목">
+            </div>
+          </div>
 
-					<div class="form-group">
-						<label>주민등록번호</label>
-						<div class="rrn-box">
-							<input id="jumin-prefix" type="text" maxlength="6" placeholder="앞 6자리"> <span>-</span>
-							<input id="jumin-suffix" type="password" maxlength="7" placeholder="뒤 7자리">
-						</div>
-					</div>
+          <div class="form-group">
+            <label>* 회원유형선택</label>
+            <p class="type-desc">
+              판매자 선택 시 판매자 가입단계로 이동됩니다.<br>판매자 선택 시에도 구매가 가능하며, 추후 판매자 가입도 가능합니다.
+            </p>
+            <div class="user-types">
+              <button type="button" class="type-button active" data-type="buyer">구매자</button>
+              <button type="button" class="type-button" data-type="seller">판매자</button>
+            </div>
+          </div>
 
-					<div class="form-group">
-						<label>주소 입력</label>
-						<div class="input-with-button">
-							<input type="button" id="postcodeBtn" value="우편번호 찾기"><br>
-							<input type="text" id="sample6_postcode" placeholder="우편번호"
-								readonly="readonly"> <input type="text"
-								id="sample6_address" placeholder="주소" readonly="readonly"><br>
-							<input type="text" id="sample6_detailAddress" placeholder="상세주소">
-							<input type="hidden" id="sample6_extraAddress" placeholder="참고항목">
-						</div>
-					</div>
-
-					<div class="form-group">
-						<label>* 회원유형선택</label>
-						<p class="type-desc">
-							판매자 선택 시 판매자 가입단계로 이동됩니다.<br>판매자 선택 시에도 구매가 가능하며, 추후 판매자 가입도
-							가능합니다.
-						</p>
-						<div class="user-types">
-							<button type="button" class="type-button active" data-type="buyer">구매자</button>
-							<button type="button" class="type-button" data-type="seller">판매자</button>
-						</div>
-					</div>
-
-					<div class="form-buttons">
-						<button type="button" class="cancel" onclick="location.href='${cpath}/auth/login'">취소</button>
-						<button type="submit" class="submit">다음</button>
-					</div>
-				</form>
-			</div>
-      
-      
+          <div class="form-buttons">
+            <button type="button" class="cancel" onclick="location.href='${cpath}/auth/login'">취소</button>
+            <button type="submit" class="submit">다음</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
+</body>
+</html>
 
   <!-- 스크립트: 모두 동의 시 각 항목 자동 체크 -->
 <script>
@@ -319,6 +769,7 @@
 	        data: { email: email },
 	        success: function(result) {
 	            if (result > 0) {
+	            	alert("이메일을 전송했습니다. 이메일 확인 후 인증번호를 입력해주세요.");
 	                console.log("인증 번호가 발송되었습니다.");
 	                tempEmail = email;
 	
@@ -367,6 +818,7 @@
 	            data: { inputKey: inputKey, email: tempEmail },
 	            success: function(result) {
 	                if (result > 0) {
+	                	
 	                    clearInterval(authTimer);
 	                    authKeyMessage.innerText = "인증되었습니다.";
 	                    authKeyMessage.classList.add("confirm");
@@ -419,15 +871,57 @@
 		  return true;
 		}
 	  // 비밀번호 검사
-	  $('input[type=password]').eq(0).on('input', function() {
-	    const pwd = $(this).val();
-	    checkObj.memberPwd = validatePassword(pwd);
-	  });
-	  $('input[type=password]').eq(1).on('input', function() {
-		$('input[type=password]').eq(0).val() == $(this).val();
-	    checkObj.memberPwdCheck = $('input[type=password]').eq(0).val() == $(this).val();
-	  });
+	  // 비밀번호 검사 부분을 다음과 같이 수정
+$('input[type=password]').eq(0).on('input', function() {
+  const pwd = $(this).val();
+  const isValid = validatePassword(pwd);
+  const messageEl = $('#passwordMessage');
+  
+  checkObj.memberPwd = isValid;
+  
+  if (pwd.length > 0) { // 입력이 있을 때만 메시지 표시
+    messageEl.show();
+    
+    if (isValid) {
+      $(this).removeClass('password-invalid').addClass('password-valid');
+      messageEl.removeClass('invalid').addClass('valid');
+      messageEl.text('사용 가능한 비밀번호입니다.');
+    } else {
+      $(this).removeClass('password-valid').addClass('password-invalid');
+      messageEl.removeClass('valid').addClass('invalid');
+      messageEl.text('영문/숫자/특수문자 포함 8자 이상 입력해주세요.');
+    }
+  } else {
+    messageEl.hide();
+    $(this).removeClass('password-valid password-invalid');
+  }
+});
 
+$('input[type=password]').eq(1).on('input', function() {
+  const pwd1 = $('input[type=password]').eq(0).val();
+  const pwd2 = $(this).val();
+  const isMatch = pwd1 === pwd2;
+  const messageEl = $('#passwordCheckMessage');
+  
+  checkObj.memberPwdCheck = isMatch;
+  
+  if (pwd2.length > 0) { // 입력이 있을 때만 메시지 표시
+    messageEl.show();
+    
+    if (isMatch) {
+      $(this).removeClass('password-invalid').addClass('password-valid');
+      messageEl.removeClass('invalid').addClass('valid');
+      messageEl.text('비밀번호가 일치합니다.');
+    } else {
+      $(this).removeClass('password-valid').addClass('password-invalid');
+      messageEl.removeClass('valid').addClass('invalid');
+      messageEl.text('비밀번호가 일치하지 않습니다.');
+    }
+  } else {
+    messageEl.hide();
+    $(this).removeClass('password-valid password-invalid');
+  }
+});
 	  // 사용자 이름 검사 (공백 제외 1자 이상)
 	  $('input[placeholder="내용을 입력하세요"]').eq(2).on('input', function() {
 	    const name = $(this).val().trim();
