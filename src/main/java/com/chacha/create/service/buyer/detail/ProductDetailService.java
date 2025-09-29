@@ -32,6 +32,9 @@ public class ProductDetailService {
 	@Transactional(rollbackFor = Exception.class)
 	public ProductDetailViewDTO getProductDetailWithImages(int productId) {
 	    ProductDetailDTO productDetail = productDetailMapper.selectByProductId(productId);
+	    if(productDetail == null) {
+	    	return null;
+	    }
 	    List<PImgEntity> pImgList = pImgMapper.selectByProductId(productId);
 	    
 	    List<String> thumbnailUrls = new ArrayList<>();
