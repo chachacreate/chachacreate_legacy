@@ -107,7 +107,7 @@
 		LEFT JOIN d_category d ON p.d_category_id = d.d_category_id
 		LEFT JOIN u_category u ON d.u_category_id = u.u_category_id
 		WHERE
-		p.product_id = #{productId}
+		p.product_id = #{productId} AND p.delete_check = 0
 	</select>
 
 	<select id="selectAllByStoreUrl" resultType="productlistDTO">
