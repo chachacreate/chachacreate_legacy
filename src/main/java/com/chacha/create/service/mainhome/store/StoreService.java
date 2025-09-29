@@ -116,8 +116,8 @@ public class StoreService {
     public boolean checkProductCount(MemberEntity loginMember) {
         Integer productCount = storeMapper.selectForCountProductByMemberId(loginMember.getMemberId());
         
-        if(productCount == null || productCount == 0) {
-            return false;
+        if(productCount == null) {
+            productCount = 0;
         }
         
         log.info("로그인 사용자의 상품 개수 : " + productCount);

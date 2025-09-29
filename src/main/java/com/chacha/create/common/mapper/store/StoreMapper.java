@@ -86,7 +86,7 @@ public interface StoreMapper {
 
 	int selectForCountUrlByStoreUrl(String storeUrl);
 
-	int selectForCountProductByMemberId(Integer memberId);
+	Integer selectForCountProductByMemberId(Integer memberId);
 
 	StoreInfoDTO selectForThisStoreInfo(String storeUrl);
 	
