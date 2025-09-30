@@ -5,9 +5,11 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.chacha.create.common.dto.boot.BootTokenDTO;
 import com.chacha.create.common.entity.member.MemberEntity;
@@ -19,6 +21,7 @@ import com.chacha.create.common.mapper.member.SellerMapper;
 import com.chacha.create.common.mapper.store.StoreMapper;
 import com.chacha.create.util.BootAPIUtil;
 import com.chacha.create.util.s3.S3Uploader;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,8 +42,8 @@ public class StoreService {
         if(memberEntity == null) {
             throw new NeedLoginException("로그인이 필요합니다.");
         }
-        if(checkProductCount(memberEntity)) {
-        	throw new InvalidRequestException("상품을 2개 등록해야합니다.");
+        if (!hasAtLeastTwoProducts(memberEntity)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "상품을 2개 이상 등록해야 합니다.");
         }
         
         SellerEntity sellerEntity = sellerMapper.selectByMemberId(memberEntity.getMemberId());
@@ -113,15 +116,11 @@ public class StoreService {
         return storeMapper.selectForCountUrlByStoreUrl(storeUrl) > 0;
     }
     
-    public boolean checkProductCount(MemberEntity loginMember) {
-        Integer productCount = storeMapper.selectForCountProductByMemberId(loginMember.getMemberId());
-        
-        if(productCount == null) {
-            productCount = 0;
-        }
-        
-        log.info("로그인 사용자의 상품 개수 : " + productCount);
-        return productCount < 2;
+    private boolean hasAtLeastTwoProducts(MemberEntity loginMember) {
+        Integer cnt = storeMapper.selectForCountProductByMemberId(loginMember.getMemberId());
+        if (cnt == null) cnt = 0; // ✅ 널 방어
+        log.info("[StoreOpenCheck] memberId={}, productCnt={}", loginMember.getMemberId(), cnt);
+        return cnt >= 2;
     }
 
 	public void click(int storeId) {

@@ -59,17 +59,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT COUNT(*) FROM store WHERE store_url = #{storeUrl}
 	</select>
 
-	<select id="selectForCountProductByMemberId" resultType="int">
-		SELECT
-		COUNT(p.product_id) AS product_count
-		FROM seller s
-		JOIN store st ON s.seller_id =
-		st.seller_id
-		JOIN product p ON st.store_id = p.store_id
-		WHERE
-		s.member_id = #{memberId}
-		GROUP BY s.member_id
-	</select>
+	<select id="selectForCountProductByMemberId" parameterType="int" resultType="int">
+  SELECT NVL(COUNT(p.product_id), 0)
+  FROM product p
+  WHERE NVL(p.delete_check, 0) = 0
+    AND EXISTS (
+          SELECT 1
+          FROM store st
+          JOIN seller s ON s.seller_id = st.seller_id
+          WHERE s.member_id = #{memberId}
+            AND st.store_id = p.store_id
+        )
+</select>
 
 	<insert id="insert" parameterType="storeEntity">
 		INSERT INTO store (store_id,

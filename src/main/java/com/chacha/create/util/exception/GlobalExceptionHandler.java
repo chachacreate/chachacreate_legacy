@@ -1,10 +1,16 @@
 package com.chacha.create.util.exception;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.chacha.create.common.dto.error.ApiResponse;
 import com.chacha.create.common.enums.error.ResponseCode;
@@ -14,10 +20,21 @@ import com.chacha.create.common.exception.NeedLoginException;
 import com.chacha.create.common.exception.SessionExpiredException;
 
 @RestControllerAdvice
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class GlobalExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
+    
+    @ExceptionHandler(ResponseStatusException.class)
+    public ResponseEntity<ApiResponse<Void>> handleRSE(ResponseStatusException ex, HttpServletRequest req) {
+        HttpStatus status = (HttpStatus) ex.getStatus();
+        log.warn("{} {}: URL = {} - {}", status.value(), status.getReasonPhrase(), req.getRequestURI(), ex.getReason());
+        return ResponseEntity.status(status)
+                .body(new ApiResponse<>(ResponseCode.BAD_REQUEST, ex.getReason()));
+    }
+
+    
     @ExceptionHandler(InvalidRequestException.class)
     public ResponseEntity<ApiResponse<Void>> handleInvalidRequest(InvalidRequestException e) {
         log.warn("Invalid request: {}", e.getMessage());
