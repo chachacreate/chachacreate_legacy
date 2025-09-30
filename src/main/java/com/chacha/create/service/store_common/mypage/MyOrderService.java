@@ -81,8 +81,8 @@ public class MyOrderService {
         
         log.debug("Order.addressId: {}", order.getAddressId());
 
-
-
+        
+        
         orderInfoMapper.insert(order);
 
         for (OrderDetailEntity detail : detailList) {
@@ -120,7 +120,7 @@ public class MyOrderService {
     		throw new NeedLoginException("로그인이 필요합니다.");
     	}
     	int memberId = member.getMemberId();
-        // 주문 상세 조회
+        // 주문 상세 헤더(단일행) 조회
         OrderDetailDTO dto = orderMapper.selectOrderDetailByOrderId(orderId, memberId);
         int addressId = dto.getAddressId();
         
@@ -131,13 +131,16 @@ public class MyOrderService {
         	dto.setAddressDetail(bootAddressDTO.getAddressDetail());
         	dto.setAddressExtra(bootAddressDTO.getAddressExtra());
         }
-		// 주문 상세 내 상품 목록 조회
+
+		// 주문 상세 내 상품 목록 조회 (여기에 order_detail.status가 담겨옴)
 		List<OrderListDTO> orderlist = orderMapper.selectOrderListByOrderId(orderId, memberId);
 		dto.setOrderItems(orderlist);
 
-		// 배송 상태 체크
-//		check_deliveryStatus(orderlist);
 
+		// 배송 상태 체크
+		//		check_deliveryStatus(orderlist);
+
+		
         // 총 금액 계산 (상품 가격 총합)
 		int total = 0;
 		for (OrderListDTO item : orderlist) {
@@ -169,6 +172,7 @@ public class MyOrderService {
     private boolean canWriteReview(OrderStatusEnum status) {
         return status == OrderStatusEnum.DELIVERED;
     }
+
     
     // 배송 상태 체크
 //    private void check_deliveryStatus(List<OrderListDTO> orderlist) {
