@@ -1,194 +1,194 @@
-chachacreate_legacy
+# chachacreate_legacy
 
-📌 소개
-chachacreate_legacy는 JSP + Spring(서블릿 기반) + Oracle로 구현된 1차 레거시 백엔드/서버사이드 렌더링 프로젝트입니다.
-수공예 커뮤니티/커머스의 초기 버전으로, 2차(Spring Boot + React)로의 전환 전 핵심 도메인 흐름을 담당합니다. DB 스키마/업무 플로우는 2차로 이관 가능한 형태로 설계되었습니다.
+📌 **소개**  
+`chachacreate_legacy`는 **JSP + Spring MVC + MyBatis + Oracle** 기반의 1차 레거시 프로젝트입니다.  
+서버사이드 렌더링(SSR)과 레거시 API를 담당하며, 2차(Spring Boot + React) 전환을 고려해 **표준 JSON 응답 스키마**와 **경로 규칙**을 공유합니다.
 
-🚀 주요 기능
+---
 
-🔑 회원가입/로그인(이메일 인증/OTP) 및 기본 세션 인증
+## 🚀 주요 기능
+- 🔑 회원가입/로그인(세션 기반), 이메일 인증/OTP
+- 🏪 판매자/스토어 등록 및 관리(프로필, 스토어 소개, 로고)
+- 🛍️ 상품 CRUD, 이미지 관리(썸네일/상세), 카테고리(대/중/타입)
+- 🧺 장바구니, 주문/주문상세, 배송/상태 변경(스케줄러 포함)
+- ✍️ 리뷰/공지/문의, 채팅(웹소켓)
+- 📊 간단 통계/정산 사전 구조
+- 🔌 2차 전환을 고려한 **REST 스타일 API(JSON)** 병행 제공
 
-🏪 판매자/스토어 등록 및 관리(프로필, 스토어 소개, 로고)
+---
 
-🛍️ 상품 CRUD, 이미지(썸네일/설명) 관리, 카테고리(상/하위) 조회
+## 🛠 기술 스택
+- **JDK**: Java 11  
+- **Framework**: Spring MVC (+ Spring WebSocket), MyBatis  
+- **View**: JSP, JSTL  
+- **DB**: Oracle (PL/SQL, Scheduler)  
+- **Build**: Maven  
+- **Infra**: Apache Tomcat (WAR 배포)  
+- **Etc.**: AWS S3 업로드 유틸, 공통 예외/응답 래퍼
 
-🧺 장바구니, 주문/주문상세, 배송 상태 관리(일부 스케줄러 처리)
+---
 
-✍️ 리뷰/공지/문의(건의사항), 채팅방/메시지
+## 📂 폴더 구조 (현재 프로젝트 기준)
 
-📊 간단 통계(판매 수/조회 수) 및 정산 사전 구조
+```
+src/main/java/com/chacha/create/
+├─ common
+│  ├─ dto/            # 공통 DTO (요청/응답/페이지네이션 등)
+│  ├─ entity/         # VO/엔티티(레거시용)
+│  ├─ enums/          # 공통 Enum (응답코드, 주문상태 등)
+│  ├─ exception/      # 공통 예외 타입
+│  ├─ mapper/         # MyBatis 매퍼 인터페이스
+│  └─ typehandler/    # MyBatis TypeHandler
+│
+├─ controller
+│  ├─ controller/     # JSP 렌더링 컨트롤러
+│  ├─ rest/           # JSON 응답 REST 컨트롤러 (/legacy/**)
+│  └─ websocket/      # STOMP/WebSocket 엔드포인트
+│
+├─ service
+│  ├─ buyer/          # 구매자 영역 서비스
+│  ├─ mainhome/       # 메인/홈 서비스
+│  ├─ manager/        # 관리자 서비스
+│  ├─ seller/         # 판매자 영역 서비스
+│  └─ store_common/   # 스토어 공통(테마/커스터마이징 등)
+│
+└─ util               # 유틸리티/설정/인프라 (아래 모두 포함)
+   ├─ exception/          # 전역 예외처리(@ControllerAdvice)
+   ├─ Filter/             # 인증/로깅 등 서블릿 필터
+   ├─ s3/                 # S3Uploader 등 파일 업로드 유틸
+   ├─ BootAPIUtil.java    # 2차(Spring Boot) API 호출 유틸
+   ├─ BootPathConfig.java # 부트 API 경로/게이트웨이 설정
+   ├─ DataSourceConfig.java # DataSource/MyBatis 설정
+   └─ ServiceUtil.java    # 서비스 공통 유틸
+```
+```
+src/main/resources/
+├─ mybatis/mapper/    # XML 매퍼
+├─ mybatis/mybatis-config.xml
+├─ application.properties (또는 XML 설정)
+└─ sql/regacydb.sql   # 초기 스키마/시드/프로시저/잡
+```
 
-🧭 URL 구조/REST 스타일 API는 2차 전환을 고려하여 정의됨
+> 레거시/신규의 **도메인 중심 구조**와 **응답 래퍼 일관성**을 유지해 이관 비용을 최소화합니다.
 
-🛠 기술 스택
+---
 
-View: JSP / JSTL
+## ⚙️ 실행 방법
 
-Server: Apache Tomcat (WAR 배포)
+### 1) DB 준비(Oracle)
+1. Oracle 사용자/스키마 생성 후 접속
+2. `src/main/resources/sql/regacydb.sql` 실행  
+   - 테이블/제약/시드/프로시저(`UPDATE_ORDER_STATUS`) & 잡(`JOB_UPDATE_ORDER_STATUS`) 포함
+3. (선택) 개발용 샘플 데이터 추가
 
-Lang/Framework: Java 8+, Spring MVC (XML/Annotation 혼용 가능)
+### 2) 데이터소스 & MyBatis 설정
+**util/DataSourceConfig.java** 또는 XML 기반으로 설정합니다.
 
-DB: Oracle (PL/SQL, Scheduler Job)
+- (권장) **Tomcat JNDI**
+  - `${TOMCAT_HOME}/conf/context.xml`
+    ```xml
+    <Resource name="jdbc/ChachaOracle"
+              auth="Container"
+              type="javax.sql.DataSource"
+              driverClassName="oracle.jdbc.OracleDriver"
+              url="jdbc:oracle:thin:@//localhost:1521/ORCLPDB1"
+              username="CHACHA" password="***"
+              maxTotal="50" maxIdle="10"
+              validationQuery="SELECT 1 FROM DUAL"/>
+    ```
+  - Spring에서 JNDI lookup → `SqlSessionFactory`, `MapperScan` 구성
 
-Build: Maven or Gradle (팀 표준에 맞춰 선택)
+- (대안) **직접 JDBC**
+  - `application.properties`
+    ```properties
+    spring.datasource.url=jdbc:oracle:thin:@//localhost:1521/ORCLPDB1
+    spring.datasource.username=CHACHA
+    spring.datasource.password=***
+    spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
 
-Auth: 세션 기반(이메일 인증 테이블/프로시저 포함)
+    mybatis.config-location=classpath:mybatis/mybatis-config.xml
+    mybatis.mapper-locations=classpath:mybatis/mapper/*.xml
+    ```
 
-📂 폴더 구조(예시)
-chachacreate_legacy/
-├─ src/main/java/
-│  └─ com/chacha/legacy/
-│     ├─ config/                 # Spring 설정, DataSource, MyBatis/JDBC 등
-│     ├─ common/                 # 공통 유틸/예외/인터셉터
-│     ├─ domains/
-│     │  ├─ member/              # 회원(컨트롤러/서비스/DAO/VO)
-│     │  ├─ seller/              # 판매자/스토어
-│     │  ├─ product/             # 상품/이미지/카테고리
-│     │  ├─ order/               # 주문/주문상세/배송
-│     │  ├─ review/              # 리뷰
-│     │  ├─ board/               # 공지/문의
-│     │  └─ chat/                # 채팅/채팅방
-│     └─ admin/                  # 관리자
-├─ src/main/webapp/
-│  ├─ WEB-INF/
-│  │  ├─ views/                  # JSP 뷰
-│  │  └─ web.xml
-│  ├─ resources/                 # 정적 리소스(css/js/img)
-│  └─ index.jsp
-├─ src/main/resources/
-│  ├─ sql/                       # 초기 스키마/시드
-│  └─ application.properties     # (또는 XML), 환경설정
-├─ pom.xml (또는 build.gradle)
-└─ README.md
-
-
-도메인/패키징은 2차 코드컨벤션의 도메인 중심 구조 원칙을 유지하여 이관/병행을 쉽게 합니다.
-
-⚙️ 실행 방법
-1) DB 준비(Oracle)
-
-Oracle 유저/schema 생성 후 접속
-
-초기 스키마/데이터 생성
-src/main/resources/sql/regacydb.sql를 실행합니다. (테이블 드롭 → 전 테이블 생성, FK/체크 제약, 프로시저/잡 포함)
-
-(선택) 테스트 데이터 시드 추가
-
-2) 데이터소스 설정
-
-JNDI(Tomcat) 권장: context.xml/server.xml에 Oracle DataSource 등록 후 web.xml 또는 Spring 설정에서 lookup
-
-또는 JDBC 직접 연결: application.properties(또는 XML)에서 spring.datasource.* 지정
-
-3) 빌드 & 배포
-
-Maven
-
+### 3) 빌드 & 배포 (Maven)
+```bash
 mvn clean package
+# target/*.war 를 Tomcat webapps/ 에 배포
+```
 
-
-target/*.war를 Tomcat webapps/에 배포
-
-Gradle
-
-./gradlew clean build
-
-
-build/libs/*.war 배포
-
-4) 접속
-
-로컬 Tomcat 포트 기준:
-
+### 4) 접속
+```
 http://localhost:8080/
+```
 
+---
 
-주요 진입 경로는 스토어/메인/마이페이지/관리자 메뉴로 구성됩니다. (2차 API와 라우팅 정합성 유지)
+## 🔌 REST API (레거시 JSON, /legacy/**)
 
-📑 데이터베이스(핵심 테이블)
+> JSP 렌더링과 별개로 **React에서 재사용**할 수 있도록 JSON 응답을 제공합니다.  
+> **응답 래퍼**: `{ "status": 200, "message": "OK", "data": { ... } }`
 
-회원/주소/카드: member, addr, card
+- **상품**
+  - `GET    /legacy/{storeUrl}/products`
+  - `GET    /legacy/{storeUrl}/products/{productId}`
+  - `POST   /legacy/{storeUrl}/seller/products`
+  - `PUT    /legacy/{storeUrl}/seller/products/{productId}`
+  - `DELETE /legacy/{storeUrl}/seller/products/{productId}`
 
-판매자/스토어: seller, store
+- **주문**
+  - `POST   /legacy/{storeUrl}/orders`
+  - `GET    /legacy/{storeUrl}/orders/{orderId}`
+  - `PUT    /legacy/{storeUrl}/orders/{orderId}/status`
 
-상품/이미지/카테고리: product, p_img, u_category, d_category, type_category
+- **리뷰/공지/문의**
+  - `GET    /legacy/{storeUrl}/reviews`
+  - `GET    /legacy/{storeUrl}/seller/notices`
+  - `POST   /legacy/{storeUrl}/questions`
 
-주문/상세/배송: order_info, order_detail, delivery
+- **채팅(WebSocket)**
+  - 엔드포인트: `/ws/chat/**`
+  - STOMP topic 예: `/topic/{storeUrl}/rooms/{roomId}`
 
-리뷰/공지/문의: review, notice, question
+---
 
-채팅: chatroom, chatting
+## 🤝 2차(Boot) 연동
+- **util/BootAPIUtil**, **util/BootPathConfig**  
+  - 레거시에서 2차(Spring Boot) API를 호출할 때 사용(게이트웨이/호스트/경로 중앙관리)
+  - 예: 주문상태/재고/정산 통합 API를 부트로 위임
+- **세션↔JWT 브리지**(필요 시): 레거시 세션을 부트 JWT로 변환하여 FE 단일 인증 유지
 
-이메일 인증키: AUTH_KEY (회원가입/비밀번호 찾기 등)
+---
 
-스케줄러: UPDATE_ORDER_STATUS 프로시저 + JOB_UPDATE_ORDER_STATUS (주문 7일 후 확정 처리 예시)
+## 🗂 코드 컨벤션(요약)
+- **패키징**: 도메인 중심(`controller/service/common`) + 인프라/유틸은 `util/` 집약
+- **네이밍**: REST 경로는 복수형·kebab-case / Path=식별자, Query=옵션/필터
+- **DTO 분리**: 요청 DTO vs 응답 DTO
+- **예외 처리**: `util/exception`의 전역 `@ControllerAdvice` + 표준 응답 래퍼
+- **로깅/인코딩/시간대**: `@Slf4j`, UTF-8, 서버 표준 시간대 일관화
+- **MyBatis**: `common/mapper` ↔ `resources/mybatis/mapper/*.xml`, `typehandler`로 Enum 매핑
+- **WebSocket**: `/ws/chat/**` 엔드포인트와 토픽 네이밍 규칙 통일
 
-2차(신규) MySQL ERD와 1차(레거시) Oracle 스키마가 유사 도메인 개념을 공유하여 마이그레이션/동시 운영을 고려했습니다.
+---
 
-🔌 API 개요(레거시 기준)
+## 📌 추가 예정
+- 관리자 JSP UI/UX 개선(검색/정렬/페이징 공통 컴포넌트화)
+- 접근성(Barrier-free) 개선(대체텍스트/라벨/키보드 네비게이션)
+- SEO 대응(SSR 메타/OG/구조화 데이터)
+- 부트 연동 시나리오별 샘플(주문상태/재고/정산) 코드 템플릿
 
-메인/회원/인증: 회원가입(이메일/OTP), 로그인, 비밀번호 재설정
+---
 
-스토어/상품/클래스: 목록/상세/검색/정렬, 장바구니/주문/결제 연동 준비
+## 👥 팀 소개
+- **차민건**: PM, 로그인/채팅 구현, 배포/운영  
+- **천희찬**: 주문 상태 처리, 판매 통계 그래프  
+- **안세현**: 정산/매출, 클래스 예약/통계  
+- **김지민**: 반응형 디자인, 페이지/라우팅  
+- **최윤정**: 가격추천 AI, 상품/클래스 CRUD  
+- **이재희**: DB/S3 배포/운영, 결제/주문
 
-구매자 마이페이지: 주문/리뷰/문의/채팅
+---
 
-판매자: 상품/클래스/정산/주문상태/공지/메시지
-
-관리자: 스토어/회원/클래스/신고/정산 관리
-
-2차 전환을 위한 경로/쿼리파라미터 규칙(복수형/kebab-case, Path=식별, Query=옵션)을 맞추어 문서화함.
-
-✅ 코드 컨벤션
-
-백엔드(레거시 Java/Spring)
-
-도메인 중심 패키징(Controller/Service/DAO/VO를 같은 기능 하위에 배치)
-
-DTO/엔티티/VO/Enum 네이밍 및 검증/직렬화 분리(요청 DTO vs 응답 DTO)
-
-REST 네이밍: 복수형·kebab-case, Path=식별자, Query=필터/페이지/정렬
-
-시간/로그/인코딩: UTC, @Slf4j, UTF-8
-
-(2차 기준 컨벤션을 1차에도 최대한 준수하여 이관 비용 최소화)
-
-프런트 연동 관점
-
-레거시 JSP 뷰와 병행 시에도 외부 소비용 REST 응답을 표준화(2차 FE에서 재사용)
-
-요청/응답 DTO 분리로 오버포스팅/민감정보 노출 방지
-
-📌 추가 예정
-
-관리자 UI/UX JSP 개선(검색/정렬/페이징 일관화)
-
-접근성(Barrier-free) 개선(라벨/대체텍스트/키보드 네비게이션)
-
-SEO 대응(SSR 메타/스키마 태그 정리)
-
-2차(Boot+React)와 ERD/API 동기화 자동화 스크립트 정리
-
-👥 팀 소개
-
-차민건: PM, 로그인/채팅 구현, 배포/운영
-
-천희찬: 주문 상태 처리, 판매 통계 그래프
-
-안세현: 정산/매출, 클래스 예약/통계
-
-김지민: 반응형 디자인, 페이지/라우팅
-
-최윤정: 가격추천 AI, 상품/클래스 CRUD
-
-이재희: DB/S3 배포/운영, 결제/주문
-
-부록
-
-레거시 DB 스키마: regacydb.sql (Oracle)
-
-2차(참고) ERD: 신규 MySQL 구조(이관 대비)
-
-2차(참고) API 명세: REST 경로/파라미터 일관화 참고
-
-코드 컨벤션(공통): 도메인 중심 구조/DTO 분리/REST 규칙
+### 부록
+- **레거시 DB 스키마**: `src/main/resources/sql/regacydb.sql`  
+- **웹소켓 nginx 예시**: `/ws/chat/**` 업그레이드/타임아웃 설정  
+- **샘플 오류 가이드**: TooManyResults / Ambiguous mapping / 405 대응 팁
