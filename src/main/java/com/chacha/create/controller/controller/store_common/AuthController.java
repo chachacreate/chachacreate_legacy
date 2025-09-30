@@ -212,7 +212,7 @@ public class AuthController {
 	    session.removeAttribute("redirectAfterLogin");
         model.addAttribute("accessToken", bootTokenDTO.getAccessToken());
 	    model.addAttribute("autoLogin", true);
-	    return "main/main";
+	    return "redirect:/main";
 	}
 
 	@GetMapping("/naver")
@@ -249,7 +249,7 @@ public class AuthController {
 	    session.removeAttribute("redirectAfterLogin");
         model.addAttribute("accessToken", bootTokenDTO.getAccessToken());
 	    model.addAttribute("autoLogin", true);
-	    return "main/main";
+	    return "redirect:/main";
 	}
 
 }
