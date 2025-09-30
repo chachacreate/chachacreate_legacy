@@ -151,5 +151,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SET view_cnt = view_cnt + 1
 		WHERE store_id = #{storeId}
 	</update>
+	
+	<select id="getStoreOwnerIdByUrl" resultType="Integer">
+	select sel.member_id
+	FROM store s
+	join seller sel on s.seller_id = sel.seller_id
+	WHERE s.store_url = #{storeUrl}
+	</select>
 
 </mapper>

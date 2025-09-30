@@ -16,17 +16,21 @@ import com.chacha.create.common.dto.error.ApiResponse;
 import com.chacha.create.common.dto.product.HomeProductDTO;
 import com.chacha.create.common.dto.store.StoreCategoryDTO;
 import com.chacha.create.common.enums.error.ResponseCode;
+import com.chacha.create.service.buyer.storeinfo.StoreInfoService;
 import com.chacha.create.service.store_common.MainService;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/legacy", method = RequestMethod.GET)
+@RequestMapping(value = "/legacy")
 public class HomeMainRestController {
 	
 	@Autowired
 	MainService mainService;
+	
+	@Autowired
+	StoreInfoService storeInfoService;
 	
 	// 메인 홈 메인페이지에서 인기스토어,인기상품,최신상품조회
     @GetMapping("/main")
@@ -62,5 +66,11 @@ public class HomeMainRestController {
     	StoreCategoryDTO result = mainService.getStoreCategories(storeId);
     	return ResponseEntity.ok(new ApiResponse<>(ResponseCode.OK, result));
     }
+    
+	@GetMapping("/owner/{storeUrl}")
+	public ApiResponse<Integer> storeOwner(@PathVariable String storeUrl){
+		log.info(storeUrl);
+		return new ApiResponse<Integer>(ResponseCode.OK, storeInfoService.getStoreOwner(storeUrl));
+	}
 		
 }

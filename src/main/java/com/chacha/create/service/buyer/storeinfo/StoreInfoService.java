@@ -63,6 +63,10 @@ public class StoreInfoService {
             return List.of(); 
         }
     }
+    
+    public Integer getStoreOwner(String storeUrl) {
+    	return storeMapper.getStoreOwnerIdByUrl(storeUrl);
+    }
 
 
     public StoreInfoDTO selectForThisStoreInfo(String storeUrl) {

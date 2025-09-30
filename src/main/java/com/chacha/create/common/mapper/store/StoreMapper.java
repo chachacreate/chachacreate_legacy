@@ -95,5 +95,7 @@ public interface StoreMapper {
 	SellerEntity selectForSellerDetail(String storeUrl);
 
 	int updateClick(int storeId);
+	
+	Integer getStoreOwnerIdByUrl(String storeUrl);
 
 }
